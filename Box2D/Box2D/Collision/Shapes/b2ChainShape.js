@@ -188,8 +188,8 @@ box2d.b2ChainShape.prototype.Clone = function ()
 
 /**
  * @export 
- * @param {box2d.b2ChainShape} other
- * @return {box2d.b2ChainShape} 
+ * @return {box2d.b2Shape} 
+ * @param {box2d.b2Shape} other
  */
 box2d.b2ChainShape.prototype.Copy = function (other)
 {

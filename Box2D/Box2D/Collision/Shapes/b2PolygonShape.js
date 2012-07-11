@@ -74,8 +74,8 @@ box2d.b2PolygonShape.prototype.Clone = function ()
 
 /**
  * @export 
- * @return {box2d.b2PolygonShape} 
- * @param {box2d.b2PolygonShape} other
+ * @return {box2d.b2Shape} 
+ * @param {box2d.b2Shape} other
  */
 box2d.b2PolygonShape.prototype.Copy = function (other)
 {

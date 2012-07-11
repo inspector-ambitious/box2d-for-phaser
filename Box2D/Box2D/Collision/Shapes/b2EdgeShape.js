@@ -104,8 +104,8 @@ box2d.b2EdgeShape.prototype.Clone = function ()
 
 /**
  * @export 
- * @return {box2d.b2EdgeShape} 
- * @param {box2d.b2EdgeShape} other
+ * @return {box2d.b2Shape} 
+ * @param {box2d.b2Shape} other
  */
 box2d.b2EdgeShape.prototype.Copy = function (other)
 {
