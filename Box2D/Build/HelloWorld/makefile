@@ -87,12 +87,12 @@ COMPILER_FLAGS += --compiler_flags="--jscomp_error=uselessCode"
 COMPILER_FLAGS += --compiler_flags="--jscomp_error=visibility"
 
 run:
-	if [ "$${OSTYPE}" == "cygwin" ]; then cygstart index.html; fi
-	if [ "$${OSTYPE}" == "darwin11" ]; then open index.html; fi
+	if [[ "$${OSTYPE}" == "cygwin" ]]; then cygstart index.html; fi
+	if [[ "$${OSTYPE}" == "darwin"* ]]; then open index.html; fi
 	@echo done $@
 
 debug:
-	if [ "$${OSTYPE}" == "cygwin" ]; then cygstart index-debug.html; fi
-	if [ "$${OSTYPE}" == "darwin11" ]; then open index-debug.html; fi
+	if [[ "$${OSTYPE}" == "cygwin" ]]; then cygstart index-debug.html; fi
+	if [[ "$${OSTYPE}" == "darwin"* ]]; then open index-debug.html; fi
 	@echo done $@
 
