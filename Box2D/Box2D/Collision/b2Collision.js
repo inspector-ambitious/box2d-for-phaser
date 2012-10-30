@@ -470,7 +470,7 @@ box2d.b2WorldManifold.prototype.Initialize = function (manifold, xfA, radiusA, x
 			}
 
 			var cA = box2d.b2AddVMulSV(pointA, radiusA, this.normal, box2d.b2WorldManifold.prototype.Initialize.s_cA);
-			var cB = box2d.b2AddVMulSV(pointB, radiusB, this.normal, box2d.b2WorldManifold.prototype.Initialize.s_cB);
+			var cB = box2d.b2SubVMulSV(pointB, radiusB, this.normal, box2d.b2WorldManifold.prototype.Initialize.s_cB);
 			box2d.b2MidVV(cA, cB, this.points[0]);
 		}
 		break;
