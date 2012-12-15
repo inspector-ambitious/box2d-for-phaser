@@ -226,7 +226,7 @@ box2d.Testbed.Car = function (canvas, settings)
 		jd.enableMotor = true;
 		jd.frequencyHz = this.m_hz;
 		jd.dampingRatio = this.m_zeta;
-		this.m_spring1 = /** @type {box2d.b2WheelJoint} */ this.m_world.CreateJoint(jd);
+		this.m_spring1 = /** @type {box2d.b2WheelJoint} */ (this.m_world.CreateJoint(jd));
 
 		jd.Initialize(this.m_car, this.m_wheel2, this.m_wheel2.GetPosition(), axis);
 		jd.motorSpeed = 0.0;
@@ -234,7 +234,7 @@ box2d.Testbed.Car = function (canvas, settings)
 		jd.enableMotor = false;
 		jd.frequencyHz = this.m_hz;
 		jd.dampingRatio = this.m_zeta;
-		this.m_spring2 = /** @type {box2d.b2WheelJoint} */ this.m_world.CreateJoint(jd);
+		this.m_spring2 = /** @type {box2d.b2WheelJoint} */ (this.m_world.CreateJoint(jd));
 	}
 }
 

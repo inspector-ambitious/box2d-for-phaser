@@ -65,7 +65,7 @@ box2d.Testbed.Tumbler = function (canvas, settings)
 		jd.motorSpeed = 0.05 * box2d.b2_pi;
 		jd.maxMotorTorque = 1e8;
 		jd.enableMotor = true;
-		this.m_joint = /** @type {box2d.b2RevoluteJoint} */ this.m_world.CreateJoint(jd);
+		this.m_joint = /** @type {box2d.b2RevoluteJoint} */ (this.m_world.CreateJoint(jd));
 	}
 
 	this.m_count = 0;

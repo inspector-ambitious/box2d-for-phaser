@@ -65,7 +65,7 @@ box2d.Testbed.MotorJoint = function (canvas, settings)
 		mjd.Initialize(ground, body);
 		mjd.maxForce = 1000.0;
 		mjd.maxTorque = 1000.0;
-		this.m_joint = /** @type {box2d.b2MotorJoint} */ this.m_world.CreateJoint(mjd);
+		this.m_joint = /** @type {box2d.b2MotorJoint} */ (this.m_world.CreateJoint(mjd));
 	}
 
 	this.m_go = false;

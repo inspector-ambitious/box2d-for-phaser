@@ -183,7 +183,7 @@ box2d.b2DynamicTree.prototype.Query = function (callback, aabb)
 
 	while (stack.GetCount() > 0)
 	{
-		/** @type {box2d.b2TreeNode} */ var node = /** @type {box2d.b2TreeNode} */ stack.Pop();
+		/** @type {box2d.b2TreeNode} */ var node = /** @type {box2d.b2TreeNode} */ (stack.Pop());
 		if (node == null)
 		{
 			continue;
@@ -252,7 +252,7 @@ box2d.b2DynamicTree.prototype.RayCast = function (callback, input)
 
 	while (stack.GetCount() > 0)
 	{
-		/** @type {box2d.b2TreeNode} */ var node = /** @type {box2d.b2TreeNode} */ stack.Pop();
+		/** @type {box2d.b2TreeNode} */ var node = /** @type {box2d.b2TreeNode} */ (stack.Pop());
 		if (node == null)
 		{
 			continue;

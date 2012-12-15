@@ -74,7 +74,7 @@ box2d.Testbed.Revolute = function (canvas, settings)
 		rjd.enableLimit = true;
 		rjd.collideConnected = true;
 
-		this.m_joint = /** @type {box2d.b2RevoluteJoint} */ this.m_world.CreateJoint(rjd);
+		this.m_joint = /** @type {box2d.b2RevoluteJoint} */ (this.m_world.CreateJoint(rjd));
 	}
 
 	{

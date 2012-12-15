@@ -32,7 +32,7 @@ box2d.Testbed.Main = function ()
 {
 	var that = this; // for callbacks
 
-	var fps_div = this.m_fps_div = /** @type {HTMLDivElement} */ document.body.appendChild(document.createElement('div'));
+	var fps_div = this.m_fps_div = /** @type {HTMLDivElement} */ (document.body.appendChild(document.createElement('div')));
 	fps_div.style.position = 'absolute';
 	fps_div.style.left = '0px';
 	fps_div.style.bottom = '0px';
@@ -42,7 +42,7 @@ box2d.Testbed.Main = function ()
 	fps_div.style.zIndex = 256;
 	fps_div.innerHTML = 'FPS';
 
-	var debug_div = this.m_debug_div = /** @type {HTMLDivElement} */ document.body.appendChild(document.createElement('div'));
+	var debug_div = this.m_debug_div = /** @type {HTMLDivElement} */ (document.body.appendChild(document.createElement('div')));
 	debug_div.style.position = 'absolute';
 	debug_div.style.left = '0px';
 	debug_div.style.bottom = '0px';
@@ -75,21 +75,21 @@ box2d.Testbed.Main = function ()
 	window.addEventListener('orientationchange', function (e) { resize_main_div(); }, false);
 	resize_main_div();
 
-	var title_div = /** @type {HTMLDivElement} */ main_div.appendChild(document.createElement('div'));
+	var title_div = /** @type {HTMLDivElement} */ (main_div.appendChild(document.createElement('div')));
 	title_div.style.textAlign = 'center';
 	title_div.style.color = 'grey';
 	title_div.innerHTML = "Box2D Testbed version " + box2d.b2_version + " (revision " + box2d.b2_changelist + ")";
 
 	var view_div = main_div.appendChild(document.createElement('div'));
 
-	var canvas_div = this.m_canvas_div = /** @type {HTMLDivElement} */ view_div.appendChild(document.createElement('div'));
+	var canvas_div = this.m_canvas_div = /** @type {HTMLDivElement} */ (view_div.appendChild(document.createElement('div')));
 	canvas_div.style.position = 'absolute'; // relative to view_div
 	canvas_div.style.left = '0px';
 	canvas_div.style.right = '0px';
 	canvas_div.style.top = '0px';
 	canvas_div.style.bottom = '0px';
 
-	var canvas = this.m_canvas = /** @type {HTMLCanvasElement} */ canvas_div.appendChild(document.createElement('canvas'));
+	var canvas = this.m_canvas = /** @type {HTMLCanvasElement} */ (canvas_div.appendChild(document.createElement('canvas')));
 
 	var resize_canvas = function ()
 	{
@@ -107,9 +107,9 @@ box2d.Testbed.Main = function ()
 	window.addEventListener('orientationchange', function (e) { resize_canvas(); }, false);
 	resize_canvas();
 	  
-	this.m_ctx = /** @type {CanvasRenderingContext2D} */ this.m_canvas.getContext("2d");
+	this.m_ctx = /** @type {CanvasRenderingContext2D} */ (this.m_canvas.getContext("2d"));
 
-	var controls_div = /** @type {HTMLDivElement} */ view_div.appendChild(document.createElement('div'));
+	var controls_div = /** @type {HTMLDivElement} */ (view_div.appendChild(document.createElement('div')));
 	controls_div.style.position = 'absolute'; // relative to view_div
 	controls_div.style.backgroundColor = 'rgba(255,255,255,0.5)';
 	controls_div.style.padding = '8px';
@@ -220,7 +220,7 @@ box2d.Testbed.Main = function ()
 	button_input = connect_button_input(button_div, "Step", function (e) { that.SingleStep(); });
 	button_input = connect_button_input(button_div, "Restart", function (e) { that.LoadTest(); });
 	button_input = connect_button_input(button_div, "Demo", function (e) { that.ToggleDemo(); });
-	this.m_demo_button = /** @type {HTMLButtonElement} */ button_input;
+	this.m_demo_button = /** @type {HTMLButtonElement} */ (button_input);
 
 	// disable context menu to use right-click
 	window.addEventListener('contextmenu', function (e) { e.preventDefault(); }, true);

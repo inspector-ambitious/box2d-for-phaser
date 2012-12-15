@@ -73,7 +73,7 @@ box2d.Testbed.Prismatic = function (canvas, settings)
 		pjd.upperTranslation = 20.0;
 		pjd.enableLimit = true;
 
-		this.m_joint = /** @type {box2d.b2PrismaticJoint} */ this.m_world.CreateJoint(pjd);
+		this.m_joint = /** @type {box2d.b2PrismaticJoint} */ (this.m_world.CreateJoint(pjd));
 	}
 }
 

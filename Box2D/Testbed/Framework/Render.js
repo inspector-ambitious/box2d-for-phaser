@@ -36,7 +36,7 @@ box2d.Testbed.DebugDraw = function (canvas, settings)
 	goog.base(this);
 
 	this.m_canvas = canvas;
-	this.m_ctx = /** @type {CanvasRenderingContext2D} */ this.m_canvas.getContext("2d");
+	this.m_ctx = /** @type {CanvasRenderingContext2D} */ (this.m_canvas.getContext("2d"));
 	this.m_settings = settings;
 }
 

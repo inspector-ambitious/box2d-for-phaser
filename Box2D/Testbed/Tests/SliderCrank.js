@@ -65,7 +65,7 @@ box2d.Testbed.SliderCrank = function (canvas, settings)
 			rjd.motorSpeed = 1.0 * box2d.b2_pi;
 			rjd.maxMotorTorque = 10000.0;
 			rjd.enableMotor = true;
-			this.m_joint1 = /** @type {box2d.b2RevoluteJoint} */ this.m_world.CreateJoint(rjd);
+			this.m_joint1 = /** @type {box2d.b2RevoluteJoint} */ (this.m_world.CreateJoint(rjd));
 
 			prevBody = body;
 		}
@@ -113,7 +113,7 @@ box2d.Testbed.SliderCrank = function (canvas, settings)
 			pjd.maxMotorForce = 1000.0;
 			pjd.enableMotor = true;
 
-			this.m_joint2 = /** @type {box2d.b2PrismaticJoint} */ this.m_world.CreateJoint(pjd);
+			this.m_joint2 = /** @type {box2d.b2PrismaticJoint} */ (this.m_world.CreateJoint(pjd));
 		}
 
 		// Create a payload

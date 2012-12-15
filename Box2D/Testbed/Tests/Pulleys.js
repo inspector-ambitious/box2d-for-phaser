@@ -80,7 +80,7 @@ box2d.Testbed.Pulleys = function (canvas, settings)
 		var groundAnchor2 = new box2d.b2Vec2(10.0, y + b + L);
 		pulleyDef.Initialize(body1, body2, groundAnchor1, groundAnchor2, anchor1, anchor2, 1.5);
 
-		this.m_joint1 = /** @type {box2d.b2PulleyJoint} */ this.m_world.CreateJoint(pulleyDef);
+		this.m_joint1 = /** @type {box2d.b2PulleyJoint} */ (this.m_world.CreateJoint(pulleyDef));
 	}
 }
 
