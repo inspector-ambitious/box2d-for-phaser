@@ -347,7 +347,7 @@ box2d.Testbed.DynamicTreeTest.prototype.CreateProxy = function ()
 {
 	for (var i = 0; i < box2d.Testbed.DynamicTreeTest.e_actorCount; ++i)
 	{
-		var j = box2d.b2RandomRange(0, box2d.Testbed.DynamicTreeTest.e_actorCount);
+		var j = 0 | box2d.b2RandomRange(0, box2d.Testbed.DynamicTreeTest.e_actorCount);
 		var actor = this.m_actors[j];
 		if (actor.proxyId == null)
 		{
@@ -367,7 +367,7 @@ box2d.Testbed.DynamicTreeTest.prototype.DestroyProxy = function ()
 {
 	for (var i = 0; i < box2d.Testbed.DynamicTreeTest.e_actorCount; ++i)
 	{
-		var j = box2d.b2RandomRange(0, box2d.Testbed.DynamicTreeTest.e_actorCount);
+		var j = 0 | box2d.b2RandomRange(0, box2d.Testbed.DynamicTreeTest.e_actorCount);
 		var actor = this.m_actors[j];
 		if (actor.proxyId != null)
 		{
@@ -387,7 +387,7 @@ box2d.Testbed.DynamicTreeTest.prototype.MoveProxy = function ()
 {
 	for (var i = 0; i < box2d.Testbed.DynamicTreeTest.e_actorCount; ++i)
 	{
-		var j = box2d.b2RandomRange(0, box2d.Testbed.DynamicTreeTest.e_actorCount);
+		var j = 0 | box2d.b2RandomRange(0, box2d.Testbed.DynamicTreeTest.e_actorCount);
 		var actor = this.m_actors[j];
 		if (actor.proxyId == null)
 		{
@@ -410,7 +410,7 @@ box2d.Testbed.DynamicTreeTest.prototype.MoveProxy = function ()
  */
 box2d.Testbed.DynamicTreeTest.prototype.Action = function ()
 {
-	var choice = box2d.b2RandomRange(0, 20);
+	var choice = 0 | box2d.b2RandomRange(0, 20);
 
 	switch (choice)
 	{

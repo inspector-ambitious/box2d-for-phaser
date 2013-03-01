@@ -197,7 +197,7 @@ box2d.b2FixtureProxy.MakeArray = function (length)
  */
 box2d.b2Fixture = function ()
 {
-	this.m_proxies = new Array();
+//	this.m_proxies = new Array();
 	this.m_proxyCount = 0;
 
 	this.m_filter = new box2d.b2Filter();
@@ -239,7 +239,7 @@ box2d.b2Fixture.prototype.m_restitution = 0;
 
 /**
  * @export 
- * @type {Array.<box2d.b2TreeNode>}
+ * @type {Array.<box2d.b2FixtureProxy>}
  */
 box2d.b2Fixture.prototype.m_proxies = null;
 /**

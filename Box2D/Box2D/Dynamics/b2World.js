@@ -370,10 +370,24 @@ box2d.b2World.prototype.GetContactCount = function ()
  * @export 
  * @return {void} 
  * @param {box2d.b2Vec2} gravity
+ * @param {boolean=} wake also wake up the bodies 
  */
-box2d.b2World.prototype.SetGravity = function (gravity)
+box2d.b2World.prototype.SetGravity = function (gravity, wake)
 {
-	this.m_gravity.Copy(gravity);
+	wake = wake || true;
+
+	if ((this.m_gravity.x !== gravity.x) || (this.m_gravity.y !== gravity.y))
+	{
+		this.m_gravity.Copy(gravity);
+
+		if (wake)
+		{
+			for (/** @type {box2d.b2Body} */ var b = this.m_bodyList; b; b = b.m_next)
+			{
+				b.SetAwake(true);
+			}
+		}
+	}
 }
 
 /** 
@@ -1897,9 +1911,9 @@ box2d.b2World.prototype.DrawDebugData = function ()
 			{
 				for (/** @type {number} */ var i = 0; i < f.m_proxyCount; ++i)
 				{
-					/** @type {box2d.b2TreeNode} */ var proxy = f.m_proxies[i];
+					/** @type {box2d.b2FixtureProxy} */ var proxy = f.m_proxies[i];
 
-					/** @type {box2d.b2AABB} */ var aabb = bp.GetFatAABB(proxy);
+					/** @type {box2d.b2AABB} */ var aabb = bp.GetFatAABB(proxy.proxy);
 					vs[0].SetXY(aabb.lowerBound.x, aabb.lowerBound.y);
 					vs[1].SetXY(aabb.upperBound.x, aabb.lowerBound.y);
 					vs[2].SetXY(aabb.upperBound.x, aabb.upperBound.y);

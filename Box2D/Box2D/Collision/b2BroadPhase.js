@@ -268,7 +268,7 @@ box2d.b2BroadPhase.prototype.UpdatePairs = function (contactManager)
 
 		// This is called from box2d.b2DynamicTree::Query when we are gathering pairs.
 		// bool b2BroadPhase::QueryCallback(int32 proxyId);
-		function QueryCallback(proxy)
+		var QueryCallback = function (proxy)
 		{
 			// A proxy cannot form a pair with itself.
 			if (proxy.m_id == queryProxy.m_id)
