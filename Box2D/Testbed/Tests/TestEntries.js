@@ -85,6 +85,8 @@ goog.require('box2d.Testbed.TestStack');
  */
 box2d.Testbed.GetTestEntries = function (entries)
 {
+	entries.push(new box2d.Testbed.TestEntry("Continuous Test", box2d.Testbed.ContinuousTest.Create));
+	entries.push(new box2d.Testbed.TestEntry("Time of Impact", box2d.Testbed.TimeOfImpact.Create));
 	entries.push(new box2d.Testbed.TestEntry("Motor Joint", box2d.Testbed.MotorJoint.Create));
 	entries.push(new box2d.Testbed.TestEntry("Mobile", box2d.Testbed.Mobile.Create));
 	entries.push(new box2d.Testbed.TestEntry("MobileBalanced", box2d.Testbed.MobileBalanced.Create));
@@ -115,8 +117,6 @@ box2d.Testbed.GetTestEntries = function (entries)
 	entries.push(new box2d.Testbed.TestEntry("One-Sided Platform", box2d.Testbed.OneSidedPlatform.Create));
 	entries.push(new box2d.Testbed.TestEntry("Pinball", box2d.Testbed.Pinball.Create));
 	entries.push(new box2d.Testbed.TestEntry("Bullet Test", box2d.Testbed.BulletTest.Create));
-	entries.push(new box2d.Testbed.TestEntry("Continuous Test", box2d.Testbed.ContinuousTest.Create));
-	entries.push(new box2d.Testbed.TestEntry("Time of Impact", box2d.Testbed.TimeOfImpact.Create));
 	entries.push(new box2d.Testbed.TestEntry("Confined", box2d.Testbed.Confined.Create));
 	entries.push(new box2d.Testbed.TestEntry("Pyramid", box2d.Testbed.Pyramid.Create));
 	entries.push(new box2d.Testbed.TestEntry("Theo Jansen's Walker", box2d.Testbed.TheoJansen.Create));

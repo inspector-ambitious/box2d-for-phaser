@@ -21,7 +21,18 @@ goog.provide('box2d.b2TimeOfImpact');
 goog.require('box2d.b2Settings');
 goog.require('box2d.b2Distance');
 goog.require('box2d.b2Math');
+goog.require('box2d.b2Timer');
 
+/**
+ * @export
+ * @type {number}
+ */
+box2d.b2_toiTime = 0.0;
+/**
+ * @export
+ * @type {number}
+ */
+box2d.b2_toiMaxTime = 0.0;
 /**
  * @export
  * @type {number}
@@ -425,6 +436,8 @@ box2d.b2SeparationFunction.prototype.Evaluate = function (indexA, indexB, t)
  */
 box2d.b2TimeOfImpact = function (output, input)
 {
+	var timer = box2d.b2TimeOfImpact.s_timer.Reset();
+
 	++box2d.b2_toiCalls;
 
 	output.state = box2d.b2TOIOutputState.e_unknown;
@@ -596,6 +609,9 @@ box2d.b2TimeOfImpact = function (output, input)
 					t = 0.5 * (a1 + a2);
 				}
 
+				++rootIterCount;
+				++box2d.b2_toiRootIters;
+
 				/** @type {number} */ var s = fcn.Evaluate(indexA[0], indexB[0], t);
 
 				if (box2d.b2Abs(s - target) < tolerance)
@@ -616,9 +632,6 @@ box2d.b2TimeOfImpact = function (output, input)
 					a2 = t;
 					s2 = s;
 				}
-
-				++rootIterCount;
-				++box2d.b2_toiRootIters;
 
 				if (rootIterCount == 50)
 				{
@@ -654,7 +667,12 @@ box2d.b2TimeOfImpact = function (output, input)
 	}
 
 	box2d.b2_toiMaxIters = box2d.b2Max(box2d.b2_toiMaxIters, iter);
+
+	var time = timer.GetMilliseconds();
+	box2d.b2_toiMaxTime = box2d.b2Max(box2d.b2_toiMaxTime, time);
+	box2d.b2_toiTime += time;
 }
+box2d.b2TimeOfImpact.s_timer = new box2d.b2Timer();
 box2d.b2TimeOfImpact.s_cache = new box2d.b2SimplexCache();
 box2d.b2TimeOfImpact.s_distanceInput = new box2d.b2DistanceInput();
 box2d.b2TimeOfImpact.s_distanceOutput = new box2d.b2DistanceOutput();

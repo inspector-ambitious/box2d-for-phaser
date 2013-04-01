@@ -85,6 +85,11 @@ box2d.Testbed.ContinuousTest = function (canvas, settings)
 		body.SetLinearVelocity(new box2d.b2Vec2(0.0, -100.0));
 	}
 	*/
+
+	box2d.b2_gjkCalls = 0; box2d.b2_gjkIters = 0; box2d.b2_gjkMaxIters = 0;
+	box2d.b2_toiCalls = 0; box2d.b2_toiIters = 0;
+	box2d.b2_toiRootIters = 0; box2d.b2_toiMaxRootIters = 0;
+	box2d.b2_toiTime = 0.0; box2d.b2_toiMaxTime = 0.0;
 }
 
 goog.inherits(box2d.Testbed.ContinuousTest, box2d.Testbed.Test);
@@ -106,6 +111,11 @@ box2d.Testbed.ContinuousTest.prototype.m_angularVelocity = 0.0;
  */
 box2d.Testbed.ContinuousTest.prototype.Launch = function ()
 {
+	box2d.b2_gjkCalls = 0; box2d.b2_gjkIters = 0; box2d.b2_gjkMaxIters = 0;
+	box2d.b2_toiCalls = 0; box2d.b2_toiIters = 0;
+	box2d.b2_toiRootIters = 0; box2d.b2_toiMaxRootIters = 0;
+	box2d.b2_toiTime = 0.0; box2d.b2_toiMaxTime = 0.0;
+
 	this.m_body.SetTransformVecRadians(new box2d.b2Vec2(0.0, 20.0), 0.0);
 	this.m_angularVelocity = box2d.b2RandomRange(-50.0, 50.0);
 	this.m_body.SetLinearVelocity(new box2d.b2Vec2(0.0, -100.0));
@@ -119,11 +129,6 @@ box2d.Testbed.ContinuousTest.prototype.Launch = function ()
  */
 box2d.Testbed.ContinuousTest.prototype.Step = function (settings)
 {
-	if (this.m_stepCount == 12)
-	{
-		this.m_stepCount += 0;
-	}
-
 	goog.base(this, 'Step', settings);
 
 	if (box2d.b2_gjkCalls > 0)
@@ -135,12 +140,16 @@ box2d.Testbed.ContinuousTest.prototype.Step = function (settings)
 
 	if (box2d.b2_toiCalls > 0)
 	{
-		this.m_debugDraw.DrawString(5, this.m_textLine, "toi calls = %d, ave toi iters = %3.1f, max toi iters = %d",
+		this.m_debugDraw.DrawString(5, this.m_textLine, "toi [max] calls = %d, ave toi iters = %3.1f [%d]",
 			box2d.b2_toiCalls, box2d.b2_toiIters / box2d.b2_toiCalls, box2d.b2_toiMaxRootIters);
 		this.m_textLine += 15;
 		
-		this.m_debugDraw.DrawString(5, this.m_textLine, "ave toi root iters = %3.1f, max toi root iters = %d",
+		this.m_debugDraw.DrawString(5, this.m_textLine, "ave [max] toi root iters = %3.1f [%d]",
 			box2d.b2_toiRootIters / box2d.b2_toiCalls, box2d.b2_toiMaxRootIters);
+		this.m_textLine += 15;
+
+		this.m_debugDraw.DrawString(5, this.m_textLine, "ave [max] toi time = %.1f [%.1f] (microseconds)",
+			1000.0 * box2d.b2_toiTime / box2d.b2_toiCalls, 1000.0 * box2d.b2_toiMaxTime);
 		this.m_textLine += 15;
 	}
 
