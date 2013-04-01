@@ -344,7 +344,7 @@ box2d.b2ChainShape.prototype.ComputeMass = function (massData, density)
 
 /**
  * @return {void} 
- * @param {b2DistanceProxy} proxy 
+ * @param {box2d.b2DistanceProxy} proxy 
  * @param {number} index 
  */
 box2d.b2ChainShape.prototype.SetupDistanceProxy = function (proxy, index)
@@ -385,7 +385,7 @@ box2d.b2ChainShape.prototype.ComputeSubmergedArea = function (normal, offset, xf
  * @export 
  * @return {void}
  */
-box2d.b2ChainShape.prototype.Dump = function (normal, offset, xf, c)
+box2d.b2ChainShape.prototype.Dump = function ()
 {
 	box2d.b2Log("    /*box2d.b2ChainShape*/ var shape = new box2d.b2ChainShape();\n");
 	box2d.b2Log("    /*box2d.b2Vec2[]*/ var vs = box2d.b2Vec2.MakeArray(%d);\n", box2d.b2_maxPolygonVertices);

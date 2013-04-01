@@ -177,7 +177,7 @@ box2d.b2CircleShape.prototype.ComputeMass = function (massData, density)
 
 /**
  * @return {void} 
- * @param {b2DistanceProxy} proxy 
+ * @param {box2d.b2DistanceProxy} proxy 
  * @param {number} index 
  */
 box2d.b2CircleShape.prototype.SetupDistanceProxy = function (proxy, index)
@@ -230,7 +230,7 @@ box2d.b2CircleShape.prototype.ComputeSubmergedArea = function (normal, offset, x
  * @export 
  * @return {void}
  */
-box2d.b2CircleShape.prototype.Dump = function (normal, offset, xf, c)
+box2d.b2CircleShape.prototype.Dump = function ()
 {
 	box2d.b2Log("    /*box2d.b2CircleShape*/ var shape = new box2d.b2CircleShape();\n");
 	box2d.b2Log("    shape.m_radius = %.15f;\n", this.m_radius);

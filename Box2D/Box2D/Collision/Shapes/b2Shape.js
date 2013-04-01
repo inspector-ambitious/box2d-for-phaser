@@ -206,7 +206,7 @@ box2d.b2Shape.prototype.ComputeMass = function (massData, density)
 
 /**
  * @return {void} 
- * @param {b2DistanceProxy} proxy 
+ * @param {box2d.b2DistanceProxy} proxy 
  * @param {number} index 
  */
 box2d.b2Shape.prototype.SetupDistanceProxy = function (proxy, index)
@@ -233,7 +233,7 @@ box2d.b2Shape.prototype.ComputeSubmergedArea = function (normal, offset, xf, c)
  * @export 
  * @return {void}
  */
-box2d.b2Shape.prototype.Dump = function (normal, offset, xf, c)
+box2d.b2Shape.prototype.Dump = function ()
 {
 	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false, "pure virtual"); }
 }
