@@ -158,7 +158,7 @@ box2d.b2ChainShape.prototype.CreateChain = function (vertices, count)
 box2d.b2ChainShape.prototype.SetPrevVertex = function (prevVertex)
 {
 	this.m_prevVertex.Copy(prevVertex);
-	this.m_hasprevVertex = true;
+	this.m_hasPrevVertex = true;
 	return this;
 }
 
@@ -343,6 +343,30 @@ box2d.b2ChainShape.prototype.ComputeMass = function (massData, density)
 }
 
 /**
+ * @return {void} 
+ * @param {b2DistanceProxy} proxy 
+ * @param {number} index 
+ */
+box2d.b2ChainShape.prototype.SetupDistanceProxy = function (proxy, index)
+{
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(0 <= index && index < this.m_count); }
+
+	proxy.m_buffer[0].Copy(this.m_vertices[index]);
+	if (index + 1 < this.m_count)
+	{
+		proxy.m_buffer[1].Copy(this.m_vertices[index + 1]);
+	}
+	else
+	{
+		proxy.m_buffer[1].Copy(this.m_vertices[0]);
+	}
+
+	proxy.m_vertices = proxy.m_buffer;
+	proxy.m_count = 2;
+	proxy.m_radius = this.m_radius;
+}
+
+/**
  * @export 
  * @return {number}
  * @param {box2d.b2Vec2} normal
@@ -354,5 +378,25 @@ box2d.b2ChainShape.prototype.ComputeSubmergedArea = function (normal, offset, xf
 {
 	c.SetZero();
 	return 0;
+}
+
+/** 
+ * Dump this shape to the log file. 
+ * @export 
+ * @return {void}
+ */
+box2d.b2ChainShape.prototype.Dump = function (normal, offset, xf, c)
+{
+	box2d.b2Log("    /*box2d.b2ChainShape*/ var shape = new box2d.b2ChainShape();\n");
+	box2d.b2Log("    /*box2d.b2Vec2[]*/ var vs = box2d.b2Vec2.MakeArray(%d);\n", box2d.b2_maxPolygonVertices);
+	for (var i = 0; i < this.m_count; ++i)
+	{
+		box2d.b2Log("    vs[%d].SetXY(%.15f, %.15f);\n", i, this.m_vertices[i].x, this.m_vertices[i].y);
+	}
+	box2d.b2Log("    shape.CreateChain(vs, %d);\n", this.m_count);
+	box2d.b2Log("    shape.m_prevVertex.SetXY(%.15f, %.15f);\n", this.m_prevVertex.x, this.m_prevVertex.y);
+	box2d.b2Log("    shape.m_nextVertex.SetXY(%.15f, %.15f);\n", this.m_nextVertex.x, this.m_nextVertex.y);
+	box2d.b2Log("    shape.m_hasPrevVertex = %s;\n", (this.m_hasPrevVertex)?('true'):('false'));
+	box2d.b2Log("    shape.m_hasNextVertex = %s;\n", (this.m_hasNextVertex)?('true'):('false'));
 }
 

@@ -298,6 +298,11 @@ box2d.b2Body = function (bd, world)
 box2d.b2Body.prototype.m_flags = box2d.b2BodyFlag.e_none;
 /**
  * @export 
+ * @type {number}
+ */
+box2d.b2Body.prototype.m_islandIndex = 0;
+/**
+ * @export 
  * @type {box2d.b2World}
  */
 box2d.b2Body.prototype.m_world = null;

@@ -75,62 +75,7 @@ box2d.b2DistanceProxy.prototype.Reset = function ()
  */
 box2d.b2DistanceProxy.prototype.SetShape = function (shape, index)
 {
-	switch (shape.GetType())
-	{
-	case box2d.b2ShapeType.e_circleShape:
-		{
-			var circle = (shape instanceof box2d.b2CircleShape ? shape : null);
-			this.m_vertices = new Array(1, true);
-			this.m_vertices[0] = circle.m_p;
-			this.m_count = 1;
-			this.m_radius = circle.m_radius;
-		}
-		break;
-
-	case box2d.b2ShapeType.e_polygonShape:
-		{
-			var polygon = (shape instanceof box2d.b2PolygonShape ? shape : null);
-			this.m_vertices = polygon.m_vertices;
-			this.m_count = polygon.m_count;
-			this.m_radius = polygon.m_radius;
-		}
-		break;
-
-	case box2d.b2ShapeType.e_edgeShape:
-		{
-			var edge = (shape instanceof box2d.b2EdgeShape ? shape : null);
-			this.m_vertices = new Array(2);
-			this.m_vertices[0] = edge.m_vertex1;
-			this.m_vertices[1] = edge.m_vertex2;
-			this.m_count = 2;
-			this.m_radius = edge.m_radius;
-		}
-		break;
-
-	case box2d.b2ShapeType.e_chainShape:
-		{
-			var chain = (shape instanceof box2d.b2ChainShape ? shape : null);
-			if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(0 <= index && index < chain.m_count); }
-
-			this.m_buffer[0].Copy(chain.m_vertices[index]);
-			if (index + 1 < chain.m_count)
-			{
-				this.m_buffer[1].Copy(chain.m_vertices[index + 1]);
-			}
-			else
-			{
-				this.m_buffer[1].Copy(chain.m_vertices[0]);
-			}
-
-			this.m_vertices = this.m_buffer;
-			this.m_count = 2;
-			this.m_radius = chain.m_radius;
-		}
-		break;
-
-	default:
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false); }
-	}
+	shape.SetupDistanceProxy(this, index);
 }
 
 /** 
@@ -458,6 +403,11 @@ box2d.b2Simplex.prototype.m_v3 = null;
  * @type {Array.<box2d.b2SimplexVertex>}
  */
 box2d.b2Simplex.prototype.m_vertices = null;
+/**
+ * @export 
+ * @type {number}
+ */
+box2d.b2Simplex.prototype.m_count = 0;
 
 /**
  * @export 

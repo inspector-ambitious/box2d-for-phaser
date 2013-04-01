@@ -256,6 +256,20 @@ box2d.b2EdgeShape.prototype.ComputeMass = function (massData, density)
 }
 
 /**
+ * @return {void} 
+ * @param {b2DistanceProxy} proxy 
+ * @param {number} index 
+ */
+box2d.b2EdgeShape.prototype.SetupDistanceProxy = function (proxy, index)
+{
+	proxy.m_vertices = new Array(2);
+	proxy.m_vertices[0] = this.m_vertex1;
+	proxy.m_vertices[1] = this.m_vertex2;
+	proxy.m_count = 2;
+	proxy.m_radius = this.m_radius;
+}
+
+/**
  * @export 
  * @return {number}
  * @param {box2d.b2Vec2} normal
@@ -267,5 +281,22 @@ box2d.b2EdgeShape.prototype.ComputeSubmergedArea = function (normal, offset, xf,
 {
 	c.SetZero();
 	return 0;
+}
+
+/** 
+ * Dump this shape to the log file. 
+ * @export 
+ * @return {void}
+ */
+box2d.b2EdgeShape.prototype.Dump = function (normal, offset, xf, c)
+{
+	box2d.b2Log("    /*box2d.b2EdgeShape*/ var shape = new box2d.b2EdgeShape();\n");
+	box2d.b2Log("    shape.m_radius = %.15f;\n", this.m_radius);
+	box2d.b2Log("    shape.m_vertex0.SetXY(%.15f, %.15f);\n", this.m_vertex0.x, this.m_vertex0.y);
+	box2d.b2Log("    shape.m_vertex1.SetXY(%.15f, %.15f);\n", this.m_vertex1.x, this.m_vertex1.y);
+	box2d.b2Log("    shape.m_vertex2.SetXY(%.15f, %.15f);\n", this.m_vertex2.x, this.m_vertex2.y);
+	box2d.b2Log("    shape.m_vertex3.SetXY(%.15f, %.15f);\n", this.m_vertex3.x, this.m_vertex3.y);
+	box2d.b2Log("    shape.m_hasVertex0 = %s;\n", this.m_hasVertex0);
+	box2d.b2Log("    shape.m_hasVertex3 = %s;\n", this.m_hasVertex3);
 }
 

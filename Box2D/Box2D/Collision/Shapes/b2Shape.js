@@ -205,6 +205,16 @@ box2d.b2Shape.prototype.ComputeMass = function (massData, density)
 }
 
 /**
+ * @return {void} 
+ * @param {b2DistanceProxy} proxy 
+ * @param {number} index 
+ */
+box2d.b2Shape.prototype.SetupDistanceProxy = function (proxy, index)
+{
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false, "pure virtual"); }
+}
+
+/**
  * @export 
  * @return {number}
  * @param {box2d.b2Vec2} normal
@@ -216,5 +226,15 @@ box2d.b2Shape.prototype.ComputeSubmergedArea = function (normal, offset, xf, c)
 {
 	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false, "pure virtual"); }
 	return 0;
+}
+
+/** 
+ * Dump this shape to the log file. 
+ * @export 
+ * @return {void}
+ */
+box2d.b2Shape.prototype.Dump = function (normal, offset, xf, c)
+{
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false, "pure virtual"); }
 }
 

@@ -28,6 +28,7 @@ goog.require('box2d.b2Math');
 goog.require('box2d.b2Collision');
 goog.require('box2d.b2TimeStep');
 goog.require('box2d.b2WorldCallbacks');
+goog.require('box2d.b2JointFactory');
 
 /**
  * The world class manages all physics entities, dynamic 
@@ -658,7 +659,7 @@ box2d.b2World.prototype.CreateJoint = function (def)
 		return null;
 	}
 
-	/** @type {box2d.b2Joint} */ var j = box2d.b2Joint.Create(def, null);
+	/** @type {box2d.b2Joint} */ var j = box2d.b2JointFactory.Create(def, null);
 
 	// Connect to the world list.
 	j.m_prev = null;
@@ -790,7 +791,7 @@ box2d.b2World.prototype.DestroyJoint = function (j)
 	j.m_edgeB.prev = null;
 	j.m_edgeB.next = null;
 
-	box2d.b2Joint.Destroy(j, null);
+	box2d.b2JointFactory.Destroy(j, null);
 
 	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_jointCount > 0); }
 	--this.m_jointCount;
@@ -1809,8 +1810,8 @@ box2d.b2World.prototype.DrawJoint = function (joint)
 		this.m_debugDraw.DrawSegment(x2, p2, color);
 	}
 }
-box2d.b2World.prototype.DrawJoint.s_p1 = new box2d.b2Vec2()
-box2d.b2World.prototype.DrawJoint.s_p2 = new box2d.b2Vec2()
+box2d.b2World.prototype.DrawJoint.s_p1 = new box2d.b2Vec2();
+box2d.b2World.prototype.DrawJoint.s_p2 = new box2d.b2Vec2();
 box2d.b2World.prototype.DrawJoint.s_color = new box2d.b2Color(0.5, 0.8, 0.8);
 
 /**
@@ -2059,7 +2060,7 @@ box2d.b2World.prototype.Dump = function ()
 		box2d.b2Log("this.m_world.SetGravity(g);\n");
 	
 		box2d.b2Log("/** @type {Array.<box2d.b2Body>} */ var bodies = new Array(%d);\n", this.m_bodyCount);
-		box2d.b2Log("/** @typ3 {Array.<box2d.b2Joint>} */ var joints = new Array(%d);\n", this.m_jointCount);
+		box2d.b2Log("/** @type {Array.<box2d.b2Joint>} */ var joints = new Array(%d);\n", this.m_jointCount);
 		var i = 0;
 		for (/** @type {box2d.b2Body} */ var b = this.m_bodyList; b; b = b.m_next)
 		{

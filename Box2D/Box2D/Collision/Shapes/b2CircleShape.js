@@ -176,6 +176,19 @@ box2d.b2CircleShape.prototype.ComputeMass = function (massData, density)
 }
 
 /**
+ * @return {void} 
+ * @param {b2DistanceProxy} proxy 
+ * @param {number} index 
+ */
+box2d.b2CircleShape.prototype.SetupDistanceProxy = function (proxy, index)
+{
+	proxy.m_vertices = new Array(1, true);
+	proxy.m_vertices[0] = this.m_p;
+	proxy.m_count = 1;
+	proxy.m_radius = this.m_radius;
+}
+
+/**
  * @export 
  * @return {number}
  * @param {box2d.b2Vec2} normal
@@ -212,13 +225,15 @@ box2d.b2CircleShape.prototype.ComputeSubmergedArea = function (normal, offset, x
 	return area;
 }
 
-/**
+/** 
+ * Dump this shape to the log file. 
  * @export 
- * @return {box2d.b2CircleShape} 
- * @param {number} radius
+ * @return {void}
  */
-box2d.b2CircleShape.Make = function (radius)
+box2d.b2CircleShape.prototype.Dump = function (normal, offset, xf, c)
 {
-	return new box2d.b2CircleShape(radius);
+	box2d.b2Log("    /*box2d.b2CircleShape*/ var shape = new box2d.b2CircleShape();\n");
+	box2d.b2Log("    shape.m_radius = %.15f;\n", this.m_radius);
+	box2d.b2Log("    shape.m_p.SetXY(%.15f, %.15f);\n", this.m_p.x, this.m_p.y);
 }
 

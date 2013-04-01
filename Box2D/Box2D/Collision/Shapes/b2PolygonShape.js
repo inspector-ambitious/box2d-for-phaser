@@ -153,67 +153,6 @@ box2d.b2PolygonShape.prototype.SetAsOrientedBox = function (hx, hy, center, angl
 }
 
 /**
- * @export 
- * @return {box2d.b2Vec2} 
- * @param {Array.<box2d.b2Vec2>} vs 
- * @param {number=} count 
- * @param {box2d.b2Vec2=} out 
- */
-box2d.b2PolygonShape.ComputeCentroid = function (vs, count, out)
-{
-	out = out || new box2d.b2Vec2();
-
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(count >= 3); }
-
-	var c = out; c.SetZero();
-	var area = 0;
-
-	// s is the reference point for forming triangles.
-	// It's location doesn't change the result (except for rounding error).
-	var pRef = box2d.b2PolygonShape.ComputeCentroid.s_pRef.SetZero();
-/*
-#if 0
-	// This code would put the reference point inside the polygon.
-	for (var i = 0; i < count; ++i)
-	{
-    	pRef.SelfAdd(vs[i]);
-	}
-	pRef.SelfMul(1 / count);
-#endif
-*/
-
-	var inv3 = 1 / 3;
-
-	for (var i = 0; i < count; ++i)
-	{
-		// Triangle vertices.
-		var p1 = pRef;
-		var p2 = vs[i];
-		var p3 = vs[(i + 1) % count];
-
-		var e1 = box2d.b2SubVV(p2, p1, box2d.b2PolygonShape.ComputeCentroid.s_e1);
-		var e2 = box2d.b2SubVV(p3, p1, box2d.b2PolygonShape.ComputeCentroid.s_e2);
-
-		var D = box2d.b2CrossVV(e1, e2);
-
-		var triangleArea = 0.5 * D;
-		area += triangleArea;
-
-		// Area weighted centroid
-		c.x += triangleArea * inv3 * (p1.x + p2.x + p3.x);
-		c.y += triangleArea * inv3 * (p1.y + p2.y + p3.y);
-	}
-
-	// Centroid
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(area > box2d.b2_epsilon); }
-	c.SelfMul(1 / area);
-	return c;
-}
-box2d.b2PolygonShape.ComputeCentroid.s_pRef = new box2d.b2Vec2();
-box2d.b2PolygonShape.ComputeCentroid.s_e1 = new box2d.b2Vec2();
-box2d.b2PolygonShape.ComputeCentroid.s_e2 = new box2d.b2Vec2();
-
-/**
  * Create a convex hull from the given array of local points.
  * The count must be in the range [3, b2_maxPolygonVertices].
  * warning the points may be re-ordered, even if they form a 
@@ -613,6 +552,18 @@ box2d.b2PolygonShape.prototype.Validate.s_e = new box2d.b2Vec2();
 box2d.b2PolygonShape.prototype.Validate.s_v = new box2d.b2Vec2();
 
 /**
+ * @return {void} 
+ * @param {b2DistanceProxy} proxy 
+ * @param {number} index 
+ */
+box2d.b2PolygonShape.prototype.SetupDistanceProxy = function (proxy, index)
+{
+	proxy.m_vertices = this.m_vertices;
+	proxy.m_count = this.m_count;
+	proxy.m_radius = this.m_radius;
+}
+
+/**
  * @export 
  * @return {number}
  * @param {box2d.b2Vec2} normal
@@ -735,51 +686,82 @@ box2d.b2PolygonShape.prototype.ComputeSubmergedArea.s_intoVec = new box2d.b2Vec2
 box2d.b2PolygonShape.prototype.ComputeSubmergedArea.s_outoVec = new box2d.b2Vec2();
 box2d.b2PolygonShape.prototype.ComputeSubmergedArea.s_center = new box2d.b2Vec2();
 
-/**
+/** 
+ * Dump this shape to the log file. 
  * @export 
- * @return {box2d.b2PolygonShape} 
- * @param {number} hx
- * @param {number} hy 
+ * @return {void}
  */
-box2d.b2PolygonShape.MakeAsBox = function (hx, hy)
+box2d.b2PolygonShape.prototype.Dump = function (normal, offset, xf, c)
 {
-	return new box2d.b2PolygonShape().SetAsBox(hx, hy);
+	box2d.b2Log("    /*box2d.b2PolygonShape*/ var shape = new box2d.b2PolygonShape();\n");
+	box2d.b2Log("    /*box2d.b2Vec2[]*/ var vs = box2d.b2Vec2.MakeArray(%d);\n", box2d.b2_maxPolygonVertices);
+	for (var i = 0; i < this.m_count; ++i)
+	{
+		box2d.b2Log("    vs[%d].SetXY(%.15f, %.15f);\n", i, this.m_vertices[i].x, this.m_vertices[i].y);
+	}
+	box2d.b2Log("    shape.SetAsVector(vs, %d);\n", this.m_count);
 }
 
 /**
  * @export 
- * @return {box2d.b2PolygonShape} 
- * @param {number} hx
- * @param {number} hy
- * @param {box2d.b2Vec2} center
- * @param {number} angle 
- */
-box2d.b2PolygonShape.MakeAsOrientedBox = function (hx, hy, center, angle)
-{
-	return new box2d.b2PolygonShape().SetAsOrientedBox(hx, hy, center, angle);
-}
-
-/**
- * @export 
- * @return {box2d.b2PolygonShape} 
- * @param {Array.<box2d.b2Vec2>} vertices
+ * @return {box2d.b2Vec2} 
+ * @param {Array.<box2d.b2Vec2>} vs 
  * @param {number=} count 
+ * @param {box2d.b2Vec2=} out 
  */
-box2d.b2PolygonShape.MakeAsVector = function (vertices, count)
+box2d.b2PolygonShape.ComputeCentroid = function (vs, count, out)
 {
-	return new box2d.b2PolygonShape().SetAsVector(vertices, count);
-}
+	out = out || new box2d.b2Vec2();
 
-/**
- * @export 
- * @return {box2d.b2PolygonShape} 
- * @param {Array.<box2d.b2Vec2>} vertices
- * @param {number=} count 
- */
-box2d.b2PolygonShape.MakeAsArray = function (vertices, count)
-{
-	return new box2d.b2PolygonShape().SetAsArray(vertices, count);
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(count >= 3); }
+
+	var c = out; c.SetZero();
+	var area = 0;
+
+	// s is the reference point for forming triangles.
+	// It's location doesn't change the result (except for rounding error).
+	var pRef = box2d.b2PolygonShape.ComputeCentroid.s_pRef.SetZero();
+/*
+#if 0
+	// This code would put the reference point inside the polygon.
+	for (var i = 0; i < count; ++i)
+	{
+    	pRef.SelfAdd(vs[i]);
+	}
+	pRef.SelfMul(1 / count);
+#endif
+*/
+
+	var inv3 = 1 / 3;
+
+	for (var i = 0; i < count; ++i)
+	{
+		// Triangle vertices.
+		var p1 = pRef;
+		var p2 = vs[i];
+		var p3 = vs[(i + 1) % count];
+
+		var e1 = box2d.b2SubVV(p2, p1, box2d.b2PolygonShape.ComputeCentroid.s_e1);
+		var e2 = box2d.b2SubVV(p3, p1, box2d.b2PolygonShape.ComputeCentroid.s_e2);
+
+		var D = box2d.b2CrossVV(e1, e2);
+
+		var triangleArea = 0.5 * D;
+		area += triangleArea;
+
+		// Area weighted centroid
+		c.x += triangleArea * inv3 * (p1.x + p2.x + p3.x);
+		c.y += triangleArea * inv3 * (p1.y + p2.y + p3.y);
+	}
+
+	// Centroid
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(area > box2d.b2_epsilon); }
+	c.SelfMul(1 / area);
+	return c;
 }
+box2d.b2PolygonShape.ComputeCentroid.s_pRef = new box2d.b2Vec2();
+box2d.b2PolygonShape.ComputeCentroid.s_e1 = new box2d.b2Vec2();
+box2d.b2PolygonShape.ComputeCentroid.s_e2 = new box2d.b2Vec2();
 
 /*
 box2d.b2PolygonShape.ComputeOBB = function (obb, vs, count)

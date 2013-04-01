@@ -786,7 +786,7 @@ box2d.Testbed.Test.prototype.Step = function (settings)
 		this.m_maxProfile.solveVelocity = box2d.b2Max(this.m_maxProfile.solveVelocity, p.solveVelocity);
 		this.m_maxProfile.solvePosition = box2d.b2Max(this.m_maxProfile.solvePosition, p.solvePosition);
 		this.m_maxProfile.solveTOI = box2d.b2Max(this.m_maxProfile.solveTOI, p.solveTOI);
-		this.m_maxProfile.broadPhase = box2d.b2Max(this.m_maxProfile.broadPhase, p.broadPhase);
+		this.m_maxProfile.broadphase = box2d.b2Max(this.m_maxProfile.broadphase, p.broadphase);
 
 		this.m_totalProfile.step += p.step;
 		this.m_totalProfile.collide += p.collide;
@@ -795,7 +795,7 @@ box2d.Testbed.Test.prototype.Step = function (settings)
 		this.m_totalProfile.solveVelocity += p.solveVelocity;
 		this.m_totalProfile.solvePosition += p.solvePosition;
 		this.m_totalProfile.solveTOI += p.solveTOI;
-		this.m_totalProfile.broadPhase += p.broadPhase;
+		this.m_totalProfile.broadphase += p.broadphase;
 	}
 
 	if (settings.drawProfile)
@@ -813,7 +813,7 @@ box2d.Testbed.Test.prototype.Step = function (settings)
 			aveProfile.solveVelocity = scale * this.m_totalProfile.solveVelocity;
 			aveProfile.solvePosition = scale * this.m_totalProfile.solvePosition;
 			aveProfile.solveTOI = scale * this.m_totalProfile.solveTOI;
-			aveProfile.broadPhase = scale * this.m_totalProfile.broadPhase;
+			aveProfile.broadphase = scale * this.m_totalProfile.broadphase;
 		}
 
 		this.m_debugDraw.DrawString(5, this.m_textLine, "step [ave] (max) = %5.2f [%6.2f] (%6.2f)", p.step, aveProfile.step, this.m_maxProfile.step);

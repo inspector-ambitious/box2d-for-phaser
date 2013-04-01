@@ -86,8 +86,8 @@ box2d.b2MotorJointDef.prototype.Initialize = function (bA, bB)
 //	linearOffset = bodyA->GetLocalPoint(xB);
 	this.bodyA.GetLocalPoint(this.bodyB.GetPosition(), this.linearOffset);
 
-	var /** @type {number} */ angleA = this.bodyA.GetAngleRadians();
-	var /** @type {number} */ angleB = this.bodyB.GetAngleRadians();
+	/** @type {number} */ var angleA = this.bodyA.GetAngleRadians();
+	/** @type {number} */ var angleB = this.bodyB.GetAngleRadians();
 	this.angularOffset = angleB - angleA;
 }
 

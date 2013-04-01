@@ -106,6 +106,7 @@ box2d.b2ContactImpulse = function ()
 
 box2d.b2ContactImpulse.prototype.normalImpulses = null;
 box2d.b2ContactImpulse.prototype.tangentImpulses = null;
+box2d.b2ContactImpulse.prototype.count = 0;
 
 /** 
  * Implement this class to get contact information. You can use 

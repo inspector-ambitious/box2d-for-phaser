@@ -350,7 +350,7 @@ box2d.b2CollidePolygons = function (manifold, polyA, xfA, polyB, xfB)
 			if (flip)
 			{
 				// Swap features
-				/** Atype {box2d.b2ContactFeature} */ var cf = cp.id.cf;
+				/** @type {box2d.b2ContactFeature} */ var cf = cp.id.cf;
 				cp.id.cf.indexA = cf.indexB;
 				cp.id.cf.indexB = cf.indexA;
 				cp.id.cf.typeA = cf.typeB;
