@@ -109,13 +109,7 @@ box2d.Testbed.TimeOfImpact.prototype.Step = function (settings)
 	var transformB = new box2d.b2Transform();
 	sweepB.GetTransform(transformB, 0.0);
 
-/*
-	box2d.b2Vec2 localPoint(2.0f, -0.1f);
-	box2d.b2Vec2 rB = b2Mul(transformB, localPoint) - sweepB.c0;
-	float32 wB = sweepB.a - sweepB.a0;
-	box2d.b2Vec2 vB = sweepB.c - sweepB.c0;
-	box2d.b2Vec2 v = vB + b2Cross(wB, rB);
-*/
+	//box2d.b2Vec2 localPoint(2.0f, -0.1f);
 
 	for (var i = 0; i < this.m_shapeB.m_count; ++i)
 	{
