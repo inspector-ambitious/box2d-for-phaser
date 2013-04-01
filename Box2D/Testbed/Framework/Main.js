@@ -925,13 +925,12 @@ box2d.Testbed.Main.prototype.SimulationLoop = function ()
 			ctx.rotate(-this.m_settings.viewRotation.GetAngleRadians());
 			ctx.translate(-this.m_settings.viewCenter.x, -this.m_settings.viewCenter.y);
 
-			this.m_test.SetTextLine(30);
 			var hz = this.m_settings.hz;
 			this.m_settings.hz = box2d.b2Max(1000 / time_elapsed, hz);
 			this.m_test.Step(this.m_settings);
 			this.m_settings.hz = hz;
 		
-			this.m_test.DrawTitle(5, 15, this.m_test_entries[this.m_test_index].name);
+			this.m_test.DrawTitle(this.m_test_entries[this.m_test_index].name);
 
 		ctx.restore();
 

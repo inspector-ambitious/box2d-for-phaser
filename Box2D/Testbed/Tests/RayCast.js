@@ -482,7 +482,7 @@ box2d.Testbed.RayCast.prototype.Step = function (settings)
 	goog.base(this, 'Step', settings);
 
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Press 1-5 to drop stuff, m to change the mode");
-	this.m_textLine += 15;
+	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
 	switch (this.m_mode)
 	{
 	case box2d.Testbed.RayCastMode.e_closest:
@@ -498,7 +498,7 @@ box2d.Testbed.RayCast.prototype.Step = function (settings)
 		break;
 	}
 
-	this.m_textLine += 15;
+	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
 
 	var L = 11.0;
 	var point1 = new box2d.b2Vec2(0.0, 10.0);

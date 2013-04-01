@@ -279,7 +279,7 @@ box2d.Testbed.TheoJansen.prototype.Construct = function ()
 box2d.Testbed.TheoJansen.prototype.Step = function (settings)
 {
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Keys: left = a, brake = s, right = d, toggle motor = m");
-	this.m_textLine += 15;
+	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
 
 	goog.base(this, 'Step', settings);
 }

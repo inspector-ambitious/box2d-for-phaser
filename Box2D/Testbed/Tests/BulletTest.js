@@ -138,18 +138,18 @@ box2d.Testbed.BulletTest.prototype.Step = function (settings)
 	{
 		this.m_debugDraw.DrawString(5, this.m_textLine, "gjk calls = %d, ave gjk iters = %3.1f, max gjk iters = %d",
 			box2d.b2_gjkCalls, box2d.b2_gjkIters / box2d.b2_gjkCalls, box2d.b2_gjkMaxIters);
-		this.m_textLine += 15;
+		this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
 	}
 
 	if (box2d.b2_toiCalls > 0)
 	{
 		this.m_debugDraw.DrawString(5, this.m_textLine, "toi calls = %d, ave toi iters = %3.1f, max toi iters = %d",
 			box2d.b2_toiCalls, box2d.b2_toiIters / box2d.b2_toiCalls, box2d.b2_toiMaxRootIters);
-		this.m_textLine += 15;
+		this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
 
 		this.m_debugDraw.DrawString(5, this.m_textLine, "ave toi root iters = %3.1f, max toi root iters = %d",
 			box2d.b2_toiRootIters / box2d.b2_toiCalls, box2d.b2_toiMaxRootIters);
-		this.m_textLine += 15;
+		this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
 	}
 
 	if (this.m_stepCount % 60 == 0)

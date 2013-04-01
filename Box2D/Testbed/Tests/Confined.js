@@ -185,7 +185,7 @@ box2d.Testbed.Confined.prototype.Step = function (settings)
 	}
 
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Press 'c' to create a circle.");
-	this.m_textLine += 15;
+	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
 }
 
 /** 

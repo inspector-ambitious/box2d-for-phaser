@@ -352,11 +352,11 @@ box2d.Testbed.PolyShapes.prototype.Step = function (settings)
 	this.m_debugDraw.DrawCircle(callback.m_circle.m_p, callback.m_circle.m_radius, color);
 
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Press 1-5 to drop stuff");
-	this.m_textLine += 15;
+	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Press 'a' to (de)activate some bodies");
-	this.m_textLine += 15;
+	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Press 'd' to destroy a body");
-	this.m_textLine += 15;
+	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
 }
 
 /** 

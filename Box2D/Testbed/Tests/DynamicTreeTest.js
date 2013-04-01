@@ -231,7 +231,7 @@ box2d.Testbed.DynamicTreeTest.prototype.Step = function (settings)
 	{
 		var height = this.m_tree.GetHeight();
 		this.m_debugDraw.DrawString(5, this.m_textLine, "dynamic tree height = %d", height);
-		this.m_textLine += 15;
+		this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
 	}
 
 	++this.m_stepCount;

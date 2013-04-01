@@ -405,7 +405,7 @@ box2d.b2_version = new box2d.b2Version(2, 3, 0);
  * @const 
  * @type {number} 
  */
-box2d.b2_changelist = 251;
+box2d.b2_changelist = 254;
 
 /** 
  * @export 

@@ -255,7 +255,7 @@ box2d.Testbed.DebugDraw.prototype.DrawString = function (x, y, format, var_args)
 
 	ctx.save();
 		ctx.setTransform(1, 0, 0, 1, 0, 0);
-		ctx.font = '9pt lucida console';
+		ctx.font = '18pt helvetica';//'9pt lucida console';
 		var color = box2d.Testbed.DebugDraw.prototype.DrawString.s_color;
 		ctx.fillStyle = color.MakeStyleString();
 		ctx.fillText(string, x, y);
@@ -296,7 +296,7 @@ box2d.Testbed.DebugDraw.prototype.DrawStringWorld = function (x, y, format, var_
 
 	ctx.save();
 		ctx.setTransform(1, 0, 0, 1, 0, 0);
-		ctx.font = '9pt lucida console';
+		ctx.font = '18pt helvetica';//'9pt lucida console';
 		var color = box2d.Testbed.DebugDraw.prototype.DrawStringWorld.s_color;
 		ctx.fillStyle = color.MakeStyleString();
 		ctx.fillText(string, p.x, p.y);

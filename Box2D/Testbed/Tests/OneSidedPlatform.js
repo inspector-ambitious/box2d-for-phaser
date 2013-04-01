@@ -167,8 +167,12 @@ box2d.Testbed.OneSidedPlatform.prototype.PreSolve = function (contact, oldManifo
 box2d.Testbed.OneSidedPlatform.prototype.Step = function (settings)
 {
 	goog.base(this, 'Step', settings);
-//	this.m_debugDraw.DrawString(5, this.m_textLine, "Press: (c) create a shape, (d) destroy a shape.");
-//	this.m_textLine += 15;
+	this.m_debugDraw.DrawString(5, this.m_textLine, "Press: (c) create a shape, (d) destroy a shape.");
+	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+
+	var v = this.m_character.GetBody().GetLinearVelocity();
+	this.m_debugDraw.DrawString(5, this.m_textLine, "Character Linear Velocity: %f", v.y);
+	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
 }
 
 /** 

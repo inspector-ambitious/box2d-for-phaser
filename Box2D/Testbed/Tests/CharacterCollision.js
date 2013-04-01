@@ -269,11 +269,11 @@ box2d.Testbed.CharacterCollision.prototype.Step = function (settings)
 	
 	goog.base(this, 'Step', settings);
 	this.m_debugDraw.DrawString(5, this.m_textLine, "This tests various character collision shapes");
-	this.m_textLine += 15;
+	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Limitation: square and hexagon can snag on aligned boxes.");
-	this.m_textLine += 15;
+	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Feature: edge chains have smooth collision inside and out.");
-	this.m_textLine += 15;
+	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
 }
 
 /** 

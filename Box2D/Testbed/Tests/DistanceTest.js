@@ -108,10 +108,10 @@ box2d.Testbed.DistanceTest.prototype.Step = function (settings)
 	box2d.b2Distance(output, cache, input);
 
 	this.m_debugDraw.DrawString(5, this.m_textLine, "distance = %4.2f", output.distance);
-	this.m_textLine += 15;
+	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
 
 	this.m_debugDraw.DrawString(5, this.m_textLine, "iterations = %d", output.iterations);
-	this.m_textLine += 15;
+	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
 
 	{
 		var color = new box2d.b2Color(0.9, 0.9, 0.9);

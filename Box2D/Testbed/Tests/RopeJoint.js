@@ -161,7 +161,7 @@ box2d.Testbed.RopeJoint.prototype.Step = function (settings)
 {
 	goog.base(this, 'Step', settings);
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Press (j) to toggle the rope joint.");
-	this.m_textLine += 15;
+	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
 	if (this.m_rope)
 	{
 		this.m_debugDraw.DrawString(5, this.m_textLine, "Rope ON");
@@ -170,7 +170,7 @@ box2d.Testbed.RopeJoint.prototype.Step = function (settings)
 	{
 		this.m_debugDraw.DrawString(5, this.m_textLine, "Rope OFF");
 	}
-	this.m_textLine += 15;
+	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
 }
 
 /** 
