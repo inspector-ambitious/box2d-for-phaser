@@ -352,7 +352,7 @@ box2d.b2Log = function (string, var_args)
 {
 	var args = Array.prototype.slice.call(arguments);
 	var str = goog.string.format.apply(null, args.slice(0));
-	window.console.log(str);
+	goog.global.console.log(str);
 }
 
 /** 

@@ -20,8 +20,6 @@ goog.provide('box2d.HelloWorld');
 
 goog.require('box2d');
 
-goog.require('goog.string.format');
-
 /**
  * This is a simple example of building and running a simulation
  * using Box2D. Here we create a large ground box and a small
@@ -33,13 +31,10 @@ goog.require('goog.string.format');
 /** 
  * @export 
  * @return {number} 
- * @param {number=} argc 
- * @param {*=} argv 
+ * @param {Array.<*>=} args
  */
-box2d.HelloWorld.main = function (argc, argv)
+box2d.HelloWorld.main = function (args)
 {
-	var pre = document.body.appendChild(document.createElement('pre'));
-
 	// Define the gravity vector.
 	/** @type {box2d.b2Vec2} */ var gravity = new box2d.b2Vec2(0, -10);
 
@@ -105,9 +100,7 @@ box2d.HelloWorld.main = function (argc, argv)
 		/** @type {box2d.b2Vec2} */ var position = body.GetPosition();
 		/** @type {number} */ var angle = body.GetAngleRadians();
 
-		var s = goog.string.format("%4.2f %4.2f %4.2f\n", position.x, position.y, angle);
-		window.console.log(s);
-		pre.innerHTML += s;
+		goog.global.console.log(position.x.toFixed(2), position.y.toFixed(2), angle.toFixed(2));
 	}
 
 	// When the world destructor is called, all bodies and joints are freed. This can
