@@ -164,7 +164,7 @@ box2d.Testbed.VerticalStack.prototype.Step = function (settings)
 {
 	goog.base(this, 'Step', settings);
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Press: (,) to launch a bullet.");
-	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 
 	//if (this.m_stepCount == 300)
 	//{

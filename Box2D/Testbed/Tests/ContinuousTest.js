@@ -135,22 +135,22 @@ box2d.Testbed.ContinuousTest.prototype.Step = function (settings)
 	{
 		this.m_debugDraw.DrawString(5, this.m_textLine, "gjk calls = %d, ave gjk iters = %3.1f, max gjk iters = %d",
 			box2d.b2_gjkCalls, box2d.b2_gjkIters / box2d.b2_gjkCalls, box2d.b2_gjkMaxIters);
-		this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+		this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 	}
 
 	if (box2d.b2_toiCalls > 0)
 	{
 		this.m_debugDraw.DrawString(5, this.m_textLine, "toi [max] calls = %d, ave toi iters = %3.1f [%d]",
 			box2d.b2_toiCalls, box2d.b2_toiIters / box2d.b2_toiCalls, box2d.b2_toiMaxRootIters);
-		this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+		this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 		
 		this.m_debugDraw.DrawString(5, this.m_textLine, "ave [max] toi root iters = %3.1f [%d]",
 			box2d.b2_toiRootIters / box2d.b2_toiCalls, box2d.b2_toiMaxRootIters);
-		this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+		this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 
 		this.m_debugDraw.DrawString(5, this.m_textLine, "ave [max] toi time = %.1f [%.1f] (microseconds)",
 			1000.0 * box2d.b2_toiTime / box2d.b2_toiCalls, 1000.0 * box2d.b2_toiMaxTime);
-		this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+		this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 	}
 
 	if (this.m_stepCount % 60 == 0)

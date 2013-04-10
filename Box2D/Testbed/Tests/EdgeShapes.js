@@ -300,7 +300,7 @@ box2d.Testbed.EdgeShapes.prototype.Step = function (settings)
 
 	goog.base(this, 'Step', settings);
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Press 1-5 to drop stuff, m to change the mode");
-	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 
 	var L = 25.0;
 	var point1 = new box2d.b2Vec2(0.0, 10.0);

@@ -99,7 +99,7 @@ box2d.Testbed.PolyCollision.prototype.Step = function (settings)
 	worldManifold.Initialize(manifold, this.m_transformA, this.m_polygonA.m_radius, this.m_transformB, this.m_polygonB.m_radius);
 
 	this.m_debugDraw.DrawString(5, this.m_textLine, "point count = %d", manifold.pointCount);
-	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 
 	if (true)
 	{

@@ -25,7 +25,7 @@ goog.require('box2d.Testbed.Render');
  * @export 
  * @define {number}
  */
-box2d.DRAW_STRING_NEW_LINE = 25;
+box2d.Testbed.DRAW_STRING_NEW_LINE = 25;
 
 /** 
  * Test settings. Some can be controlled in the GUI. 
@@ -522,8 +522,8 @@ box2d.Testbed.Test.prototype.SetTextLine = function (line)
  */
 box2d.Testbed.Test.prototype.DrawTitle = function (string)
 {
-	this.m_debugDraw.DrawString(5, box2d.DRAW_STRING_NEW_LINE, string);
-	this.m_textLine = 2 * box2d.DRAW_STRING_NEW_LINE;
+	this.m_debugDraw.DrawString(5, box2d.Testbed.DRAW_STRING_NEW_LINE, string);
+	this.m_textLine = 2 * box2d.Testbed.DRAW_STRING_NEW_LINE;
 }
 
 /**
@@ -737,7 +737,7 @@ box2d.Testbed.Test.prototype.Step = function (settings)
 		}
 
 		this.m_debugDraw.DrawString(5, this.m_textLine, "****PAUSED****");
-		this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+		this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 	}
 
 	var flags = box2d.b2DrawFlags.e_none;
@@ -770,14 +770,14 @@ box2d.Testbed.Test.prototype.Step = function (settings)
 		var contactCount = this.m_world.GetContactCount();
 		var jointCount = this.m_world.GetJointCount();
 		this.m_debugDraw.DrawString(5, this.m_textLine, "bodies/contacts/joints = %d/%d/%d", bodyCount, contactCount, jointCount);
-		this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+		this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 
 		var proxyCount = this.m_world.GetProxyCount();
 		var height = this.m_world.GetTreeHeight();
 		var balance = this.m_world.GetTreeBalance();
 		var quality = this.m_world.GetTreeQuality();
 		this.m_debugDraw.DrawString(5, this.m_textLine, "proxies/height/balance/quality = %d/%d/%d/%4.2f", proxyCount, height, balance, quality);
-		this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+		this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 	}
 
 	// Track maximum profile times
@@ -822,21 +822,21 @@ box2d.Testbed.Test.prototype.Step = function (settings)
 		}
 
 		this.m_debugDraw.DrawString(5, this.m_textLine, "step [ave] (max) = %5.2f [%6.2f] (%6.2f)", p.step, aveProfile.step, this.m_maxProfile.step);
-		this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+		this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 		this.m_debugDraw.DrawString(5, this.m_textLine, "collide [ave] (max) = %5.2f [%6.2f] (%6.2f)", p.collide, aveProfile.collide, this.m_maxProfile.collide);
-		this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+		this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 		this.m_debugDraw.DrawString(5, this.m_textLine, "solve [ave] (max) = %5.2f [%6.2f] (%6.2f)", p.solve, aveProfile.solve, this.m_maxProfile.solve);
-		this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+		this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 		this.m_debugDraw.DrawString(5, this.m_textLine, "solve init [ave] (max) = %5.2f [%6.2f] (%6.2f)", p.solveInit, aveProfile.solveInit, this.m_maxProfile.solveInit);
-		this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+		this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 		this.m_debugDraw.DrawString(5, this.m_textLine, "solve velocity [ave] (max) = %5.2f [%6.2f] (%6.2f)", p.solveVelocity, aveProfile.solveVelocity, this.m_maxProfile.solveVelocity);
-		this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+		this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 		this.m_debugDraw.DrawString(5, this.m_textLine, "solve position [ave] (max) = %5.2f [%6.2f] (%6.2f)", p.solvePosition, aveProfile.solvePosition, this.m_maxProfile.solvePosition);
-		this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+		this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 		this.m_debugDraw.DrawString(5, this.m_textLine, "solveTOI [ave] (max) = %5.2f [%6.2f] (%6.2f)", p.solveTOI, aveProfile.solveTOI, this.m_maxProfile.solveTOI);
-		this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+		this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 		this.m_debugDraw.DrawString(5, this.m_textLine, "broad-phase [ave] (max) = %5.2f [%6.2f] (%6.2f)", p.broadphase, aveProfile.broadphase, this.m_maxProfile.broadphase);
-		this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+		this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 	}
 
 	if (this.m_mouseJoint)

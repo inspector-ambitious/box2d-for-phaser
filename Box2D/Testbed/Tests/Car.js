@@ -325,9 +325,9 @@ box2d.Testbed.Car.prototype.Keyboard = function (key)
 box2d.Testbed.Car.prototype.Step = function (settings)
 {
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Keys: left = a, brake = s, right = d, hz down = q, hz up = e");
-	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 	this.m_debugDraw.DrawString(5, this.m_textLine, "frequency = %4.2f hz, damping ratio = %4.2f", this.m_hz, this.m_zeta);
-	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 
 	settings.viewCenter.x = this.m_car.GetPosition().x;
 	goog.base(this, 'Step', settings);

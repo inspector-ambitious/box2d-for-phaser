@@ -213,9 +213,9 @@ box2d.Testbed.Web.prototype.Step = function (settings)
 {
 	goog.base(this, 'Step', settings);
 	this.m_debugDraw.DrawString(5, this.m_textLine, "This demonstrates a soft distance joint.");
-	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Press: (b) to delete a body, (j) to delete a joint");
-	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 }
 
 /** 

@@ -115,9 +115,9 @@ box2d.Testbed.Rope.prototype.Step = function (settings)
 	this.m_rope.Draw(this.m_debugDraw);
 
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Press (q,e) to adjust target angle");
-	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Target angle = %4.2f degrees", this.m_angle * 180.0 / box2d.b2_pi);
-	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 }
 
 /** 

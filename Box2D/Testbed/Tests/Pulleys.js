@@ -118,7 +118,7 @@ box2d.Testbed.Pulleys.prototype.Step = function (settings)
 	var ratio = this.m_joint1.GetRatio();
 	var L = this.m_joint1.GetCurrentLengthA() + ratio * this.m_joint1.GetCurrentLengthB();
 	this.m_debugDraw.DrawString(5, this.m_textLine, "L1 + %4.2f * L2 = %4.2f", ratio, L);
-	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 }
 
 /** 

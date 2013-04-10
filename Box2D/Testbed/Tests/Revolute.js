@@ -174,7 +174,7 @@ box2d.Testbed.Revolute.prototype.Step = function (settings)
 {
 	goog.base(this, 'Step', settings);
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Keys: (l) limits, (m) motor");
-	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 
 	//if (m_stepCount == 360)
 	//{
@@ -183,7 +183,7 @@ box2d.Testbed.Revolute.prototype.Step = function (settings)
 
 	//var torque1 = this.m_joint1.GetMotorTorque(settings.hz);
 	//this.m_debugDraw.DrawString(5, this.m_textLine, "Motor Torque = %4.0, %4.0 : Motor Force = %4.0", (float) torque1, (float) torque2, (float) force3);
-	//this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+	//this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 }
 
 /** 

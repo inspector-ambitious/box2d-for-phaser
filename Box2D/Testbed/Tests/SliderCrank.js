@@ -182,10 +182,10 @@ box2d.Testbed.SliderCrank.prototype.Step = function (settings)
 {
 	goog.base(this, 'Step', settings);
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Keys: (f) toggle friction, (m) toggle motor");
-	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 	var torque = this.m_joint1.GetMotorTorque(settings.hz);
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Motor Torque = %5.0f", torque);
-	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 }
 
 /** 

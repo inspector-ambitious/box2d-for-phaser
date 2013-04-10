@@ -164,13 +164,13 @@ box2d.Testbed.Tiles.prototype.Step = function (settings)
 	/*int32*/ var minimumNodeCount = 2 * leafCount - 1;
 	/*float32*/ var minimumHeight = Math.ceil(Math.log(minimumNodeCount) / Math.log(2.0));
 	this.m_debugDraw.DrawString(5, this.m_textLine, "dynamic tree height = %d, min = %d", height, minimumHeight);
-	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 
 	goog.base(this, 'Step', settings);
 
 	this.m_debugDraw.DrawString(5, this.m_textLine, "create time = %6.2f ms, fixture count = %d",
 		this.m_createTime, this.m_fixtureCount);
-	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 
 	//box2d.b2DynamicTree* tree = this.m_world.this.m_contactManager.m_broadPhase.m_tree;
 

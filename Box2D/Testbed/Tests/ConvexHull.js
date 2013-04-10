@@ -108,7 +108,7 @@ box2d.Testbed.ConvexHull.prototype.Step = function (settings)
 	shape.SetAsVector(this.m_test_points, box2d.Testbed.ConvexHull.e_count);
 
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Press g to generate a new random convex hull");
-	this.m_textLine += box2d.DRAW_STRING_NEW_LINE;
+	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 
 	this.m_debugDraw.DrawPolygon(shape.m_vertices, shape.m_count, new box2d.b2Color(0.9, 0.9, 0.9));
 
