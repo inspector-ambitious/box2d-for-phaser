@@ -53,7 +53,7 @@ goog.addDependency('../../../../HelloWorld/../../../Box2D/Box2D/Dynamics/b2TimeS
 goog.addDependency('../../../../HelloWorld/../../../Box2D/Box2D/Dynamics/b2World.js', ['box2d.b2World'], ['box2d.b2Body', 'box2d.b2Collision', 'box2d.b2ContactManager', 'box2d.b2ContactSolver', 'box2d.b2Draw', 'box2d.b2Island', 'box2d.b2JointFactory', 'box2d.b2Math', 'box2d.b2Settings', 'box2d.b2TimeStep', 'box2d.b2WorldCallbacks']);
 goog.addDependency('../../../../HelloWorld/../../../Box2D/Box2D/Dynamics/b2WorldCallbacks.js', ['box2d.b2WorldCallbacks'], ['box2d.b2Settings']);
 goog.addDependency('../../../../HelloWorld/../../../Box2D/Box2D/Rope/b2Rope.js', ['box2d.b2Rope'], ['box2d.b2Draw', 'box2d.b2Math']);
-goog.addDependency('../../../../HelloWorld/../../../Box2D/HelloWorld/HelloWorld.js', ['box2d.HelloWorld'], ['box2d', 'goog.string.format']);
+goog.addDependency('../../../../HelloWorld/../../../Box2D/HelloWorld/HelloWorld.js', ['box2d.HelloWorld'], ['box2d']);
 goog.addDependency('../../../../HelloWorld/../../../Contributions/Enhancements/Controllers/b2BuoyancyController.js', ['box2d.b2BuoyancyController'], ['box2d.b2Controller', 'box2d.b2Math', 'box2d.b2Settings', 'box2d.b2WorldCallbacks']);
 goog.addDependency('../../../../HelloWorld/../../../Contributions/Enhancements/Controllers/b2ConstantAccelController.js', ['box2d.b2ConstantAccelController'], ['box2d.b2Controller', 'box2d.b2Math', 'box2d.b2Settings']);
 goog.addDependency('../../../../HelloWorld/../../../Contributions/Enhancements/Controllers/b2ConstantForceController.js', ['box2d.b2ConstantForceController'], ['box2d.b2Controller', 'box2d.b2Math', 'box2d.b2Settings']);
