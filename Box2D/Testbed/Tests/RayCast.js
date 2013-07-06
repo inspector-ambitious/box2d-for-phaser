@@ -268,6 +268,7 @@ box2d.Testbed.RayCast = function (canvas, settings)
 		this.m_polygons[i] = new box2d.b2PolygonShape();
 	}
 	this.m_circle = new box2d.b2CircleShape();
+	this.m_edge = new box2d.b2EdgeShape();
 
 	// Ground body
 	if (true)
@@ -327,6 +328,11 @@ box2d.Testbed.RayCast = function (canvas, settings)
 		this.m_circle.m_radius = 0.5;
 	}
 
+	if (true)
+	{
+		this.m_edge.SetAsEdge(new box2d.b2Vec2(-1, 0), new box2d.b2Vec2(1, 0));
+	}
+
 	for (var i = 0; i < box2d.Testbed.RayCast.e_maxBodies; ++i)
 	{
 		this.m_bodies[i] = null;
@@ -366,6 +372,11 @@ box2d.Testbed.RayCast.prototype.m_polygons = null;
  * @type {box2d.b2CircleShape} 
  */
 box2d.Testbed.RayCast.prototype.m_circle = null;
+/**
+ * @export 
+ * @type {box2d.b2EdgeShape} 
+ */
+box2d.Testbed.RayCast.prototype.m_edge = null;
 
 /** 
  * @export 
@@ -404,10 +415,18 @@ box2d.Testbed.RayCast.prototype.CreateBody = function (index)
 		fd.friction = 0.3;
 		this.m_bodies[this.m_bodyIndex].CreateFixture(fd);
 	}
-	else
+	else if (index < 5)
 	{
 		var fd = new box2d.b2FixtureDef();
 		fd.shape = this.m_circle;
+		fd.friction = 0.3;
+
+		this.m_bodies[this.m_bodyIndex].CreateFixture(fd);
+	}
+	else
+	{
+		var fd = new box2d.b2FixtureDef();
+		fd.shape = this.m_edge;
 		fd.friction = 0.3;
 
 		this.m_bodies[this.m_bodyIndex].CreateFixture(fd);
@@ -447,6 +466,7 @@ box2d.Testbed.RayCast.prototype.Keyboard = function (key)
 	case goog.events.KeyCodes.THREE:
 	case goog.events.KeyCodes.FOUR:
 	case goog.events.KeyCodes.FIVE:
+	case goog.events.KeyCodes.SIX:
 		this.CreateBody(key - goog.events.KeyCodes.ONE);
 		break;
 
@@ -481,7 +501,7 @@ box2d.Testbed.RayCast.prototype.Step = function (settings)
 
 	goog.base(this, 'Step', settings);
 
-	this.m_debugDraw.DrawString(5, this.m_textLine, "Press 1-5 to drop stuff, m to change the mode");
+	this.m_debugDraw.DrawString(5, this.m_textLine, "Press 1-6 to drop stuff, m to change the mode");
 	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 	switch (this.m_mode)
 	{
