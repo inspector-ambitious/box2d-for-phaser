@@ -205,6 +205,7 @@ box2d.b2EdgeShape.prototype.RayCast = function (output, input, xf, childIndex)
 	}
 
 	output.fraction = t;
+	box2d.b2MulRV(xf.q, output.normal, output.normal);
 	if (numerator > 0)
 	{
 		output.normal.SelfNeg();
