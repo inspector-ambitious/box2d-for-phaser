@@ -252,18 +252,20 @@ box2d.b2MotorJoint.prototype.m_K = null;
 /** 
  * @export 
  * @return {box2d.b2Vec2}
+ * @param {box2d.b2Vec2} out 
  */
-box2d.b2MotorJoint.prototype.GetAnchorA = function ()
+box2d.b2MotorJoint.prototype.GetAnchorA = function (out)
 {
-	return this.m_bodyA.GetPosition();
+	return this.m_bodyA.GetPosition(out);
 }
 /**
  * @export 
  * @return {box2d.b2Vec2}
+ * @param {box2d.b2Vec2} out 
  */
-box2d.b2MotorJoint.prototype.GetAnchorB = function ()
+box2d.b2MotorJoint.prototype.GetAnchorB = function (out)
 {
-	return this.m_bodyB.GetPosition();
+	return this.m_bodyB.GetPosition(out);
 }
 
 /** 
@@ -306,10 +308,11 @@ box2d.b2MotorJoint.prototype.SetLinearOffset = function (linearOffset)
 /** 
  * @export 
  * @return {box2d.b2Vec2}
+ * @param {box2d.b2Vec2} out 
  */
-box2d.b2MotorJoint.prototype.GetLinearOffset = function ()
+box2d.b2MotorJoint.prototype.GetLinearOffset = function (out)
 {
-	return this.m_linearOffset;
+	return out.Copy(this.m_linearOffset);
 }
 
 /** 

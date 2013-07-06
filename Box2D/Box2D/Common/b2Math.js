@@ -24,17 +24,17 @@ goog.require('box2d.b2Settings');
  * @export 
  * @type {number} 
  */
-box2d.b2_pi_over_180 = box2d.b2_pi / 180;
+box2d.b2_pi_over_180 = box2d.b2_pi / 180.0;
 /**
  * @export 
  * @type {number} 
  */
-box2d.b2_180_over_pi = 180 / box2d.b2_pi;
+box2d.b2_180_over_pi = 180.0 / box2d.b2_pi;
 /**
  * @export 
  * @type {number} 
  */
-box2d.b2_two_pi = 2 * box2d.b2_pi;
+box2d.b2_two_pi = 2.0 * box2d.b2_pi;
 
 /** 
  * @export 
@@ -257,7 +257,7 @@ box2d.b2IsPowerOfTwo = function (x)
  */
 box2d.b2Random = function ()
 {
-	return Math.random() * 2 - 1;
+	return Math.random() * 2.0 - 1.0;
 }
 
 /**
@@ -280,20 +280,33 @@ box2d.b2RandomRange = function (lo, hi)
  */
 box2d.b2Vec2 = function (x, y)
 {
-	this.x = x || 0;
-	this.y = y || 0;
+	//this.a = new Float32Array(2);
+	this.x = x || 0.0;
+	this.y = y || 0.0;
 }
+
+/**
+ * @type {Float32Array} 
+ */
+//box2d.b2Vec2.prototype.a;
+
+//box2d.b2Vec2.prototype = new Float32Array(2);
+
+//box2d.b2Vec2.prototype.__defineGetter__('x', function () { return this[0]; });
+//box2d.b2Vec2.prototype.__defineGetter__('y', function () { return this[1]; });
+//box2d.b2Vec2.prototype.__defineSetter__('x', function (n) { this[0] = n; });
+//box2d.b2Vec2.prototype.__defineSetter__('y', function (n) { this[1] = n; });
 
 /**
  * @export 
  * @type {number} 
  */
-box2d.b2Vec2.prototype.x = 0;
+box2d.b2Vec2.prototype.x = 0.0;
 /**
  * @export 
  * @type {number} 
  */
-box2d.b2Vec2.prototype.y = 0;
+box2d.b2Vec2.prototype.y = 0.0;
 
 /**
  * @export 
@@ -309,12 +322,12 @@ box2d.b2Vec2.ZERO = new box2d.b2Vec2();
  * @export 
  * @type {box2d.b2Vec2} 
  */
-box2d.b2Vec2.UNITX = new box2d.b2Vec2(1, 0);
+box2d.b2Vec2.UNITX = new box2d.b2Vec2(1.0, 0.0);
 /**
  * @export 
  * @type {box2d.b2Vec2} 
  */
-box2d.b2Vec2.UNITY = new box2d.b2Vec2(0, 1);
+box2d.b2Vec2.UNITY = new box2d.b2Vec2(0.0, 1.0);
 
 /**
  * @export 
@@ -363,8 +376,8 @@ box2d.b2Vec2.prototype.Clone = function ()
  */
 box2d.b2Vec2.prototype.SetZero = function ()
 {
-	this.x = 0;
-	this.y = 0;
+	this.x = 0.0;
+	this.y = 0.0;
 	return this;
 }
 
@@ -541,7 +554,7 @@ box2d.b2Vec2.prototype.Normalize = function ()
 	var length = this.GetLength();
 	if (length >= box2d.b2_epsilon)
 	{
-		var inv_length = 1 / length;
+		var inv_length = 1.0 / length;
 		this.x *= inv_length;
 		this.y *= inv_length;
 	}
@@ -557,7 +570,7 @@ box2d.b2Vec2.prototype.SelfNormalize = function ()
 	var length = this.GetLength();
 	if (length >= box2d.b2_epsilon)
 	{
-		var inv_length = 1 / length;
+		var inv_length = 1.0 / length;
 		this.x *= inv_length;
 		this.y *= inv_length;
 	}
@@ -567,16 +580,35 @@ box2d.b2Vec2.prototype.SelfNormalize = function ()
 /**
  * @export 
  * @return {box2d.b2Vec2}
+ * @param {number} c
+ * @param {number} s
+ */
+box2d.b2Vec2.prototype.SelfRotate = function (c, s)
+{
+	var x = this.x, y = this.y;
+	this.x = c * x - s * y;
+	this.y = s * x + c * y;
+	return this;
+}
+
+/**
+ * @export 
+ * @return {box2d.b2Vec2}
  * @param {number} radians
  */
-box2d.b2Vec2.prototype.SelfRotate = function (radians)
+box2d.b2Vec2.prototype.SelfRotateRadians = function (radians)
 {
-	var c = Math.cos(radians);
-	var s = Math.sin(radians);
-	var x = this.x;
-	this.x = c * x - s * this.y;
-	this.y = s * x + c * this.y;
-	return this;
+	return this.SelfRotate(Math.cos(radians), Math.sin(radians));
+}
+
+/**
+ * @export 
+ * @return {box2d.b2Vec2}
+ * @param {number} degrees
+ */
+box2d.b2Vec2.prototype.SelfRotateDegrees = function (degrees)
+{
+	return this.SelfRotateRadians(box2d.b2DegToRad(degrees));
 }
 
 /** 
@@ -735,17 +767,40 @@ box2d.b2ClampV = function (v, lo, hi, out)
  * @export 
  * @return {box2d.b2Vec2}
  * @param {box2d.b2Vec2} v
- * @param {number} radians
+ * @param {number} c
+ * @param {number} s
  * @param {box2d.b2Vec2} out
  */
-box2d.b2RotateV = function (v, radians, out)
+box2d.b2RotateV = function (v, c, s, out)
 {
 	var v_x = v.x, v_y = v.y;
-	var c = Math.cos(radians);
-	var s = Math.sin(radians);
 	out.x = c * v_x - s * v_y;
 	out.y = s * v_x + c * v_y;
 	return out;
+}
+
+/** 
+ * @export 
+ * @return {box2d.b2Vec2}
+ * @param {box2d.b2Vec2} v
+ * @param {number} radians
+ * @param {box2d.b2Vec2} out
+ */
+box2d.b2RotateRadiansV = function (v, radians, out)
+{
+	return box2d.b2RotateV(v, Math.cos(radians), Math.sin(radians), out);
+}
+
+/**
+ * @export 
+ * @return {box2d.b2Vec2}
+ * @param {box2d.b2Vec2} v
+ * @param {number} degrees
+ * @param {box2d.b2Vec2} out
+ */
+box2d.b2RotateDegreesV = function (v, degrees, out)
+{
+	return box2d.b2RotateRadiansV(v, box2d.b2DegToRad(degrees), out);
 }
 
 /** 
@@ -792,7 +847,7 @@ box2d.b2CrossVS = function (v, s, out)
 }
 
 /**
- * box2d.b2CrossVS(v, 1, out) 
+ * box2d.b2CrossVS(v, 1.0, out) 
  * @export 
  * @return {box2d.b2Vec2}
  * @param {box2d.b2Vec2} v
@@ -824,7 +879,7 @@ box2d.b2CrossSV = function (s, v, out)
 }
 
 /** 
- * box2d.b2CrossSV(1, v, out) 
+ * box2d.b2CrossSV(1.0, v, out) 
  * @export 
  * @return {box2d.b2Vec2}
  * @param {box2d.b2Vec2} v
@@ -979,26 +1034,41 @@ box2d.b2NegV = function (v, out) { out.x = -v.x; out.y = -v.y; return out; }
  */
 box2d.b2Vec3 = function (x, y, z)
 {
-	this.x = x || 0;
-	this.y = y || 0;
-	this.z = z || 0;
+	//this.a = new Float32Array(3);
+	this.x = x || 0.0;
+	this.y = y || 0.0;
+	this.z = z || 0.0;
 }
+
+/**
+ * @type {Float32Array} 
+ */
+//box2d.b2Vec3.prototype.a;
+
+//box2d.b2Vec3.prototype = new Float32Array(3);
+
+//box2d.b2Vec3.prototype.__defineGetter__('x', function () { return this[0]; });
+//box2d.b2Vec3.prototype.__defineGetter__('y', function () { return this[1]; });
+//box2d.b2Vec3.prototype.__defineGetter__('z', function () { return this[2]; });
+//box2d.b2Vec3.prototype.__defineSetter__('x', function (n) { this[0] = n; });
+//box2d.b2Vec3.prototype.__defineSetter__('y', function (n) { this[1] = n; });
+//box2d.b2Vec3.prototype.__defineSetter__('z', function (n) { this[2] = n; });
 
 /**
  * @export 
  * @type {number} 
  */
-box2d.b2Vec3.prototype.x = 0;
+box2d.b2Vec3.prototype.x = 0.0;
 /**
  * @export 
  * @type {number} 
  */
-box2d.b2Vec3.prototype.y = 0;
+box2d.b2Vec3.prototype.y = 0.0;
 /**
  * @export 
  * @type {number} 
  */
-box2d.b2Vec3.prototype.z = 0;
+box2d.b2Vec3.prototype.z = 0.0;
 
 /**
  * @export 
@@ -1026,9 +1096,9 @@ box2d.b2Vec3.prototype.Clone = function ()
  */
 box2d.b2Vec3.prototype.SetZero = function ()
 {
-	this.x = 0;
-	this.y = 0;
-	this.z = 0;
+	this.x = 0.0;
+	this.y = 0.0;
+	this.z = 0.0;
 	return this;
 }
 
@@ -1179,8 +1249,8 @@ box2d.b2CrossV3V3 = function (a, b, out)
  */
 box2d.b2Mat22 = function ()
 {
-	this.ex = new box2d.b2Vec2(1, 0);
-	this.ey = new box2d.b2Vec2(0, 1);
+	this.ex = new box2d.b2Vec2(1.0, 0.0);
+	this.ey = new box2d.b2Vec2(0.0, 1.0);
 }
 
 /**
@@ -1284,7 +1354,7 @@ box2d.b2Mat22.prototype.SetVV = function (c1, c2)
  * @return {box2d.b2Mat22}
  * @param {number} radians
  */
-box2d.b2Mat22.prototype.SetAngleRadians = function (radians)
+box2d.b2Mat22.prototype.SetAngle = function (radians)
 {
 	var c = Math.cos(radians);
 	var s = Math.sin(radians);
@@ -1292,6 +1362,10 @@ box2d.b2Mat22.prototype.SetAngleRadians = function (radians)
 	this.ey.SetXY(-s, c);
 	return this;
 }
+
+box2d.b2Mat22.prototype.SetAngleRadians = box2d.b2Mat22.prototype.SetAngle;
+
+box2d.b2Mat22.prototype.SetAngleDegrees = function (angle) { return this.SetAngle(box2d.b2DegToRad(angle)); }
 
 /**
  * @export 
@@ -1313,8 +1387,8 @@ box2d.b2Mat22.prototype.Copy = function (other)
  */
 box2d.b2Mat22.prototype.SetIdentity = function ()
 {
-	this.ex.SetXY(1, 0);
-	this.ey.SetXY(0, 1);
+	this.ex.SetXY(1.0, 0.0);
+	this.ey.SetXY(0.0, 1.0);
 	return this;
 }
 
@@ -1336,10 +1410,12 @@ box2d.b2Mat22.prototype.SetZero = function ()
  * @export 
  * @return {number}
  */
-box2d.b2Mat22.prototype.GetAngleRadians = function ()
+box2d.b2Mat22.prototype.GetAngle = function ()
 {
 	return Math.atan2(this.ex.y, this.ex.x);
 }
+
+box2d.b2Mat22.prototype.GetAngleRadians = box2d.b2Mat22.prototype.GetAngle;
 
 /**
  * @export 
@@ -1353,9 +1429,9 @@ box2d.b2Mat22.prototype.GetInverse = function (out)
 	var c = this.ex.y;
 	var d = this.ey.y;
 	var det = a * d - b * c;
-	if (det != 0)
+	if (det != 0.0)
 	{
-		det = 1 / det;
+		det = 1.0 / det;
 	}
 	out.ex.x =   det * d;
 	out.ey.x = (-det * b);
@@ -1378,9 +1454,9 @@ box2d.b2Mat22.prototype.Solve = function (b_x, b_y, out)
 	var a11 = this.ex.x, a12 = this.ey.x;
 	var a21 = this.ex.y, a22 = this.ey.y;
 	var det = a11 * a22 - a12 * a21;
-	if (det != 0)
+	if (det != 0.0)
 	{
-		det = 1 / det;
+		det = 1.0 / det;
 	}
 	out.x = det * (a22 * b_x - a12 * b_y);
 	out.y = det * (a11 * b_y - a21 * b_x);
@@ -1550,9 +1626,9 @@ box2d.b2MulTMM = function (A, B, out)
  */
 box2d.b2Mat33 = function ()
 {
-	this.ex = new box2d.b2Vec3(1, 0, 0);
-	this.ey = new box2d.b2Vec3(0, 1, 0);
-	this.ez = new box2d.b2Vec3(0, 0, 1);
+	this.ex = new box2d.b2Vec3(1.0, 0.0, 0.0);
+	this.ey = new box2d.b2Vec3(0.0, 1.0, 0.0);
+	this.ez = new box2d.b2Vec3(0.0, 0.0, 1.0);
 }
 
 /**
@@ -1621,9 +1697,9 @@ box2d.b2Mat33.prototype.Copy = function (other)
  */
 box2d.b2Mat33.prototype.SetIdentity = function ()
 {
-	this.ex.SetXYZ(1, 0, 0);
-	this.ey.SetXYZ(0, 1, 0);
-	this.ez.SetXYZ(0, 0, 1);
+	this.ex.SetXYZ(1.0, 0.0, 0.0);
+	this.ey.SetXYZ(0.0, 1.0, 0.0);
+	this.ez.SetXYZ(0.0, 0.0, 1.0);
 	return this;
 }
 
@@ -1669,9 +1745,9 @@ box2d.b2Mat33.prototype.Solve33 = function (b_x, b_y, b_z, out)
 	var a12 = this.ey.x, a22 = this.ey.y, a32 = this.ey.z;
 	var a13 = this.ez.x, a23 = this.ez.y, a33 = this.ez.z;
 	var det = a11 * (a22 * a33 - a32 * a23) + a21 * (a32 * a13 - a12 * a33) + a31 * (a12 * a23 - a22 * a13);
-	if (det != 0)
+	if (det != 0.0)
 	{
-		det = 1 / det;
+		det = 1.0 / det;
 	}
 	out.x = det * (b_x * (a22 * a33 - a32 * a23) + b_y * (a32 * a13 - a12 * a33) + b_z * (a12 * a23 - a22 * a13));
 	out.y = det * (a11 * (b_y * a33 - b_z * a23) + a21 * (b_z * a13 - b_x * a33) + a31 * (b_x * a23 - b_y * a13));
@@ -1694,9 +1770,9 @@ box2d.b2Mat33.prototype.Solve22 = function (b_x, b_y, out)
 	var a11 = this.ex.x, a12 = this.ey.x;
 	var a21 = this.ex.y, a22 = this.ey.y;
 	var det = a11 * a22 - a12 * a21;
-	if (det != 0)
+	if (det != 0.0)
 	{
-		det = 1 / det;
+		det = 1.0 / det;
 	}
 	out.x = det * (a22 * b_x - a12 * b_y);
 	out.y = det * (a11 * b_y - a21 * b_x);
@@ -1714,14 +1790,14 @@ box2d.b2Mat33.prototype.GetInverse22 = function (M)
 {
 	var a = this.ex.x, b = this.ey.x, c = this.ex.y, d = this.ey.y;
 	var det = a * d - b * c;
-	if (det != 0)
+	if (det != 0.0)
 	{
-		det = 1 / det;
+		det = 1.0 / det;
 	}
 
-	M.ex.x =  det * d; M.ey.x = -det * b; M.ex.z = 0;
-	M.ex.y = -det * c; M.ey.y =  det * a; M.ey.z = 0;
-	M.ez.x =        0; M.ez.y =        0; M.ez.z = 0;
+	M.ex.x =  det * d; M.ey.x = -det * b; M.ex.z = 0.0;
+	M.ex.y = -det * c; M.ey.y =  det * a; M.ey.z = 0.0;
+	M.ez.x =      0.0; M.ez.y =      0.0; M.ez.z = 0.0;
 }
 
 /** 
@@ -1734,9 +1810,9 @@ box2d.b2Mat33.prototype.GetInverse22 = function (M)
 box2d.b2Mat33.prototype.GetSymInverse33 = function (M)
 {
 	var det = box2d.b2DotV3V3(this.ex, box2d.b2CrossV3V3(this.ey, this.ez, box2d.b2Vec3.s_t0));
-	if (det != 0)
+	if (det != 0.0)
 	{
-		det = 1 / det;
+		det = 1.0 / det;
 	}
 
 	var a11 = this.ex.x, a12 = this.ey.x, a13 = this.ez.x;
@@ -1830,6 +1906,7 @@ box2d.b2Rot = function (angle)
 	if (angle)
 	{
 		/// TODO_ERIN optimize
+		this.angle = angle;
 		this.s = Math.sin(angle);
 		this.c = Math.cos(angle);
 	}
@@ -1839,12 +1916,17 @@ box2d.b2Rot = function (angle)
  * @export 
  * @type {number} 
  */
-box2d.b2Rot.prototype.s = 0;
+box2d.b2Rot.prototype.angle = 0.0;
 /**
  * @export 
  * @type {number} 
  */
-box2d.b2Rot.prototype.c = 1;
+box2d.b2Rot.prototype.s = 0.0;
+/**
+ * @export 
+ * @type {number} 
+ */
+box2d.b2Rot.prototype.c = 1.0;
 
 /**
  * @export 
@@ -1868,6 +1950,7 @@ box2d.b2Rot.prototype.Clone = function ()
  */
 box2d.b2Rot.prototype.Copy = function (other)
 {
+	this.angle = other.angle;
 	this.s = other.s;
 	this.c = other.c;
 	return this;
@@ -1879,13 +1962,21 @@ box2d.b2Rot.prototype.Copy = function (other)
  * @return {box2d.b2Rot} 
  * @param {number} angle 
  */
-box2d.b2Rot.prototype.SetAngleRadians = function (angle)
+box2d.b2Rot.prototype.SetAngle = function (angle)
 {
 	/// TODO_ERIN optimize
-	this.s = Math.sin(angle);
-	this.c = Math.cos(angle);
+	if (this.angle != angle)
+	{
+		this.angle = angle;
+		this.s = Math.sin(angle);
+		this.c = Math.cos(angle);
+	}
 	return this;
 }
+
+box2d.b2Rot.prototype.SetAngleRadians = box2d.b2Rot.prototype.SetAngle;
+
+box2d.b2Rot.prototype.SetAngleDegrees = function (angle) { return this.SetAngle(box2d.b2DegToRad(angle)); }
 
 /** 
  * Set to the identity rotation 
@@ -1894,8 +1985,9 @@ box2d.b2Rot.prototype.SetAngleRadians = function (angle)
  */
 box2d.b2Rot.prototype.SetIdentity = function ()
 {
-	this.s = 0;
-	this.c = 1;
+	this.angle = 0.0;
+	this.s = 0.0;
+	this.c = 1.0;
 	return this;
 }
 
@@ -1904,10 +1996,15 @@ box2d.b2Rot.prototype.SetIdentity = function ()
  * @export 
  * @return {number}
  */
-box2d.b2Rot.prototype.GetAngleRadians = function ()
+box2d.b2Rot.prototype.GetAngle = function ()
 {
-	return Math.atan2(this.s, this.c);
+	return this.angle;
+//	return Math.atan2(this.s, this.c);
 }
+
+box2d.b2Rot.prototype.GetAngleRadians = box2d.b2Rot.prototype.GetAngle;
+
+box2d.b2Rot.prototype.GetAngleDegrees = function () { return box2d.b2RadToDeg(this.GetAngle()); }
 
 /** 
  * Get the x-axis 
@@ -2168,19 +2265,23 @@ box2d.b2Transform.prototype.GetRotation = function ()
  * @export 
  * @return {number}
  */
-box2d.b2Transform.prototype.GetRotationAngleRadians = function ()
+box2d.b2Transform.prototype.GetRotationAngle = function ()
 {
-	return this.q.GetAngleRadians();
+	return this.q.GetAngle();
 }
+
+box2d.b2Transform.prototype.GetRotationAngleRadians = box2d.b2Transform.prototype.GetRotationAngle;
 
 /**
  * @export 
  * @return {number}
  */
-box2d.b2Transform.prototype.GetAngleRadians = function ()
+box2d.b2Transform.prototype.GetAngle = function ()
 {
-	return this.q.GetAngleRadians();
+	return this.q.GetAngle();
 }
+
+box2d.b2Transform.prototype.GetAngleRadians = box2d.b2Transform.prototype.GetAngle;
 
 /**
  * @export 
@@ -2291,12 +2392,12 @@ box2d.b2Sweep.prototype.c = null;
  * @export 
  * @type {number} 
  */
-box2d.b2Sweep.prototype.a0 = 0; ///< world angles
+box2d.b2Sweep.prototype.a0 = 0.0; ///< world angles
 /**
  * @export 
  * @type {number} 
  */
-box2d.b2Sweep.prototype.a = 0;
+box2d.b2Sweep.prototype.a = 0.0;
 
 /**
  * Fraction of the current time step in the range [0,1]
@@ -2304,7 +2405,7 @@ box2d.b2Sweep.prototype.a = 0;
  * @export 
  * @type {number} 
  */
-box2d.b2Sweep.prototype.alpha0 = 0;
+box2d.b2Sweep.prototype.alpha0 = 0.0;
 
 /**
  * @export 
@@ -2341,7 +2442,7 @@ box2d.b2Sweep.prototype.Copy = function (other)
  */
 box2d.b2Sweep.prototype.GetTransform = function (xf, beta)
 {
-	var one_minus_beta = (1 - beta);
+	var one_minus_beta = (1.0 - beta);
 	xf.p.x = one_minus_beta * this.c0.x + beta * this.c.x;
 	xf.p.y = one_minus_beta * this.c0.y + beta * this.c.y;
 	var angle = one_minus_beta * this.a0 + beta * this.a;
@@ -2360,9 +2461,9 @@ box2d.b2Sweep.prototype.GetTransform = function (xf, beta)
  */
 box2d.b2Sweep.prototype.Advance = function (alpha)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.alpha0 < 1); }
-	var beta = (alpha - this.alpha0) / (1 - this.alpha0);
-	var one_minus_beta = (1 - beta);
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.alpha0 < 1.0); }
+	var beta = (alpha - this.alpha0) / (1.0 - this.alpha0);
+	var one_minus_beta = (1.0 - beta);
 	this.c0.x = one_minus_beta * this.c0.x + beta * this.c.x;
 	this.c0.y = one_minus_beta * this.c0.y + beta * this.c.y;
 	this.a0 = one_minus_beta * this.a0 + beta * this.a;

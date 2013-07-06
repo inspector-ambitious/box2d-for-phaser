@@ -236,10 +236,11 @@ box2d.b2MouseJoint.prototype.SetTarget = function (target)
 /**
  * @export 
  * @return {box2d.b2Vec2}
+ * @param {box2d.b2Vec2} out 
  */
-box2d.b2MouseJoint.prototype.GetTarget = function ()
+box2d.b2MouseJoint.prototype.GetTarget = function (out)
 {
-	return this.m_targetA;
+	return out.Copy(this.m_targetA);
 }
 
 /**

@@ -164,7 +164,7 @@ box2d.b2PolygonShape.prototype.SetAsOrientedBox = function (hx, hy, center, angl
  * @param {Array.<box2d.b2Vec2>} vertices
  * @param {number=} count
  */
-box2d.b2PolygonShape.prototype.SetAsVector = function (vertices, count)
+box2d.b2PolygonShape.prototype.Set = function (vertices, count)
 {
 	if (count === undefined) count = vertices.length;
 
@@ -177,7 +177,7 @@ box2d.b2PolygonShape.prototype.SetAsVector = function (vertices, count)
 	var n = box2d.b2Min(count, box2d.b2_maxPolygonVertices);
 
 	// Copy vertices into local buffer
-	var ps = box2d.b2PolygonShape.prototype.SetAsVector.s_ps;
+	var ps = box2d.b2PolygonShape.prototype.Set.s_ps;
 	for (var i = 0; i < n; ++i)
 	{
 		ps[i].Copy(vertices[i]);
@@ -199,7 +199,7 @@ box2d.b2PolygonShape.prototype.SetAsVector = function (vertices, count)
 		}
 	}
 
-	var hull = box2d.b2PolygonShape.prototype.SetAsVector.s_hull;
+	var hull = box2d.b2PolygonShape.prototype.Set.s_hull;
 	var m = 0;
 	var ih = i0;
 
@@ -216,8 +216,8 @@ box2d.b2PolygonShape.prototype.SetAsVector = function (vertices, count)
 				continue;
 			}
 
-			var r = box2d.b2SubVV(ps[ie], ps[hull[m]], box2d.b2PolygonShape.prototype.SetAsVector.s_r);
-			var v = box2d.b2SubVV(ps[j], ps[hull[m]], box2d.b2PolygonShape.prototype.SetAsVector.s_v);
+			var r = box2d.b2SubVV(ps[ie], ps[hull[m]], box2d.b2PolygonShape.prototype.Set.s_r);
+			var v = box2d.b2SubVV(ps[j], ps[hull[m]], box2d.b2PolygonShape.prototype.Set.s_v);
 			var c = box2d.b2CrossVV(r, v);
 			if (c < 0)
 			{
@@ -263,10 +263,22 @@ box2d.b2PolygonShape.prototype.SetAsVector = function (vertices, count)
 
 	return this;
 }
-box2d.b2PolygonShape.prototype.SetAsVector.s_ps = box2d.b2Vec2.MakeArray(box2d.b2_maxPolygonVertices);
-box2d.b2PolygonShape.prototype.SetAsVector.s_hull = box2d.b2MakeNumberArray(box2d.b2_maxPolygonVertices);
-box2d.b2PolygonShape.prototype.SetAsVector.s_r = new box2d.b2Vec2();
-box2d.b2PolygonShape.prototype.SetAsVector.s_v = new box2d.b2Vec2();
+box2d.b2PolygonShape.prototype.Set.s_ps = box2d.b2Vec2.MakeArray(box2d.b2_maxPolygonVertices);
+box2d.b2PolygonShape.prototype.Set.s_hull = box2d.b2MakeNumberArray(box2d.b2_maxPolygonVertices);
+box2d.b2PolygonShape.prototype.Set.s_r = new box2d.b2Vec2();
+box2d.b2PolygonShape.prototype.Set.s_v = new box2d.b2Vec2();
+
+/**
+ * @export 
+ * @return {box2d.b2PolygonShape} 
+ * @param {Array.<box2d.b2Vec2>} vertices
+ * @param {number=} count 
+ */
+box2d.b2PolygonShape.prototype.SetAsVector = function (vertices, count)
+{
+	this.Set(vertices, count);
+	return this;
+}
 
 /**
  * @export 
@@ -276,7 +288,8 @@ box2d.b2PolygonShape.prototype.SetAsVector.s_v = new box2d.b2Vec2();
  */
 box2d.b2PolygonShape.prototype.SetAsArray = function (vertices, count)
 {
-	return this.SetAsVector(vertices, count);
+	this.Set(vertices, count);
+	return this;
 }
 
 /** 
@@ -699,20 +712,18 @@ box2d.b2PolygonShape.prototype.Dump = function ()
 	{
 		box2d.b2Log("    vs[%d].SetXY(%.15f, %.15f);\n", i, this.m_vertices[i].x, this.m_vertices[i].y);
 	}
-	box2d.b2Log("    shape.SetAsVector(vs, %d);\n", this.m_count);
+	box2d.b2Log("    shape.Set(vs, %d);\n", this.m_count);
 }
 
 /**
  * @export 
  * @return {box2d.b2Vec2} 
  * @param {Array.<box2d.b2Vec2>} vs 
- * @param {number=} count 
- * @param {box2d.b2Vec2=} out 
+ * @param {number} count 
+ * @param {box2d.b2Vec2} out 
  */
 box2d.b2PolygonShape.ComputeCentroid = function (vs, count, out)
 {
-	out = out || new box2d.b2Vec2();
-
 	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(count >= 3); }
 
 	var c = out; c.SetZero();

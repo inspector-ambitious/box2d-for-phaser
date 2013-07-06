@@ -602,19 +602,21 @@ box2d.b2PulleyJoint.prototype.GetReactionTorque = function (inv_dt)
 /** 
  * @export 
  * @return {box2d.b2Vec2}
+ * @param {box2d.b2Vec2} out 
  */
-box2d.b2PulleyJoint.prototype.GetGroundAnchorA = function ()
+box2d.b2PulleyJoint.prototype.GetGroundAnchorA = function (out)
 {
-	return this.m_groundAnchorA;
+	return out.Copy(this.m_groundAnchorA);
 }
 
 /** 
  * @export 
  * @return {box2d.b2Vec2}
+ * @param {box2d.b2Vec2} out 
  */
-box2d.b2PulleyJoint.prototype.GetGroundAnchorB = function ()
+box2d.b2PulleyJoint.prototype.GetGroundAnchorB = function (out)
 {
-	return this.m_groundAnchorB;
+	return out.Copy(this.m_groundAnchorB);
 }
 
 /** 

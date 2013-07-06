@@ -360,6 +360,9 @@ box2d.b2Log = function (string, var_args)
  * http://en.wikipedia.org/wiki/Software_versioning 
  * @export 
  * @constructor
+ * @param {number=} major 
+ * @param {number=} minor 
+ * @param {number=} revision 
  */
 box2d.b2Version = function (major, minor, revision)
 {

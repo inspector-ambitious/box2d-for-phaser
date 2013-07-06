@@ -725,8 +725,8 @@ box2d.b2AABB = function ()
 	this.lowerBound = new box2d.b2Vec2();
 	this.upperBound = new box2d.b2Vec2();
 
-	this.m_cache_center = new box2d.b2Vec2();
-	this.m_cache_extent = new box2d.b2Vec2();
+	this.m_out_center = new box2d.b2Vec2();
+	this.m_out_extent = new box2d.b2Vec2();
 };
 
 /**
@@ -744,12 +744,12 @@ box2d.b2AABB.prototype.upperBound = null; ///< the upper vertex
  * @export 
  * @type {box2d.b2Vec2}
  */
-box2d.b2AABB.prototype.m_cache_center = null; // access using GetCenter()
+box2d.b2AABB.prototype.m_out_center = null; // access using GetCenter()
 /**
  * @export 
  * @type {box2d.b2Vec2}
  */
-box2d.b2AABB.prototype.m_cache_extent = null; // access using GetExtents()
+box2d.b2AABB.prototype.m_out_extent = null; // access using GetExtents()
 
 /**
  * @export 
@@ -784,7 +784,7 @@ box2d.b2AABB.prototype.IsValid = function ()
  */
 box2d.b2AABB.prototype.GetCenter = function ()
 {
-	return box2d.b2MidVV(this.lowerBound, this.upperBound, this.m_cache_center);
+	return box2d.b2MidVV(this.lowerBound, this.upperBound, this.m_out_center);
 }
 
 /** 
@@ -794,7 +794,7 @@ box2d.b2AABB.prototype.GetCenter = function ()
  */
 box2d.b2AABB.prototype.GetExtents = function ()
 {
-	return box2d.b2ExtVV(this.lowerBound, this.upperBound, this.m_cache_extent);
+	return box2d.b2ExtVV(this.lowerBound, this.upperBound, this.m_out_extent);
 }
 
 /** 

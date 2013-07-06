@@ -207,8 +207,11 @@ goog.exportProperty(box2d.b2BodyFlag, 'e_toiFlag'          , box2d.b2BodyFlag.e_
 box2d.b2Body = function (bd, world)
 {
 	this.m_xf = new box2d.b2Transform();
+	this.m_out_xf = new box2d.b2Transform();
 	this.m_sweep = new box2d.b2Sweep();
+	this.m_out_sweep = new box2d.b2Sweep();
 	this.m_linearVelocity = new box2d.b2Vec2();
+	this.m_out_linearVelocity = new box2d.b2Vec2();
 	this.m_force = new box2d.b2Vec2();
 
 	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(bd.position.IsValid()); }
@@ -313,9 +316,19 @@ box2d.b2Body.prototype.m_world = null;
 box2d.b2Body.prototype.m_xf = null; // the body origin transform
 /**
  * @export 
+ * @type {box2d.b2Transform}
+ */
+box2d.b2Body.prototype.m_out_xf = null;
+/**
+ * @export 
  * @type {box2d.b2Sweep}
  */
 box2d.b2Body.prototype.m_sweep = null; // the swept motion for CCD
+/**
+ * @export 
+ * @type {box2d.b2Sweep}
+ */
+box2d.b2Body.prototype.m_out_sweep = null;
 /**
  * @export 
  * @type {box2d.b2JointEdge}
@@ -341,6 +354,11 @@ box2d.b2Body.prototype.m_next = null;
  * @type {box2d.b2Vec2}
  */
 box2d.b2Body.prototype.m_linearVelocity = null;
+/**
+ * @export 
+ * @type {box2d.b2Vec2}
+ */
+box2d.b2Body.prototype.m_out_linearVelocity = null;
 /**
  * @export 
  * @type {number}
@@ -605,6 +623,13 @@ box2d.b2Body.prototype.SetTransformVecRadians = function (position, angle)
  */
 box2d.b2Body.prototype.SetTransformXYRadians = function (x, y, angle)
 {
+	if ((this.m_xf.p.x == x) && 
+		(this.m_xf.p.y == y) && 
+		(this.m_xf.q.GetAngleRadians()) == angle)
+	{
+		return;
+	}
+
 	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_world.IsLocked() == false); }
 	if (this.m_world.IsLocked() == true)
 	{
@@ -643,20 +668,24 @@ box2d.b2Body.prototype.SetTransform = function (xf)
  * Get the body transform for the body's origin. 
  * @export 
  * @return {box2d.b2Transform} the world transform of the body's origin.
+ * @param {box2d.b2Transform=} out 
  */
-box2d.b2Body.prototype.GetTransform = function ()
+box2d.b2Body.prototype.GetTransform = function (out)
 {
-	return this.m_xf;
+	out = out || this.m_out_xf;
+	return out.Copy(this.m_xf);
 }
 
 /** 
  * Get the world body origin position. 
  * @export 
  * @return {box2d.b2Vec2} the world position of the body's origin.
+ * @param {box2d.b2Vec2=} out 
  */
-box2d.b2Body.prototype.GetPosition = function ()
+box2d.b2Body.prototype.GetPosition = function (out)
 {
-	return this.m_xf.p;
+	out = out || this.m_out_xf.p;
+	return out.Copy(this.m_xf.p);
 }
 
 /**
@@ -704,20 +733,24 @@ box2d.b2Body.prototype.SetAngleRadians = function (angle)
  * Get the world position of the center of mass. 
  * @export 
  * @return {box2d.b2Vec2}
+ * @param {box2d.b2Vec2=} out 
  */
-box2d.b2Body.prototype.GetWorldCenter = function ()
+box2d.b2Body.prototype.GetWorldCenter = function (out)
 {
-	return this.m_sweep.c;
+	out = out || this.m_out_sweep.c;
+	return out.Copy(this.m_sweep.c);
 }
 
 /** 
  * Get the local position of the center of mass. 
  * @export 
  * @return {box2d.b2Vec2}
+ * @param {box2d.b2Vec2=} out 
  */
-box2d.b2Body.prototype.GetLocalCenter = function ()
+box2d.b2Body.prototype.GetLocalCenter = function (out)
 {
-	return this.m_sweep.localCenter;
+	out = out || this.m_out_sweep.localCenter;
+	return out.Copy(this.m_sweep.localCenter);
 }
 
 /** 
@@ -745,10 +778,12 @@ box2d.b2Body.prototype.SetLinearVelocity = function (v)
  * Get the linear velocity of the center of mass. 
  * @export 
  * @return {box2d.b2Vec2} the linear velocity of the center of mass.
+ * @param {box2d.b2Vec2=} out 
  */
-box2d.b2Body.prototype.GetLinearVelocity = function ()
+box2d.b2Body.prototype.GetLinearVelocity = function (out)
 {
-	return this.m_linearVelocity;
+	out = out || this.m_out_linearVelocity;
+	return out.Copy(this.m_linearVelocity);
 }
 
 /** 
@@ -1607,6 +1642,7 @@ box2d.b2Body.prototype.GetUserData = function ()
  * Set the user data. Use this to store your application 
  * specific data. 
  * @export 
+ * @return {void} 
  * @param {*} data 
  */
 box2d.b2Body.prototype.SetUserData = function (data)

@@ -83,7 +83,7 @@ box2d.b2EdgeShape.prototype.m_hasVertex3 = false;
  * @param {box2d.b2Vec2} v1
  * @param {box2d.b2Vec2} v2 
  */
-box2d.b2EdgeShape.prototype.SetAsEdge = function (v1, v2)
+box2d.b2EdgeShape.prototype.Set = function (v1, v2)
 {
 	this.m_vertex1.Copy(v1);
 	this.m_vertex2.Copy(v2);
@@ -91,6 +91,8 @@ box2d.b2EdgeShape.prototype.SetAsEdge = function (v1, v2)
 	this.m_hasVertex3 = false;
 	return this;
 }
+
+box2d.b2EdgeShape.prototype.SetAsEdge = box2d.b2EdgeShape.prototype.Set;
 
 /** 
  * Implement box2d.b2Shape. 

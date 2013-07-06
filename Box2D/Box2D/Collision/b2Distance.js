@@ -104,10 +104,11 @@ box2d.b2DistanceProxy.prototype.GetSupport = function (d)
 /** 
  * Get the supporting vertex in the given direction. 
  * @export 
- * @param {box2d.b2Vec2} d 
  * @return {box2d.b2Vec2} 
+ * @param {box2d.b2Vec2} d 
+ * @param {box2d.b2Vec2} out 
  */
-box2d.b2DistanceProxy.prototype.GetSupportVertex = function (d)
+box2d.b2DistanceProxy.prototype.GetSupportVertex = function (d, out)
 {
 	/** @type {number} */ var bestIndex = 0;
 	/** @type {number} */ var bestValue = box2d.b2DotVV(this.m_vertices[0], d);
@@ -121,7 +122,7 @@ box2d.b2DistanceProxy.prototype.GetSupportVertex = function (d)
 		}
 	}
 
-	return this.m_vertices[bestIndex];
+	return out.Copy(this.m_vertices[bestIndex]);
 }
 
 /** 
@@ -137,8 +138,8 @@ box2d.b2DistanceProxy.prototype.GetVertexCount = function ()
 /** 
  * Get a vertex by index. Used by box2d.b2Distance. 
  * @export 
- * @param {number} index 
  * @return {box2d.b2Vec2}
+ * @param {number} index 
  */
 box2d.b2DistanceProxy.prototype.GetVertex = function (index)
 {

@@ -65,6 +65,7 @@ box2d.b2World = function (gravity)
 	this.m_contactManager = new box2d.b2ContactManager();
 
 	this.m_gravity = gravity.Clone();
+	this.m_out_gravity = new box2d.b2Vec2();
 	this.m_allowSleep = true;
 
 	this.m_destructionListener = null;
@@ -125,6 +126,11 @@ box2d.b2World.prototype.m_jointCount = 0;
  * @type {box2d.b2Vec2}
  */
 box2d.b2World.prototype.m_gravity = null;
+/**
+ * @export 
+ * @type {box2d.b2Vec2}
+ */
+box2d.b2World.prototype.m_out_gravity = null;
 /**
  * @export 
  * @type {boolean}
@@ -395,10 +401,12 @@ box2d.b2World.prototype.SetGravity = function (gravity, wake)
  * Get the global gravity vector. 
  * @export 
  * @return {box2d.b2Vec2} 
+ * @param {box2d.b2Vec2=} out 
  */
-box2d.b2World.prototype.GetGravity = function ()
+box2d.b2World.prototype.GetGravity = function (out)
 {
-	return this.m_gravity;
+	out = out || this.m_out_gravity;
+	return out.Copy(this.m_gravity);
 }
 
 /** 
@@ -1791,8 +1799,8 @@ box2d.b2World.prototype.DrawJoint = function (joint)
 	case box2d.b2JointType.e_pulleyJoint:
 		{
 			/** @type {box2d.b2PulleyJoint} */ var pulley = ((joint instanceof box2d.b2PulleyJoint ? joint : null));
-			/** @type {box2d.b2Vec2} */ var s1 = pulley.GetGroundAnchorA();
-			/** @type {box2d.b2Vec2} */ var s2 = pulley.GetGroundAnchorB();
+			/** @type {box2d.b2Vec2} */ var s1 = pulley.GetGroundAnchorA(box2d.b2World.prototype.DrawJoint.s_s1);
+			/** @type {box2d.b2Vec2} */ var s2 = pulley.GetGroundAnchorB(box2d.b2World.prototype.DrawJoint.s_s2);
 			this.m_debugDraw.DrawSegment(s1, p1, color);
 			this.m_debugDraw.DrawSegment(s2, p2, color);
 			this.m_debugDraw.DrawSegment(s1, s2, color);
@@ -1813,6 +1821,8 @@ box2d.b2World.prototype.DrawJoint = function (joint)
 box2d.b2World.prototype.DrawJoint.s_p1 = new box2d.b2Vec2();
 box2d.b2World.prototype.DrawJoint.s_p2 = new box2d.b2Vec2();
 box2d.b2World.prototype.DrawJoint.s_color = new box2d.b2Color(0.5, 0.8, 0.8);
+box2d.b2World.prototype.DrawJoint.s_s1 = new box2d.b2Vec2();
+box2d.b2World.prototype.DrawJoint.s_s2 = new box2d.b2Vec2();
 
 /**
  * Call this to draw shapes and other debug draw data.

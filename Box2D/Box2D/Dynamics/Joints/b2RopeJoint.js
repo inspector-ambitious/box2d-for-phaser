@@ -455,15 +455,17 @@ box2d.b2RopeJoint.prototype.GetReactionTorque = function (inv_dt)
  * The local anchor point relative to bodyA's origin. 
  * @export 
  * @return {box2d.b2Vec2}
+ * @param {box2d.b2Vec2} out 
  */
-box2d.b2RopeJoint.prototype.GetLocalAnchorA = function () { return this.m_localAnchorA; }
+box2d.b2RopeJoint.prototype.GetLocalAnchorA = function (out) { return out.Copy(this.m_localAnchorA); }
 
 /** 
  * The local anchor point relative to bodyB's origin. 
  * @export 
  * @return {box2d.b2Vec2}
+ * @param {box2d.b2Vec2} out 
  */
-box2d.b2RopeJoint.prototype.GetLocalAnchorB = function () { return this.m_localAnchorB; }
+box2d.b2RopeJoint.prototype.GetLocalAnchorB = function (out) { return out.Copy(this.m_localAnchorB); }
 
 /** 
  * Set/Get the maximum length of the rope. 

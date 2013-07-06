@@ -474,7 +474,7 @@ box2d.Testbed.Main.prototype.MoveCamera = function (move)
 {
 	var position = this.m_settings.viewCenter.Clone();
 	var rotation = this.m_settings.viewRotation.Clone();
-	move.SelfRotate(rotation.GetAngleRadians());
+	move.SelfRotateRadians(rotation.GetAngleRadians());
 	position.SelfAdd(move);
 	this.m_settings.viewCenter.Copy(position);
 }

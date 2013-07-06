@@ -30,26 +30,26 @@ goog.require('box2d.b2Settings');
  */
 box2d.b2Color = function (rr, gg, bb)
 {
-	this._r = box2d.b2Clamp(Math.round(rr*255), 0, 255);
-	this._g = box2d.b2Clamp(Math.round(gg*255), 0, 255);
-	this._b = box2d.b2Clamp(Math.round(bb*255), 0, 255);
+	this.r = rr;
+	this.g = gg;
+	this.b = bb;
 }
 
 /**
  * @export 
  * @type {number}
  */
-box2d.b2Color.prototype._r = 0x7f;
+box2d.b2Color.prototype.r = 0.5;
 /**
  * @export 
  * @type {number}
  */
-box2d.b2Color.prototype._g = 0x7f;
+box2d.b2Color.prototype.g = 0.5;
 /**
  * @export 
  * @type {number}
  */
-box2d.b2Color.prototype._b = 0x7f;
+box2d.b2Color.prototype.b = 0.5;
 
 /**
  * @export
@@ -60,9 +60,9 @@ box2d.b2Color.prototype._b = 0x7f;
  */
 box2d.b2Color.prototype.SetRGB = function (rr, gg, bb)
 {
-	this._r = box2d.b2Clamp(Math.round(rr*255), 0, 255);
-	this._g = box2d.b2Clamp(Math.round(gg*255), 0, 255);
-	this._b = box2d.b2Clamp(Math.round(bb*255), 0, 255);
+	this.r = rr;
+	this.g = gg;
+	this.b = bb;
 	return this;
 }
 
@@ -73,7 +73,11 @@ box2d.b2Color.prototype.SetRGB = function (rr, gg, bb)
  */
 box2d.b2Color.prototype.MakeStyleString = function (alpha)
 {
-	return box2d.b2Color.MakeStyleString(this._r, this._g, this._b, alpha || 1)
+	var r = Math.round(Math.max(0, Math.min(255, this.r * 255)));
+	var g = Math.round(Math.max(0, Math.min(255, this.g * 255)));
+	var b = Math.round(Math.max(0, Math.min(255, this.b * 255)));
+	var a = (typeof(alpha) == 'undefined')?(Math.max(0, Math.min(1, alpha))):(1);
+	return box2d.b2Color.MakeStyleString(r, g, b, a);
 }
 
 /**
