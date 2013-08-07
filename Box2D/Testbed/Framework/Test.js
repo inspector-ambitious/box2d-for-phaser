@@ -842,7 +842,7 @@ box2d.Testbed.Test.prototype.Step = function (settings)
 	if (this.m_mouseJoint)
 	{
 		var p1 = this.m_mouseJoint.GetAnchorB(new box2d.b2Vec2());
-		var p2 = this.m_mouseJoint.GetTarget();
+		var p2 = this.m_mouseJoint.GetTarget(new box2d.b2Vec2());
 
 		var c = new box2d.b2Color(0, 1, 0);
 		this.m_debugDraw.DrawPoint(p1, 4, c);
