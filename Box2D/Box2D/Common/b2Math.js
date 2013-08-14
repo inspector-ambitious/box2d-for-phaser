@@ -2463,10 +2463,9 @@ box2d.b2Sweep.prototype.Advance = function (alpha)
 {
 	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.alpha0 < 1.0); }
 	var beta = (alpha - this.alpha0) / (1.0 - this.alpha0);
-	var one_minus_beta = (1.0 - beta);
-	this.c0.x = one_minus_beta * this.c0.x + beta * this.c.x;
-	this.c0.y = one_minus_beta * this.c0.y + beta * this.c.y;
-	this.a0 = one_minus_beta * this.a0 + beta * this.a;
+	this.c0.x += beta * (this.c.x - this.c0.x);
+	this.c0.y += beta * (this.c.y - this.c0.y);
+	this.a0 += beta * (this.a - this.a0);
 	this.alpha0 = alpha;
 }
 
