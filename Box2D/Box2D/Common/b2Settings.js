@@ -18,8 +18,8 @@
 
 goog.provide('box2d.b2Settings');
 
-goog.require('goog.asserts');
-goog.require('goog.string.format');
+//goog.require('goog.asserts');
+//goog.require('goog.string.format');
 
 if (!Object.defineProperty)
 {
@@ -345,14 +345,11 @@ box2d.b2Free = function (mem)
  * You can modify this to use your logging facility.
  * @export 
  * @return {void} 
- * @param {string} string
  * @param {...string|number|boolean} var_args 
  */
-box2d.b2Log = function (string, var_args)
+box2d.b2Log = function (var_args)
 {
-	var args = Array.prototype.slice.call(arguments);
-	var str = goog.string.format.apply(null, args.slice(0));
-	goog.global.console.log(str);
+	goog.global.console.log.apply(null, arguments);
 }
 
 /** 

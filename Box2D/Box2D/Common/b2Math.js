@@ -280,22 +280,12 @@ box2d.b2RandomRange = function (lo, hi)
  */
 box2d.b2Vec2 = function (x, y)
 {
-	//this.a = new Float32Array(2);
 	this.x = x || 0.0;
 	this.y = y || 0.0;
+	//this.a = new Float32Array(2);
+	//this.a[0] = x || 0;
+	//this.a[1] = y || 0;
 }
-
-/**
- * @type {Float32Array} 
- */
-//box2d.b2Vec2.prototype.a;
-
-//box2d.b2Vec2.prototype = new Float32Array(2);
-
-//box2d.b2Vec2.prototype.__defineGetter__('x', function () { return this[0]; });
-//box2d.b2Vec2.prototype.__defineGetter__('y', function () { return this[1]; });
-//box2d.b2Vec2.prototype.__defineSetter__('x', function (n) { this[0] = n; });
-//box2d.b2Vec2.prototype.__defineSetter__('y', function (n) { this[1] = n; });
 
 /**
  * @export 
@@ -307,6 +297,16 @@ box2d.b2Vec2.prototype.x = 0.0;
  * @type {number} 
  */
 box2d.b2Vec2.prototype.y = 0.0;
+
+//	/**
+//	 * @type {Float32Array} 
+//	 */
+//	box2d.b2Vec2.prototype.a;
+//	
+//	box2d.b2Vec2.prototype.__defineGetter__('x', function () { return this.a[0]; });
+//	box2d.b2Vec2.prototype.__defineGetter__('y', function () { return this.a[1]; });
+//	box2d.b2Vec2.prototype.__defineSetter__('x', function (n) { this.a[0] = n; });
+//	box2d.b2Vec2.prototype.__defineSetter__('y', function (n) { this.a[1] = n; });
 
 /**
  * @export 
@@ -1034,25 +1034,14 @@ box2d.b2NegV = function (v, out) { out.x = -v.x; out.y = -v.y; return out; }
  */
 box2d.b2Vec3 = function (x, y, z)
 {
-	//this.a = new Float32Array(3);
 	this.x = x || 0.0;
 	this.y = y || 0.0;
 	this.z = z || 0.0;
+	//this.a = new Float32Array(3);
+	//this.a[0] = x || 0;
+	//this.a[1] = y || 0;
+	//this.a[2] = z || 0;
 }
-
-/**
- * @type {Float32Array} 
- */
-//box2d.b2Vec3.prototype.a;
-
-//box2d.b2Vec3.prototype = new Float32Array(3);
-
-//box2d.b2Vec3.prototype.__defineGetter__('x', function () { return this[0]; });
-//box2d.b2Vec3.prototype.__defineGetter__('y', function () { return this[1]; });
-//box2d.b2Vec3.prototype.__defineGetter__('z', function () { return this[2]; });
-//box2d.b2Vec3.prototype.__defineSetter__('x', function (n) { this[0] = n; });
-//box2d.b2Vec3.prototype.__defineSetter__('y', function (n) { this[1] = n; });
-//box2d.b2Vec3.prototype.__defineSetter__('z', function (n) { this[2] = n; });
 
 /**
  * @export 
@@ -1069,6 +1058,18 @@ box2d.b2Vec3.prototype.y = 0.0;
  * @type {number} 
  */
 box2d.b2Vec3.prototype.z = 0.0;
+
+//	/**
+//	 * @type {Float32Array} 
+//	 */
+//	box2d.b2Vec3.prototype.a;
+//	
+//	box2d.b2Vec3.prototype.__defineGetter__('x', function () { return this.a[0]; });
+//	box2d.b2Vec3.prototype.__defineGetter__('y', function () { return this.a[1]; });
+//	box2d.b2Vec3.prototype.__defineGetter__('z', function () { return this.a[2]; });
+//	box2d.b2Vec3.prototype.__defineSetter__('x', function (n) { this.a[0] = n; });
+//	box2d.b2Vec3.prototype.__defineSetter__('y', function (n) { this.a[1] = n; });
+//	box2d.b2Vec3.prototype.__defineSetter__('z', function (n) { this.a[2] = n; });
 
 /**
  * @export 
