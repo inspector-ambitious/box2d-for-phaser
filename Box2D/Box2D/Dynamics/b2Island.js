@@ -381,10 +381,10 @@ box2d.b2Island.prototype.Solve = function (profile, step, gravity, allowSleep)
 			// Solution: v(t) = v0 * exp(-c * t)
 			// Time step: v(t + dt) = v0 * exp(-c * (t + dt)) = v0 * exp(-c * t) * exp(-c * dt) = v * exp(-c * dt)
 			// v2 = exp(-c * dt) * v1
-			// Taylor expansion:
-			// v2 = (1.0f - c * dt) * v1
-			v.SelfMul(box2d.b2Clamp(1 - h * b.m_linearDamping, 0, 1));
-			w *= box2d.b2Clamp(1 - h * b.m_angularDamping, 0, 1);
+			// Pade approximation:
+			// v2 = v1 * 1 / (1 + c * dt)
+			v.SelfMul(1.0 / (1.0 + h * b.m_linearDamping));
+			w *= 1.0 / (1.0 + h * b.m_angularDamping);
 		}
 
 //		this.m_positions[i].c = c;

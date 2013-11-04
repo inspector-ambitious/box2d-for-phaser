@@ -103,8 +103,8 @@ box2d.Testbed.ApplyForce = function (canvas, settings)
 
 		/*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
-		bd.angularDamping = 5.0;
-		bd.linearDamping = 0.1;
+		bd.angularDamping = 2.0;
+		bd.linearDamping = 0.5;
 
 		bd.position.SetXY(0.0, 2.0);
 		bd.angle = box2d.b2_pi;
