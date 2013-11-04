@@ -18,7 +18,7 @@ goog.addDependency('../../../../HelloWorld/../../../Box2D/Box2D/Common/b2BlockAl
 goog.addDependency('../../../../HelloWorld/../../../Box2D/Box2D/Common/b2Draw.js', ['box2d.b2Draw'], ['box2d.b2Settings']);
 goog.addDependency('../../../../HelloWorld/../../../Box2D/Box2D/Common/b2GrowableStack.js', ['box2d.b2GrowableStack'], ['box2d.b2Settings']);
 goog.addDependency('../../../../HelloWorld/../../../Box2D/Box2D/Common/b2Math.js', ['box2d.b2Math'], ['box2d.b2Settings']);
-goog.addDependency('../../../../HelloWorld/../../../Box2D/Box2D/Common/b2Settings.js', ['box2d.b2Settings'], ['goog.asserts', 'goog.string.format']);
+goog.addDependency('../../../../HelloWorld/../../../Box2D/Box2D/Common/b2Settings.js', ['box2d.b2Settings'], []);
 goog.addDependency('../../../../HelloWorld/../../../Box2D/Box2D/Common/b2StackAllocator.js', ['box2d.b2StackAllocator'], []);
 goog.addDependency('../../../../HelloWorld/../../../Box2D/Box2D/Common/b2Timer.js', ['box2d.b2Timer'], ['box2d.b2Settings']);
 goog.addDependency('../../../../HelloWorld/../../../Box2D/Box2D/Dynamics/Contacts/b2ChainAndCircleContact.js', ['box2d.b2ChainAndCircleContact'], ['box2d.b2CollideEdge', 'box2d.b2Contact', 'box2d.b2Settings']);
