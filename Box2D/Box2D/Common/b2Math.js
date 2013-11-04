@@ -526,11 +526,17 @@ box2d.b2Vec2.prototype.Cross = function (v)
  * @export 
  * @return {number}
  */
-box2d.b2Vec2.prototype.GetLength = function ()
+box2d.b2Vec2.prototype.Length = function ()
 {
 	var x = this.x, y = this.y;
 	return Math.sqrt(x * x + y * y);
 }
+
+/** 
+ * @export 
+ * @return {number} 
+ */
+box2d.b2Vec2.prototype.GetLength = box2d.b2Vec2.prototype.Length;
 
 /** 
  * Get the length squared. For performance, use this instead of 
@@ -538,11 +544,17 @@ box2d.b2Vec2.prototype.GetLength = function ()
  * @export 
  * @return {number}
  */
-box2d.b2Vec2.prototype.GetLengthSquared = function ()
+box2d.b2Vec2.prototype.LengthSquared = function ()
 {
 	var x = this.x, y = this.y;
 	return (x * x + y * y);
 }
+
+/** 
+ * @export 
+ * @return {number} 
+ */
+box2d.b2Vec2.prototype.GetLengthSquared = box2d.b2Vec2.prototype.LengthSquared;
 
 /** 
  * Convert this vector into a unit vector. Returns the length. 
@@ -2051,6 +2063,9 @@ box2d.b2MulRR = function (q, r, out)
 	var r_c = r.c, r_s = r.s;
 	out.s = q_s * r_c + q_c * r_s;
 	out.c = q_c * r_c - q_s * r_s;
+	out.angle = q.angle + r.angle;
+	while (out.angle < -box2d.b2_pi) { out.angle += box2d.b2_two_pi; }
+	while (out.angle >= box2d.b2_pi) { out.angle -= box2d.b2_two_pi; }
 	return out;
 }
 
@@ -2072,6 +2087,9 @@ box2d.b2MulTRR = function (q, r, out)
 	var r_c = r.c, r_s = r.s;
 	out.s = q_c * r_s - q_s * r_c;
 	out.c = q_c * r_c + q_s * r_s;
+	out.angle = q.angle - r.angle;
+	while (out.angle < -box2d.b2_pi) { out.angle += box2d.b2_two_pi; }
+	while (out.angle >= box2d.b2_pi) { out.angle -= box2d.b2_two_pi; }
 	return out;
 }
 
