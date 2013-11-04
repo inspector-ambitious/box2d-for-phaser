@@ -290,6 +290,26 @@ box2d.b2MotorJoint.prototype.GetReactionTorque = function (inv_dt)
 	return inv_dt * this.m_angularImpulse;
 }
 
+/**
+ * Set the position correction factor in the range [0,1]. 
+ * @return {void} 
+ * @param {number} factor 
+ */
+box2d.b2MotorJoint.prototype.SetCorrectionFactor = function (factor)
+{
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2IsValid(factor) && 0.0 <= factor && factor <= 1.0) };
+	this._correctionFactor = factor;
+}
+
+/**
+ * Get the position correction factor in the range [0,1]. 
+ * @return {number} 
+ */
+box2d.b2MotorJoint.prototype.GetCorrectionFactor = function ()
+{
+	return this.m_correctionFactor;
+}
+
 /** 
  * Set/get the target linear offset, in frame A, in meters. 
  * @export 
