@@ -145,6 +145,10 @@ box2d.b2ChainShape.prototype.CreateChain = function (vertices, count)
 	}
 	this.m_hasPrevVertex = false;
 	this.m_hasNextVertex = false;
+
+	this.m_prevVertex.SetZero();
+	this.m_nextVertex.SetZero();
+
 	return this;
 }
 

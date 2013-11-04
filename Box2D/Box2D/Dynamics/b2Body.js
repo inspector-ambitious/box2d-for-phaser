@@ -1464,7 +1464,7 @@ box2d.b2Body.prototype.SetAwake = function (flag)
 /** 
  * Get the sleeping state of this body. 
  * @export 
- * @return {boolean} true if the body is sleeping.
+ * @return {boolean} true if the body is awake.
  */
 box2d.b2Body.prototype.IsAwake = function ()
 {
