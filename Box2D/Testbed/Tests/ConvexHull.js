@@ -21,11 +21,11 @@ goog.provide('box2d.Testbed.ConvexHull');
 goog.require('box2d.Testbed.Test');
 
 /**
- * @export 
- * @constructor 
- * @extends {box2d.Testbed.Test} 
- * @param {HTMLCanvasElement} canvas 
- * @param {box2d.Testbed.Settings} settings 
+ * @export
+ * @constructor
+ * @extends {box2d.Testbed.Test}
+ * @param {HTMLCanvasElement} canvas
+ * @param {box2d.Testbed.Settings} settings
  */
 box2d.Testbed.ConvexHull = function (canvas, settings)
 {
@@ -40,26 +40,31 @@ box2d.Testbed.ConvexHull = function (canvas, settings)
 goog.inherits(box2d.Testbed.ConvexHull, box2d.Testbed.Test);
 
 /**
- * @export 
- * @const 
- * @type {number} 
+ * @export
+ * @const
+ * @type {number}
  */
 box2d.Testbed.ConvexHull.e_count = box2d.b2_maxPolygonVertices;
 
 /**
- * @export 
- * @type {Array.<box2d.b2Vec2>} 
+ * @export
+ * @type {Array.<box2d.b2Vec2>}
  */
 box2d.Testbed.ConvexHull.prototype.m_test_points = null;
 /**
- * @export 
- * @type {boolean} 
+ * @export
+ * @type {number}
+ */
+box2d.Testbed.ConvexHull.prototype.m_count = 0;
+/**
+ * @export
+ * @type {boolean}
  */
 box2d.Testbed.ConvexHull.prototype.m_auto = false;
 
 /**
- * @export 
- * @return {void} 
+ * @export
+ * @return {void}
  */
 box2d.Testbed.ConvexHull.prototype.Generate = function ()
 {
@@ -74,12 +79,21 @@ box2d.Testbed.ConvexHull.prototype.Generate = function ()
 		y = box2d.b2Clamp(y, -8.0, 8.0);
 		this.m_test_points[i].SetXY(x, y);
 	}
+
+	this.m_count = box2d.Testbed.ConvexHull.e_count;
+
+	//this.m_test_points[0].SetXY( -1.70082211,  -1.43221712 );
+	//this.m_test_points[1].SetXY(  0.5, 		-0.5 );
+	//this.m_test_points[2].SetXY(  0.104992867,  0.97400856 );
+	//this.m_test_points[3].SetXY( -0.658002853,  0.926608086 );
+	//this.m_test_points[4].SetXY( -0.994554818,  0.165337861 );
+	//this.m_count = 5;
 }
 
 /**
- * @export 
- * @return {void} 
- * @param {number} key 
+ * @export
+ * @return {void}
+ * @param {number} key
  */
 box2d.Testbed.ConvexHull.prototype.Keyboard = function (key)
 {
@@ -97,22 +111,22 @@ box2d.Testbed.ConvexHull.prototype.Keyboard = function (key)
 
 /**
  * @export
- * @return {void} 
- * @param {box2d.Testbed.Settings} settings 
+ * @return {void}
+ * @param {box2d.Testbed.Settings} settings
  */
 box2d.Testbed.ConvexHull.prototype.Step = function (settings)
 {
 	goog.base(this, 'Step', settings);
 
 	var shape = new box2d.b2PolygonShape();
-	shape.SetAsVector(this.m_test_points, box2d.Testbed.ConvexHull.e_count);
+	shape.SetAsVector(this.m_test_points, this.m_count);
 
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Press g to generate a new random convex hull");
 	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 
 	this.m_debugDraw.DrawPolygon(shape.m_vertices, shape.m_count, new box2d.b2Color(0.9, 0.9, 0.9));
 
-	for (var i = 0; i < box2d.Testbed.ConvexHull.e_count; ++i)
+	for (var i = 0; i < this.m_count; ++i)
 	{
 		this.m_debugDraw.DrawPoint(this.m_test_points[i], 2.0, new box2d.b2Color(0.9, 0.5, 0.5));
 		this.m_debugDraw.DrawStringWorld(this.m_test_points[i].x + 0.05, this.m_test_points[i].y + 0.05, "%d", i);
@@ -129,11 +143,11 @@ box2d.Testbed.ConvexHull.prototype.Step = function (settings)
 	}
 }
 
-/** 
- * @export 
- * @return {box2d.Testbed.Test} 
- * @param {HTMLCanvasElement} canvas 
- * @param {box2d.Testbed.Settings} settings 
+/**
+ * @export
+ * @return {box2d.Testbed.Test}
+ * @param {HTMLCanvasElement} canvas
+ * @param {box2d.Testbed.Settings} settings
  */
 box2d.Testbed.ConvexHull.Create = function (canvas, settings)
 {
