@@ -651,7 +651,13 @@ box2d.b2Body.prototype.SetTransformXYRadians = function (x, y, angle)
 		f.Synchronize(broadPhase, this.m_xf, this.m_xf);
 	}
 
-	this.m_world.m_contactManager.FindNewContacts();
+	// instead of doing this every time a transform is changed,
+	//this.m_world.m_contactManager.FindNewContacts();
+	// similar to creating a new fixture...
+
+	// Let the world know we have a new fixture. This will cause new contacts
+	// to be created at the beginning of the next time step.
+	this.m_world.m_flags |= box2d.b2WorldFlag.e_newFixture;
 }
 
 /**
