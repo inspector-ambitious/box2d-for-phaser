@@ -278,6 +278,11 @@ box2d.Testbed.ContactPoint.prototype.normalImpulse = 0;
  * @type {number} 
  */
 box2d.Testbed.ContactPoint.prototype.tangentImpulse = 0;
+/**
+ * @export 
+ * @type {number} 
+ */
+box2d.Testbed.ContactPoint.prototype.separation = 0;
 
 /**
  * @export 
@@ -470,6 +475,7 @@ box2d.Testbed.Test.prototype.PreSolve = function (contact, oldManifold)
 		cp.state = state2[i];
 		cp.normalImpulse = manifold.points[i].normalImpulse;
 		cp.tangentImpulse = manifold.points[i].tangentImpulse;
+		cp.separation = worldManifold.separations[i];
 		++this.m_pointCount;
 	}
 }

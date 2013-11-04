@@ -424,6 +424,7 @@ box2d.b2WorldManifold = function ()
 {
 	this.normal = new box2d.b2Vec2();
 	this.points = box2d.b2Vec2.MakeArray(box2d.b2_maxManifoldPoints);
+	this.separations = box2d.b2MakeNumberArray(box2d.b2_maxManifoldPoints);
 }
 
 /**
@@ -436,6 +437,11 @@ box2d.b2WorldManifold.prototype.normal = null; ///< world vector pointing from A
  * @type {Array.<box2d.b2Vec2>}
  */
 box2d.b2WorldManifold.prototype.points = null; ///< world contact point (point of intersection)
+/**
+ * @export 
+ * @type {Array.<number>}
+ */
+box2d.b2WorldManifold.prototype.separations = null; ///< a negative value indicates overlap, in meters
 
 /** 
  * Evaluate the manifold with supplied transforms. This assumes 
@@ -472,6 +478,7 @@ box2d.b2WorldManifold.prototype.Initialize = function (manifold, xfA, radiusA, x
 			var cA = box2d.b2AddVMulSV(pointA, radiusA, this.normal, box2d.b2WorldManifold.prototype.Initialize.s_cA);
 			var cB = box2d.b2SubVMulSV(pointB, radiusB, this.normal, box2d.b2WorldManifold.prototype.Initialize.s_cB);
 			box2d.b2MidVV(cA, cB, this.points[0]);
+			this.separations[0] = box2d.b2DotVV(box2d.b2SubVV(cB, cA, box2d.b2Vec2.s_t0), this.normal); // b2Dot(cB - cA, normal);
 		}
 		break;
 
@@ -487,6 +494,7 @@ box2d.b2WorldManifold.prototype.Initialize = function (manifold, xfA, radiusA, x
 				var cA = box2d.b2AddVMulSV(clipPoint, s, this.normal, box2d.b2WorldManifold.prototype.Initialize.s_cA);
 				var cB = box2d.b2SubVMulSV(clipPoint, radiusB, this.normal, box2d.b2WorldManifold.prototype.Initialize.s_cB);
 				box2d.b2MidVV(cA, cB, this.points[i]);
+				this.separations[i] = box2d.b2DotVV(box2d.b2SubVV(cB, cA, box2d.b2Vec2.s_t0), this.normal); // b2Dot(cB - cA, normal);
 			}
 		}
 		break;
@@ -503,6 +511,7 @@ box2d.b2WorldManifold.prototype.Initialize = function (manifold, xfA, radiusA, x
 				var cB = box2d.b2AddVMulSV(clipPoint, s, this.normal, box2d.b2WorldManifold.prototype.Initialize.s_cB);
 				var cA = box2d.b2SubVMulSV(clipPoint, radiusA, this.normal, box2d.b2WorldManifold.prototype.Initialize.s_cA);
 				box2d.b2MidVV(cA, cB, this.points[i]);
+				this.separations[i] = box2d.b2DotVV(box2d.b2SubVV(cA, cB, box2d.b2Vec2.s_t0), this.normal); // b2Dot(cA - cB, normal);
 			}
 
 			// Ensure normal points from A to B.
