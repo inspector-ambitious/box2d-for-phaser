@@ -148,7 +148,7 @@ box2d.Testbed.PolyShapes = function (canvas, settings)
 	goog.base(this, canvas, settings); // base class constructor
 
 	this.m_bodyIndex = 0;
-	this.m_bodies = new Array(box2d.Testbed.PolyShapes.k_maxBodies);
+	this.m_bodies = new Array(box2d.Testbed.PolyShapes.e_maxBodies);
 	this.m_polygons = new Array(4);
 	for (var i = 0; i < 4; ++i)
 	{
@@ -214,7 +214,7 @@ box2d.Testbed.PolyShapes = function (canvas, settings)
 		this.m_circle.m_radius = 0.5;
 	}
 
-	for (var i = 0; i < box2d.Testbed.PolyShapes.k_maxBodies; ++i)
+	for (var i = 0; i < box2d.Testbed.PolyShapes.e_maxBodies; ++i)
 	{
 		this.m_bodies[i] = null;
 	}
@@ -227,7 +227,7 @@ goog.inherits(box2d.Testbed.PolyShapes, box2d.Testbed.Test);
  * @const 
  * @type {number} 
  */
-box2d.Testbed.PolyShapes.k_maxBodies = 256;
+box2d.Testbed.PolyShapes.e_maxBodies = 256;
 
 /** 
  * @export 
@@ -274,7 +274,7 @@ box2d.Testbed.PolyShapes.prototype.CreateBody = function (index)
 		this.m_bodies[this.m_bodyIndex].CreateFixture(fd);
 	}
 
-	this.m_bodyIndex = (this.m_bodyIndex + 1) % box2d.Testbed.PolyShapes.k_maxBodies;
+	this.m_bodyIndex = (this.m_bodyIndex + 1) % box2d.Testbed.PolyShapes.e_maxBodies;
 }
 
 /** 
@@ -283,7 +283,7 @@ box2d.Testbed.PolyShapes.prototype.CreateBody = function (index)
  */
 box2d.Testbed.PolyShapes.prototype.DestroyBody = function ()
 {
-	for (var i = 0; i < box2d.Testbed.PolyShapes.k_maxBodies; ++i)
+	for (var i = 0; i < box2d.Testbed.PolyShapes.e_maxBodies; ++i)
 	{
 		if (this.m_bodies[i] != null)
 		{
@@ -312,7 +312,7 @@ box2d.Testbed.PolyShapes.prototype.Keyboard = function (key)
 		break;
 
 	case goog.events.KeyCodes.A:
-		for (var i = 0; i < box2d.Testbed.PolyShapes.k_maxBodies; i += 2)
+		for (var i = 0; i < box2d.Testbed.PolyShapes.e_maxBodies; i += 2)
 		{
 			if (this.m_bodies[i])
 			{
