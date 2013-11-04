@@ -176,11 +176,35 @@ box2d.b2PolygonShape.prototype.Set = function (vertices, count)
 	
 	var n = box2d.b2Min(count, box2d.b2_maxPolygonVertices);
 
-	// Copy vertices into local buffer
+	// Perform welding and copy vertices into local buffer.
 	var ps = box2d.b2PolygonShape.prototype.Set.s_ps;
+	var tempCount = 0;
 	for (var i = 0; i < n; ++i)
 	{
-		ps[i].Copy(vertices[i]);
+		var /*b2Vec2*/ v = vertices[i];
+
+		var /*bool*/ unique = true;
+		for (var /*int32*/ j = 0; j < tempCount; ++j)
+		{
+			if (box2d.b2DistanceSquaredVV(v, ps[j]) < box2d.b2_linearSlop)
+			{
+				unique = false;
+				break;
+			}
+		}
+
+		if (unique)
+		{
+			ps[tempCount++].Copy(v); // ps[tempCount++] = v;
+		}
+	}
+
+	n = tempCount;
+	if (n < 3)
+	{
+		// Polygon is degenerate.
+		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false); }
+		return this.SetAsBox(1.0, 1.0);
 	}
 
 	// Create the convex hull using the Gift wrapping algorithm
@@ -189,7 +213,7 @@ box2d.b2PolygonShape.prototype.Set = function (vertices, count)
 	// Find the right most point on the hull
 	var i0 = 0;
 	var x0 = ps[0].x;
-	for (var i = 1; i < count; ++i)
+	for (var i = 1; i < n; ++i)
 	{
 		var x = ps[i].x;
 		if (x > x0 || (x == x0 && ps[i].y < ps[i0].y))

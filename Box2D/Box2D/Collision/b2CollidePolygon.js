@@ -20,158 +20,68 @@ goog.provide('box2d.b2CollidePolygon');
 
 goog.require('box2d.b2Collision');
 
-/** 
- * Find the separation between poly1 and poly2 for a give edge 
- * normal on poly1. 
- * @export 
- * @return {number} 
- * @param {box2d.b2PolygonShape} poly1
- * @param {box2d.b2Transform} xf1
- * @param {number} edge1
- * @param {box2d.b2PolygonShape} poly2
- * @param {box2d.b2Transform} xf2 
- */
-box2d.b2EdgeSeparation = function (poly1, xf1, edge1, poly2, xf2)
-{
-	var count1 = poly1.m_count;
-	var vertices1 = poly1.m_vertices;
-	var normals1 = poly1.m_normals;
-
-	var count2 = poly2.m_count;
-	var vertices2 = poly2.m_vertices;
-
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(0 <= edge1 && edge1 < count1); }
-
-	// Convert normal from poly1's frame into poly2's frame.
-	var normal1World = box2d.b2MulRV(xf1.q, normals1[edge1], box2d.b2EdgeSeparation.s_normal1World);
-	var normal1 = box2d.b2MulTRV(xf2.q, normal1World, box2d.b2EdgeSeparation.s_normal1);
-
-	// Find support vertex on poly2 for -normal.
-	var index = 0;
-	var minDot = box2d.b2_maxFloat;
-
-	for (var i = 0; i < count2; ++i)
-	{
-		var dot = box2d.b2DotVV(vertices2[i], normal1);
-		if (dot < minDot)
-		{
-			minDot = dot;
-			index = i;
-		}
-	}
-
-	var v1 = box2d.b2MulXV(xf1, vertices1[edge1], box2d.b2EdgeSeparation.s_v1);
-	var v2 = box2d.b2MulXV(xf2, vertices2[index], box2d.b2EdgeSeparation.s_v2);
-	var separation = box2d.b2DotVV(box2d.b2SubVV(v2, v1, box2d.b2Vec2.s_t0), normal1World);
-	return separation;
-}
-box2d.b2EdgeSeparation.s_normal1World = new box2d.b2Vec2();
-box2d.b2EdgeSeparation.s_normal1 = new box2d.b2Vec2();
-box2d.b2EdgeSeparation.s_v1 = new box2d.b2Vec2();
-box2d.b2EdgeSeparation.s_v2 = new box2d.b2Vec2();
-
-/** 
- * Find the max separation between poly1 and poly2 using edge 
- * normals from poly1. 
- * @export 
- * @return {number} 
- * @param {Array.<number>} edgeIndex 
+/**
+ * Find the max separation between poly1 and poly2 using edge
+ * normals from poly1.
+ * @export
+ * @return {number}
+ * @param {Array.<number>} edgeIndex
  * @param {box2d.b2PolygonShape} poly1
  * @param {box2d.b2Transform} xf1
  * @param {box2d.b2PolygonShape} poly2
- * @param {box2d.b2Transform} xf2 
+ * @param {box2d.b2Transform} xf2
  */
 box2d.b2FindMaxSeparation = function (edgeIndex, poly1, xf1, poly2, xf2)
 {
-	var count1 = poly1.m_count;
-	var normals1 = poly1.m_normals;
+	var /*int32*/ count1 = poly1.m_count;
+	var /*int32*/ count2 = poly2.m_count;
+	var /*const b2Vec2**/ n1s = poly1.m_normals;
+	var /*const b2Vec2**/ v1s = poly1.m_vertices;
+	var /*const b2Vec2**/ v2s = poly2.m_vertices;
+	var /*b2Transform*/ xf = box2d.b2MulTXX(xf2, xf1, box2d.b2FindMaxSeparation.s_xf);
 
-	// Vector pointing from the centroid of poly1 to the centroid of poly2.
-	var d = box2d.b2SubVV(box2d.b2MulXV(xf2, poly2.m_centroid, box2d.b2Vec2.s_t0), box2d.b2MulXV(xf1, poly1.m_centroid, box2d.b2Vec2.s_t1), box2d.b2FindMaxSeparation.s_d);
-	var dLocal1 = box2d.b2MulTRV(xf1.q, d, box2d.b2FindMaxSeparation.s_dLocal1);
-
-	// Find edge normal on poly1 that has the largest projection onto d.
-	var edge = 0;
-	var maxDot = (-box2d.b2_maxFloat);
-	for (var i = 0; i < count1; ++i)
+	var /*int32*/ bestIndex = 0;
+	var /*float32*/ maxSeparation = -box2d.b2_maxFloat;
+	for (var /*int32*/ i = 0; i < count1; ++i)
 	{
-		var dot = box2d.b2DotVV(normals1[i], dLocal1);
-		if (dot > maxDot)
+		// Get poly1 normal in frame2.
+		var /*b2Vec2*/ n = box2d.b2MulRV(xf.q, n1s[i], box2d.b2FindMaxSeparation.s_n);
+		var /*b2Vec2*/ v1 = box2d.b2MulXV(xf, v1s[i], box2d.b2FindMaxSeparation.s_v1);
+
+		// Find deepest point for normal i.
+		var /*float32*/ si = box2d.b2_maxFloat;
+		for (var /*int32*/ j = 0; j < count2; ++j)
 		{
-			maxDot = dot;
-			edge = i;
+			var /*float32*/ sij = box2d.b2DotVV(n, box2d.b2SubVV(v2s[j], v1, box2d.b2Vec2.s_t0)); // b2Dot(n, v2s[j] - v1);
+			if (sij < si)
+			{
+				si = sij;
+			}
+		}
+
+		if (si > maxSeparation)
+		{
+			maxSeparation = si;
+			bestIndex = i;
 		}
 	}
 
-	// Get the separation for the edge normal.
-	var s = box2d.b2EdgeSeparation(poly1, xf1, edge, poly2, xf2);
-
-	// Check the separation for the previous edge normal.
-	var prevEdge = (edge + count1 - 1) % count1;
-	var sPrev = box2d.b2EdgeSeparation(poly1, xf1, prevEdge, poly2, xf2);
-
-	// Check the separation for the next edge normal.
-	var nextEdge = (edge + 1) % count1;
-	var sNext = box2d.b2EdgeSeparation(poly1, xf1, nextEdge, poly2, xf2);
-
-	// Find the best edge and the search direction.
-	var bestEdge = 0;
-	var bestSeparation = 0;
-	var increment = 0;
-	if (sPrev > s && sPrev > sNext)
-	{
-		increment = -1;
-		bestEdge = prevEdge;
-		bestSeparation = sPrev;
-	}
-	else if (sNext > s)
-	{
-		increment = 1;
-		bestEdge = nextEdge;
-		bestSeparation = sNext;
-	}
-	else
-	{
-		edgeIndex[0] = edge;
-		return s;
-	}
-
-	// Perform a local search for the best edge normal.
-	while (true)
-	{
-		if (increment == -1)
-			edge = (bestEdge + count1 - 1) % count1;
-		else
-			edge = (bestEdge + 1) % count1;
-
-		s = box2d.b2EdgeSeparation(poly1, xf1, edge, poly2, xf2);
-
-		if (s > bestSeparation)
-		{
-			bestEdge = edge;
-			bestSeparation = s;
-		}
-		else
-		{
-			break;
-		}
-	}
-
-	edgeIndex[0] = bestEdge;
-	return bestSeparation;
+	edgeIndex[0] = bestIndex; // *edgeIndex = bestIndex;
+	return maxSeparation;
 }
-box2d.b2FindMaxSeparation.s_d = new box2d.b2Vec2();
-box2d.b2FindMaxSeparation.s_dLocal1 = new box2d.b2Vec2();
+box2d.b2FindMaxSeparation.s_xf = new box2d.b2Transform();
+box2d.b2FindMaxSeparation.s_n = new box2d.b2Vec2();
+box2d.b2FindMaxSeparation.s_v1 = new box2d.b2Vec2();
 
-/** 
- * @export 
- * @return {void} 
+/**
+ * @export
+ * @return {void}
  * @param {Array.<box2d.b2ClipVertex>} c
  * @param {box2d.b2PolygonShape} poly1
  * @param {box2d.b2Transform} xf1
  * @param {number} edge1
  * @param {box2d.b2PolygonShape} poly2
- * @param {box2d.b2Transform} xf2 
+ * @param {box2d.b2Transform} xf2
  */
 box2d.b2FindIncidentEdge = function (c, poly1, xf1, edge1, poly2, xf2)
 {
@@ -229,13 +139,13 @@ box2d.b2FindIncidentEdge.s_normal1 = new box2d.b2Vec2();
  * Find incident edge
  * Clip
  * The normal points from 1 to 2
- * @export 
- * @return {void} 
- * @param {box2d.b2Manifold} manifold 
+ * @export
+ * @return {void}
+ * @param {box2d.b2Manifold} manifold
  * @param {box2d.b2PolygonShape} polyA
  * @param {box2d.b2Transform} xfA
  * @param {box2d.b2PolygonShape} polyB
- * @param {box2d.b2Transform} xfB 
+ * @param {box2d.b2Transform} xfB
  */
 box2d.b2CollidePolygons = function (manifold, polyA, xfA, polyB, xfB)
 {
