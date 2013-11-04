@@ -76,7 +76,7 @@ box2d.b2Color.prototype.MakeStyleString = function (alpha)
 	var r = Math.round(Math.max(0, Math.min(255, this.r * 255)));
 	var g = Math.round(Math.max(0, Math.min(255, this.g * 255)));
 	var b = Math.round(Math.max(0, Math.min(255, this.b * 255)));
-	var a = (typeof(alpha) == 'undefined')?(Math.max(0, Math.min(1, alpha))):(1);
+	var a = (typeof(alpha) === 'undefined')?(1.0):(Math.max(0, Math.min(1, alpha)));
 	return box2d.b2Color.MakeStyleString(r, g, b, a);
 }
 
