@@ -601,9 +601,9 @@ box2d.b2Body.prototype.DestroyFixture = function (fixture)
 
 /** 
  * Set the position of the body's origin and rotation. 
- * This breaks any contacts and wakes the other bodies. 
  * Manipulating a body's transform may cause non-physical 
  * behavior. 
+ * Note: contacts are updated on the next call to b2World::Step.
  * @export 
  * @return {void} 
  * @param {box2d.b2Vec2} position the world position of the body's local origin.
@@ -650,14 +650,6 @@ box2d.b2Body.prototype.SetTransformXYRadians = function (x, y, angle)
 	{
 		f.Synchronize(broadPhase, this.m_xf, this.m_xf);
 	}
-
-	// instead of doing this every time a transform is changed,
-	//this.m_world.m_contactManager.FindNewContacts();
-	// similar to creating a new fixture...
-
-	// Let the world know we have a new fixture. This will cause new contacts
-	// to be created at the beginning of the next time step.
-	this.m_world.m_flags |= box2d.b2WorldFlag.e_newFixture;
 }
 
 /**
