@@ -623,15 +623,15 @@ box2d.b2Body.prototype.SetTransformVecRadians = function (position, angle)
  */
 box2d.b2Body.prototype.SetTransformXYRadians = function (x, y, angle)
 {
-	if ((this.m_xf.p.x == x) && 
-		(this.m_xf.p.y == y) && 
-		(this.m_xf.q.GetAngleRadians()) == angle)
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_world.IsLocked() == false); }
+	if (this.m_world.IsLocked() == true)
 	{
 		return;
 	}
 
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_world.IsLocked() == false); }
-	if (this.m_world.IsLocked() == true)
+	if ((this.m_xf.p.x == x) && 
+		(this.m_xf.p.y == y) && 
+		(this.m_xf.q.GetAngleRadians()) == angle)
 	{
 		return;
 	}
@@ -712,20 +712,28 @@ box2d.b2Body.prototype.SetPositionXY = function (x, y)
  * @export 
  * @return {number} the current world rotation angle in radians.
  */
-box2d.b2Body.prototype.GetAngleRadians = function ()
+box2d.b2Body.prototype.GetAngle = function ()
 {
 	return this.m_sweep.a;
 }
+
+box2d.b2Body.prototype.GetAngleRadians = box2d.b2Body.prototype.GetAngle;
+
+box2d.b2Body.prototype.GetAngleDegrees = function () { return box2d.b2RadToDeg(this.GetAngle()); }
 
 /**
  * @export 
  * @return {void} 
  * @param {number} angle 
  */
-box2d.b2Body.prototype.SetAngleRadians = function (angle)
+box2d.b2Body.prototype.SetAngle = function (angle)
 {
 	this.SetTransformVecRadians(this.GetPosition(), angle);
 }
+
+box2d.b2Body.prototype.SetAngleRadians = box2d.b2Body.prototype.SetAngle;
+
+box2d.b2Body.prototype.SetAngleDegrees = function (angle) { this.SetAngle(box2d.b2DegToRad(angle)); }
 
 /** 
  * Get the world position of the center of mass. 
