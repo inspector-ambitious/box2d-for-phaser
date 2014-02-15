@@ -225,17 +225,17 @@ box2d.Testbed.Main = function ()
 	// disable context menu to use right-click
 	window.addEventListener('contextmenu', function (e) { e.preventDefault(); }, true);
 
-	canvas_div.addEventListener('mousemove', function (e) { that.HandleMouseMove(e); }, false);
-	canvas_div.addEventListener('mousedown', function (e) { that.HandleMouseDown(e); }, false);
-	canvas_div.addEventListener('mouseup', function (e) { that.HandleMouseUp(e); }, false);
-	canvas_div.addEventListener('mousewheel', function (e) { that.HandleMouseWheel(e); }, false);
+	canvas_div.addEventListener('mousemove', function (e) { that.HandleMouseMove(/** @type {MouseEvent} */ (e)); }, false);
+	canvas_div.addEventListener('mousedown', function (e) { that.HandleMouseDown(/** @type {MouseEvent} */ (e)); }, false);
+	canvas_div.addEventListener('mouseup', function (e) { that.HandleMouseUp(/** @type {MouseEvent} */ (e)); }, false);
+	canvas_div.addEventListener('mousewheel', function (e) { that.HandleMouseWheel(/** @type {MouseEvent} */ (e)); }, false);
 
-	canvas_div.addEventListener('touchmove', function (e) { that.HandleTouchMove(e); }, false);
-	canvas_div.addEventListener('touchstart', function (e) { that.HandleTouchStart(e); }, false);
-	canvas_div.addEventListener('touchend', function (e) { that.HandleTouchEnd(e); }, false);
+	canvas_div.addEventListener('touchmove', function (e) { that.HandleTouchMove(/** @type {TouchEvent} */ (e)); }, false);
+	canvas_div.addEventListener('touchstart', function (e) { that.HandleTouchStart(/** @type {TouchEvent} */ (e)); }, false);
+	canvas_div.addEventListener('touchend', function (e) { that.HandleTouchEnd(/** @type {TouchEvent} */ (e)); }, false);
 
-	window.addEventListener('keydown', function (e) { that.HandleKeyDown(e); }, false);
-	window.addEventListener('keyup', function (e) { that.HandleKeyUp(e); }, false);
+	window.addEventListener('keydown', function (e) { that.HandleKeyDown(/** @type {KeyboardEvent} */ (e)); }, false);
+	window.addEventListener('keyup', function (e) { that.HandleKeyUp(/** @type {KeyboardEvent} */ (e)); }, false);
 
 	this.LoadTest();
 
