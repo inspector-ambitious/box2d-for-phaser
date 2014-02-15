@@ -125,7 +125,7 @@ box2d.Testbed.SensorTest.prototype.BeginContact = function (contact)
 	var fixtureA = contact.GetFixtureA();
 	var fixtureB = contact.GetFixtureB();
 
-	if (fixtureA == this.m_sensor)
+	if (fixtureA === this.m_sensor)
 	{
 		var userData = fixtureB.GetBody().GetUserData();
 		if (userData)
@@ -135,7 +135,7 @@ box2d.Testbed.SensorTest.prototype.BeginContact = function (contact)
 		}
 	}
 
-	if (fixtureB == this.m_sensor)
+	if (fixtureB === this.m_sensor)
 	{
 		var userData = fixtureA.GetBody().GetUserData();
 		if (userData)
@@ -157,7 +157,7 @@ box2d.Testbed.SensorTest.prototype.EndContact = function (contact)
 	var fixtureA = contact.GetFixtureA();
 	var fixtureB = contact.GetFixtureB();
 
-	if (fixtureA == this.m_sensor)
+	if (fixtureA === this.m_sensor)
 	{
 		var userData = fixtureB.GetBody().GetUserData();
 		if (userData)
@@ -167,7 +167,7 @@ box2d.Testbed.SensorTest.prototype.EndContact = function (contact)
 		}
 	}
 
-	if (fixtureB == this.m_sensor)
+	if (fixtureB === this.m_sensor)
 	{
 		var userData = fixtureA.GetBody().GetUserData();
 		if (userData)
@@ -191,7 +191,7 @@ box2d.Testbed.SensorTest.prototype.Step = function (settings)
 	// that overlap the sensor.
 	for (var i = 0; i < box2d.Testbed.SensorTest.e_count; ++i)
 	{
-		if (this.m_touching[i][0] == false)
+		if (this.m_touching[i][0] === false)
 		{
 			continue;
 		}

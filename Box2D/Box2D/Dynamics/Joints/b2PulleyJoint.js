@@ -169,7 +169,7 @@ box2d.b2PulleyJoint = function (def)
 	this.m_lengthA = def.lengthA;
 	this.m_lengthB = def.lengthB;
 
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(def.ratio != 0); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(def.ratio !== 0); }
 	this.m_ratio = def.ratio;
 
 	this.m_constant = def.lengthA + this.m_ratio * def.lengthB;

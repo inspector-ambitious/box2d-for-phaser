@@ -201,18 +201,18 @@ box2d.b2Controller.prototype.RemoveBody = function (body)
 
 	//Find the corresponding edge
 	/*b2ControllerEdge*/ var edge = this.m_bodyList;
-	while(edge && edge.body != body)
+	while(edge && edge.body !== body)
 		edge = edge.nextBody;
 
 	//Assert that we are removing a body that is currently attached to the controller
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(edge != null); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(edge !== null); }
 
 	//Remove edge from controller list
 	if (edge.prevBody)
 		edge.prevBody.nextBody = edge.nextBody;
 	if (edge.nextBody)
 		edge.nextBody.prevBody = edge.prevBody;
-	if (this.m_bodyList == edge)
+	if (this.m_bodyList === edge)
 		this.m_bodyList = edge.nextBody;
 	--this.m_bodyCount;
 
@@ -221,7 +221,7 @@ box2d.b2Controller.prototype.RemoveBody = function (body)
 		edge.nextController.prevController = edge.prevController;
 	if (edge.prevController)
 		edge.prevController.nextController = edge.nextController;
-	if (body.m_controllerList == edge)
+	if (body.m_controllerList === edge)
 		body.m_controllerList = edge.nextController;
 	--body.m_controllerCount;
 }

@@ -100,7 +100,7 @@ box2d.b2ContactManager.prototype.Destroy = function (c)
 		c.m_next.m_prev = c.m_prev;
 	}
 
-	if (c == this.m_contactList)
+	if (c === this.m_contactList)
 	{
 		this.m_contactList = c.m_next;
 	}
@@ -116,7 +116,7 @@ box2d.b2ContactManager.prototype.Destroy = function (c)
 		c.m_nodeA.next.prev = c.m_nodeA.prev;
 	}
 
-	if (c.m_nodeA == bodyA.m_contactList)
+	if (c.m_nodeA === bodyA.m_contactList)
 	{
 		bodyA.m_contactList = c.m_nodeA.next;
 	}
@@ -132,7 +132,7 @@ box2d.b2ContactManager.prototype.Destroy = function (c)
 		c.m_nodeB.next.prev = c.m_nodeB.prev;
 	}
 
-	if (c.m_nodeB == bodyB.m_contactList)
+	if (c.m_nodeB === bodyB.m_contactList)
 	{
 		bodyB.m_contactList = c.m_nodeB.next;
 	}
@@ -166,7 +166,7 @@ box2d.b2ContactManager.prototype.Collide = function ()
 		if (c.m_flags & box2d.b2ContactFlag.e_filterFlag)
 		{
 			// Should these bodies collide?
-			if (bodyB.ShouldCollide(bodyA) == false)
+			if (bodyB.ShouldCollide(bodyA) === false)
 			{
 				var cNuke = c;
 				c = cNuke.m_next;
@@ -175,7 +175,7 @@ box2d.b2ContactManager.prototype.Collide = function ()
 			}
 
 			// Check user filtering.
-			if (this.m_contactFilter && this.m_contactFilter.ShouldCollide(fixtureA, fixtureB) == false)
+			if (this.m_contactFilter && this.m_contactFilter.ShouldCollide(fixtureA, fixtureB) === false)
 			{
 				cNuke = c;
 				c = cNuke.m_next;
@@ -187,11 +187,11 @@ box2d.b2ContactManager.prototype.Collide = function ()
 			c.m_flags &= ~box2d.b2ContactFlag.e_filterFlag;
 		}
 
-		var activeA = bodyA.IsAwake() && bodyA.m_type != box2d.b2BodyType.b2_staticBody;
-		var activeB = bodyB.IsAwake() && bodyB.m_type != box2d.b2BodyType.b2_staticBody;
+		var activeA = bodyA.IsAwake() && bodyA.m_type !== box2d.b2BodyType.b2_staticBody;
+		var activeB = bodyB.IsAwake() && bodyB.m_type !== box2d.b2BodyType.b2_staticBody;
 
 		// At least one body must be awake and it must be dynamic or kinematic.
-		if (activeA == false && activeB == false)
+		if (activeA === false && activeB === false)
 		{
 			c = c.m_next;
 			continue;
@@ -202,7 +202,7 @@ box2d.b2ContactManager.prototype.Collide = function ()
 		var overlap = this.m_broadPhase.TestOverlap(proxyA, proxyB);
 
 		// Here we destroy contacts that cease to overlap in the broad-phase.
-		if (overlap == false)
+		if (overlap === false)
 		{
 			cNuke = c;
 			c = cNuke.m_next;
@@ -249,7 +249,7 @@ box2d.b2ContactManager.prototype.AddPair = function (proxyUserDataA, proxyUserDa
 	var bodyB = fixtureB.GetBody();
 
 	// Are the fixtures on the same body?
-	if (bodyA == bodyB)
+	if (bodyA === bodyB)
 	{
 		return;
 	}
@@ -260,20 +260,20 @@ box2d.b2ContactManager.prototype.AddPair = function (proxyUserDataA, proxyUserDa
 	var edge = bodyB.GetContactList();
 	while (edge)
 	{
-		if (edge.other == bodyA)
+		if (edge.other === bodyA)
 		{
 			var fA = edge.contact.GetFixtureA();
 			var fB = edge.contact.GetFixtureB();
 			var iA = edge.contact.GetChildIndexA();
 			var iB = edge.contact.GetChildIndexB();
 
-			if (fA == fixtureA && fB == fixtureB && iA == indexA && iB == indexB)
+			if (fA === fixtureA && fB === fixtureB && iA === indexA && iB === indexB)
 			{
 				// A contact already exists.
 				return;
 			}
 
-			if (fA == fixtureB && fB == fixtureA && iA == indexB && iB == indexA)
+			if (fA === fixtureB && fB === fixtureA && iA === indexB && iB === indexA)
 			{
 				// A contact already exists.
 				return;
@@ -284,20 +284,20 @@ box2d.b2ContactManager.prototype.AddPair = function (proxyUserDataA, proxyUserDa
 	}
 
 	// Does a joint override collision? Is at least one body dynamic?
-	if (bodyB.ShouldCollide(bodyA) == false)
+	if (bodyB.ShouldCollide(bodyA) === false)
 	{
 		return;
 	}
 
 	// Check user filtering.
-	if (this.m_contactFilter && this.m_contactFilter.ShouldCollide(fixtureA, fixtureB) == false)
+	if (this.m_contactFilter && this.m_contactFilter.ShouldCollide(fixtureA, fixtureB) === false)
 	{
 		return;
 	}
 
 	// Call the factory.
 	var c = this.m_contactFactory.Create(fixtureA, indexA, fixtureB, indexB);
-	if (c == null)
+	if (c === null)
 	{
 		return;
 	}
@@ -327,7 +327,7 @@ box2d.b2ContactManager.prototype.AddPair = function (proxyUserDataA, proxyUserDa
 
 	c.m_nodeA.prev = null;
 	c.m_nodeA.next = bodyA.m_contactList;
-	if (bodyA.m_contactList != null)
+	if (bodyA.m_contactList !== null)
 	{
 		bodyA.m_contactList.prev = c.m_nodeA;
 	}
@@ -339,14 +339,14 @@ box2d.b2ContactManager.prototype.AddPair = function (proxyUserDataA, proxyUserDa
 
 	c.m_nodeB.prev = null;
 	c.m_nodeB.next = bodyB.m_contactList;
-	if (bodyB.m_contactList != null)
+	if (bodyB.m_contactList !== null)
 	{
 		bodyB.m_contactList.prev = c.m_nodeB;
 	}
 	bodyB.m_contactList = c.m_nodeB;
 
 	// Wake up the bodies
-	if (fixtureA.IsSensor() == false && fixtureB.IsSensor() == false)
+	if (fixtureA.IsSensor() === false && fixtureB.IsSensor() === false)
 	{
 		bodyA.SetAwake(true);
 		bodyB.SetAwake(true);

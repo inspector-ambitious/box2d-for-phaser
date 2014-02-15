@@ -226,7 +226,7 @@ box2d.b2MouseJoint.prototype.m_K = null;
  */
 box2d.b2MouseJoint.prototype.SetTarget = function (target)
 {
-	if (this.m_bodyB.IsAwake() == false)
+	if (this.m_bodyB.IsAwake() === false)
 	{
 		this.m_bodyB.SetAwake(true);
 	}
@@ -336,7 +336,7 @@ box2d.b2MouseJoint.prototype.InitVelocityConstraints = function (data)
 	/*float32*/ var h = data.step.dt;
 	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(d + h * k > box2d.b2_epsilon); }
 	this.m_gamma = h * (d + h * k);
-	if (this.m_gamma != 0)
+	if (this.m_gamma !== 0)
 	{
 		this.m_gamma = 1 / this.m_gamma;
 	}

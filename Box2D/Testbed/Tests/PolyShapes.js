@@ -117,7 +117,7 @@ box2d.Testbed.PolyShapesCallback.prototype.DrawFixture = function (fixture)
  */
 box2d.Testbed.PolyShapesCallback.prototype.ReportFixture = function (fixture)
 {
-	if (this.m_count == box2d.Testbed.PolyShapesCallback.e_maxCount)
+	if (this.m_count === box2d.Testbed.PolyShapesCallback.e_maxCount)
 	{
 		return false;
 	}
@@ -236,7 +236,7 @@ box2d.Testbed.PolyShapes.e_maxBodies = 256;
  */
 box2d.Testbed.PolyShapes.prototype.CreateBody = function (index)
 {
-	if (this.m_bodies[this.m_bodyIndex] != null)
+	if (this.m_bodies[this.m_bodyIndex] !== null)
 	{
 		this.m_world.DestroyBody(this.m_bodies[this.m_bodyIndex]);
 		this.m_bodies[this.m_bodyIndex] = null;
@@ -249,7 +249,7 @@ box2d.Testbed.PolyShapes.prototype.CreateBody = function (index)
 	bd.position.SetXY(x, 10.0);
 	bd.angle = box2d.b2RandomRange(-box2d.b2_pi, box2d.b2_pi);
 
-	if (index == 4)
+	if (index === 4)
 	{
 		bd.angularDamping = 0.02;
 	}
@@ -285,7 +285,7 @@ box2d.Testbed.PolyShapes.prototype.DestroyBody = function ()
 {
 	for (var i = 0; i < box2d.Testbed.PolyShapes.e_maxBodies; ++i)
 	{
-		if (this.m_bodies[i] != null)
+		if (this.m_bodies[i] !== null)
 		{
 			this.m_world.DestroyBody(this.m_bodies[i]);
 			this.m_bodies[i] = null;

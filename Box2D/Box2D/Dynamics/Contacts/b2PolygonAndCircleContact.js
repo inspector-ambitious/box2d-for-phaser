@@ -62,8 +62,8 @@ box2d.b2PolygonAndCircleContact.Destroy = function (contact, allocator)
 box2d.b2PolygonAndCircleContact.prototype.Reset = function (fixtureA, indexA, fixtureB, indexB)
 {
 	goog.base(this, 'Reset', fixtureA, indexA, fixtureB, indexB);
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(fixtureA.GetType() == box2d.b2ShapeType.e_polygonShape); }
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(fixtureB.GetType() == box2d.b2ShapeType.e_circleShape); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(fixtureA.GetType() === box2d.b2ShapeType.e_polygonShape); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(fixtureB.GetType() === box2d.b2ShapeType.e_circleShape); }
 }
 
 /**

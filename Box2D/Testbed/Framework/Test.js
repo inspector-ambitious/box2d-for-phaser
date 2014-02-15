@@ -214,7 +214,7 @@ box2d.Testbed.DestructionListener.prototype.test = null;
  */
 box2d.Testbed.DestructionListener.prototype.SayGoodbyeJoint = function (joint)
 {
-	if (this.test.m_mouseJoint == joint)
+	if (this.test.m_mouseJoint === joint)
 	{
 		this.test.m_mouseJoint = null;
 	}
@@ -450,7 +450,7 @@ box2d.Testbed.Test.prototype.PreSolve = function (contact, oldManifold)
 {
 	var manifold = contact.GetManifold();
 
-	if (manifold.pointCount == 0)
+	if (manifold.pointCount === 0)
 	{
 		return;
 	}
@@ -560,7 +560,7 @@ box2d.Testbed.Test.prototype.MouseDown = function (p)
 	var callback = function (fixture)
 	{
 		var body = fixture.GetBody();
-		if (body.GetType() == box2d.b2BodyType.b2_dynamicBody)
+		if (body.GetType() === box2d.b2BodyType.b2_dynamicBody)
 		{
 			var inside = fixture.TestPoint(that.m_mouseWorld);
 			if (inside)
@@ -609,7 +609,7 @@ box2d.Testbed.Test.prototype.SpawnBomb = function (worldPt)
  */
 box2d.Testbed.Test.prototype.CompleteBombSpawn = function (p)
 {
-	if (this.m_bombSpawning == false)
+	if (this.m_bombSpawning === false)
 	{
 		return;
 	}
@@ -630,7 +630,7 @@ box2d.Testbed.Test.prototype.ShiftMouseDown = function (p)
 {
 	this.m_mouseWorld.Copy(p);
 
-	if (this.m_mouseJoint != null)
+	if (this.m_mouseJoint !== null)
 	{
 		return;
 	}
@@ -876,31 +876,31 @@ box2d.Testbed.Test.prototype.Step = function (settings)
 		{
 			var point = this.m_points[i];
 
-			if (point.state == box2d.b2PointState.b2_addState)
+			if (point.state === box2d.b2PointState.b2_addState)
 			{
 				// Add
 				this.m_debugDraw.DrawPoint(point.position, 10, new box2d.b2Color(0.3, 0.95, 0.3));
 			}
-			else if (point.state == box2d.b2PointState.b2_persistState)
+			else if (point.state === box2d.b2PointState.b2_persistState)
 			{
 				// Persist
 				this.m_debugDraw.DrawPoint(point.position, 5, new box2d.b2Color(0.3, 0.3, 0.95));
 			}
 
-			if (settings.drawContactNormals == 1)
+			if (settings.drawContactNormals === true)
 			{
 				var p1 = point.position;
 				var p2 = box2d.b2AddVV(p1, box2d.b2MulSV(k_axisScale, point.normal, box2d.b2Vec2.s_t0), new box2d.b2Vec2());
 				this.m_debugDraw.DrawSegment(p1, p2, new box2d.b2Color(0.9, 0.9, 0.9));
 			}
-			else if (settings.drawContactImpulse == 1)
+			else if (settings.drawContactImpulse === true)
 			{
 				var p1 = point.position;
 				var p2 = box2d.b2AddVMulSV(p1, k_impulseScale * point.normalImpulse, point.normal, new box2d.b2Vec2());
 				this.m_debugDraw.DrawSegment(p1, p2, new box2d.b2Color(0.9, 0.9, 0.3));
 			}
 
-			if (settings.drawFrictionImpulse == 1)
+			if (settings.drawFrictionImpulse === true)
 			{
 				var tangent = box2d.b2CrossVOne(point.normal, new box2d.b2Vec2());
 				var p1 = point.position;

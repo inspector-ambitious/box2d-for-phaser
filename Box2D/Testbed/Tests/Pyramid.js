@@ -92,7 +92,7 @@ box2d.Testbed.Pyramid.prototype.Step = function (settings)
 
 	//box2d.b2DynamicTree* tree = &m_world.m_contactManager.m_broadPhase.m_tree;
 
-	//if (m_stepCount == 400)
+	//if (m_stepCount === 400)
 	//{
 	//	tree.RebuildBottomUp();
 	//}

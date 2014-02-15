@@ -207,7 +207,7 @@ box2d.Testbed.EdgeShapes.prototype.m_angle = 0.0;
  */
 box2d.Testbed.EdgeShapes.prototype.CreateBody = function (index)
 {
-	if (this.m_bodies[this.m_bodyIndex] != null)
+	if (this.m_bodies[this.m_bodyIndex] !== null)
 	{
 		this.m_world.DestroyBody(this.m_bodies[this.m_bodyIndex]);
 		this.m_bodies[this.m_bodyIndex] = null;
@@ -221,7 +221,7 @@ box2d.Testbed.EdgeShapes.prototype.CreateBody = function (index)
 	bd.angle = box2d.b2RandomRange(-box2d.b2_pi, box2d.b2_pi);
 	bd.type = box2d.b2BodyType.b2_dynamicBody;
 
-	if (index == 4)
+	if (index === 4)
 	{
 		bd.angularDamping = 0.02;
 	}
@@ -257,7 +257,7 @@ box2d.Testbed.EdgeShapes.prototype.DestroyBody = function ()
 {
 	for (var i = 0; i < box2d.Testbed.EdgeShapes.e_maxBodies; ++i)
 	{
-		if (this.m_bodies[i] != null)
+		if (this.m_bodies[i] !== null)
 		{
 			this.m_world.DestroyBody(this.m_bodies[i]);
 			this.m_bodies[i] = null;
@@ -296,7 +296,7 @@ box2d.Testbed.EdgeShapes.prototype.Keyboard = function (key)
  */
 box2d.Testbed.EdgeShapes.prototype.Step = function (settings)
 {
-	var advanceRay = settings.pause == 0 || settings.singleStep;
+	var advanceRay = settings.pause === false || settings.singleStep;
 
 	goog.base(this, 'Step', settings);
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Press 1-5 to drop stuff, m to change the mode");

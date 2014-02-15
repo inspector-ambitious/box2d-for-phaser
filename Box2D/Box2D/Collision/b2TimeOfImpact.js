@@ -226,7 +226,7 @@ box2d.b2SeparationFunction.prototype.Initialize = function (cache, proxyA, sweep
 	this.m_sweepA.GetTransform(xfA, t1);
 	this.m_sweepB.GetTransform(xfB, t1);
 
-	if (count == 1)
+	if (count === 1)
 	{
 		this.m_type = box2d.b2SeparationFunctionType.e_points;
 		/** @type {box2d.b2Vec2} */ var localPointA = this.m_proxyA.GetVertex(cache.indexA[0]);
@@ -237,7 +237,7 @@ box2d.b2SeparationFunction.prototype.Initialize = function (cache, proxyA, sweep
 		/** @type {number} */ var s = this.m_axis.Normalize();
 		return s;
 	}
-	else if (cache.indexA[0] == cache.indexA[1])
+	else if (cache.indexA[0] === cache.indexA[1])
 	{
 		// Two points on B and one on A.
 		this.m_type = box2d.b2SeparationFunctionType.e_faceB;
@@ -633,7 +633,7 @@ box2d.b2TimeOfImpact = function (output, input)
 					s2 = s;
 				}
 
-				if (rootIterCount == 50)
+				if (rootIterCount === 50)
 				{
 					break;
 				}
@@ -643,7 +643,7 @@ box2d.b2TimeOfImpact = function (output, input)
 
 			++pushBackIter;
 
-			if (pushBackIter == box2d.b2_maxPolygonVertices)
+			if (pushBackIter === box2d.b2_maxPolygonVertices)
 			{
 				break;
 			}
@@ -657,7 +657,7 @@ box2d.b2TimeOfImpact = function (output, input)
 			break;
 		}
 
-		if (iter == k_maxIterations)
+		if (iter === k_maxIterations)
 		{
 			// Root finder got stuck. Semi-victory.
 			output.state = box2d.b2TOIOutputState.e_failed;

@@ -109,7 +109,7 @@ box2d.Testbed.Tiles = function (canvas, settings)
 				bd.type = box2d.b2BodyType.b2_dynamicBody;
 				bd.position.Copy(y);
 
-				//if (i == 0 && j == 0)
+				//if (i === 0 && j === 0)
 				//{
 				//	bd.allowSleep = false;
 				//}
@@ -174,7 +174,7 @@ box2d.Testbed.Tiles.prototype.Step = function (settings)
 
 	//box2d.b2DynamicTree* tree = this.m_world.this.m_contactManager.m_broadPhase.m_tree;
 
-	//if (this.m_stepCount == 400)
+	//if (this.m_stepCount === 400)
 	//{
 	//	tree.RebuildBottomUp();
 	//}

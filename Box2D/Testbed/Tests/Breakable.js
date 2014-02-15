@@ -201,7 +201,7 @@ box2d.Testbed.Breakable.prototype.Step = function (settings)
 	}
 
 	// Cache velocities to improve movement on breakage.
-	if (this.m_broke == false)
+	if (this.m_broke === false)
 	{
 		this.m_velocity = this.m_body1.GetLinearVelocity();
 		this.m_angularVelocity = this.m_body1.GetAngularVelocity();

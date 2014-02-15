@@ -176,7 +176,7 @@ box2d.Testbed.Revolute.prototype.Step = function (settings)
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Keys: (l) limits, (m) motor");
 	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 
-	//if (m_stepCount == 360)
+	//if (m_stepCount === 360)
 	//{
 	//	m_ball.SetTransform(box2d.b2Vec2(0.0, 0.5f), 0.0);
 	//}

@@ -165,7 +165,7 @@ box2d.Testbed.CollisionProcessing.prototype.Step = function (settings)
 				nuke[nukeCount++] = body2;
 			}
 
-			if (nukeCount == k_maxNuke)
+			if (nukeCount === k_maxNuke)
 			{
 				break;
 			}
@@ -180,12 +180,12 @@ box2d.Testbed.CollisionProcessing.prototype.Step = function (settings)
 	while (i < nukeCount)
 	{
 		var b = nuke[i++];
-		while (i < nukeCount && nuke[i] == b)
+		while (i < nukeCount && nuke[i] === b)
 		{
 			++i;
 		}
 
-		if (b != this.m_bomb)
+		if (b !== this.m_bomb)
 		{
 			this.m_world.DestroyBody(b);
 		}

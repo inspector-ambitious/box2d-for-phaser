@@ -458,7 +458,7 @@ box2d.b2WorldManifold.prototype.separations = null; ///< a negative value indica
  */
 box2d.b2WorldManifold.prototype.Initialize = function (manifold, xfA, radiusA, xfB, radiusB)
 {
-	if (manifold.pointCount == 0)
+	if (manifold.pointCount === 0)
 	{
 		return;
 	}
@@ -568,7 +568,7 @@ box2d.b2GetPointStates = function (state1, state2, manifold1, manifold2)
 
 		for (var j = 0, jct = manifold2.pointCount; j < jct; ++j)
 		{
-			if (manifold2.points[j].id.key == key)
+			if (manifold2.points[j].id.key === key)
 			{
 				state1[i] = box2d.b2PointState.b2_persistState;
 				break;
@@ -590,7 +590,7 @@ box2d.b2GetPointStates = function (state1, state2, manifold1, manifold2)
 
 		for (var j = 0, jct = manifold1.pointCount; j < jct; ++j)
 		{
-			if (manifold1.points[j].id.key == key)
+			if (manifold1.points[j].id.key === key)
 			{
 				state2[i] = box2d.b2PointState.b2_persistState;
 				break;

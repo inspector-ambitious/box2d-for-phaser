@@ -141,12 +141,12 @@ box2d.Testbed.OneSidedPlatform.prototype.PreSolve = function (contact, oldManifo
 	var fixtureA = contact.GetFixtureA();
 	var fixtureB = contact.GetFixtureB();
 
-	if (fixtureA != this.m_platform && fixtureA != this.m_character)
+	if (fixtureA !== this.m_platform && fixtureA !== this.m_character)
 	{
 		return;
 	}
 
-	if (fixtureB != this.m_platform && fixtureB != this.m_character)
+	if (fixtureB !== this.m_platform && fixtureB !== this.m_character)
 	{
 		return;
 	}

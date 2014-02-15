@@ -68,7 +68,7 @@ box2d.Testbed.TestRagdoll = function (canvas, settings)
 		bd.position.SetXY(startX, startY);
 		var head = this.m_world.CreateBody(bd);
 		head.CreateFixture(fd);
-		//if (i == 0)
+		//if (i === 0)
 		//{
 			head.ApplyLinearImpulse(new box2d.b2Vec2(Math.random() * 1000.0 - 500.0, Math.random() * 1000.0 - 500.0), head.GetWorldCenter());
 		//}

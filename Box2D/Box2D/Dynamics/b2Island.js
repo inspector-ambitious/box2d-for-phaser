@@ -369,7 +369,7 @@ box2d.b2Island.prototype.Solve = function (profile, step, gravity, allowSleep)
 		b.m_sweep.c0.Copy(b.m_sweep.c);
 		b.m_sweep.a0 = b.m_sweep.a;
 
-		if (b.m_type == box2d.b2BodyType.b2_dynamicBody)
+		if (b.m_type === box2d.b2BodyType.b2_dynamicBody)
 		{
 			// Integrate velocities.
 			v.x += h * (b.m_gravityScale * gravity.x + b.m_invMass * b.m_force.x);
@@ -522,12 +522,12 @@ box2d.b2Island.prototype.Solve = function (profile, step, gravity, allowSleep)
 		for (var i = 0; i < this.m_bodyCount; ++i)
 		{
 			/*box2d.b2Body*/ var b = this.m_bodies[i];
-			if (b.GetType() == box2d.b2BodyType.b2_staticBody)
+			if (b.GetType() === box2d.b2BodyType.b2_staticBody)
 			{
 				continue;
 			}
 
-			if ((b.m_flags & box2d.b2BodyFlag.e_autoSleepFlag) == 0 || 
+			if ((b.m_flags & box2d.b2BodyFlag.e_autoSleepFlag) === 0 || 
 				b.m_angularVelocity * b.m_angularVelocity > angTolSqr || 
 				box2d.b2DotVV(b.m_linearVelocity, b.m_linearVelocity) > linTolSqr)
 			{
@@ -620,7 +620,7 @@ box2d.b2Island.prototype.SolveTOI = function (subStep, toiIndexA, toiIndexB)
 		cache.count = 0;
 		box2d.b2Distance(&output, &cache, &input);
 
-		if (output.distance == 0 || cache.count == 3)
+		if (output.distance === 0 || cache.count === 3)
 		{
 			cache.count += 0;
 		}
@@ -700,7 +700,7 @@ box2d.b2Island.prototype.SolveTOI = function (subStep, toiIndexA, toiIndexB)
  */
 box2d.b2Island.prototype.Report = function (constraints)
 {
-	if (this.m_listener == null)
+	if (this.m_listener === null)
 	{
 		return;
 	}

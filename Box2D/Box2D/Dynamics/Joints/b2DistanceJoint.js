@@ -461,7 +461,7 @@ box2d.b2DistanceJoint.prototype.InitVelocityConstraints = function (data)
 	var invMass = this.m_invMassA + this.m_invIA * crAu * crAu + this.m_invMassB + this.m_invIB * crBu * crBu;
 
 	// Compute the effective mass matrix.
-	this.m_mass = invMass != 0 ? 1 / invMass : 0;
+	this.m_mass = invMass !== 0 ? 1 / invMass : 0;
 
 	if (this.m_frequencyHz > 0)
 	{
@@ -479,11 +479,11 @@ box2d.b2DistanceJoint.prototype.InitVelocityConstraints = function (data)
 		// magic formulas
 		/*float32*/ var h = data.step.dt;
 		this.m_gamma = h * (d + h * k);
-		this.m_gamma = this.m_gamma != 0 ? 1 / this.m_gamma : 0;
+		this.m_gamma = this.m_gamma !== 0 ? 1 / this.m_gamma : 0;
 		this.m_bias = C * h * k * this.m_gamma;
 
 		invMass += this.m_gamma;
-		this.m_mass = invMass != 0 ? 1 / invMass : 0;
+		this.m_mass = invMass !== 0 ? 1 / invMass : 0;
 	}
 	else
 	{

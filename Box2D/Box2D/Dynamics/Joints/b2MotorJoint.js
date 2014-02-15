@@ -343,7 +343,7 @@ box2d.b2MotorJoint.prototype.GetLinearOffset = function (out)
  */
 box2d.b2MotorJoint.prototype.SetAngularOffset = function (angularOffset)
 {
-	if (angularOffset != this.m_angularOffset)
+	if (angularOffset !== this.m_angularOffset)
 	{
 		this.m_bodyA.SetAwake(true);
 		this.m_bodyB.SetAwake(true);

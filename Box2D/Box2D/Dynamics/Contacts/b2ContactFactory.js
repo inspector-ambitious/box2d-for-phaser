@@ -80,7 +80,7 @@ box2d.b2ContactFactory.prototype.AddType = function (createFcn, destroyFcn, type
 		this.m_registers[type1][type2].destroyFcn = poolDestroyFcn;
 		this.m_registers[type1][type2].primary = true;
 
-		if (type1 != type2)
+		if (type1 !== type2)
 		{
 			this.m_registers[type2][type1].pool = pool;
 			this.m_registers[type2][type1].createFcn = poolCreateFcn;
@@ -94,7 +94,7 @@ box2d.b2ContactFactory.prototype.AddType = function (createFcn, destroyFcn, type
 	this.m_registers[type1][type2].destroyFcn = destroyFcn;
 	this.m_registers[type1][type2].primary = true;
 
-	if (type1 != type2)
+	if (type1 !== type2)
 	{
 		this.m_registers[type2][type1].createFcn = createFcn;
 		this.m_registers[type2][type1].destroyFcn = destroyFcn;
@@ -149,7 +149,7 @@ box2d.b2ContactFactory.prototype.Create = function (fixtureA, indexA, fixtureB, 
 	var reg = this.m_registers[type1][type2];
 
 	var createFcn = reg.createFcn;
-	if (createFcn != null)
+	if (createFcn !== null)
 	{
 		if (reg.primary)
 		{
@@ -181,8 +181,8 @@ box2d.b2ContactFactory.prototype.Destroy = function (contact)
 	var fixtureB = contact.m_fixtureB;
 
 	if (contact.m_manifold.pointCount > 0 &&
-		fixtureA.IsSensor() == false &&
-		fixtureB.IsSensor() == false)
+		fixtureA.IsSensor() === false &&
+		fixtureB.IsSensor() === false)
 	{
 		fixtureA.GetBody().SetAwake(true);
 		fixtureB.GetBody().SetAwake(true);

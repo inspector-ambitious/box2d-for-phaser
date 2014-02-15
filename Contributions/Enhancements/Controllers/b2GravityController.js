@@ -63,7 +63,7 @@ box2d.b2GravityController.prototype.Step = function (step)
 			var body1 = i.body;
 			var p1 = body1.GetWorldCenter();
 			var mass1 = body1.GetMass();
-			for (var j = this.m_bodyList; j != i; j = j.nextBody)
+			for (var j = this.m_bodyList; j !== i; j = j.nextBody)
 			{
 				var body2 = j.body;
 				var p2 = body2.GetWorldCenter();
@@ -89,7 +89,7 @@ box2d.b2GravityController.prototype.Step = function (step)
 			var body1 = i.body;
 			var p1 = body1.GetWorldCenter();
 			var mass1 = body1.GetMass();
-			for (var j = this.m_bodyList; j != i; j = j.nextBody)
+			for (var j = this.m_bodyList; j !== i; j = j.nextBody)
 			{
 				var body2 = j.body;
 				var p2 = body2.GetWorldCenter();

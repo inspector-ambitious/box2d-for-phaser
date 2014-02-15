@@ -114,7 +114,7 @@ box2d.b2BuoyancyController.prototype.Step = function (step)
 	for (var i = this.m_bodyList; i; i = i.nextBody)
 	{
 		var body = i.body;
-		if (body.IsAwake() == false)
+		if (body.IsAwake() === false)
 		{
 			//Buoyancy force is just a function of position,
 			//so unlike most forces, it is safe to ignore sleeping bodes

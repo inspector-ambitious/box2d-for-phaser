@@ -103,7 +103,7 @@ box2d.Testbed.Rope.prototype.Step = function (settings)
 {
 	/*float32*/ var dt = settings.hz > 0.0 ? 1.0 / settings.hz : 0.0;
 
-	if (settings.pause == 1 && settings.singleStep == 0)
+	if (settings.pause === true && settings.singleStep === false)
 	{
 		dt = 0.0;
 	}

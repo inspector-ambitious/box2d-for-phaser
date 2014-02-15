@@ -105,7 +105,7 @@ box2d.b2TimeStep.prototype.dt = 0; // time step
  * @export 
  * @type {number}
  */
-box2d.b2TimeStep.prototype.inv_dt = 0; // inverse time step (0 if dt == 0).
+box2d.b2TimeStep.prototype.inv_dt = 0; // inverse time step (0 if dt === 0).
 /**
  * @export 
  * @type {number}
@@ -135,7 +135,7 @@ box2d.b2TimeStep.prototype.warmStarting = false;
 box2d.b2TimeStep.prototype.Copy = function (step)
 {
 	this.dt = step.dt;				// time step                        
-	this.inv_dt = step.inv_dt;  	// inverse time step (0 if dt == 0).
+	this.inv_dt = step.inv_dt;  	// inverse time step (0 if dt === 0).
 	this.dtRatio = step.dtRatio;	// dt * inv_dt0
 	this.positionIterations = step.positionIterations;
 	this.velocityIterations = step.velocityIterations;

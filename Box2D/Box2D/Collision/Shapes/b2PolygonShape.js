@@ -216,7 +216,7 @@ box2d.b2PolygonShape.prototype.Set = function (vertices, count)
 	for (var i = 1; i < n; ++i)
 	{
 		var x = ps[i].x;
-		if (x > x0 || (x == x0 && ps[i].y < ps[i0].y))
+		if (x > x0 || (x === x0 && ps[i].y < ps[i0].y))
 		{
 			i0 = i;
 			x0 = x;
@@ -234,7 +234,7 @@ box2d.b2PolygonShape.prototype.Set = function (vertices, count)
 		var ie = 0;
 		for (var j = 1; j < n; ++j)
 		{
-			if (ie == ih)
+			if (ie === ih)
 			{
 				ie = j;
 				continue;
@@ -249,7 +249,7 @@ box2d.b2PolygonShape.prototype.Set = function (vertices, count)
 			}
 
 			// Collinearity check
-			if (c == 0 && v.GetLengthSquared() > r.GetLengthSquared())
+			if (c === 0 && v.GetLengthSquared() > r.GetLengthSquared())
 			{
 				ie = j;
 			}
@@ -258,7 +258,7 @@ box2d.b2PolygonShape.prototype.Set = function (vertices, count)
 		++m;
 		ih = ie;
 
-		if (ie == i0)
+		if (ie === i0)
 		{
 			break;
 		}
@@ -378,7 +378,7 @@ box2d.b2PolygonShape.prototype.RayCast = function (output, input, xf, childIndex
 		var numerator = box2d.b2DotVV(this.m_normals[i], box2d.b2SubVV(this.m_vertices[i], p1, box2d.b2Vec2.s_t0));
 		var denominator = box2d.b2DotVV(this.m_normals[i], d);
 
-		if (denominator == 0)
+		if (denominator === 0)
 		{
 			if (numerator < 0)
 			{
@@ -569,7 +569,7 @@ box2d.b2PolygonShape.prototype.Validate = function ()
 
 		for (var j = 0; j < this.m_count; ++j)
 		{
-			if (j == i1 || j == i2)
+			if (j === i1 || j === i2)
 			{
 				continue;
 			}
@@ -663,7 +663,7 @@ box2d.b2PolygonShape.prototype.ComputeSubmergedArea = function (normal, offset, 
 		}
 		break;
 	case 1:
-		if (intoIndex == (-1))
+		if (intoIndex === (-1))
 		{
 			intoIndex = this.m_count - 1;
 		}
@@ -693,10 +693,10 @@ box2d.b2PolygonShape.prototype.ComputeSubmergedArea = function (normal, offset, 
 
 	// An awkward loop from intoIndex2+1 to outIndex2
 	var i = intoIndex2;
-	while (i != outoIndex2)
+	while (i !== outoIndex2)
 	{
 		i = (i + 1) % this.m_count;
-		if (i == outoIndex2)
+		if (i === outoIndex2)
 			p3 = outoVec;
 		else
 			p3	= this.m_vertices[i];

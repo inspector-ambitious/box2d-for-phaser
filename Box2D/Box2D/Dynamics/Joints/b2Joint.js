@@ -212,7 +212,7 @@ box2d.b2JointDef.prototype.collideConnected = false;
  */
 box2d.b2Joint = function (def)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(def.bodyA != def.bodyB); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(def.bodyA !== def.bodyB); }
 
 	this.m_type = def.type;
 	this.m_edgeA = new box2d.b2JointEdge();

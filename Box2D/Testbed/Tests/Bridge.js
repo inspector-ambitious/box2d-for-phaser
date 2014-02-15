@@ -67,7 +67,7 @@ box2d.Testbed.Bridge = function (canvas, settings)
 			jd.Initialize(prevBody, body, anchor);
 			this.m_world.CreateJoint(jd);
 
-			if (i == (box2d.Testbed.Bridge.e_count >> 1))
+			if (i === (box2d.Testbed.Bridge.e_count >> 1))
 			{
 				this.m_middle = body;
 			}

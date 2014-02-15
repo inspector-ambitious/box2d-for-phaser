@@ -75,11 +75,11 @@ box2d.b2AreaJointDef.prototype.AddBody = function (body)
 {
 	this.bodies.push(body);
 
-	if (this.bodies.length == 1)
+	if (this.bodies.length === 1)
 	{
 		this.bodyA = body;
 	}
-	else if (this.bodies.length == 2)
+	else if (this.bodies.length === 2)
 	{
 		this.bodyB = body;
 	}

@@ -153,7 +153,7 @@ box2d.Testbed.ContinuousTest.prototype.Step = function (settings)
 		this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 	}
 
-	if (this.m_stepCount % 60 == 0)
+	if (this.m_stepCount % 60 === 0)
 	{
 		this.Launch();
 	}

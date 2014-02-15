@@ -665,7 +665,7 @@ box2d.b2EPCollider.prototype.Collide = function (manifold, edgeA, xfA, polygonB,
 	/** @type {box2d.b2EPAxis} */ var edgeAxis = this.ComputeEdgeSeparation(box2d.b2EPCollider.s_edgeAxis);
 	
 	// If no valid normal can be found than this edge should not collide.
-	if (edgeAxis.type == box2d.b2EPAxisType.e_unknown)
+	if (edgeAxis.type === box2d.b2EPAxisType.e_unknown)
 	{
 		return;
 	}
@@ -676,7 +676,7 @@ box2d.b2EPCollider.prototype.Collide = function (manifold, edgeA, xfA, polygonB,
 	}
 	
 	/** @type {box2d.b2EPAxis} */ var polygonAxis = this.ComputePolygonSeparation(box2d.b2EPCollider.s_polygonAxis);
-	if (polygonAxis.type != box2d.b2EPAxisType.e_unknown && polygonAxis.separation > this.m_radius)
+	if (polygonAxis.type !== box2d.b2EPAxisType.e_unknown && polygonAxis.separation > this.m_radius)
 	{
 		return;
 	}
@@ -686,7 +686,7 @@ box2d.b2EPCollider.prototype.Collide = function (manifold, edgeA, xfA, polygonB,
 	/** @type {number} */ var k_absoluteTol = 0.001;
 	
 	/** @type {box2d.b2EPAxis} */ var primaryAxis;
-	if (polygonAxis.type == box2d.b2EPAxisType.e_unknown)
+	if (polygonAxis.type === box2d.b2EPAxisType.e_unknown)
 	{
 		primaryAxis = edgeAxis;
 	}
@@ -701,7 +701,7 @@ box2d.b2EPCollider.prototype.Collide = function (manifold, edgeA, xfA, polygonB,
 	
 	/** @type {Array.<box2d.b2ClipVertex>} */ var ie = box2d.b2EPCollider.s_ie;
 	/** @type {box2d.b2ReferenceFace} */ var rf = box2d.b2EPCollider.s_rf;
-	if (primaryAxis.type == box2d.b2EPAxisType.e_edgeA)
+	if (primaryAxis.type === box2d.b2EPAxisType.e_edgeA)
 	{
 		manifold.type = box2d.b2ManifoldType.e_faceA;
 		
@@ -804,7 +804,7 @@ box2d.b2EPCollider.prototype.Collide = function (manifold, edgeA, xfA, polygonB,
 	}
 	
 	// Now clipPoints2 contains the clipped points.
-	if (primaryAxis.type == box2d.b2EPAxisType.e_edgeA)
+	if (primaryAxis.type === box2d.b2EPAxisType.e_edgeA)
 	{
 		manifold.localNormal.Copy(rf.normal);
 		manifold.localPoint.Copy(rf.v1);
@@ -826,7 +826,7 @@ box2d.b2EPCollider.prototype.Collide = function (manifold, edgeA, xfA, polygonB,
 		{
 			/** @type {box2d.b2ManifoldPoint} */ var cp = manifold.points[pointCount];
 			
-			if (primaryAxis.type == box2d.b2EPAxisType.e_edgeA)
+			if (primaryAxis.type === box2d.b2EPAxisType.e_edgeA)
 			{
 				box2d.b2MulTXV(this.m_xf, clipPoints2[i].v, cp.localPoint);
 				cp.id = clipPoints2[i].id;

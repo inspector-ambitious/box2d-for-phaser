@@ -520,7 +520,7 @@ box2d.b2Fixture.prototype.Create = function (body, def)
 box2d.b2Fixture.prototype.Destroy = function ()
 {
 	// The proxies must be destroyed before calling this.
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_proxyCount == 0); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_proxyCount === 0); }
 
 	// Free the proxy array.
 //	int32 childCount = m_shape->GetChildCount();
@@ -539,7 +539,7 @@ box2d.b2Fixture.prototype.Destroy = function ()
  */
 box2d.b2Fixture.prototype.CreateProxies = function (broadPhase, xf)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_proxyCount == 0); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_proxyCount === 0); }
 
 	// Create proxies in the broad-phase.
 	this.m_proxyCount = this.m_shape.GetChildCount();
@@ -581,7 +581,7 @@ box2d.b2Fixture.prototype.DestroyProxies = function (broadPhase)
  */
 box2d.b2Fixture.prototype.Synchronize = function (broadPhase, transform1, transform2)
 {
-	if (this.m_proxyCount == 0)
+	if (this.m_proxyCount === 0)
 	{	
 		return;
 	}
@@ -644,7 +644,7 @@ box2d.b2Fixture.prototype.Refilter = function ()
 		var contact = edge.contact;
 		var fixtureA = contact.GetFixtureA();
 		var fixtureB = contact.GetFixtureB();
-		if (fixtureA == this || fixtureB == this)
+		if (fixtureA === this || fixtureB === this)
 		{
 			contact.FlagForFiltering();
 		}
@@ -675,7 +675,7 @@ box2d.b2Fixture.prototype.Refilter = function ()
  */
 box2d.b2Fixture.prototype.SetSensor = function (sensor)
 {
-	if (sensor != this.m_isSensor)
+	if (sensor !== this.m_isSensor)
 	{
 		this.m_body.SetAwake(true);
 		this.m_isSensor = sensor;

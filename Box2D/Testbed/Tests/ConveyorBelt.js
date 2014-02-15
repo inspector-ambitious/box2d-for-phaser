@@ -91,12 +91,12 @@ box2d.Testbed.ConveyorBelt.prototype.PreSolve = function (contact, oldManifold)
 	/*b2Fixture*/ var fixtureA = contact.GetFixtureA();
 	/*b2Fixture*/ var fixtureB = contact.GetFixtureB();
 
-	if (fixtureA == this.m_platform)
+	if (fixtureA === this.m_platform)
 	{
 		contact.SetTangentSpeed(5.0);
 	}
 
-	if (fixtureB == this.m_platform)
+	if (fixtureB === this.m_platform)
 	{
 		contact.SetTangentSpeed(-5.0);
 	}

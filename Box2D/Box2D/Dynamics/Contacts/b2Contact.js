@@ -247,7 +247,7 @@ box2d.b2Contact.prototype.GetWorldManifold = function (worldManifold)
  */
 box2d.b2Contact.prototype.IsTouching = function ()
 {
-	return (this.m_flags & box2d.b2ContactFlag.e_touchingFlag) == box2d.b2ContactFlag.e_touchingFlag;
+	return (this.m_flags & box2d.b2ContactFlag.e_touchingFlag) === box2d.b2ContactFlag.e_touchingFlag;
 }
 
 /**
@@ -277,7 +277,7 @@ box2d.b2Contact.prototype.SetEnabled = function (flag)
  */
 box2d.b2Contact.prototype.IsEnabled = function ()
 {
-	return (this.m_flags & box2d.b2ContactFlag.e_enabledFlag) == box2d.b2ContactFlag.e_enabledFlag;
+	return (this.m_flags & box2d.b2ContactFlag.e_enabledFlag) === box2d.b2ContactFlag.e_enabledFlag;
 }
 
 /**
@@ -494,7 +494,7 @@ box2d.b2Contact.prototype.Update = function (listener)
 	this.m_flags |= box2d.b2ContactFlag.e_enabledFlag;
 
 	var touching = false;
-	var wasTouching = (this.m_flags & box2d.b2ContactFlag.e_touchingFlag) == box2d.b2ContactFlag.e_touchingFlag;
+	var wasTouching = (this.m_flags & box2d.b2ContactFlag.e_touchingFlag) === box2d.b2ContactFlag.e_touchingFlag;
 
 	var sensorA = this.m_fixtureA.IsSensor();
 	var sensorB = this.m_fixtureB.IsSensor();
@@ -540,7 +540,7 @@ box2d.b2Contact.prototype.Update = function (listener)
 				{
 					var mp1 = this.m_oldManifold.points[j];
 
-					if (mp1.id.key == id2.key)
+					if (mp1.id.key === id2.key)
 					{
 						mp2.normalImpulse = mp1.normalImpulse;
 						mp2.tangentImpulse = mp1.tangentImpulse;
@@ -554,7 +554,7 @@ box2d.b2Contact.prototype.Update = function (listener)
 //			this.m_manifold.pointCount = 0;
 //		}
 
-		if (touching != wasTouching)
+		if (touching !== wasTouching)
 		{
 			bodyA.SetAwake(true);
 			bodyB.SetAwake(true);
@@ -570,17 +570,17 @@ box2d.b2Contact.prototype.Update = function (listener)
 		this.m_flags &= ~box2d.b2ContactFlag.e_touchingFlag;
 	}
 
-	if (wasTouching == false && touching == true && listener)
+	if (wasTouching === false && touching === true && listener)
 	{
 		listener.BeginContact(this);
 	}
 
-	if (wasTouching == true && touching == false && listener)
+	if (wasTouching === true && touching === false && listener)
 	{
 		listener.EndContact(this);
 	}
 
-	if (sensor == false && touching && listener)
+	if (sensor === false && touching && listener)
 	{
 		listener.PreSolve(this, this.m_oldManifold);
 	}

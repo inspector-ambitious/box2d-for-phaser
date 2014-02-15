@@ -167,7 +167,7 @@ box2d.Testbed.BodyTypes.prototype.Keyboard = function (key)
 box2d.Testbed.BodyTypes.prototype.Step = function (settings)
 {
 	// Drive the kinematic body.
-	if (this.m_platform.GetType() == box2d.b2BodyType.b2_kinematicBody)
+	if (this.m_platform.GetType() === box2d.b2BodyType.b2_kinematicBody)
 	{
 		/*box2d.b2Vec2*/ var p = this.m_platform.GetTransform().p;
 		/*box2d.b2Vec2*/ var v = this.m_platform.GetLinearVelocity();

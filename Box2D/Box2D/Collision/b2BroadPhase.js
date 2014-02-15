@@ -259,7 +259,7 @@ box2d.b2BroadPhase.prototype.UpdatePairs = function (contactManager)
 	for (var i = 0; i < this.m_moveCount; ++i)
 	{
 		var queryProxy = this.m_moveBuffer[i];
-		if (queryProxy == null)
+		if (queryProxy === null)
 		{
 			continue;
 		}
@@ -271,13 +271,13 @@ box2d.b2BroadPhase.prototype.UpdatePairs = function (contactManager)
 		var QueryCallback = function (proxy)
 		{
 			// A proxy cannot form a pair with itself.
-			if (proxy.m_id == queryProxy.m_id)
+			if (proxy.m_id === queryProxy.m_id)
 			{
 				return true;
 			}
 
 			// Grow the pair buffer as needed.
-			if (that.m_pairCount == that.m_pairBuffer.length)
+			if (that.m_pairCount === that.m_pairBuffer.length)
 			{
 				that.m_pairBuffer[that.m_pairCount] = new box2d.b2Pair();
 			}
@@ -330,7 +330,7 @@ box2d.b2BroadPhase.prototype.UpdatePairs = function (contactManager)
 		while (i < this.m_pairCount)
 		{
 			var pair = this.m_pairBuffer[i];
-			if (pair.proxyA.m_id != primaryPair.proxyA.m_id || pair.proxyB.m_id != primaryPair.proxyB.m_id)
+			if (pair.proxyA.m_id !== primaryPair.proxyA.m_id || pair.proxyB.m_id !== primaryPair.proxyB.m_id)
 			{
 				break;
 			}
@@ -402,7 +402,7 @@ box2d.b2BroadPhase.prototype.UnBufferMove = function (proxy)
  */
 box2d.b2PairLessThan = function (pair1, pair2)
 {
-	if (pair1.proxyA.m_id == pair2.proxyA.m_id)
+	if (pair1.proxyA.m_id === pair2.proxyA.m_id)
 	{
 		return pair1.proxyB.m_id - pair2.proxyB.m_id;
 	}

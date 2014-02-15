@@ -174,7 +174,7 @@ box2d.b2Rope.prototype.Initialize = function (def)
  */
 box2d.b2Rope.prototype.Step = function (/*float32*/ h, /*int32*/ iterations)
 {
-	if (h == 0)
+	if (h === 0)
 	{
 		return;
 	}
@@ -226,7 +226,7 @@ box2d.b2Rope.prototype.SolveC2 = function ()
 		/*float32*/ var im1 = this.m_ims[i];
 		/*float32*/ var im2 = this.m_ims[i + 1];
 
-		if (im1 + im2 == 0)
+		if (im1 + im2 === 0)
 		{
 			continue;
 		}
@@ -281,7 +281,7 @@ box2d.b2Rope.prototype.SolveC3 = function ()
 		/*float32*/ var L1sqr = d1.GetLengthSquared();
 		/*float32*/ var L2sqr = d2.GetLengthSquared();
 
-		if (L1sqr * L2sqr == 0)
+		if (L1sqr * L2sqr === 0)
 		{
 			continue;
 		}
@@ -299,7 +299,7 @@ box2d.b2Rope.prototype.SolveC3 = function ()
 		/*box2d.b2Vec2*/ var J3 = Jd2;
 
 		/*float32*/ var mass = m1 * box2d.b2DotVV(J1, J1) + m2 * box2d.b2DotVV(J2, J2) + m3 * box2d.b2DotVV(J3, J3);
-		if (mass == 0)
+		if (mass === 0)
 		{
 			continue;
 		}

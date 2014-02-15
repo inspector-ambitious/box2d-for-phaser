@@ -74,7 +74,7 @@ box2d.Testbed.VerticalStack = function (canvas, settings)
 
 			var x = 0.0;
 			//var x = box2d.b2RandomRange(-0.02, 0.02);
-			//var x = i % 2 == 0 ? -0.025 : 0.025;
+			//var x = i % 2 === 0 ? -0.025 : 0.025;
 			bd.position.SetXY(xs[j] + x, 0.752 + 1.54 * i);
 			var body = this.m_world.CreateBody(bd);
 
@@ -166,9 +166,9 @@ box2d.Testbed.VerticalStack.prototype.Step = function (settings)
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Press: (,) to launch a bullet.");
 	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 
-	//if (this.m_stepCount == 300)
+	//if (this.m_stepCount === 300)
 	//{
-	//	if (this.m_bullet != null)
+	//	if (this.m_bullet !== null)
 	//	{
 	//		this.m_world.DestroyBody(this.m_bullet);
 	//		this.m_bullet = null;

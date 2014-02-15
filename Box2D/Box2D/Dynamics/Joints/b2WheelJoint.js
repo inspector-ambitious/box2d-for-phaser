@@ -703,7 +703,7 @@ box2d.b2WheelJoint.prototype.SolvePositionConstraints = function (data)
 	/*float32*/ var k = this.m_invMassA + this.m_invMassB + this.m_invIA * this.m_sAy * this.m_sAy + this.m_invIB * this.m_sBy * this.m_sBy;
 
 	/*float32*/ var impulse;
-	if (k != 0)
+	if (k !== 0)
 	{
 		impulse = - C / k;
 	}

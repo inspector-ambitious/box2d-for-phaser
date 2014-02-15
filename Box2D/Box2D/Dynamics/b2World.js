@@ -217,13 +217,13 @@ box2d.b2World.prototype.m_controllerCount = 0;
  */
 box2d.b2World.prototype.SetAllowSleeping = function (flag)
 {
-	if (flag == this.m_allowSleep)
+	if (flag === this.m_allowSleep)
 	{
 		return;
 	}
 
 	this.m_allowSleep = flag;
-	if (this.m_allowSleep == false)
+	if (this.m_allowSleep === false)
 	{
 		for (/** @type {box2d.b2Body} */ var b = this.m_bodyList; b; b = b.m_next)
 		{
@@ -446,7 +446,7 @@ box2d.b2World.prototype.SetAutoClearForces = function (flag)
  */
 box2d.b2World.prototype.GetAutoClearForces = function ()
 {
-	return (this.m_flags & box2d.b2WorldFlag.e_clearForces) == box2d.b2WorldFlag.e_clearForces;
+	return (this.m_flags & box2d.b2WorldFlag.e_clearForces) === box2d.b2WorldFlag.e_clearForces;
 }
 
 /** 
@@ -531,7 +531,7 @@ box2d.b2World.prototype.SetDebugDraw = function (debugDraw)
  */
 box2d.b2World.prototype.CreateBody = function (def)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.IsLocked() == false); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.IsLocked() === false); }
 	if (this.IsLocked())
 	{
 		return null;
@@ -566,7 +566,7 @@ box2d.b2World.prototype.CreateBody = function (def)
 box2d.b2World.prototype.DestroyBody = function (b)
 {
 	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_bodyCount > 0); }
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.IsLocked() == false); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.IsLocked() === false); }
 	if (this.IsLocked())
 	{
 		return;
@@ -642,7 +642,7 @@ box2d.b2World.prototype.DestroyBody = function (b)
 		b.m_next.m_prev = b.m_prev;
 	}
 
-	if (b == this.m_bodyList)
+	if (b === this.m_bodyList)
 	{
 		this.m_bodyList = b.m_next;
 	}
@@ -661,7 +661,7 @@ box2d.b2World.prototype.DestroyBody = function (b)
  */
 box2d.b2World.prototype.CreateJoint = function (def)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.IsLocked() == false); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.IsLocked() === false); }
 	if (this.IsLocked())
 	{
 		return null;
@@ -698,12 +698,12 @@ box2d.b2World.prototype.CreateJoint = function (def)
 	/** @type {box2d.b2Body} */ var bodyB = def.bodyB;
 
 	// If the joint prevents collisions, then flag any contacts for filtering.
-	if (def.collideConnected == false)
+	if (def.collideConnected === false)
 	{
 		/** @type {box2d.b2ContactEdge} */ var edge = bodyB.GetContactList();
 		while (edge)
 		{
-			if (edge.other == bodyA)
+			if (edge.other === bodyA)
 			{
 				// Flag the contact for filtering at the next time step (where either
 				// body is awake).
@@ -729,7 +729,7 @@ box2d.b2World.prototype.CreateJoint = function (def)
  */
 box2d.b2World.prototype.DestroyJoint = function (j)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.IsLocked() == false); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.IsLocked() === false); }
 	if (this.IsLocked())
 	{
 		return;
@@ -748,7 +748,7 @@ box2d.b2World.prototype.DestroyJoint = function (j)
 		j.m_next.m_prev = j.m_prev;
 	}
 
-	if (j == this.m_jointList)
+	if (j === this.m_jointList)
 	{
 		this.m_jointList = j.m_next;
 	}
@@ -772,7 +772,7 @@ box2d.b2World.prototype.DestroyJoint = function (j)
 		j.m_edgeA.next.prev = j.m_edgeA.prev;
 	}
 
-	if (j.m_edgeA == bodyA.m_jointList)
+	if (j.m_edgeA === bodyA.m_jointList)
 	{
 		bodyA.m_jointList = j.m_edgeA.next;
 	}
@@ -791,7 +791,7 @@ box2d.b2World.prototype.DestroyJoint = function (j)
 		j.m_edgeB.next.prev = j.m_edgeB.prev;
 	}
 
-	if (j.m_edgeB == bodyB.m_jointList)
+	if (j.m_edgeB === bodyB.m_jointList)
 	{
 		bodyB.m_jointList = j.m_edgeB.next;
 	}
@@ -805,12 +805,12 @@ box2d.b2World.prototype.DestroyJoint = function (j)
 	--this.m_jointCount;
 
 	// If the joint prevents collisions, then flag any contacts for filtering.
-	if (collideConnected == false)
+	if (collideConnected === false)
 	{
 		/** @type {box2d.b2ContactEdge} */ var edge = bodyB.GetContactList();
 		while (edge)
 		{
-			if (edge.other == bodyA)
+			if (edge.other === bodyA)
 			{
 				// Flag the contact for filtering at the next time step (where either
 				// body is awake).
@@ -873,13 +873,13 @@ box2d.b2World.prototype.Solve = function (step)
 			continue;
 		}
 
-		if (seed.IsAwake() == false || seed.IsActive() == false)
+		if (seed.IsAwake() === false || seed.IsActive() === false)
 		{
 			continue;
 		}
 
 		// The seed can be dynamic or kinematic.
-		if (seed.GetType() == box2d.b2BodyType.b2_staticBody)
+		if (seed.GetType() === box2d.b2BodyType.b2_staticBody)
 		{
 			continue;
 		}
@@ -895,7 +895,7 @@ box2d.b2World.prototype.Solve = function (step)
 		{
 			// Grab the next body off the stack and add it to the island.
 			/* type {box2d.b2Body} */ var b = stack[--stackCount];
-			if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(b.IsActive() == true); }
+			if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(b.IsActive() === true); }
 			island.AddBody(b);
 
 			// Make sure the body is awake.
@@ -903,7 +903,7 @@ box2d.b2World.prototype.Solve = function (step)
 
 			// To keep islands as small as possible, we don't
 			// propagate islands across static bodies.
-			if (b.GetType() == box2d.b2BodyType.b2_staticBody)
+			if (b.GetType() === box2d.b2BodyType.b2_staticBody)
 			{
 				continue;
 			}
@@ -920,8 +920,8 @@ box2d.b2World.prototype.Solve = function (step)
 				}
 
 				// Is this contact solid and touching?
-				if (contact.IsEnabled() == false ||
-					contact.IsTouching() == false)
+				if (contact.IsEnabled() === false ||
+					contact.IsTouching() === false)
 				{
 					continue;
 				}
@@ -953,7 +953,7 @@ box2d.b2World.prototype.Solve = function (step)
 			// Search all joints connect to this body.
 			for (/** @type {box2d.b2JointEdge} */ var je = b.m_jointList; je; je = je.next)
 			{
-				if (je.joint.m_islandFlag == true)
+				if (je.joint.m_islandFlag === true)
 				{
 					continue;
 				}
@@ -961,7 +961,7 @@ box2d.b2World.prototype.Solve = function (step)
 				/* type {box2d.b2Body} */ var other = je.other;
 
 				// Don't simulate joints connected to inactive bodies.
-				if (other.IsActive() == false)
+				if (other.IsActive() === false)
 				{
 					continue;
 				}
@@ -991,7 +991,7 @@ box2d.b2World.prototype.Solve = function (step)
 		{
 			// Allow static bodies to participate in other islands.
 			/* type {box2d.b2Body} */ var b = island.m_bodies[i];
-			if (b.GetType() == box2d.b2BodyType.b2_staticBody)
+			if (b.GetType() === box2d.b2BodyType.b2_staticBody)
 			{
 				b.m_flags &= ~box2d.b2BodyFlag.e_islandFlag;
 			}
@@ -1011,12 +1011,12 @@ box2d.b2World.prototype.Solve = function (step)
 		for (/* type {box2d.b2Body} */ var b = this.m_bodyList; b; b = b.m_next)
 		{
 			// If a body was not in an island then it did not move.
-			if ((b.m_flags & box2d.b2BodyFlag.e_islandFlag) == 0)
+			if ((b.m_flags & box2d.b2BodyFlag.e_islandFlag) === 0)
 			{
 				continue;
 			}
 	
-			if (b.GetType() == box2d.b2BodyType.b2_staticBody)
+			if (b.GetType() === box2d.b2BodyType.b2_staticBody)
 			{
 				continue;
 			}
@@ -1070,7 +1070,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 		for (/* type {box2d.b2Contact} */ var c = this.m_contactManager.m_contactList; c; c = c.m_next)
 		{
 			// Is this contact disabled?
-			if (c.IsEnabled() == false)
+			if (c.IsEnabled() === false)
 			{
 				continue;
 			}
@@ -1103,22 +1103,22 @@ box2d.b2World.prototype.SolveTOI = function (step)
 
 				/** @type {box2d.b2BodyType} */ var typeA = bA.m_type;
 				/** @type {box2d.b2BodyType} */ var typeB = bB.m_type;
-				if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(typeA == box2d.b2BodyType.b2_dynamicBody || typeB == box2d.b2BodyType.b2_dynamicBody); }
+				if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(typeA === box2d.b2BodyType.b2_dynamicBody || typeB === box2d.b2BodyType.b2_dynamicBody); }
 
-				/** @type {boolean} */ var activeA = bA.IsAwake() && typeA != box2d.b2BodyType.b2_staticBody;
-				/** @type {boolean} */ var activeB = bB.IsAwake() && typeB != box2d.b2BodyType.b2_staticBody;
+				/** @type {boolean} */ var activeA = bA.IsAwake() && typeA !== box2d.b2BodyType.b2_staticBody;
+				/** @type {boolean} */ var activeB = bB.IsAwake() && typeB !== box2d.b2BodyType.b2_staticBody;
 
 				// Is at least one body active (awake and dynamic or kinematic)?
-				if (activeA == false && activeB == false)
+				if (activeA === false && activeB === false)
 				{
 					continue;
 				}
 
-				/** @type {boolean} */ var collideA = bA.IsBullet() || typeA != box2d.b2BodyType.b2_dynamicBody;
-				/** @type {boolean} */ var collideB = bB.IsBullet() || typeB != box2d.b2BodyType.b2_dynamicBody;
+				/** @type {boolean} */ var collideA = bA.IsBullet() || typeA !== box2d.b2BodyType.b2_dynamicBody;
+				/** @type {boolean} */ var collideB = bB.IsBullet() || typeB !== box2d.b2BodyType.b2_dynamicBody;
 
 				// Are these two non-bullet dynamic bodies?
-				if (collideA == false && collideB == false)
+				if (collideA === false && collideB === false)
 				{
 					continue;
 				}
@@ -1156,7 +1156,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 
 				// Beta is the fraction of the remaining portion of the .
 				/** @type {number} */ var beta = output.t;
-				if (output.state == box2d.b2TOIOutputState.e_touching)
+				if (output.state === box2d.b2TOIOutputState.e_touching)
 				{
 					alpha = box2d.b2Min(alpha0 + (1 - alpha0) * beta, 1);
 				}
@@ -1177,7 +1177,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 			}
 		}
 
-		if (minContact == null || 1 - 10 * box2d.b2_epsilon < minAlpha)
+		if (minContact === null || 1 - 10 * box2d.b2_epsilon < minAlpha)
 		{
 			// No more TOI events. Done!
 			this.m_stepComplete = true;
@@ -1202,7 +1202,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 		++minContact.m_toiCount;
 
 		// Is the contact solid?
-		if (minContact.IsEnabled() == false || minContact.IsTouching() == false)
+		if (minContact.IsEnabled() === false || minContact.IsTouching() === false)
 		{
 			// Restore the sweeps.
 			minContact.SetEnabled(false);
@@ -1230,17 +1230,17 @@ box2d.b2World.prototype.SolveTOI = function (step)
 		//** @type {box2d.b2Body} */ var bodies = [bA, bB];
 		for (/** @type {number} */ var i = 0; i < 2; ++i)
 		{
-			/** @type {box2d.b2Body} */ var body = (i == 0)?(bA):(bB);//bodies[i];
-			if (body.m_type == box2d.b2BodyType.b2_dynamicBody)
+			/** @type {box2d.b2Body} */ var body = (i === 0)?(bA):(bB);//bodies[i];
+			if (body.m_type === box2d.b2BodyType.b2_dynamicBody)
 			{
 				for (/** @type {box2d.b2ContactEdge} */ var ce = body.m_contactList; ce; ce = ce.next)
 				{
-					if (island.m_bodyCount == island.m_bodyCapacity)
+					if (island.m_bodyCount === island.m_bodyCapacity)
 					{
 						break;
 					}
 
-					if (island.m_contactCount == island.m_contactCapacity)
+					if (island.m_contactCount === island.m_contactCapacity)
 					{
 						break;
 					}
@@ -1255,8 +1255,8 @@ box2d.b2World.prototype.SolveTOI = function (step)
 
 					// Only add static, kinematic, or bullet bodies.
 					/** @type {box2d.b2Body} */ var other = ce.other;
-					if (other.m_type == box2d.b2BodyType.b2_dynamicBody &&
-						body.IsBullet() == false && other.IsBullet() == false)
+					if (other.m_type === box2d.b2BodyType.b2_dynamicBody &&
+						body.IsBullet() === false && other.IsBullet() === false)
 					{
 						continue;
 					}
@@ -1271,7 +1271,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 
 					// Tentatively advance the body to the TOI.
 					/** @type {box2d.b2Sweep} */ var backup = box2d.b2World.prototype.SolveTOI.s_backup.Copy(other.m_sweep);
-					if ((other.m_flags & box2d.b2BodyFlag.e_islandFlag) == 0)
+					if ((other.m_flags & box2d.b2BodyFlag.e_islandFlag) === 0)
 					{
 						other.Advance(minAlpha);
 					}
@@ -1280,7 +1280,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 					contact.Update(this.m_contactManager.m_contactListener);
 
 					// Was the contact disabled by the user?
-					if (contact.IsEnabled() == false)
+					if (contact.IsEnabled() === false)
 					{
 						other.m_sweep.Copy(backup);
 						other.SynchronizeTransform();
@@ -1288,7 +1288,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 					}
 
 					// Are there contact points?
-					if (contact.IsTouching() == false)
+					if (contact.IsTouching() === false)
 					{
 						other.m_sweep.Copy(backup);
 						other.SynchronizeTransform();
@@ -1308,7 +1308,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 					// Add the other body to the island.
 					other.m_flags |= box2d.b2BodyFlag.e_islandFlag;
 
-					if (other.m_type != box2d.b2BodyType.b2_staticBody)
+					if (other.m_type !== box2d.b2BodyType.b2_staticBody)
 					{
 						other.SetAwake(true);
 					}
@@ -1333,7 +1333,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 			/* type {box2d.b2Body} */ var body = island.m_bodies[i];
 			body.m_flags &= ~box2d.b2BodyFlag.e_islandFlag;
 
-			if (body.m_type != box2d.b2BodyType.b2_dynamicBody)
+			if (body.m_type !== box2d.b2BodyType.b2_dynamicBody)
 			{
 				continue;
 			}
@@ -1494,7 +1494,7 @@ box2d.b2World.prototype.QueryAABB = function (callback, aabb)
 		{
 			return callback.ReportFixture(fixture);
 		}
-		else //if (typeof(callback) == 'function')
+		else //if (typeof(callback) === 'function')
 		{
 			return callback(fixture);
 		}
@@ -1531,7 +1531,7 @@ box2d.b2World.prototype.QueryShape = function (callback, shape, transform)
 			{
 				return callback.ReportFixture(fixture);
 			}
-			else //if (typeof(callback) == 'function')
+			else //if (typeof(callback) === 'function')
 			{
 				return callback(fixture);
 			}
@@ -1572,7 +1572,7 @@ box2d.b2World.prototype.QueryPoint = function (callback, point)
 			{
 				return callback.ReportFixture(fixture);
 			}
-			else //if (typeof(callback) == 'function')
+			else //if (typeof(callback) === 'function')
 			{
 				return callback(fixture);
 			}
@@ -1628,7 +1628,7 @@ box2d.b2World.prototype.RayCast = function (callback, point1, point2)
 			{
 				return callback.ReportFixture(fixture, point, output.normal, fraction);
 			}
-			else //if (typeof(callback) == 'function')
+			else //if (typeof(callback) === 'function')
 			{
 				return callback(fixture, point, output.normal, fraction);
 			}
@@ -1831,7 +1831,7 @@ box2d.b2World.prototype.DrawJoint.s_s2 = new box2d.b2Vec2();
  */
 box2d.b2World.prototype.DrawDebugData = function ()
 {
-	if (this.m_debugDraw == null)
+	if (this.m_debugDraw === null)
 	{
 		return;
 	}
@@ -1849,22 +1849,22 @@ box2d.b2World.prototype.DrawDebugData = function ()
 
 			for (/** @type {box2d.b2Fixture} */ var f = b.GetFixtureList(); f; f = f.m_next)
 			{
-				if (b.IsActive() == false)
+				if (b.IsActive() === false)
 				{
 					color.SetRGB(0.5, 0.5, 0.3);
 					this.DrawShape(f, color);
 				}
-				else if (b.GetType() == box2d.b2BodyType.b2_staticBody)
+				else if (b.GetType() === box2d.b2BodyType.b2_staticBody)
 				{
 					color.SetRGB(0.5, 0.9, 0.5);
 					this.DrawShape(f, color);
 				}
-				else if (b.GetType() == box2d.b2BodyType.b2_kinematicBody)
+				else if (b.GetType() === box2d.b2BodyType.b2_kinematicBody)
 				{
 					color.SetRGB(0.5, 0.5, 0.9);
 					this.DrawShape(f, color);
 				}
-				else if (b.IsAwake() == false)
+				else if (b.IsAwake() === false)
 				{
 					color.SetRGB(0.6, 0.6, 0.6);
 					this.DrawShape(f, color);
@@ -1913,7 +1913,7 @@ box2d.b2World.prototype.DrawDebugData = function ()
 
 		for (/* type {box2d.b2Body} */ var b = this.m_bodyList; b; b = b.m_next)
 		{
-			if (b.IsActive() == false)
+			if (b.IsActive() === false)
 			{
 				continue;
 			}
@@ -2030,7 +2030,7 @@ box2d.b2World.prototype.GetTreeQuality = function ()
  */
 box2d.b2World.prototype.ShiftOrigin = function (newOrigin)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.IsLocked() == false); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.IsLocked() === false); }
 	if (this.IsLocked())
 	{
 		return;
@@ -2061,7 +2061,7 @@ box2d.b2World.prototype.Dump = function ()
 {
 	if (box2d.DEBUG)
 	{
-		if ((this.m_flags & box2d.b2WorldFlag.e_locked) == box2d.b2WorldFlag.e_locked)
+		if ((this.m_flags & box2d.b2WorldFlag.e_locked) === box2d.b2WorldFlag.e_locked)
 		{
 			return;
 		}
@@ -2089,7 +2089,7 @@ box2d.b2World.prototype.Dump = function ()
 		// First pass on joints, skip gear joints.
 		for (/* type {box2d.b2Joint} */ var j = this.m_jointList; j; j = j.m_next)
 		{
-			if (j.m_type == box2d.b2JointType.e_gearJoint)
+			if (j.m_type === box2d.b2JointType.e_gearJoint)
 			{
 				continue;
 			}
@@ -2103,7 +2103,7 @@ box2d.b2World.prototype.Dump = function ()
 		// Second pass on joints, only gear joints.
 		for (/* type {box2d.b2Joint} */ var j = this.m_jointList; j; j = j.m_next)
 		{
-			if (j.m_type != box2d.b2JointType.e_gearJoint)
+			if (j.m_type !== box2d.b2JointType.e_gearJoint)
 			{
 				continue;
 			}
@@ -2148,7 +2148,7 @@ box2d.b2World.prototype.RemoveController = function (controller)
 		controller.m_prev.m_next = controller.m_next;
 	if (controller.m_next)
 		controller.m_next.m_prev = controller.m_prev;
-	if (this.m_controllerList == controller)
+	if (this.m_controllerList === controller)
 		this.m_controllerList = controller.m_next;
 	--this.m_controllerCount;
 	controller.m_prev = null;

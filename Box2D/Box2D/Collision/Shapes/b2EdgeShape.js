@@ -178,7 +178,7 @@ box2d.b2EdgeShape.prototype.RayCast = function (output, input, xf, childIndex)
 	var numerator = box2d.b2DotVV(normal, box2d.b2SubVV(v1, p1, box2d.b2Vec2.s_t0));
 	var denominator = box2d.b2DotVV(normal, d);
 
-	if (denominator == 0)
+	if (denominator === 0)
 	{
 		return false;
 	}
@@ -195,7 +195,7 @@ box2d.b2EdgeShape.prototype.RayCast = function (output, input, xf, childIndex)
 	// s = dot(q - v1, r) / dot(r, r)
 	var r = box2d.b2SubVV(v2, v1, box2d.b2EdgeShape.prototype.RayCast.s_r);
 	var rr = box2d.b2DotVV(r, r);
-	if (rr == 0)
+	if (rr === 0)
 	{
 		return false;
 	}

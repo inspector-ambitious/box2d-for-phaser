@@ -82,7 +82,7 @@ box2d.Testbed.RopeJoint = function (canvas, settings)
 			/*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
 			bd.type = box2d.b2BodyType.b2_dynamicBody;
 			bd.position.SetXY(0.5 + 1.0 * i, y);
-			if (i == N - 1)
+			if (i === N - 1)
 			{
 				shape.SetAsBox(1.5, 1.5);
 				fd.density = 100.0;

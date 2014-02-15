@@ -331,11 +331,11 @@ box2d.b2WeldJoint.prototype.InitVelocityConstraints = function (data)
 		// magic formulas
 		/*float32*/ var h = data.step.dt;
 		this.m_gamma = h * (d + h * k);
-		this.m_gamma = this.m_gamma != 0 ? 1 / this.m_gamma : 0;
+		this.m_gamma = this.m_gamma !== 0 ? 1 / this.m_gamma : 0;
 		this.m_bias = C * h * k * this.m_gamma;
 
 		invM += this.m_gamma;
-		this.m_mass.ez.z = invM != 0 ? 1 / invM : 0;
+		this.m_mass.ez.z = invM !== 0 ? 1 / invM : 0;
 	}
 	else
 	{

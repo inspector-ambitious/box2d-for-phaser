@@ -87,7 +87,7 @@ box2d.Testbed.Mobile.prototype.AddNode = function (parent, localAnchor, depth, o
 	shape.SetAsBox(0.25 * a, a);
 	body.CreateFixture2(shape, density);
 
-	if (depth == box2d.Testbed.Mobile.e_depth)
+	if (depth === box2d.Testbed.Mobile.e_depth)
 	{
 		return body;
 	}

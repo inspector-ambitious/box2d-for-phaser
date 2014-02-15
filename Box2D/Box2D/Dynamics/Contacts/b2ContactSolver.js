@@ -688,7 +688,7 @@ box2d.b2ContactSolver.prototype.InitializeVelocityConstraints = function ()
 		}
 
 		// If we have two points, then prepare the block solver.
-		if (vc.pointCount == 2)
+		if (vc.pointCount === 2)
 		{
 			vcp1 = vc.points[0];
 			vcp2 = vc.points[1];
@@ -883,7 +883,7 @@ box2d.b2ContactSolver.prototype.SolveVelocityConstraints = function ()
 		tangent = vc.tangent; // precomputed from normal
 		friction = vc.friction;
 
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(pointCount == 1 || pointCount == 2); }
+		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(pointCount === 1 || pointCount === 2); }
 
 		// Solve tangent constraints first because non-penetration is more important
 		// than friction.
@@ -925,7 +925,7 @@ box2d.b2ContactSolver.prototype.SolveVelocityConstraints = function ()
 		}
 
 		// Solve normal constraints
-		if (vc.pointCount == 1)
+		if (vc.pointCount === 1)
 		{
 			vcp = vc.points[0];
 
@@ -1029,7 +1029,7 @@ box2d.b2ContactSolver.prototype.SolveVelocityConstraints = function ()
 			b.SelfSub(box2d.b2MulMV(vc.K, a, box2d.b2Vec2.s_t0));
 
 /*
-#if B2_DEBUG_SOLVER == 1
+#if B2_DEBUG_SOLVER === 1
 			var k_errorTol = 0.001;
 #endif
 */
@@ -1075,7 +1075,7 @@ box2d.b2ContactSolver.prototype.SolveVelocityConstraints = function ()
 					cp2.normalImpulse = x.y;
 
 /*
-#if B2_DEBUG_SOLVER == 1
+#if B2_DEBUG_SOLVER === 1
 					// Postconditions
 					dv1 = vB + b2Cross(wB, cp1->rB) - vA - b2Cross(wA, cp1->rA);
 					dv2 = vB + b2Cross(wB, cp2->rB) - vA - b2Cross(wA, cp2->rA);
@@ -1129,7 +1129,7 @@ box2d.b2ContactSolver.prototype.SolveVelocityConstraints = function ()
 					cp2.normalImpulse = x.y;
 
 /*
-#if B2_DEBUG_SOLVER == 1
+#if B2_DEBUG_SOLVER === 1
 					// Postconditions
 					dv1 = vB + b2Cross(wB, cp1->rB) - vA - b2Cross(wA, cp1->rA);
 
@@ -1181,7 +1181,7 @@ box2d.b2ContactSolver.prototype.SolveVelocityConstraints = function ()
 					cp2.normalImpulse = x.y;
 
 /*
-#if B2_DEBUG_SOLVER == 1
+#if B2_DEBUG_SOLVER === 1
 					// Postconditions
 					dv2 = vB + b2Cross(wB, cp2->rB) - vA - b2Cross(wA, cp2->rA);
 
@@ -1589,7 +1589,7 @@ box2d.b2ContactSolver.prototype.SolveTOIPositionConstraints = function (toiIndex
 
 		mA = 0;
 		iA = 0;
-		if (indexA == toiIndexA || indexA == toiIndexB)
+		if (indexA === toiIndexA || indexA === toiIndexB)
 		{
 			mA = pc.invMassA;
 			iA = pc.invIA;
@@ -1597,7 +1597,7 @@ box2d.b2ContactSolver.prototype.SolveTOIPositionConstraints = function (toiIndex
 
 		mB = 0;
 		iB = 0;
-		if (indexB == toiIndexA || indexB == toiIndexB)
+		if (indexB === toiIndexA || indexB === toiIndexB)
 		{
 			mB = pc.invMassB;
 			iB = pc.invIB;

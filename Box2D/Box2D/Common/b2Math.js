@@ -248,7 +248,7 @@ box2d.b2NextPowerOfTwo = function (x)
  */
 box2d.b2IsPowerOfTwo = function (x)
 {
-	return x > 0 && (x & (x - 1)) == 0;
+	return x > 0 && (x & (x - 1)) === 0;
 }
 
 /**
@@ -706,7 +706,7 @@ box2d.b2Vec2.prototype.SelfNeg = function ()
 }
 
 /** 
- * Get the skew vector such that dot(skew_vec, other) == 
+ * Get the skew vector such that dot(skew_vec, other) === 
  * cross(vec, other) 
  * @export 
  * @return {box2d.b2Vec2}
@@ -1000,7 +1000,7 @@ box2d.b2ExtVV = function (a, b, out) { out.x = (b.x - a.x) * 0.5; out.y = (b.y -
  */
 box2d.b2IsEqualToV = function (a, b)
 {
-	return a.x == b.x && a.y == b.y;
+	return a.x === b.x && a.y === b.y;
 }
 
 /**
@@ -1442,7 +1442,7 @@ box2d.b2Mat22.prototype.GetInverse = function (out)
 	var c = this.ex.y;
 	var d = this.ey.y;
 	var det = a * d - b * c;
-	if (det != 0.0)
+	if (det !== 0.0)
 	{
 		det = 1.0 / det;
 	}
@@ -1467,7 +1467,7 @@ box2d.b2Mat22.prototype.Solve = function (b_x, b_y, out)
 	var a11 = this.ex.x, a12 = this.ey.x;
 	var a21 = this.ex.y, a22 = this.ey.y;
 	var det = a11 * a22 - a12 * a21;
-	if (det != 0.0)
+	if (det !== 0.0)
 	{
 		det = 1.0 / det;
 	}
@@ -1758,7 +1758,7 @@ box2d.b2Mat33.prototype.Solve33 = function (b_x, b_y, b_z, out)
 	var a12 = this.ey.x, a22 = this.ey.y, a32 = this.ey.z;
 	var a13 = this.ez.x, a23 = this.ez.y, a33 = this.ez.z;
 	var det = a11 * (a22 * a33 - a32 * a23) + a21 * (a32 * a13 - a12 * a33) + a31 * (a12 * a23 - a22 * a13);
-	if (det != 0.0)
+	if (det !== 0.0)
 	{
 		det = 1.0 / det;
 	}
@@ -1783,7 +1783,7 @@ box2d.b2Mat33.prototype.Solve22 = function (b_x, b_y, out)
 	var a11 = this.ex.x, a12 = this.ey.x;
 	var a21 = this.ex.y, a22 = this.ey.y;
 	var det = a11 * a22 - a12 * a21;
-	if (det != 0.0)
+	if (det !== 0.0)
 	{
 		det = 1.0 / det;
 	}
@@ -1803,7 +1803,7 @@ box2d.b2Mat33.prototype.GetInverse22 = function (M)
 {
 	var a = this.ex.x, b = this.ey.x, c = this.ex.y, d = this.ey.y;
 	var det = a * d - b * c;
-	if (det != 0.0)
+	if (det !== 0.0)
 	{
 		det = 1.0 / det;
 	}
@@ -1823,7 +1823,7 @@ box2d.b2Mat33.prototype.GetInverse22 = function (M)
 box2d.b2Mat33.prototype.GetSymInverse33 = function (M)
 {
 	var det = box2d.b2DotV3V3(this.ex, box2d.b2CrossV3V3(this.ey, this.ez, box2d.b2Vec3.s_t0));
-	if (det != 0.0)
+	if (det !== 0.0)
 	{
 		det = 1.0 / det;
 	}
@@ -1978,7 +1978,7 @@ box2d.b2Rot.prototype.Copy = function (other)
 box2d.b2Rot.prototype.SetAngle = function (angle)
 {
 	/// TODO_ERIN optimize
-	if (this.angle != angle)
+	if (this.angle !== angle)
 	{
 		this.angle = angle;
 		this.s = Math.sin(angle);

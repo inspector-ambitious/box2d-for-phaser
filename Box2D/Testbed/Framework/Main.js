@@ -94,11 +94,11 @@ box2d.Testbed.Main = function ()
 	var resize_canvas = function ()
 	{
 		//window.console.log(canvas.parentNode.clientWidth + "x" + canvas.parentNode.clientHeight);
-		if (canvas.width != canvas.parentNode.clientWidth)
+		if (canvas.width !== canvas.parentNode.clientWidth)
 		{
 			canvas.width = canvas.parentNode.clientWidth;
 		}
-		if (canvas.height != canvas.parentNode.clientHeight)
+		if (canvas.height !== canvas.parentNode.clientHeight)
 		{
 			canvas.height = canvas.parentNode.clientHeight;
 		}
@@ -547,7 +547,7 @@ box2d.Testbed.Main.prototype.HandleMouseDown = function (e)
 	switch (e.which)
 	{
 	case 1: // left mouse button
-		if (this.m_shift == 0)
+		if (this.m_shift === 0)
 		{
 			this.m_test.MouseDown(world);
 		}

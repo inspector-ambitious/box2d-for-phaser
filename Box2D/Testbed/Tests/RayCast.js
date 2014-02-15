@@ -71,7 +71,7 @@ box2d.Testbed.RayCastClosestCallback.prototype.ReportFixture = function (fixture
 	if (userData)
 	{
 		var index = userData.index;
-		if (index == 0)
+		if (index === 0)
 		{
 			// By returning -1, we instruct the calling code to ignore this fixture and
 			// continue the ray-cast to the next fixture.
@@ -137,7 +137,7 @@ box2d.Testbed.RayCastAnyCallback.prototype.ReportFixture = function (fixture, po
 	if (userData)
 	{
 		var index = userData.index;
-		if (index == 0)
+		if (index === 0)
 		{
 			// By returning -1, we instruct the calling code to ignore this fixture
 			// and continue the ray-cast to the next fixture.
@@ -210,7 +210,7 @@ box2d.Testbed.RayCastMultipleCallback.prototype.ReportFixture = function (fixtur
 	if (userData)
 	{
 		var index = userData.index;
-		if (index == 0)
+		if (index === 0)
 		{
 			// By returning -1, we instruct the calling code to ignore this fixture
 			// and continue the ray-cast to the next fixture.
@@ -224,7 +224,7 @@ box2d.Testbed.RayCastMultipleCallback.prototype.ReportFixture = function (fixtur
 	this.m_normals[this.m_count].Copy(normal);
 	++this.m_count;
 
-	if (this.m_count == box2d.Testbed.RayCastMultipleCallback.e_maxCount)
+	if (this.m_count === box2d.Testbed.RayCastMultipleCallback.e_maxCount)
 	{
 		// At this point the buffer is full.
 		// By returning 0, we instruct the calling code to terminate the ray-cast.
@@ -385,7 +385,7 @@ box2d.Testbed.RayCast.prototype.m_edge = null;
  */
 box2d.Testbed.RayCast.prototype.CreateBody = function (index)
 {
-	if (this.m_bodies[this.m_bodyIndex] != null)
+	if (this.m_bodies[this.m_bodyIndex] !== null)
 	{
 		this.m_world.DestroyBody(this.m_bodies[this.m_bodyIndex]);
 		this.m_bodies[this.m_bodyIndex] = null;
@@ -401,7 +401,7 @@ box2d.Testbed.RayCast.prototype.CreateBody = function (index)
 	bd.userData = new Object();
 	bd.userData.index = index;
 
-	if (index == 4)
+	if (index === 4)
 	{
 		bd.angularDamping = 0.02;
 	}
@@ -443,7 +443,7 @@ box2d.Testbed.RayCast.prototype.DestroyBody = function ()
 {
 	for (var i = 0; i < box2d.Testbed.RayCast.e_maxBodies; ++i)
 	{
-		if (this.m_bodies[i] != null)
+		if (this.m_bodies[i] !== null)
 		{
 			this.m_world.DestroyBody(this.m_bodies[i]);
 			this.m_bodies[i] = null;
@@ -475,15 +475,15 @@ box2d.Testbed.RayCast.prototype.Keyboard = function (key)
 		break;
 
 	case goog.events.KeyCodes.M:
-		if (this.m_mode == box2d.Testbed.RayCastMode.e_closest)
+		if (this.m_mode === box2d.Testbed.RayCastMode.e_closest)
 		{
 			this.m_mode = box2d.Testbed.RayCastMode.e_any;
 		}
-		else if (this.m_mode == box2d.Testbed.RayCastMode.e_any)
+		else if (this.m_mode === box2d.Testbed.RayCastMode.e_any)
 		{
 			this.m_mode = box2d.Testbed.RayCastMode.e_multiple;
 		}
-		else if (this.m_mode == box2d.Testbed.RayCastMode.e_multiple)
+		else if (this.m_mode === box2d.Testbed.RayCastMode.e_multiple)
 		{
 			this.m_mode = box2d.Testbed.RayCastMode.e_closest;
 		}
@@ -497,7 +497,7 @@ box2d.Testbed.RayCast.prototype.Keyboard = function (key)
  */
 box2d.Testbed.RayCast.prototype.Step = function (settings)
 {
-	var advanceRay = settings.pause == 0 || settings.singleStep;
+	var advanceRay = settings.pause === false || settings.singleStep;
 
 	goog.base(this, 'Step', settings);
 
@@ -525,7 +525,7 @@ box2d.Testbed.RayCast.prototype.Step = function (settings)
 	var d = new box2d.b2Vec2(L * box2d.b2Cos(this.m_angle), L * box2d.b2Sin(this.m_angle));
 	var point2 = box2d.b2AddVV(point1, d, new box2d.b2Vec2());
 
-	if (this.m_mode == box2d.Testbed.RayCastMode.e_closest)
+	if (this.m_mode === box2d.Testbed.RayCastMode.e_closest)
 	{
 		var callback = new box2d.Testbed.RayCastClosestCallback();
 		this.m_world.RayCast(callback, point1, point2);
@@ -542,7 +542,7 @@ box2d.Testbed.RayCast.prototype.Step = function (settings)
 			this.m_debugDraw.DrawSegment(point1, point2, new box2d.b2Color(0.8, 0.8, 0.8));
 		}
 	}
-	else if (this.m_mode == box2d.Testbed.RayCastMode.e_any)
+	else if (this.m_mode === box2d.Testbed.RayCastMode.e_any)
 	{
 		var callback = new box2d.Testbed.RayCastAnyCallback();
 		this.m_world.RayCast(callback, point1, point2);
@@ -559,7 +559,7 @@ box2d.Testbed.RayCast.prototype.Step = function (settings)
 			this.m_debugDraw.DrawSegment(point1, point2, new box2d.b2Color(0.8, 0.8, 0.8));
 		}
 	}
-	else if (this.m_mode == box2d.Testbed.RayCastMode.e_multiple)
+	else if (this.m_mode === box2d.Testbed.RayCastMode.e_multiple)
 	{
 		var callback = new box2d.Testbed.RayCastMultipleCallback();
 		this.m_world.RayCast(callback, point1, point2);

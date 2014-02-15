@@ -281,7 +281,7 @@ box2d.b2RopeJoint.prototype.InitVelocityConstraints = function (data)
 	/*float32*/ var crB = box2d.b2CrossVV(this.m_rB, this.m_u);
 	/*float32*/ var invMass = this.m_invMassA + this.m_invIA * crA * crA + this.m_invMassB + this.m_invIB * crB * crB;
 
-	this.m_mass = invMass != 0 ? 1 / invMass : 0;
+	this.m_mass = invMass !== 0 ? 1 / invMass : 0;
 
 	if (data.step.warmStarting)
 	{

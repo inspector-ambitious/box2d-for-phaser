@@ -456,7 +456,7 @@ box2d.b2PrismaticJoint.prototype.InitVelocityConstraints = function (data)
 		this.m_K.ey.x = this.m_K.ex.y;
 //		float32 k22 = iA + iB;
 		this.m_K.ey.y = iA + iB;
-		if (this.m_K.ey.y == 0)
+		if (this.m_K.ey.y === 0)
 		{
 			// For bodies with fixed rotation.
 			this.m_K.ey.y = 1;
@@ -484,7 +484,7 @@ box2d.b2PrismaticJoint.prototype.InitVelocityConstraints = function (data)
 		}
 		else if (jointTranslation <= this.m_lowerTranslation)
 		{
-			if (this.m_limitState != box2d.b2LimitState.e_atLowerLimit)
+			if (this.m_limitState !== box2d.b2LimitState.e_atLowerLimit)
 			{
 				this.m_limitState = box2d.b2LimitState.e_atLowerLimit;
 				this.m_impulse.z = 0;
@@ -492,7 +492,7 @@ box2d.b2PrismaticJoint.prototype.InitVelocityConstraints = function (data)
 		}
 		else if (jointTranslation >= this.m_upperTranslation)
 		{
-			if (this.m_limitState != box2d.b2LimitState.e_atUpperLimit)
+			if (this.m_limitState !== box2d.b2LimitState.e_atUpperLimit)
 			{
 				this.m_limitState = box2d.b2LimitState.e_atUpperLimit;
 				this.m_impulse.z = 0;
@@ -510,7 +510,7 @@ box2d.b2PrismaticJoint.prototype.InitVelocityConstraints = function (data)
 		this.m_impulse.z = 0;
 	}
 
-	if (this.m_enableMotor == false)
+	if (this.m_enableMotor === false)
 	{
 		this.m_motorImpulse = 0;
 	}
@@ -570,7 +570,7 @@ box2d.b2PrismaticJoint.prototype.SolveVelocityConstraints = function (data)
 	/*float32*/ var iA = this.m_invIA, iB = this.m_invIB;
 
 	// Solve linear motor constraint.
-	if (this.m_enableMotor && this.m_limitState != box2d.b2LimitState.e_equalLimits)
+	if (this.m_enableMotor && this.m_limitState !== box2d.b2LimitState.e_equalLimits)
 	{
 //		float32 Cdot = b2Dot(m_axis, vB - vA) + m_a2 * wB - m_a1 * wA;
 		var Cdot = box2d.b2DotVV(this.m_axis, box2d.b2SubVV(vB, vA, box2d.b2Vec2.s_t0)) + this.m_a2 * wB - this.m_a1 * wA;
@@ -600,7 +600,7 @@ box2d.b2PrismaticJoint.prototype.SolveVelocityConstraints = function (data)
 //	Cdot1.y = wB - wA;
 	var Cdot1_y = wB - wA;
 
-	if (this.m_enableLimit && this.m_limitState != box2d.b2LimitState.e_inactiveLimit)
+	if (this.m_enableLimit && this.m_limitState !== box2d.b2LimitState.e_inactiveLimit)
 	{
 		// Solve prismatic and limit constraint in block form.
 //		float32 Cdot2;
@@ -615,11 +615,11 @@ box2d.b2PrismaticJoint.prototype.SolveVelocityConstraints = function (data)
 //		m_impulse += df;
 		this.m_impulse.SelfAdd(df);
 
-		if (this.m_limitState == box2d.b2LimitState.e_atLowerLimit)
+		if (this.m_limitState === box2d.b2LimitState.e_atLowerLimit)
 		{
 			this.m_impulse.z = box2d.b2Max(this.m_impulse.z, 0);
 		}
-		else if (this.m_limitState == box2d.b2LimitState.e_atUpperLimit)
+		else if (this.m_limitState === box2d.b2LimitState.e_atUpperLimit)
 		{
 			this.m_impulse.z = box2d.b2Min(this.m_impulse.z, 0);
 		}
@@ -786,7 +786,7 @@ box2d.b2PrismaticJoint.prototype.SolvePositionConstraints = function (data)
 		var k13 = iA * s1 * a1 + iB * s2 * a2;
 //		float32 k22 = iA + iB;
 		var k22 = iA + iB;
-		if (k22 == 0)
+		if (k22 === 0)
 		{
 			// For fixed rotation
 			k22 = 1;
@@ -821,7 +821,7 @@ box2d.b2PrismaticJoint.prototype.SolvePositionConstraints = function (data)
 		var k12 = iA * s1 + iB * s2;
 //		float32 k22 = iA + iB;
 		var k22 = iA + iB;
-		if (k22 == 0)
+		if (k22 === 0)
 		{
 			k22 = 1;
 		}
@@ -1023,7 +1023,7 @@ box2d.b2PrismaticJoint.prototype.IsLimitEnabled = function ()
  */
 box2d.b2PrismaticJoint.prototype.EnableLimit = function (flag)
 {
-	if (flag != this.m_enableLimit)
+	if (flag !== this.m_enableLimit)
 	{
 		this.m_bodyA.SetAwake(true);
 		this.m_bodyB.SetAwake(true);
@@ -1058,7 +1058,7 @@ box2d.b2PrismaticJoint.prototype.GetUpperLimit = function ()
  */
 box2d.b2PrismaticJoint.prototype.SetLimits = function (lower, upper)
 {
-	if (lower != this.m_lowerTranslation || upper != this.m_upperTranslation)
+	if (lower !== this.m_lowerTranslation || upper !== this.m_upperTranslation)
 	{
 		this.m_bodyA.SetAwake(true);
 		this.m_bodyB.SetAwake(true);

@@ -453,7 +453,7 @@ box2d.b2Simplex.prototype.ReadCache = function (cache, proxyA, transformA, proxy
 	}
 
 	// If the cache is empty or invalid ...
-	if (this.m_count == 0)
+	if (this.m_count === 0)
 	{
 		/** type {box2d.b2SimplexVertex} */ var v = vertices[0];
 		v.indexA = 0;
@@ -863,7 +863,7 @@ box2d.b2Distance = function (output, cache, input)
 		}
 
 		// If we have 3 points, then the origin is in the corresponding triangle.
-		if (simplex.m_count == 3)
+		if (simplex.m_count === 3)
 		{
 			break;
 		}
@@ -913,7 +913,7 @@ box2d.b2Distance = function (output, cache, input)
 		/** @type {boolean} */ var duplicate = false;
 		for (var i = 0; i < saveCount; ++i)
 		{
-			if (vertex.indexA == saveA[i] && vertex.indexB == saveB[i])
+			if (vertex.indexA === saveA[i] && vertex.indexB === saveB[i])
 			{
 				duplicate = true;
 				break;

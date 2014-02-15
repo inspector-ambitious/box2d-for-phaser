@@ -120,7 +120,7 @@ box2d.b2Shape.prototype.Clone = function ()
  */
 box2d.b2Shape.prototype.Copy = function (other)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_type == other.m_type); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_type === other.m_type); }
 	this.m_radius = other.m_radius;
 	return this;
 }

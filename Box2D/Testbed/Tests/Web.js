@@ -227,7 +227,7 @@ box2d.Testbed.Web.prototype.JointDestroyed = function (joint)
 {
 	for (var i = 0; i < 8; ++i)
 	{
-		if (this.m_joints[i] == joint)
+		if (this.m_joints[i] === joint)
 		{
 			this.m_joints[i] = null;
 			break;

@@ -174,7 +174,7 @@ box2d.Testbed.DynamicTreeTest.prototype.Step = function (settings)
 		this.m_actors[i].overlap = false;
 	}
 
-	if (this.m_automated == true)
+	if (this.m_automated === true)
 	{
 		var actionCount = box2d.b2Max(1, box2d.Testbed.DynamicTreeTest.e_actorCount >> 2);
 
@@ -190,15 +190,15 @@ box2d.Testbed.DynamicTreeTest.prototype.Step = function (settings)
 	for (var i = 0; i < box2d.Testbed.DynamicTreeTest.e_actorCount; ++i)
 	{
 		var actor = this.m_actors[i];
-		if (actor.proxyId == null)
+		if (actor.proxyId === null)
 			continue;
 
 		var c = new box2d.b2Color(0.9, 0.9, 0.9);
-		if (actor == this.m_rayActor && actor.overlap)
+		if (actor === this.m_rayActor && actor.overlap)
 		{
 			c.SetRGB(0.9, 0.6, 0.6);
 		}
-		else if (actor == this.m_rayActor)
+		else if (actor === this.m_rayActor)
 		{
 			c.SetRGB(0.6, 0.9, 0.6);
 		}
@@ -349,7 +349,7 @@ box2d.Testbed.DynamicTreeTest.prototype.CreateProxy = function ()
 	{
 		var j = 0 | box2d.b2RandomRange(0, box2d.Testbed.DynamicTreeTest.e_actorCount);
 		var actor = this.m_actors[j];
-		if (actor.proxyId == null)
+		if (actor.proxyId === null)
 		{
 			this.GetRandomAABB(actor.aabb);
 			actor.proxyId = this.m_tree.CreateProxy(actor.aabb, actor);
@@ -369,7 +369,7 @@ box2d.Testbed.DynamicTreeTest.prototype.DestroyProxy = function ()
 	{
 		var j = 0 | box2d.b2RandomRange(0, box2d.Testbed.DynamicTreeTest.e_actorCount);
 		var actor = this.m_actors[j];
-		if (actor.proxyId != null)
+		if (actor.proxyId !== null)
 		{
 			this.m_tree.DestroyProxy(actor.proxyId);
 			actor.proxyId = null;
@@ -389,7 +389,7 @@ box2d.Testbed.DynamicTreeTest.prototype.MoveProxy = function ()
 	{
 		var j = 0 | box2d.b2RandomRange(0, box2d.Testbed.DynamicTreeTest.e_actorCount);
 		var actor = this.m_actors[j];
-		if (actor.proxyId == null)
+		if (actor.proxyId === null)
 		{
 			continue;
 		}
@@ -452,13 +452,13 @@ box2d.Testbed.DynamicTreeTest.prototype.Query = function ()
 
 	for (var i = 0; i < box2d.Testbed.DynamicTreeTest.e_actorCount; ++i)
 	{
-		if (this.m_actors[i].proxyId == null)
+		if (this.m_actors[i].proxyId === null)
 		{
 			continue;
 		}
 
 		var overlap = box2d.b2TestOverlapAABB(this.m_queryAABB, this.m_actors[i].aabb);
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(overlap == this.m_actors[i].overlap); }
+		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(overlap === this.m_actors[i].overlap); }
 	}
 }
 
@@ -508,7 +508,7 @@ box2d.Testbed.DynamicTreeTest.prototype.RayCast = function ()
 	var bruteOutput = new box2d.b2RayCastOutput();
 	for (var i = 0; i < box2d.Testbed.DynamicTreeTest.e_actorCount; ++i)
 	{
-		if (this.m_actors[i].proxyId == null)
+		if (this.m_actors[i].proxyId === null)
 		{
 			continue;
 		}
@@ -524,9 +524,9 @@ box2d.Testbed.DynamicTreeTest.prototype.RayCast = function ()
 	}
 
 	/*
-	if (bruteActor != null)
+	if (bruteActor !== null)
 	{
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(bruteOutput.fraction == this.m_rayCastOutput.fraction); }
+		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(bruteOutput.fraction === this.m_rayCastOutput.fraction); }
 	}
 	*/
 }

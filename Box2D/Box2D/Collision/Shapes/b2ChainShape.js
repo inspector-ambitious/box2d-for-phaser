@@ -87,7 +87,7 @@ box2d.b2ChainShape.prototype.m_hasNextVertex = false;
 box2d.b2ChainShape.prototype.CreateLoop = function (vertices, count)
 {
 	count = count || vertices.length;
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_vertices == null && this.m_count == 0); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_vertices === null && this.m_count === 0); }
 	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(count >= 3); }
 	if (box2d.ENABLE_ASSERTS)
 	{
@@ -124,7 +124,7 @@ box2d.b2ChainShape.prototype.CreateLoop = function (vertices, count)
 box2d.b2ChainShape.prototype.CreateChain = function (vertices, count)
 {
 	count = count || vertices.length;
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_vertices == null && this.m_count == 0); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_vertices === null && this.m_count === 0); }
 	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(count >= 2); }
 	if (box2d.ENABLE_ASSERTS)
 	{

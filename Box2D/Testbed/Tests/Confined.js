@@ -147,7 +147,7 @@ box2d.Testbed.Confined.prototype.Step = function (settings)
 	var sleeping = true;
 	for (var b = this.m_world.GetBodyList(); b; b = b.m_next)
 	{
-		if (b.GetType() != box2d.b2BodyType.b2_dynamicBody)
+		if (b.GetType() !== box2d.b2BodyType.b2_dynamicBody)
 		{
 			continue;
 		}
@@ -158,7 +158,7 @@ box2d.Testbed.Confined.prototype.Step = function (settings)
 		}
 	}
 
-	if (this.m_stepCount == 180)
+	if (this.m_stepCount === 180)
 	{
 		this.m_stepCount += 0;
 	}
@@ -172,7 +172,7 @@ box2d.Testbed.Confined.prototype.Step = function (settings)
 
 	for (var b = this.m_world.GetBodyList(); b; b = b.m_next)
 	{
-		if (b.GetType() != box2d.b2BodyType.b2_dynamicBody)
+		if (b.GetType() !== box2d.b2BodyType.b2_dynamicBody)
 		{
 			continue;
 		}

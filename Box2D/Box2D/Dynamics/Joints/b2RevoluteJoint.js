@@ -380,7 +380,7 @@ box2d.b2RevoluteJoint.prototype.InitVelocityConstraints = function (data)
 	/*float32*/ var mA = this.m_invMassA, mB = this.m_invMassB;
 	/*float32*/ var iA = this.m_invIA, iB = this.m_invIB;
 
-	/*bool*/ var fixedRotation = (iA + iB == 0);
+	/*bool*/ var fixedRotation = (iA + iB === 0);
 
 	this.m_mass.ex.x = mA + mB + this.m_rA.y * this.m_rA.y * iA + this.m_rB.y * this.m_rB.y * iB;
 	this.m_mass.ey.x = -this.m_rA.y * this.m_rA.x * iA - this.m_rB.y * this.m_rB.x * iB;
@@ -398,12 +398,12 @@ box2d.b2RevoluteJoint.prototype.InitVelocityConstraints = function (data)
 		this.m_motorMass = 1 / this.m_motorMass;
 	}
 
-	if (this.m_enableMotor == false || fixedRotation)
+	if (this.m_enableMotor === false || fixedRotation)
 	{
 		this.m_motorImpulse = 0;
 	}
 
-	if (this.m_enableLimit && fixedRotation == false)
+	if (this.m_enableLimit && fixedRotation === false)
 	{
 		/*float32*/ var jointAngle = aB - aA - this.m_referenceAngle;
 		if (box2d.b2Abs(this.m_upperAngle - this.m_lowerAngle) < 2 * box2d.b2_angularSlop)
@@ -412,7 +412,7 @@ box2d.b2RevoluteJoint.prototype.InitVelocityConstraints = function (data)
 		}
 		else if (jointAngle <= this.m_lowerAngle)
 		{
-			if (this.m_limitState != box2d.b2LimitState.e_atLowerLimit)
+			if (this.m_limitState !== box2d.b2LimitState.e_atLowerLimit)
 			{
 				this.m_impulse.z = 0;
 			}
@@ -420,7 +420,7 @@ box2d.b2RevoluteJoint.prototype.InitVelocityConstraints = function (data)
 		}
 		else if (jointAngle >= this.m_upperAngle)
 		{
-			if (this.m_limitState != box2d.b2LimitState.e_atUpperLimit)
+			if (this.m_limitState !== box2d.b2LimitState.e_atUpperLimit)
 			{
 				this.m_impulse.z = 0;
 			}
@@ -482,10 +482,10 @@ box2d.b2RevoluteJoint.prototype.SolveVelocityConstraints = function (data)
 	/*float32*/ var mA = this.m_invMassA, mB = this.m_invMassB;
 	/*float32*/ var iA = this.m_invIA, iB = this.m_invIB;
 
-	/*bool*/ var fixedRotation = (iA + iB == 0);
+	/*bool*/ var fixedRotation = (iA + iB === 0);
 
 	// Solve motor constraint.
-	if (this.m_enableMotor && this.m_limitState != box2d.b2LimitState.e_equalLimits && fixedRotation == false)
+	if (this.m_enableMotor && this.m_limitState !== box2d.b2LimitState.e_equalLimits && fixedRotation === false)
 	{
 		/*float32*/ var Cdot = wB - wA - this.m_motorSpeed;
 		/*float32*/ var impulse = -this.m_motorMass * Cdot;
@@ -499,7 +499,7 @@ box2d.b2RevoluteJoint.prototype.SolveVelocityConstraints = function (data)
 	}
 
 	// Solve limit constraint.
-	if (this.m_enableLimit && this.m_limitState != box2d.b2LimitState.e_inactiveLimit && fixedRotation == false)
+	if (this.m_enableLimit && this.m_limitState !== box2d.b2LimitState.e_inactiveLimit && fixedRotation === false)
 	{
 //		b2Vec2 Cdot1 = vB + b2Cross(wB, m_rB) - vA - b2Cross(wA, m_rA);
 		var Cdot1 = box2d.b2SubVV(
@@ -512,11 +512,11 @@ box2d.b2RevoluteJoint.prototype.SolveVelocityConstraints = function (data)
 //		b2Vec3 impulse = -this.m_mass.Solve33(Cdot);
 		var impulse = this.m_mass.Solve33(Cdot1.x, Cdot1.y, Cdot2, box2d.b2RevoluteJoint.prototype.SolveVelocityConstraints.s_impulse3).SelfNeg();
 
-		if (this.m_limitState == box2d.b2LimitState.e_equalLimits)
+		if (this.m_limitState === box2d.b2LimitState.e_equalLimits)
 		{
 			this.m_impulse.SelfAdd(impulse);
 		}
-		else if (this.m_limitState == box2d.b2LimitState.e_atLowerLimit)
+		else if (this.m_limitState === box2d.b2LimitState.e_atLowerLimit)
 		{
 			/*float32*/ var newImpulse = this.m_impulse.z + impulse.z;
 			if (newImpulse < 0)
@@ -537,7 +537,7 @@ box2d.b2RevoluteJoint.prototype.SolveVelocityConstraints = function (data)
 				this.m_impulse.SelfAdd(impulse);
 			}
 		}
-		else if (this.m_limitState == box2d.b2LimitState.e_atUpperLimit)
+		else if (this.m_limitState === box2d.b2LimitState.e_atUpperLimit)
 		{
 			/*float32*/ var newImpulse = this.m_impulse.z + impulse.z;
 			if (newImpulse > 0)
@@ -623,22 +623,22 @@ box2d.b2RevoluteJoint.prototype.SolvePositionConstraints = function (data)
 	/*float32*/ var angularError = 0;
 	/*float32*/ var positionError = 0;
 
-	/*bool*/ var fixedRotation = (this.m_invIA + this.m_invIB == 0);
+	/*bool*/ var fixedRotation = (this.m_invIA + this.m_invIB === 0);
 
 	// Solve angular limit constraint.
-	if (this.m_enableLimit && this.m_limitState != box2d.b2LimitState.e_inactiveLimit && fixedRotation == false)
+	if (this.m_enableLimit && this.m_limitState !== box2d.b2LimitState.e_inactiveLimit && fixedRotation === false)
 	{
 		/*float32*/ var angle = aB - aA - this.m_referenceAngle;
 		/*float32*/ var limitImpulse = 0;
 
-		if (this.m_limitState == box2d.b2LimitState.e_equalLimits)
+		if (this.m_limitState === box2d.b2LimitState.e_equalLimits)
 		{
 			// Prevent large angular corrections
 			/*float32*/ var C = box2d.b2Clamp(angle - this.m_lowerAngle, -box2d.b2_maxAngularCorrection, box2d.b2_maxAngularCorrection);
 			limitImpulse = -this.m_motorMass * C;
 			angularError = box2d.b2Abs(C);
 		}
-		else if (this.m_limitState == box2d.b2LimitState.e_atLowerLimit)
+		else if (this.m_limitState === box2d.b2LimitState.e_atLowerLimit)
 		{
 			/*float32*/ var C = angle - this.m_lowerAngle;
 			angularError = -C;
@@ -647,7 +647,7 @@ box2d.b2RevoluteJoint.prototype.SolvePositionConstraints = function (data)
 			C = box2d.b2Clamp(C + box2d.b2_angularSlop, -box2d.b2_maxAngularCorrection, 0);
 			limitImpulse = -this.m_motorMass * C;
 		}
-		else if (this.m_limitState == box2d.b2LimitState.e_atUpperLimit)
+		else if (this.m_limitState === box2d.b2LimitState.e_atUpperLimit)
 		{
 			/*float32*/ var C = angle - this.m_upperAngle;
 			angularError = C;
@@ -823,7 +823,7 @@ box2d.b2RevoluteJoint.prototype.IsMotorEnabled = function ()
  */
 box2d.b2RevoluteJoint.prototype.EnableMotor = function (flag)
 {
-	if (this.m_enableMotor != flag)
+	if (this.m_enableMotor !== flag)
 	{
 		this.m_bodyA.SetAwake(true);
 		this.m_bodyB.SetAwake(true);
@@ -884,7 +884,7 @@ box2d.b2RevoluteJoint.prototype.IsLimitEnabled = function ()
  */
 box2d.b2RevoluteJoint.prototype.EnableLimit = function (flag)
 {
-	if (flag != this.m_enableLimit)
+	if (flag !== this.m_enableLimit)
 	{
 		this.m_bodyA.SetAwake(true);
 		this.m_bodyB.SetAwake(true);
@@ -920,7 +920,7 @@ box2d.b2RevoluteJoint.prototype.GetUpperLimit = function ()
 box2d.b2RevoluteJoint.prototype.SetLimits = function (lower, upper)
 {
 	
-	if (lower != this.m_lowerAngle || upper != this.m_upperAngle)
+	if (lower !== this.m_lowerAngle || upper !== this.m_upperAngle)
 	{
 		this.m_bodyA.SetAwake(true);
 		this.m_bodyB.SetAwake(true);
@@ -937,7 +937,7 @@ box2d.b2RevoluteJoint.prototype.SetLimits = function (lower, upper)
  */
 box2d.b2RevoluteJoint.prototype.SetMotorSpeed = function (speed)
 {
-	if (this.m_motorSpeed != speed)
+	if (this.m_motorSpeed !== speed)
 	{
 		this.m_bodyA.SetAwake(true);
 		this.m_bodyB.SetAwake(true);

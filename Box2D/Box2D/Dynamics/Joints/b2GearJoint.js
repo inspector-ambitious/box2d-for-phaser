@@ -101,8 +101,8 @@ box2d.b2GearJoint = function (def)
 	this.m_typeA = this.m_joint1.GetType();
 	this.m_typeB = this.m_joint2.GetType();
 
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_typeA == box2d.b2JointType.e_revoluteJoint || this.m_typeA == box2d.b2JointType.e_prismaticJoint); }
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_typeB == box2d.b2JointType.e_revoluteJoint || this.m_typeB == box2d.b2JointType.e_prismaticJoint); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_typeA === box2d.b2JointType.e_revoluteJoint || this.m_typeA === box2d.b2JointType.e_prismaticJoint); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_typeB === box2d.b2JointType.e_revoluteJoint || this.m_typeB === box2d.b2JointType.e_prismaticJoint); }
 
 	/*float32*/ var coordinateA, coordinateB;
 
@@ -117,7 +117,7 @@ box2d.b2GearJoint = function (def)
 	/*box2d.b2Transform*/ var xfC = this.m_bodyC.m_xf;
 	/*float32*/ var aC = this.m_bodyC.m_sweep.a;
 
-	if (this.m_typeA == box2d.b2JointType.e_revoluteJoint)
+	if (this.m_typeA === box2d.b2JointType.e_revoluteJoint)
 	{
 		/*box2d.b2RevoluteJoint*/ var revolute = def.joint1;
 		this.m_localAnchorC.Copy(revolute.m_localAnchorA);
@@ -158,7 +158,7 @@ box2d.b2GearJoint = function (def)
 	/*box2d.b2Transform*/ var xfD = this.m_bodyD.m_xf;
 	/*float32*/ var aD = this.m_bodyD.m_sweep.a;
 
-	if (this.m_typeB == box2d.b2JointType.e_revoluteJoint)
+	if (this.m_typeB === box2d.b2JointType.e_revoluteJoint)
 	{
 		/*box2d.b2RevoluteJoint*/ var revolute = def.joint2;
 		this.m_localAnchorD.Copy(revolute.m_localAnchorA);
@@ -499,7 +499,7 @@ box2d.b2GearJoint.prototype.InitVelocityConstraints = function (data)
 
 	this.m_mass = 0;
 
-	if (this.m_typeA == box2d.b2JointType.e_revoluteJoint)
+	if (this.m_typeA === box2d.b2JointType.e_revoluteJoint)
 	{
 		this.m_JvAC.SetZero();
 		this.m_JwA = 1;
@@ -525,7 +525,7 @@ box2d.b2GearJoint.prototype.InitVelocityConstraints = function (data)
 		this.m_mass += this.m_mC + this.m_mA + this.m_iC * this.m_JwC * this.m_JwC + this.m_iA * this.m_JwA * this.m_JwA;
 	}
 
-	if (this.m_typeB == box2d.b2JointType.e_revoluteJoint)
+	if (this.m_typeB === box2d.b2JointType.e_revoluteJoint)
 	{
 		this.m_JvBD.SetZero();
 		this.m_JwB = this.m_ratio;
@@ -665,7 +665,7 @@ box2d.b2GearJoint.prototype.SolvePositionConstraints = function (data)
 	/*float32*/ var JwA, JwB, JwC, JwD;
 	/*float32*/ var mass = 0;
 
-	if (this.m_typeA == box2d.b2JointType.e_revoluteJoint)
+	if (this.m_typeA === box2d.b2JointType.e_revoluteJoint)
 	{
 		JvAC.SetZero();
 		JwA = 1;
@@ -704,7 +704,7 @@ box2d.b2GearJoint.prototype.SolvePositionConstraints = function (data)
 		coordinateA = box2d.b2DotVV(box2d.b2SubVV(pA, pC, box2d.b2Vec2.s_t0), this.m_localAxisC);
 	}
 
-	if (this.m_typeB == box2d.b2JointType.e_revoluteJoint)
+	if (this.m_typeB === box2d.b2JointType.e_revoluteJoint)
 	{
 		JvBD.SetZero();
 		JwB = this.m_ratio;

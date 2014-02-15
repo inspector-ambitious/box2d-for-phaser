@@ -85,7 +85,7 @@ box2d.b2TreeNode.prototype.height = 0;
  */
 box2d.b2TreeNode.prototype.IsLeaf = function ()
 {
-	return this.child1 == null;
+	return this.child1 === null;
 }
 
 /** 
@@ -150,7 +150,7 @@ box2d.b2DynamicTree.s_aabb = new box2d.b2AABB();
  */
 box2d.b2DynamicTree.prototype.GetUserData = function (proxy)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(proxy != null); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(proxy !== null); }
 	return proxy.userData;
 }
 
@@ -162,7 +162,7 @@ box2d.b2DynamicTree.prototype.GetUserData = function (proxy)
  */
 box2d.b2DynamicTree.prototype.GetFatAABB = function (proxy)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(proxy != null); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(proxy !== null); }
 	return proxy.aabb;
 }
 
@@ -176,7 +176,7 @@ box2d.b2DynamicTree.prototype.GetFatAABB = function (proxy)
  */
 box2d.b2DynamicTree.prototype.Query = function (callback, aabb)
 {
-	if (this.m_root == null) return;
+	if (this.m_root === null) return;
 
 	/** @type {box2d.b2GrowableStack} */ var stack = box2d.b2DynamicTree.s_stack.Reset();
 	stack.Push(this.m_root);
@@ -184,7 +184,7 @@ box2d.b2DynamicTree.prototype.Query = function (callback, aabb)
 	while (stack.GetCount() > 0)
 	{
 		/** @type {box2d.b2TreeNode} */ var node = /** @type {box2d.b2TreeNode} */ (stack.Pop());
-		if (node == null)
+		if (node === null)
 		{
 			continue;
 		}
@@ -194,7 +194,7 @@ box2d.b2DynamicTree.prototype.Query = function (callback, aabb)
 			if (node.IsLeaf())
 			{
 				/** @type {boolean} */ var proceed = callback(node);
-				if (proceed == false)
+				if (proceed === false)
 				{
 					return;
 				}
@@ -221,7 +221,7 @@ box2d.b2DynamicTree.prototype.Query = function (callback, aabb)
  */
 box2d.b2DynamicTree.prototype.RayCast = function (callback, input)
 {
-	if (this.m_root == null) return;
+	if (this.m_root === null) return;
 
 	/** @type {box2d.b2Vec2} */ var p1 = input.p1;
 	/** @type {box2d.b2Vec2} */ var p2 = input.p2;
@@ -253,12 +253,12 @@ box2d.b2DynamicTree.prototype.RayCast = function (callback, input)
 	while (stack.GetCount() > 0)
 	{
 		/** @type {box2d.b2TreeNode} */ var node = /** @type {box2d.b2TreeNode} */ (stack.Pop());
-		if (node == null)
+		if (node === null)
 		{
 			continue;
 		}
 
-		if (box2d.b2TestOverlapAABB(node.aabb, segmentAABB) == false)
+		if (box2d.b2TestOverlapAABB(node.aabb, segmentAABB) === false)
 		{
 			continue;
 		}
@@ -282,7 +282,7 @@ box2d.b2DynamicTree.prototype.RayCast = function (callback, input)
 
 			/** @type {number} */ var value = callback(subInput, node);
 
-			if (value == 0)
+			if (value === 0)
 			{
 				// The client has terminated the ray cast.
 				return;
@@ -428,7 +428,7 @@ box2d.b2DynamicTree.prototype.InsertLeaf = function (leaf)
 {
 	++this.m_insertionCount;
 
-	if (this.m_root == null)
+	if (this.m_root === null)
 	{
 		this.m_root = leaf;
 		this.m_root.parent = null;
@@ -441,7 +441,7 @@ box2d.b2DynamicTree.prototype.InsertLeaf = function (leaf)
 	/** @type {box2d.b2TreeNode} */ var index = this.m_root;
 	/** @type {box2d.b2TreeNode} */ var child1;
 	/** @type {box2d.b2TreeNode} */ var child2;
-	while (index.IsLeaf() == false)
+	while (index.IsLeaf() === false)
 	{
 		child1 = index.child1;
 		child2 = index.child2;
@@ -521,7 +521,7 @@ box2d.b2DynamicTree.prototype.InsertLeaf = function (leaf)
 	if (oldParent)
 	{
 		// The sibling was not the root.
-		if (oldParent.child1 == sibling)
+		if (oldParent.child1 === sibling)
 		{
 			oldParent.child1 = newParent;
 		}
@@ -547,15 +547,15 @@ box2d.b2DynamicTree.prototype.InsertLeaf = function (leaf)
 
 	// Walk back up the tree fixing heights and AABBs
 	index = leaf.parent;
-	while (index != null)
+	while (index !== null)
 	{
 		index = this.Balance(index);
 
 		child1 = index.child1;
 		child2 = index.child2;
 
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(child1 != null); }
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(child2 != null); }
+		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(child1 !== null); }
+		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(child2 !== null); }
 
 		index.height = 1 + box2d.b2Max(child1.height, child2.height);
 		index.aabb.Combine2(child1.aabb, child2.aabb);
@@ -573,7 +573,7 @@ box2d.b2DynamicTree.prototype.InsertLeaf = function (leaf)
  */
 box2d.b2DynamicTree.prototype.RemoveLeaf = function (leaf)
 {
-	if (leaf == this.m_root)
+	if (leaf === this.m_root)
 	{
 		this.m_root = null;
 		return;
@@ -582,7 +582,7 @@ box2d.b2DynamicTree.prototype.RemoveLeaf = function (leaf)
 	/** @type {box2d.b2TreeNode} */ var parent = leaf.parent;
 	/** @type {box2d.b2TreeNode} */ var grandParent = parent.parent;
 	/** @type {box2d.b2TreeNode} */ var sibling;
-	if (parent.child1 == leaf)
+	if (parent.child1 === leaf)
 	{
 		sibling = parent.child2;
 	}
@@ -594,7 +594,7 @@ box2d.b2DynamicTree.prototype.RemoveLeaf = function (leaf)
 	if (grandParent)
 	{
 		// Destroy parent and connect sibling to grandParent.
-		if (grandParent.child1 == parent)
+		if (grandParent.child1 === parent)
 		{
 			grandParent.child1 = sibling;
 		}
@@ -639,7 +639,7 @@ box2d.b2DynamicTree.prototype.RemoveLeaf = function (leaf)
  */
 box2d.b2DynamicTree.prototype.Balance = function (A)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(A != null); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(A !== null); }
 
 	if (A.IsLeaf() || A.height < 2)
 	{
@@ -663,15 +663,15 @@ box2d.b2DynamicTree.prototype.Balance = function (A)
 		A.parent = C;
 
 		// A's old parent should point to C
-		if (C.parent != null)
+		if (C.parent !== null)
 		{
-			if (C.parent.child1 == A)
+			if (C.parent.child1 === A)
 			{
 				C.parent.child1 = C;
 			}
 			else
 			{
-				if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(C.parent.child2 == A); }
+				if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(C.parent.child2 === A); }
 				C.parent.child2 = C;
 			}
 		}
@@ -719,15 +719,15 @@ box2d.b2DynamicTree.prototype.Balance = function (A)
 		A.parent = B;
 
 		// A's old parent should point to B
-		if (B.parent != null)
+		if (B.parent !== null)
 		{
-			if (B.parent.child1 == A)
+			if (B.parent.child1 === A)
 			{
 				B.parent.child1 = B;
 			}
 			else
 			{
-				if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(B.parent.child2 == A); }
+				if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(B.parent.child2 === A); }
 				B.parent.child2 = B;
 			}
 		}
@@ -774,7 +774,7 @@ box2d.b2DynamicTree.prototype.Balance = function (A)
  */
 box2d.b2DynamicTree.prototype.GetHeight = function ()
 {
-	if (this.m_root == null)
+	if (this.m_root === null)
 	{
 		return 0;
 	}
@@ -789,7 +789,7 @@ box2d.b2DynamicTree.prototype.GetHeight = function ()
  */
 box2d.b2DynamicTree.prototype.GetAreaRatio = function ()
 {
-	if (this.m_root == null)
+	if (this.m_root === null)
 	{
 		return 0;
 	}
@@ -799,7 +799,7 @@ box2d.b2DynamicTree.prototype.GetAreaRatio = function ()
 
 	var GetAreaNode = function (node)
 	{
-		if (node == null)
+		if (node === null)
 		{
 			return 0;
 		}
@@ -869,14 +869,14 @@ box2d.b2DynamicTree.prototype.ComputeHeight = function ()
  */
 box2d.b2DynamicTree.prototype.ValidateStructure = function (index)
 {
-	if (index == null)
+	if (index === null)
 	{
 		return;
 	}
 
-	if (index == this.m_root)
+	if (index === this.m_root)
 	{
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(index.parent == null); }
+		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(index.parent === null); }
 	}
 
 	/** @type {box2d.b2TreeNode} */ var node = index;
@@ -886,14 +886,14 @@ box2d.b2DynamicTree.prototype.ValidateStructure = function (index)
 
 	if (node.IsLeaf())
 	{
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(child1 == null); }
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(child2 == null); }
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(node.height == 0); }
+		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(child1 === null); }
+		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(child2 === null); }
+		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(node.height === 0); }
 		return;
 	}
 
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(child1.parent == index); }
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(child2.parent == index); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(child1.parent === index); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(child2.parent === index); }
 
 	this.ValidateStructure(child1);
 	this.ValidateStructure(child2);
@@ -906,7 +906,7 @@ box2d.b2DynamicTree.prototype.ValidateStructure = function (index)
  */
 box2d.b2DynamicTree.prototype.ValidateMetrics = function (index)
 {
-	if (index == null)
+	if (index === null)
 	{
 		return;
 	}
@@ -918,9 +918,9 @@ box2d.b2DynamicTree.prototype.ValidateMetrics = function (index)
 
 	if (node.IsLeaf())
 	{
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(child1 == null); }
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(child2 == null); }
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(node.height == 0); }
+		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(child1 === null); }
+		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(child2 === null); }
+		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(node.height === 0); }
 		return;
 	}
 
@@ -928,13 +928,13 @@ box2d.b2DynamicTree.prototype.ValidateMetrics = function (index)
 	/** @type {number} */ var height2 = child2.height;
 	/** @type {number} */ var height;
 	height = 1 + box2d.b2Max(height1, height2);
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(node.height == height); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(node.height === height); }
 
 	/** @type {box2d.b2AABB} */ var aabb = box2d.b2DynamicTree.s_aabb;
 	aabb.Combine2(child1.aabb, child2.aabb);
 
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(aabb.lowerBound == node.aabb.lowerBound); }
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(aabb.upperBound == node.aabb.upperBound); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(aabb.lowerBound === node.aabb.lowerBound); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(aabb.upperBound === node.aabb.upperBound); }
 
 	this.ValidateMetrics(child1);
 	this.ValidateMetrics(child2);
@@ -952,13 +952,13 @@ box2d.b2DynamicTree.prototype.Validate = function ()
 
 	/** @type {number} */ var freeCount = 0;
 	/** @type {box2d.b2TreeNode} */ var freeIndex = this.m_freeList;
-	while (freeIndex != null)
+	while (freeIndex !== null)
 	{
 		freeIndex = freeIndex.parent; //freeIndex = freeIndex.next;
 		++freeCount;
 	}
 
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.GetHeight() == this.ComputeHeight()); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.GetHeight() === this.ComputeHeight()); }
 }
 
 /** 
@@ -971,7 +971,7 @@ box2d.b2DynamicTree.prototype.GetMaxBalance = function ()
 {
 	var GetMaxBalanceNode = function (node, maxBalance)
 	{
-		if (node == null)
+		if (node === null)
 		{
 			return maxBalance;
 		}
@@ -981,7 +981,7 @@ box2d.b2DynamicTree.prototype.GetMaxBalance = function ()
 			return maxBalance;
 		}
 
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(node.IsLeaf() == false); }
+		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(node.IsLeaf() === false); }
 
 		/** @type {box2d.b2TreeNode} */ var child1 = node.child1;
 		/** @type {box2d.b2TreeNode} */ var child2 = node.child2;
@@ -1001,7 +1001,7 @@ box2d.b2DynamicTree.prototype.GetMaxBalance = function ()
 			continue;
 		}
 
-		b2Assert(node.IsLeaf() == false);
+		b2Assert(node.IsLeaf() === false);
 
 		int32 child1 = node.child1;
 		int32 child2 = node.child2;
@@ -1107,7 +1107,7 @@ box2d.b2DynamicTree.prototype.ShiftOrigin = function (newOrigin)
 {
 	var ShiftOriginNode = function (node, newOrigin)
 	{
-		if (node == null)
+		if (node === null)
 		{
 			return;
 		}
@@ -1117,7 +1117,7 @@ box2d.b2DynamicTree.prototype.ShiftOrigin = function (newOrigin)
 			return;
 		}
 
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(node.IsLeaf() == false); }
+		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(node.IsLeaf() === false); }
 
 		/** @type {box2d.b2TreeNode} */ var child1 = node.child1;
 		/** @type {box2d.b2TreeNode} */ var child2 = node.child2;
