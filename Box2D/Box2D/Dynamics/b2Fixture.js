@@ -304,10 +304,13 @@ box2d.b2Fixture.prototype.IsSensor = function ()
  * Get the contact filtering data. 
  * @export 
  * @return {box2d.b2Filter} 
+ * @param {box2d.b2Filter=} out
  */
-box2d.b2Fixture.prototype.GetFilterData = function ()
+box2d.b2Fixture.prototype.GetFilterData = function (out)
 {
-	return this.m_filter;
+	//return this.m_filter;
+	out = out || new box2d.b2Filter();
+	return out.Copy(this.m_filter);
 }
 
 /** 
