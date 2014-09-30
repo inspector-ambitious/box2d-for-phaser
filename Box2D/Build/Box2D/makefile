@@ -56,14 +56,12 @@ BUILD_COMMAND += --js_output_file=$(OUTPUT_FILE)
 BUILD_COMMAND += $(COMPILER_FLAGS)
 
 COMPILER_FLAGS += --generate_exports
-
-#COMPILER_FLAGS += --compilation_level=WHITESPACE_ONLY
-COMPILER_FLAGS += --compilation_level=SIMPLE_OPTIMIZATIONS
-#COMPILER_FLAGS += --compilation_level=ADVANCED_OPTIMIZATIONS
-
+# --language_in: ECMASCRIPT3 | ECMASCRIPT5 | ECMASCRIPT5_STRICT
+COMPILER_FLAGS += --language_in=ECMASCRIPT5
+# --compilation-level: WHITESPACE_ONLY | SIMPLE | ADVANCED
+COMPILER_FLAGS += --compilation_level=SIMPLE
 COMPILER_FLAGS += --define=goog.DEBUG=false
 COMPILER_FLAGS += --define=box2d.DEBUG=false
-
 COMPILER_FLAGS += --jscomp_error=accessControls
 COMPILER_FLAGS += --jscomp_error=ambiguousFunctionDecl
 COMPILER_FLAGS += --jscomp_error=checkEventfulObjectDisposal

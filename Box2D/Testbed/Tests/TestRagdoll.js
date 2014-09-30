@@ -18,6 +18,7 @@
 
 goog.provide('box2d.Testbed.TestRagdoll');
 
+goog.require('box2d.Testbed.Test');
 goog.require('goog.events.KeyCodes');
 
 /**

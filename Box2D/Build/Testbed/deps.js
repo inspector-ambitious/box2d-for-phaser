@@ -58,7 +58,7 @@ goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Framework/Render.
 goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Framework/Test.js', ['box2d.Testbed.Test'], ['box2d', 'box2d.Testbed.Render']);
 goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Testbed.js', ['box2d.Testbed'], ['box2d.Testbed.Main']);
 goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/AddPair.js', ['box2d.Testbed.AddPair'], ['box2d.Testbed.Test']);
-goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/ApplyForce.js', ['box2d.Testbed.ApplyForce'], ['goog.events.KeyCodes']);
+goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/ApplyForce.js', ['box2d.Testbed.ApplyForce'], ['box2d.Testbed.Test', 'goog.events.KeyCodes']);
 goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/BlobTest.js', ['box2d.Testbed.BlobTest'], ['box2d.Testbed.Test']);
 goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/BodyTypes.js', ['box2d.Testbed.BodyTypes'], ['box2d.Testbed.Test']);
 goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/Breakable.js', ['box2d.Testbed.Breakable'], ['box2d.Testbed.Test']);
@@ -71,13 +71,13 @@ goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/Chain.js', 
 goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/CharacterCollision.js', ['box2d.Testbed.CharacterCollision'], ['box2d.Testbed.Test']);
 goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/CollisionFiltering.js', ['box2d.Testbed.CollisionFiltering'], ['box2d.Testbed.Test']);
 goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/CollisionProcessing.js', ['box2d.Testbed.CollisionProcessing'], ['box2d.Testbed.Test']);
-goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/CompoundShapes.js', ['box2d.Testbed.CompoundShapes'], []);
+goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/CompoundShapes.js', ['box2d.Testbed.CompoundShapes'], ['box2d.Testbed.Test']);
 goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/Confined.js', ['box2d.Testbed.Confined'], ['box2d.Testbed.Test']);
 goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/ContinuousTest.js', ['box2d.Testbed.ContinuousTest'], ['box2d.Testbed.Test']);
 goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/ConvexHull.js', ['box2d.Testbed.ConvexHull'], ['box2d.Testbed.Test']);
 goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/ConveyorBelt.js', ['box2d.Testbed.ConveyorBelt'], ['box2d.Testbed.Test']);
 goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/DistanceTest.js', ['box2d.Testbed.DistanceTest'], ['box2d.Testbed.Test']);
-goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/DominoTower.js', ['box2d.Testbed.DominoTower'], []);
+goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/DominoTower.js', ['box2d.Testbed.DominoTower'], ['box2d.Testbed.Test']);
 goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/Dominos.js', ['box2d.Testbed.Dominos'], ['box2d.Testbed.Test']);
 goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/DumpShell.js', ['box2d.Testbed.DumpShell'], ['box2d.Testbed.Test']);
 goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/DynamicTreeTest.js', ['box2d.Testbed.DynamicTreeTest'], ['box2d.Testbed.Test']);
@@ -102,10 +102,10 @@ goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/SensorTest.
 goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/ShapeEditing.js', ['box2d.Testbed.ShapeEditing'], ['box2d.Testbed.Test']);
 goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/SliderCrank.js', ['box2d.Testbed.SliderCrank'], ['box2d.Testbed.Test']);
 goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/SphereStack.js', ['box2d.Testbed.SphereStack'], ['box2d.Testbed.Test']);
-goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/TestCCD.js', ['box2d.Testbed.TestCCD'], ['goog.events.KeyCodes']);
+goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/TestCCD.js', ['box2d.Testbed.TestCCD'], ['box2d.Testbed.Test', 'goog.events.KeyCodes']);
 goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/TestEntries.js', ['box2d.Testbed.TestEntries'], ['box2d.Testbed.AddPair', 'box2d.Testbed.ApplyForce', 'box2d.Testbed.BlobTest', 'box2d.Testbed.BodyTypes', 'box2d.Testbed.Breakable', 'box2d.Testbed.Bridge', 'box2d.Testbed.BulletTest', 'box2d.Testbed.BuoyancyTest', 'box2d.Testbed.Cantilever', 'box2d.Testbed.Car', 'box2d.Testbed.Chain', 'box2d.Testbed.CharacterCollision', 'box2d.Testbed.CollisionFiltering', 'box2d.Testbed.CollisionProcessing', 'box2d.Testbed.CompoundShapes', 'box2d.Testbed.Confined', 'box2d.Testbed.ContinuousTest', 'box2d.Testbed.ConvexHull', 'box2d.Testbed.ConveyorBelt', 'box2d.Testbed.DistanceTest', 'box2d.Testbed.DominoTower', 'box2d.Testbed.Dominos', 'box2d.Testbed.DumpShell', 'box2d.Testbed.DynamicTreeTest', 'box2d.Testbed.EdgeShapes', 'box2d.Testbed.EdgeTest', 'box2d.Testbed.Gears', 'box2d.Testbed.Mobile', 'box2d.Testbed.MobileBalanced', 'box2d.Testbed.MotorJoint', 'box2d.Testbed.OneSidedPlatform', 'box2d.Testbed.Pinball', 'box2d.Testbed.PolyCollision', 'box2d.Testbed.PolyShapes', 'box2d.Testbed.Prismatic', 'box2d.Testbed.Pulleys', 'box2d.Testbed.Pyramid', 'box2d.Testbed.RayCast', 'box2d.Testbed.Revolute', 'box2d.Testbed.Rope', 'box2d.Testbed.RopeJoint', 'box2d.Testbed.SensorTest', 'box2d.Testbed.ShapeEditing', 'box2d.Testbed.SliderCrank', 'box2d.Testbed.SphereStack', 'box2d.Testbed.Test', 'box2d.Testbed.TestCCD', 'box2d.Testbed.TestRagdoll', 'box2d.Testbed.TestStack', 'box2d.Testbed.TheoJansen', 'box2d.Testbed.Tiles', 'box2d.Testbed.TimeOfImpact', 'box2d.Testbed.Tumbler', 'box2d.Testbed.VaryingFriction', 'box2d.Testbed.VaryingRestitution', 'box2d.Testbed.VerticalStack', 'box2d.Testbed.Web']);
-goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/TestRagdoll.js', ['box2d.Testbed.TestRagdoll'], ['goog.events.KeyCodes']);
-goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/TestStack.js', ['box2d.Testbed.TestStack'], ['goog.events.KeyCodes']);
+goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/TestRagdoll.js', ['box2d.Testbed.TestRagdoll'], ['box2d.Testbed.Test', 'goog.events.KeyCodes']);
+goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/TestStack.js', ['box2d.Testbed.TestStack'], ['box2d.Testbed.Test', 'goog.events.KeyCodes']);
 goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/TheoJansen.js', ['box2d.Testbed.TheoJansen'], ['box2d.Testbed.Test']);
 goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/Tiles.js', ['box2d.Testbed.Tiles'], ['box2d.Testbed.Test']);
 goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Tests/TimeOfImpact.js', ['box2d.Testbed.TimeOfImpact'], ['box2d.Testbed.Test']);

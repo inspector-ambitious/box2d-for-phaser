@@ -1,5 +1,7 @@
 goog.provide('box2d.Testbed.DominoTower');
 
+goog.require('box2d.Testbed.Test');
+
 /**
  * @export 
  * @constructor 

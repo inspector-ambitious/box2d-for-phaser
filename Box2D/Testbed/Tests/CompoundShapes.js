@@ -18,6 +18,8 @@
 
 goog.provide('box2d.Testbed.CompoundShapes');
 
+goog.require('box2d.Testbed.Test');
+
 /**
  * @export 
  * @constructor 
