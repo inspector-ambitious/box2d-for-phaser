@@ -209,12 +209,12 @@ box2d.Testbed.Gears.prototype.Step = function (settings)
 	var ratio, value;
 	
 	ratio = this.m_joint4.GetRatio();
-	value = this.m_joint1.GetJointAngleRadians() + ratio * this.m_joint2.GetJointAngleRadians();
+	value = this.m_joint1.GetJointAngle() + ratio * this.m_joint2.GetJointAngle();
 	this.m_debugDraw.DrawString(5, this.m_textLine, "theta1 + %4.2f * theta2 = %4.2f", ratio, value);
 	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 
 	ratio = this.m_joint5.GetRatio();
-	value = this.m_joint2.GetJointAngleRadians() + ratio * this.m_joint3.GetJointTranslation();
+	value = this.m_joint2.GetJointAngle() + ratio * this.m_joint3.GetJointTranslation();
 	this.m_debugDraw.DrawString(5, this.m_textLine, "theta2 + %4.2f * delta = %4.2f", ratio, value);
 	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 }

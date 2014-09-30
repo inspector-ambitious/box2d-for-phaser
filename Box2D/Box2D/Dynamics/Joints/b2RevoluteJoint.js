@@ -787,7 +787,7 @@ box2d.b2RevoluteJoint.prototype.GetReferenceAngle = function () { return this.m_
  * @export 
  * @return {number}
  */
-box2d.b2RevoluteJoint.prototype.GetJointAngleRadians = function ()
+box2d.b2RevoluteJoint.prototype.GetJointAngle = function ()
 {
 //	b2Body* bA = this.m_bodyA;
 //	b2Body* bB = this.m_bodyB;
