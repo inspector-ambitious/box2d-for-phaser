@@ -46,45 +46,61 @@ build:
 	$(BUILD_COMMAND)
 	@echo done $@
 
-BUILD_COMMAND += $(GOOGLE_PATH)/closure-library/closure/bin/build/closurebuilder.py
-BUILD_COMMAND += --namespace=$(OUTPUT_NAMESPACE)
+BUILD_COMMAND = java
+BUILD_COMMAND += -client
+BUILD_COMMAND += -jar $(GOOGLE_PATH)/closure-compiler/compiler.jar
+BUILD_COMMAND += --only_closure_dependencies
+BUILD_COMMAND += --closure_entry_point $(OUTPUT_NAMESPACE)
+BUILD_COMMAND += $(SOURCE_PATHS)
 BUILD_COMMAND += $(SOURCE_FILES)
-BUILD_COMMAND += $(patsubst %,--root=%,$(SOURCE_PATHS))
-BUILD_COMMAND += --output_mode=compiled
-BUILD_COMMAND += --compiler_jar=$(GOOGLE_PATH)/closure-compiler/compiler.jar
+BUILD_COMMAND += --js_output_file=$(OUTPUT_FILE)
 BUILD_COMMAND += $(COMPILER_FLAGS)
-BUILD_COMMAND += --output_file=$(OUTPUT_FILE)
 
-COMPILER_FLAGS += --compiler_flags="--generate_exports"
+COMPILER_FLAGS += --generate_exports
 
-#COMPILER_FLAGS += --compiler_flags="--compilation_level=WHITESPACE_ONLY"
-COMPILER_FLAGS += --compiler_flags="--compilation_level=SIMPLE_OPTIMIZATIONS"
-#COMPILER_FLAGS += --compiler_flags="--compilation_level=ADVANCED_OPTIMIZATIONS"
+#COMPILER_FLAGS += --compilation_level=WHITESPACE_ONLY
+COMPILER_FLAGS += --compilation_level=SIMPLE_OPTIMIZATIONS
+#COMPILER_FLAGS += --compilation_level=ADVANCED_OPTIMIZATIONS
 
-COMPILER_FLAGS += --compiler_flags="--define=goog.DEBUG=false"
-COMPILER_FLAGS += --compiler_flags="--define=box2d.DEBUG=false"
+COMPILER_FLAGS += --define=goog.DEBUG=false
+COMPILER_FLAGS += --define=box2d.DEBUG=false
 
-COMPILER_FLAGS += --compiler_flags="--jscomp_error=accessControls"
-COMPILER_FLAGS += --compiler_flags="--jscomp_error=ambiguousFunctionDecl"
-COMPILER_FLAGS += --compiler_flags="--jscomp_error=checkRegExp"
-COMPILER_FLAGS += --compiler_flags="--jscomp_error=checkTypes"
-COMPILER_FLAGS += --compiler_flags="--jscomp_error=checkVars"
-COMPILER_FLAGS += --compiler_flags="--jscomp_error=constantProperty"
-COMPILER_FLAGS += --compiler_flags="--jscomp_error=deprecated"
-COMPILER_FLAGS += --compiler_flags="--jscomp_error=es5Strict"
-COMPILER_FLAGS += --compiler_flags="--jscomp_error=externsValidation"
-COMPILER_FLAGS += --compiler_flags="--jscomp_error=fileoverviewTags"
-COMPILER_FLAGS += --compiler_flags="--jscomp_error=globalThis"
-COMPILER_FLAGS += --compiler_flags="--jscomp_error=internetExplorerChecks"
-COMPILER_FLAGS += --compiler_flags="--jscomp_error=invalidCasts"
-COMPILER_FLAGS += --compiler_flags="--jscomp_error=missingProperties"
-COMPILER_FLAGS += --compiler_flags="--jscomp_error=nonStandardJsDocs"
-COMPILER_FLAGS += --compiler_flags="--jscomp_error=strictModuleDepCheck"
-COMPILER_FLAGS += --compiler_flags="--jscomp_error=typeInvalidation"
-COMPILER_FLAGS += --compiler_flags="--jscomp_error=undefinedVars"
-COMPILER_FLAGS += --compiler_flags="--jscomp_error=unknownDefines"
-COMPILER_FLAGS += --compiler_flags="--jscomp_error=uselessCode"
-COMPILER_FLAGS += --compiler_flags="--jscomp_error=visibility"
+COMPILER_FLAGS += --jscomp_error=accessControls
+COMPILER_FLAGS += --jscomp_error=ambiguousFunctionDecl
+COMPILER_FLAGS += --jscomp_error=checkEventfulObjectDisposal
+COMPILER_FLAGS += --jscomp_error=checkRegExp
+COMPILER_FLAGS += --jscomp_error=checkTypes
+COMPILER_FLAGS += --jscomp_error=checkStructDictInheritance
+COMPILER_FLAGS += --jscomp_error=checkVars
+COMPILER_FLAGS += --jscomp_error=const
+COMPILER_FLAGS += --jscomp_error=constantProperty
+COMPILER_FLAGS += --jscomp_error=deprecated
+COMPILER_FLAGS += --jscomp_error=duplicateMessage
+COMPILER_FLAGS += --jscomp_error=es3
+COMPILER_FLAGS += --jscomp_error=es5Strict
+COMPILER_FLAGS += --jscomp_error=externsValidation
+COMPILER_FLAGS += --jscomp_error=fileoverviewTags
+COMPILER_FLAGS += --jscomp_error=globalThis
+COMPILER_FLAGS += --jscomp_error=internetExplorerChecks
+COMPILER_FLAGS += --jscomp_error=invalidCasts
+COMPILER_FLAGS += --jscomp_error=misplacedTypeAnnotation
+COMPILER_FLAGS += --jscomp_error=missingGetCssName
+COMPILER_FLAGS += --jscomp_error=missingProperties
+COMPILER_FLAGS += --jscomp_error=missingProvide
+COMPILER_FLAGS += --jscomp_error=missingRequire
+COMPILER_FLAGS += --jscomp_error=missingReturn
+COMPILER_FLAGS += --jscomp_error=newCheckTypes
+COMPILER_FLAGS += --jscomp_error=nonStandardJsDocs
+#COMPILER_FLAGS += --jscomp_error=reportUnknownTypes
+COMPILER_FLAGS += --jscomp_error=strictModuleDepCheck
+COMPILER_FLAGS += --jscomp_error=suspiciousCode
+COMPILER_FLAGS += --jscomp_error=typeInvalidation
+COMPILER_FLAGS += --jscomp_error=undefinedNames
+COMPILER_FLAGS += --jscomp_error=undefinedVars
+COMPILER_FLAGS += --jscomp_error=unknownDefines
+COMPILER_FLAGS += --jscomp_error=uselessCode
+#COMPILER_FLAGS += --jscomp_error=useOfGoogBase
+COMPILER_FLAGS += --jscomp_error=visibility
 
 run:
 	if [[ "$${OSTYPE}" == "cygwin" ]]; then cygstart index.html; fi
