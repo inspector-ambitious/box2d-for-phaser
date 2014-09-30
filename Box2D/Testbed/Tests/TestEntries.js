@@ -77,6 +77,7 @@ goog.require('box2d.Testbed.BuoyancyTest');
 goog.require('box2d.Testbed.TestCCD');
 goog.require('box2d.Testbed.TestRagdoll');
 goog.require('box2d.Testbed.TestStack');
+goog.require('box2d.Testbed.DominoTower');
 
 /** 
  * @export 
@@ -142,6 +143,7 @@ box2d.Testbed.GetTestEntries = function (entries)
 	entries.push(new box2d.Testbed.TestEntry("Continuous Collision", box2d.Testbed.TestCCD.Create));
 	entries.push(new box2d.Testbed.TestEntry("Ragdolls", box2d.Testbed.TestRagdoll.Create));
 	entries.push(new box2d.Testbed.TestEntry("Stacked Boxes", box2d.Testbed.TestStack.Create));
+	entries.push(new box2d.Testbed.TestEntry("Domino Tower", box2d.Testbed.DominoTower.Create));
 	
 	return entries;
 }
