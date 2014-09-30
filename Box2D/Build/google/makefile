@@ -44,6 +44,6 @@ SYNC_CLOSURE_COMPILER_COMMAND += tar -zxvf $(GOOGLE_PATH)/closure-compiler/compi
 
 sync-closure-library:
 	mkdir -p $(GOOGLE_PATH)/closure-library
-	svn checkout http://closure-library.googlecode.com/svn/trunk/ $(GOOGLE_PATH)/closure-library
+	git clone https://github.com/google/closure-library.git $(GOOGLE_PATH)/closure-library
 	@echo done $@
 
