@@ -30,7 +30,7 @@ goog.require('box2d.b2Shape');
  */
 box2d.b2EdgeShape = function ()
 {
-	goog.base(this, box2d.b2ShapeType.e_edgeShape, box2d.b2_polygonRadius); // base class constructor
+	box2d.b2Shape.call(this, box2d.b2ShapeType.e_edgeShape, box2d.b2_polygonRadius); // base class constructor
 
 	this.m_vertex1 = new box2d.b2Vec2();
 	this.m_vertex2 = new box2d.b2Vec2();
@@ -111,7 +111,7 @@ box2d.b2EdgeShape.prototype.Clone = function ()
  */
 box2d.b2EdgeShape.prototype.Copy = function (other)
 {
-	goog.base(this, 'Copy', other);
+	box2d.b2Shape.prototype.Copy.call(this, other);
 
 	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(other instanceof box2d.b2EdgeShape); }
 

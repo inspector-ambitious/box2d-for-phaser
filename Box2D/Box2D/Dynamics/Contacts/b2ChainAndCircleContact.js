@@ -29,7 +29,7 @@ goog.require('box2d.b2CollideEdge');
  */
 box2d.b2ChainAndCircleContact = function ()
 {
-	goog.base(this); // base class constructor
+	box2d.b2Contact.call(this); // base class constructor
 };
 
 goog.inherits(box2d.b2ChainAndCircleContact, box2d.b2Contact);
@@ -52,19 +52,6 @@ box2d.b2ChainAndCircleContact.Create = function (allocator)
  */
 box2d.b2ChainAndCircleContact.Destroy = function (contact, allocator)
 {
-}
-
-/** 
- * @export 
- * @return {void} 
- * @param {box2d.b2Fixture} fixtureA
- * @param {box2d.b2Fixture} fixtureB
- */
-box2d.b2ChainAndCircleContact.prototype.Reset = function (fixtureA, indexA, fixtureB, indexB)
-{
-	goog.base(this, 'Reset', fixtureA, indexA, fixtureB, indexB);
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(fixtureA.GetType() === box2d.b2ShapeType.e_chainShape); }
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(fixtureB.GetType() === box2d.b2ShapeType.e_circleShape); }
 }
 
 /**

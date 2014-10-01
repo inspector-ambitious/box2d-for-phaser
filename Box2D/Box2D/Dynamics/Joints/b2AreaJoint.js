@@ -32,7 +32,7 @@ goog.require('box2d.b2Math');
  */
 box2d.b2AreaJointDef = function ()
 {
-	goog.base(this, box2d.b2JointType.e_areaJoint); // base class constructor
+	box2d.b2JointDef.call(this, box2d.b2JointType.e_areaJoint); // base class constructor
 
 	this.bodies = new Array();
 }
@@ -96,7 +96,7 @@ box2d.b2AreaJointDef.prototype.AddBody = function (body)
  */
 box2d.b2AreaJoint = function (def)
 {
-	goog.base(this, def); // base class constructor
+	box2d.b2Joint.call(this, def); // base class constructor
 
 	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(def.bodies.length >= 3, "You cannot create an area joint with less than three bodies."); }
 

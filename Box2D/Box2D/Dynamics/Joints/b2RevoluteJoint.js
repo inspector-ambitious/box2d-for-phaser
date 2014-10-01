@@ -40,7 +40,7 @@ goog.require('box2d.b2Math');
  */
 box2d.b2RevoluteJointDef = function ()
 {
-	goog.base(this, box2d.b2JointType.e_revoluteJoint); // base class constructor
+	box2d.b2JointDef.call(this, box2d.b2JointType.e_revoluteJoint); // base class constructor
 
 	this.localAnchorA = new box2d.b2Vec2(0, 0);
 	this.localAnchorB = new box2d.b2Vec2(0, 0);
@@ -146,7 +146,7 @@ box2d.b2RevoluteJointDef.prototype.Initialize = function (bA, bB, anchor)
  */
 box2d.b2RevoluteJoint = function (def)
 {
-	goog.base(this, def); // base class constructor
+	box2d.b2Joint.call(this, def); // base class constructor
 
 	this.m_localAnchorA = new box2d.b2Vec2();
 	this.m_localAnchorB = new box2d.b2Vec2();

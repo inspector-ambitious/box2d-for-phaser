@@ -35,7 +35,7 @@ goog.require('box2d.b2Math');
  */
 box2d.b2DistanceJointDef = function ()
 {
-	goog.base(this, box2d.b2JointType.e_distanceJoint); // base class constructor
+	box2d.b2JointDef.call(this, box2d.b2JointType.e_distanceJoint); // base class constructor
 
 	this.localAnchorA = new box2d.b2Vec2();
 	this.localAnchorB = new box2d.b2Vec2();
@@ -109,7 +109,7 @@ box2d.b2DistanceJointDef.prototype.Initialize = function (b1, b2, anchor1, ancho
  */
 box2d.b2DistanceJoint = function (def)
 {
-	goog.base(this, def); // base class constructor
+	box2d.b2Joint.call(this, def); // base class constructor
 
 	this.m_u = new box2d.b2Vec2();
 	this.m_rA = new box2d.b2Vec2();

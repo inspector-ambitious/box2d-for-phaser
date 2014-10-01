@@ -29,7 +29,7 @@ goog.require('box2d.b2CollideCircle');
  */
 box2d.b2CircleContact = function ()
 {
-	goog.base(this); // base class constructor
+	box2d.b2Contact.call(this); // base class constructor
 };
 
 goog.inherits(box2d.b2CircleContact, box2d.b2Contact);
@@ -52,19 +52,6 @@ box2d.b2CircleContact.Create = function (allocator)
  */
 box2d.b2CircleContact.Destroy = function (contact, allocator)
 {
-}
-
-/**
- * @export 
- * @return {void} 
- * @param {box2d.b2Fixture} fixtureA
- * @param {number} indexA 
- * @param {box2d.b2Fixture} fixtureB
- * @param {number} indexB 
- */
-box2d.b2CircleContact.prototype.Reset = function (fixtureA, indexA, fixtureB, indexB)
-{
-	goog.base(this, 'Reset', fixtureA, indexA, fixtureB, indexB);
 }
 
 /**

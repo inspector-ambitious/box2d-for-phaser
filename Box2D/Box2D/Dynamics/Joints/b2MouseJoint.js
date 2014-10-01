@@ -31,7 +31,7 @@ goog.require('box2d.b2Math');
  */
 box2d.b2MouseJointDef = function ()
 {
-	goog.base(this, box2d.b2JointType.e_mouseJoint); // base class constructor
+	box2d.b2JointDef.call(this, box2d.b2JointType.e_mouseJoint); // base class constructor
 
 	this.target = new box2d.b2Vec2();
 }
@@ -84,7 +84,7 @@ box2d.b2MouseJointDef.prototype.dampingRatio = 0.7;
  */
 box2d.b2MouseJoint = function (def)
 {
-	goog.base(this, def); // base class constructor
+	box2d.b2Joint.call(this, def); // base class constructor
 
 	this.m_localAnchorB = new box2d.b2Vec2();
 	this.m_targetA = new box2d.b2Vec2();

@@ -32,7 +32,7 @@ goog.require('box2d.b2Shape');
  */
 box2d.b2PolygonShape = function ()
 {
-	goog.base(this, box2d.b2ShapeType.e_polygonShape, box2d.b2_polygonRadius); // base class constructor
+	box2d.b2Shape.call(this, box2d.b2ShapeType.e_polygonShape, box2d.b2_polygonRadius); // base class constructor
 
 	this.m_centroid = new box2d.b2Vec2(0, 0);
 	this.m_vertices = box2d.b2Vec2.MakeArray(box2d.b2_maxPolygonVertices);
@@ -79,7 +79,7 @@ box2d.b2PolygonShape.prototype.Clone = function ()
  */
 box2d.b2PolygonShape.prototype.Copy = function (other)
 {
-	goog.base(this, 'Copy', other);
+	box2d.b2Shape.prototype.Copy.call(this, other);
 
 	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(other instanceof box2d.b2PolygonShape); }
 

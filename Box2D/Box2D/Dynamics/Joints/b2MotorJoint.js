@@ -29,7 +29,7 @@ goog.require('box2d.b2Math');
  */
 box2d.b2MotorJointDef = function ()
 {
-	goog.base(this, box2d.b2JointType.e_motorJoint); // base class constructor
+	box2d.b2JointDef.call(this, box2d.b2JointType.e_motorJoint); // base class constructor
 
 	this.linearOffset = new box2d.b2Vec2(0, 0);
 }
@@ -102,7 +102,7 @@ box2d.b2MotorJointDef.prototype.Initialize = function (bA, bB)
  */
 box2d.b2MotorJoint = function (def)
 {
-	goog.base(this, def); // base class constructor
+	box2d.b2Joint.call(this, def); // base class constructor
 
 	this.m_linearOffset = def.linearOffset.Clone();
 	this.m_linearImpulse = new box2d.b2Vec2(0, 0);

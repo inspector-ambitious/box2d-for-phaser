@@ -28,7 +28,7 @@ goog.require('box2d.b2Contact');
  */
 box2d.b2EdgeAndPolygonContact = function ()
 {
-	goog.base(this); // base class constructor
+	box2d.b2Contact.call(this); // base class constructor
 };
 
 goog.inherits(box2d.b2EdgeAndPolygonContact, box2d.b2Contact);
@@ -51,19 +51,6 @@ box2d.b2EdgeAndPolygonContact.Create = function (allocator)
  */
 box2d.b2EdgeAndPolygonContact.Destroy = function (contact, allocator)
 {
-}
-
-/**
- * @export 
- * @return {void} 
- * @param {box2d.b2Fixture} fixtureA
- * @param {box2d.b2Fixture} fixtureB
- */
-box2d.b2EdgeAndPolygonContact.prototype.Reset = function (fixtureA, indexA, fixtureB, indexB)
-{
-	goog.base(this, 'Reset', fixtureA, indexA, fixtureB, indexB);
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(fixtureA.GetType() === box2d.b2ShapeType.e_edgeShape); }
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(fixtureB.GetType() === box2d.b2ShapeType.e_polygonShape); }
 }
 
 /**

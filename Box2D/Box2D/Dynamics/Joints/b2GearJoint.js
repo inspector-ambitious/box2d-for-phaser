@@ -33,7 +33,7 @@ goog.require('box2d.b2PrismaticJoint');
  */
 box2d.b2GearJointDef = function ()
 {
-	goog.base(this, box2d.b2JointType.e_gearJoint); // base class constructor
+	box2d.b2JointDef.call(this, box2d.b2JointType.e_gearJoint); // base class constructor
 }
 
 goog.inherits(box2d.b2GearJointDef, box2d.b2JointDef);
@@ -79,7 +79,7 @@ box2d.b2GearJointDef.prototype.ratio = 1;
  */
 box2d.b2GearJoint = function (def)
 {
-	goog.base(this, def); // base class constructor
+	box2d.b2Joint.call(this, def); // base class constructor
 
 	this.m_joint1 = def.joint1;
 	this.m_joint2 = def.joint2;

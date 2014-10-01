@@ -29,7 +29,7 @@ goog.require('box2d.b2CollidePolygon');
  */
 box2d.b2PolygonContact = function ()
 {
-	goog.base(this); // base class constructor
+	box2d.b2Contact.call(this); // base class constructor
 };
 
 goog.inherits(box2d.b2PolygonContact, box2d.b2Contact);
@@ -52,17 +52,6 @@ box2d.b2PolygonContact.Create = function (allocator)
  */
 box2d.b2PolygonContact.Destroy = function (contact, allocator)
 {
-}
-
-/**
- * @export 
- * @return {void} 
- * @param {box2d.b2Fixture} fixtureA
- * @param {box2d.b2Fixture} fixtureB
- */
-box2d.b2PolygonContact.prototype.Reset = function (fixtureA, indexA, fixtureB, indexB)
-{
-	goog.base(this, 'Reset', fixtureA, indexA, fixtureB, indexB);
 }
 
 /**
