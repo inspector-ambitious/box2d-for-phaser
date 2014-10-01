@@ -30,7 +30,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.Prismatic = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	var ground = null;
 	if (true)
@@ -115,7 +115,7 @@ box2d.Testbed.Prismatic.prototype.Keyboard = function (key)
  */
 box2d.Testbed.Prismatic.prototype.Step = function (settings)
 {
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Keys: (l) limits, (m) motors, (s) speed");
 	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 	var force = this.m_joint.GetMotorForce(settings.hz);

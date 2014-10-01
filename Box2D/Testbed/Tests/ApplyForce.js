@@ -30,7 +30,7 @@ goog.require('goog.events.KeyCodes');
  */
 box2d.Testbed.ApplyForce = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	this.m_body = null;
 
@@ -194,7 +194,7 @@ box2d.Testbed.ApplyForce.prototype.Keyboard = function (key)
 		break;
 	}
 
-	goog.base(this, 'Keyboard', key);
+	box2d.Testbed.Test.prototype.Keyboard.call(this, key);
 }
 
 /** 

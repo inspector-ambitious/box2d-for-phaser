@@ -30,7 +30,7 @@ goog.require('goog.events.KeyCodes');
  */
 box2d.Testbed.HeavyOnLightTwo = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	{
 		/*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
@@ -103,7 +103,7 @@ box2d.Testbed.HeavyOnLightTwo.prototype.Keyboard = function (key)
 		break;
 	}
 
-	goog.base(this, 'Keyboard', key);
+	box2d.Testbed.Test.prototype.Keyboard.call(this, key);
 }
 
 /** 

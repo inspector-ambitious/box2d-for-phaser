@@ -35,7 +35,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.CharacterCollision = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	// Ground body
 	if (true)
@@ -267,7 +267,7 @@ box2d.Testbed.CharacterCollision.prototype.Step = function (settings)
 	v.x = -5.0;
 	this.m_character.SetLinearVelocity(v);
 	
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 	this.m_debugDraw.DrawString(5, this.m_textLine, "This tests various character collision shapes");
 	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Limitation: square and hexagon can snag on aligned boxes.");

@@ -31,7 +31,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.SliderCrank = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	var ground = null;
 	if (true)
@@ -180,7 +180,7 @@ box2d.Testbed.SliderCrank.prototype.Keyboard = function (key)
  */
 box2d.Testbed.SliderCrank.prototype.Step = function (settings)
 {
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Keys: (f) toggle friction, (m) toggle motor");
 	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 	var torque = this.m_joint1.GetMotorTorque(settings.hz);

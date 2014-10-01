@@ -11,7 +11,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.PyramidTopple = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	settings.viewCenter.x = 0;
 	settings.viewCenter.y = 0;

@@ -29,7 +29,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.MotorJoint = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	/*b2Body*/ var ground = null;
 	{
@@ -128,7 +128,7 @@ box2d.Testbed.MotorJoint.prototype.Step = function (settings)
 
 	this.m_debugDraw.DrawPoint(linearOffset, 4.0, new box2d.b2Color(0.9, 0.9, 0.9));
 
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Keys: (s) pause");
 	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 }

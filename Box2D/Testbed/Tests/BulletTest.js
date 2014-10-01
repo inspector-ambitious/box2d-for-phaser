@@ -29,7 +29,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.BulletTest = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	if (true)
 	{
@@ -128,7 +128,7 @@ box2d.Testbed.BulletTest.prototype.Launch = function ()
  */
 box2d.Testbed.BulletTest.prototype.Step = function (settings)
 {
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 
 //	extern int32 box2d.b2_gjkCalls, box2d.b2_gjkIters, box2d.b2_gjkMaxIters;
 //	extern int32 box2d.b2_toiCalls, box2d.b2_toiIters;

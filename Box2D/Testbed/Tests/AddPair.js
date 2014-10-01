@@ -29,7 +29,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.AddPair = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	this.m_world.SetGravity(new box2d.b2Vec2(0.0,0.0));
 	if (true)

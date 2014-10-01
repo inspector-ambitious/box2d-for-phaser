@@ -29,7 +29,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.BlobTest = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	var ground = this.m_world.CreateBody(new box2d.b2BodyDef());
 
@@ -105,7 +105,7 @@ box2d.Testbed.BlobTest.prototype.Keyboard = function (key)
  */
 box2d.Testbed.BlobTest.prototype.Step = function (settings)
 {
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 }
 
 /** 

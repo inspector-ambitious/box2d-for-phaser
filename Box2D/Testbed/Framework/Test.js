@@ -194,7 +194,7 @@ box2d.Testbed.TestEntry.prototype.createFcn = function (canvas, settings) {};
  */
 box2d.Testbed.DestructionListener = function (test)
 {
-	goog.base(this);
+	box2d.b2DestructionListener.call(this); // base class constructor
 
 	this.test = test;
 }
@@ -293,7 +293,7 @@ box2d.Testbed.ContactPoint.prototype.separation = 0;
  */
 box2d.Testbed.Test = function (canvas, settings)
 {
-	goog.base(this); // base class constructor
+	box2d.b2ContactListener.call(this); // base class constructor
 
 	var gravity = new box2d.b2Vec2(0, -10);
 	this.m_world = new box2d.b2World(gravity);

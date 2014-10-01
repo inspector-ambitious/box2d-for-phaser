@@ -29,7 +29,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.SensorTest = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	this.m_bodies = new Array(box2d.Testbed.SensorTest.e_count);
 	this.m_touching = new Array(box2d.Testbed.SensorTest.e_count);
@@ -185,7 +185,7 @@ box2d.Testbed.SensorTest.prototype.EndContact = function (contact)
  */
 box2d.Testbed.SensorTest.prototype.Step = function (settings)
 {
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 
 	// Traverse the contact results. Apply a force on shapes
 	// that overlap the sensor.

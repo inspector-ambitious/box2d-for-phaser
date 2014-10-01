@@ -29,7 +29,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.Web = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	this.m_bodies = new Array(4);
 	this.m_joints = new Array(8);
@@ -211,7 +211,7 @@ box2d.Testbed.Web.prototype.Keyboard = function (key)
  */
 box2d.Testbed.Web.prototype.Step = function (settings)
 {
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 	this.m_debugDraw.DrawString(5, this.m_textLine, "This demonstrates a soft distance joint.");
 	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Press: (b) to delete a body, (j) to delete a joint");

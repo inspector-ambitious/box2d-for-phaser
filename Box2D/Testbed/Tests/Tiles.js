@@ -35,7 +35,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.Tiles = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	this.m_fixtureCount = 0;
 	/*box2d.b2Timer*/ var timer = new box2d.b2Timer();
@@ -166,7 +166,7 @@ box2d.Testbed.Tiles.prototype.Step = function (settings)
 	this.m_debugDraw.DrawString(5, this.m_textLine, "dynamic tree height = %d, min = %d", height, minimumHeight);
 	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 
 	this.m_debugDraw.DrawString(5, this.m_textLine, "create time = %6.2f ms, fixture count = %d",
 		this.m_createTime, this.m_fixtureCount);

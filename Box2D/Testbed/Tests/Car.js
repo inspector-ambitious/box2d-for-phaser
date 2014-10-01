@@ -30,7 +30,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.Car = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	this.m_hz = 4.0;
 	this.m_zeta = 0.7;
@@ -330,7 +330,7 @@ box2d.Testbed.Car.prototype.Step = function (settings)
 	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 
 	settings.viewCenter.x = this.m_car.GetPosition().x;
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 }
 
 /** 

@@ -31,7 +31,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.CollisionProcessing = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	// Ground body
 	if (true)
@@ -134,7 +134,7 @@ goog.inherits(box2d.Testbed.CollisionProcessing, box2d.Testbed.Test);
  */
 box2d.Testbed.CollisionProcessing.prototype.Step = function (settings)
 {
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 
 	// We are going to destroy some bodies according to contact
 	// points. We must buffer the bodies that should be destroyed

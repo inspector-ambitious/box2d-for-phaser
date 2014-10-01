@@ -29,7 +29,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.Rope = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	this.m_rope = new box2d.b2Rope();
 
@@ -110,7 +110,7 @@ box2d.Testbed.Rope.prototype.Step = function (settings)
 
 	this.m_rope.Step(dt, 1);
 
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 
 	this.m_rope.Draw(this.m_debugDraw);
 

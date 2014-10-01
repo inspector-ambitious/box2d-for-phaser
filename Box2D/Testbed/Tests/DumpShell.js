@@ -29,7 +29,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.DumpShell = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 // dump begin
 /*box2d.b2Vec2*/ var g = new box2d.b2Vec2(0.000000000000000, 0.000000000000000);

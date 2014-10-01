@@ -29,7 +29,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.ConvexHull = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	this.m_test_points = box2d.b2Vec2.MakeArray(box2d.b2_maxPolygonVertices);
 
@@ -109,7 +109,7 @@ box2d.Testbed.ConvexHull.prototype.Keyboard = function (key)
  */
 box2d.Testbed.ConvexHull.prototype.Step = function (settings)
 {
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 
 	var shape = new box2d.b2PolygonShape();
 	shape.SetAsVector(this.m_test_points, this.m_count);

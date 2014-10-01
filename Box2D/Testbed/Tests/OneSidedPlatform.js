@@ -29,7 +29,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.OneSidedPlatform = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	// Ground
 	if (true)
@@ -136,7 +136,7 @@ box2d.Testbed.OneSidedPlatform.prototype.m_character = null;
  */
 box2d.Testbed.OneSidedPlatform.prototype.PreSolve = function (contact, oldManifold)
 {
-	goog.base(this, 'PreSolve', contact, oldManifold);
+	box2d.Testbed.Test.prototype.PreSolve.call(this, contact, oldManifold);
 
 	var fixtureA = contact.GetFixtureA();
 	var fixtureB = contact.GetFixtureB();
@@ -166,7 +166,7 @@ box2d.Testbed.OneSidedPlatform.prototype.PreSolve = function (contact, oldManifo
  */
 box2d.Testbed.OneSidedPlatform.prototype.Step = function (settings)
 {
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Press: (c) create a shape, (d) destroy a shape.");
 	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 

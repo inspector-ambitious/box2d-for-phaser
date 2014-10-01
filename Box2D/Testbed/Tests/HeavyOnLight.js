@@ -30,7 +30,7 @@ goog.require('goog.events.KeyCodes');
  */
 box2d.Testbed.HeavyOnLight = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	{
 		/*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();

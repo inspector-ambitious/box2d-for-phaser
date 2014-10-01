@@ -29,7 +29,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.Pyramid = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	if (true)
 	{
@@ -88,7 +88,7 @@ box2d.Testbed.Pyramid.e_count = 20;
  */
 box2d.Testbed.Pyramid.prototype.Step = function (settings)
 {
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 
 	//box2d.b2DynamicTree* tree = &m_world.m_contactManager.m_broadPhase.m_tree;
 

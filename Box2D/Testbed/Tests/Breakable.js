@@ -29,7 +29,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.Breakable = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	this.m_velocity = new box2d.b2Vec2();
 	this.m_shape1 = new box2d.b2PolygonShape();
@@ -207,7 +207,7 @@ box2d.Testbed.Breakable.prototype.Step = function (settings)
 		this.m_angularVelocity = this.m_body1.GetAngularVelocity();
 	}
 
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 }
 
 /** 

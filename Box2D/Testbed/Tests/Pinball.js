@@ -31,7 +31,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.Pinball = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	// Ground body
 	/*box2d.b2Body*/ var ground = null;
@@ -164,7 +164,7 @@ box2d.Testbed.Pinball.prototype.Step = function (settings)
 		this.m_rightJoint.SetMotorSpeed(10.0);
 	}
 
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Press 'a' to control the flippers");
 	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;

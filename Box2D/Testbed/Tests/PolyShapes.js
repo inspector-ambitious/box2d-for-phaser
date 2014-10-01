@@ -145,7 +145,7 @@ box2d.Testbed.PolyShapesCallback.prototype.ReportFixture = function (fixture)
  */
 box2d.Testbed.PolyShapes = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	this.m_bodyIndex = 0;
 	this.m_bodies = new Array(box2d.Testbed.PolyShapes.e_maxBodies);
@@ -335,7 +335,7 @@ box2d.Testbed.PolyShapes.prototype.Keyboard = function (key)
  */
 box2d.Testbed.PolyShapes.prototype.Step = function (settings)
 {
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 
 	var callback = new box2d.Testbed.PolyShapesCallback();
 	callback.m_circle.m_radius = 2.0;

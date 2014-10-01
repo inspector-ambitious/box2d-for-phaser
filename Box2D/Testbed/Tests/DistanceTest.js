@@ -29,7 +29,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.DistanceTest = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	this.m_positionB = new box2d.b2Vec2();
 	this.m_transformA = new box2d.b2Transform();
@@ -94,7 +94,7 @@ box2d.Testbed.DistanceTest.prototype.m_polygonB = null;
  */
 box2d.Testbed.DistanceTest.prototype.Step = function (settings)
 {
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 
 	var input = new box2d.b2DistanceInput();
 	input.proxyA.SetShape(this.m_polygonA, 0);

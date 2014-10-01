@@ -29,7 +29,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.Pulleys = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	var y = 16.0;
 	var L = 12.0;
@@ -113,7 +113,7 @@ box2d.Testbed.Pulleys.prototype.Keyboard = function (key)
  */
 box2d.Testbed.Pulleys.prototype.Step = function (settings)
 {
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 
 	var ratio = this.m_joint1.GetRatio();
 	var L = this.m_joint1.GetCurrentLengthA() + ratio * this.m_joint1.GetCurrentLengthB();

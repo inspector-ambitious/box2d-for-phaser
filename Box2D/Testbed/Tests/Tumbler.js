@@ -29,7 +29,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.Tumbler = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	/*b2Body*/ var ground = null;
 	if (true)
@@ -98,7 +98,7 @@ box2d.Testbed.Tumbler.prototype.m_count = 0;
  */
 box2d.Testbed.Tumbler.prototype.Step = function (settings)
 {
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 
 	if (this.m_count < box2d.Testbed.Tumbler.e_count)
 	{

@@ -59,7 +59,7 @@ box2d.Testbed.Actor.prototype.proxyId = null;
  */
 box2d.Testbed.DynamicTreeTest = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	this.m_tree = new box2d.b2DynamicTree();
 	this.m_queryAABB = new box2d.b2AABB();
@@ -165,7 +165,7 @@ box2d.Testbed.DynamicTreeTest.prototype.m_automated = false;
  */
 box2d.Testbed.DynamicTreeTest.prototype.Step = function (settings)
 {
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 
 	this.m_rayActor = null;
 	for (var i = 0; i < box2d.Testbed.DynamicTreeTest.e_actorCount; ++i)

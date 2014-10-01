@@ -27,7 +27,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.EdgeShapesCallback = function ()
 {
-	goog.base(this); // base class constructor
+	box2d.b2RayCastCallback.call(this); // base class constructor
 
 	this.m_point = new box2d.b2Vec2();
 	this.m_normal = new box2d.b2Vec2();
@@ -77,7 +77,7 @@ box2d.Testbed.EdgeShapesCallback.prototype.ReportFixture = function (fixture, po
  */
 box2d.Testbed.EdgeShapes = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	this.m_bodyIndex = 0;
 	this.m_bodies = new Array(box2d.Testbed.EdgeShapes.e_maxBodies);
@@ -298,7 +298,7 @@ box2d.Testbed.EdgeShapes.prototype.Step = function (settings)
 {
 	var advanceRay = settings.pause === false || settings.singleStep;
 
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Press 1-5 to drop stuff, m to change the mode");
 	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 

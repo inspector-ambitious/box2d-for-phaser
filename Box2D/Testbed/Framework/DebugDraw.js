@@ -33,7 +33,7 @@ goog.require('goog.string.format');
  */
 box2d.Testbed.DebugDraw = function (canvas, settings)
 {
-	goog.base(this);
+	box2d.b2Draw.call(this); // base class constructor
 
 	this.m_canvas = canvas;
 	this.m_ctx = /** @type {CanvasRenderingContext2D} */ (this.m_canvas.getContext("2d"));

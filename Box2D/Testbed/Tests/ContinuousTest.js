@@ -29,7 +29,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.ContinuousTest = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	if (true)
 	{
@@ -129,7 +129,7 @@ box2d.Testbed.ContinuousTest.prototype.Launch = function ()
  */
 box2d.Testbed.ContinuousTest.prototype.Step = function (settings)
 {
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 
 	if (box2d.b2_gjkCalls > 0)
 	{

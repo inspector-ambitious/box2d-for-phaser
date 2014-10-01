@@ -30,7 +30,7 @@ goog.require('goog.events.KeyCodes');
  */
 box2d.Testbed.TestCCD = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	if (true)
 	{

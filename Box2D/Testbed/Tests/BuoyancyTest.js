@@ -29,7 +29,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.BuoyancyTest = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	this.m_bodies = new Array();
 
@@ -251,7 +251,7 @@ box2d.Testbed.BuoyancyTest.prototype.Keyboard = function (key)
  */
 box2d.Testbed.BuoyancyTest.prototype.Step = function (settings)
 {
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 }
 
 /** 

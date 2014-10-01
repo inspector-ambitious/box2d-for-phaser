@@ -31,7 +31,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.VaryingRestitution = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	if (true)
 	{

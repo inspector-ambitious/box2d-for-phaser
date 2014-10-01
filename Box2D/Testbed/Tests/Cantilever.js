@@ -33,7 +33,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.Cantilever = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	var ground = null;
 	if (true)

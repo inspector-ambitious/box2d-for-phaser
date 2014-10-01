@@ -29,7 +29,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.TimeOfImpact = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	this.m_shapeA = new box2d.b2PolygonShape();
 	this.m_shapeB = new box2d.b2PolygonShape();
@@ -58,7 +58,7 @@ box2d.Testbed.TimeOfImpact.prototype.m_shapeB = null;
  */
 box2d.Testbed.TimeOfImpact.prototype.Step = function (settings)
 {
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 
 	var sweepA = new box2d.b2Sweep;
 	sweepA.c0.SetXY(24.0, -60.0);

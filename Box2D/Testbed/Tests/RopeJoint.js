@@ -42,7 +42,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.RopeJoint = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	this.m_ropeDef = new box2d.b2RopeJointDef();
 
@@ -159,7 +159,7 @@ box2d.Testbed.RopeJoint.prototype.Keyboard = function (key)
  */
 box2d.Testbed.RopeJoint.prototype.Step = function (settings)
 {
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Press (j) to toggle the rope joint.");
 	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 	if (this.m_rope)

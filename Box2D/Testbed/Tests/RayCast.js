@@ -32,7 +32,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.RayCastClosestCallback = function ()
 {
-	goog.base(this); // base class constructor
+	box2d.b2RayCastCallback.call(this); // base class constructor
 
 	this.m_point = new box2d.b2Vec2();
 	this.m_normal = new box2d.b2Vec2();
@@ -98,7 +98,7 @@ box2d.Testbed.RayCastClosestCallback.prototype.ReportFixture = function (fixture
  */
 box2d.Testbed.RayCastAnyCallback = function ()
 {
-	goog.base(this); // base class constructor
+	box2d.b2RayCastCallback.call(this); // base class constructor
 
 	this.m_point = new box2d.b2Vec2();
 	this.m_normal = new box2d.b2Vec2();
@@ -164,7 +164,7 @@ box2d.Testbed.RayCastAnyCallback.prototype.ReportFixture = function (fixture, po
  */
 box2d.Testbed.RayCastMultipleCallback = function ()
 {
-	goog.base(this); // base class constructor
+	box2d.b2RayCastCallback.call(this); // base class constructor
 
 	this.m_points = box2d.b2Vec2.MakeArray(box2d.Testbed.RayCastMultipleCallback.e_maxCount);
 	this.m_normals = box2d.b2Vec2.MakeArray(box2d.Testbed.RayCastMultipleCallback.e_maxCount);
@@ -258,7 +258,7 @@ goog.exportProperty(box2d.Testbed.RayCastMode, 'e_multiple', box2d.Testbed.RayCa
  */
 box2d.Testbed.RayCast = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	this.m_bodyIndex = 0;
 	this.m_bodies = new Array(box2d.Testbed.RayCast.e_maxBodies);
@@ -499,7 +499,7 @@ box2d.Testbed.RayCast.prototype.Step = function (settings)
 {
 	var advanceRay = settings.pause === false || settings.singleStep;
 
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Press 1-6 to drop stuff, m to change the mode");
 	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;

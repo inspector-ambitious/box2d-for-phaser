@@ -29,7 +29,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.Confined = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	if (true)
 	{
@@ -168,7 +168,7 @@ box2d.Testbed.Confined.prototype.Step = function (settings)
 	//  CreateCircle();
 	//}
 
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 
 	for (var b = this.m_world.GetBodyList(); b; b = b.m_next)
 	{

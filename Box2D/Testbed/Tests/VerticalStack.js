@@ -29,7 +29,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.VerticalStack = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	this.m_bullet = null;
 	/** @type {Array.<box2d.b2Body>} */
@@ -165,7 +165,7 @@ box2d.Testbed.VerticalStack.prototype.Keyboard = function (key)
  */
 box2d.Testbed.VerticalStack.prototype.Step = function (settings)
 {
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Press: (,) to launch a bullet.");
 	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Blocksolve = %d", (box2d.g_blockSolve)?(1):(0));

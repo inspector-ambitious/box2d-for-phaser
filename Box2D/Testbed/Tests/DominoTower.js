@@ -11,7 +11,7 @@ goog.require('box2d.Testbed.Test');
  */
 box2d.Testbed.DominoTower = function (canvas, settings)
 {
-	goog.base(this, canvas, settings); // base class constructor
+	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	var DOMINO_WIDTH = .2;
 	var DOMINO_FRICTION = 0.1;
