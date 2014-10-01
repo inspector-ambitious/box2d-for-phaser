@@ -843,8 +843,8 @@ box2d.Testbed.Main.prototype.IncrementTest = function ()
 box2d.Testbed.Main.prototype.LoadTest = function ()
 {
 	this.m_demo_time = 0;
-	this.m_test = this.m_test_entries[this.m_test_index].createFcn(this.m_canvas, this.m_settings);
 	this.HomeCamera();
+	this.m_test = this.m_test_entries[this.m_test_index].createFcn(this.m_canvas, this.m_settings);
 }
 
 /**

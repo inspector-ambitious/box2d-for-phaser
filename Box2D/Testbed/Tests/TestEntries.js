@@ -78,6 +78,7 @@ goog.require('box2d.Testbed.TestCCD');
 goog.require('box2d.Testbed.TestRagdoll');
 goog.require('box2d.Testbed.TestStack');
 goog.require('box2d.Testbed.DominoTower');
+goog.require('box2d.Testbed.PyramidTopple');
 
 /** 
  * @export 
@@ -144,6 +145,7 @@ box2d.Testbed.GetTestEntries = function (entries)
 	entries.push(new box2d.Testbed.TestEntry("Ragdolls", box2d.Testbed.TestRagdoll.Create));
 	entries.push(new box2d.Testbed.TestEntry("Stacked Boxes", box2d.Testbed.TestStack.Create));
 	entries.push(new box2d.Testbed.TestEntry("Domino Tower", box2d.Testbed.DominoTower.Create));
+	entries.push(new box2d.Testbed.TestEntry("Pyramid Topple", box2d.Testbed.PyramidTopple.Create));
 	
 	return entries;
 }
