@@ -27,12 +27,14 @@ goog.require('box2d.b2Settings');
  * @param {number} rr
  * @param {number} gg
  * @param {number} bb
+ * @param {number=} aa
  */
-box2d.b2Color = function (rr, gg, bb)
+box2d.b2Color = function (rr, gg, bb, aa)
 {
 	this.r = rr;
 	this.g = gg;
 	this.b = bb;
+	this.a = (typeof(aa) === 'number')?(aa):(1.0);
 }
 
 /**
@@ -50,6 +52,11 @@ box2d.b2Color.prototype.g = 0.5;
  * @type {number}
  */
 box2d.b2Color.prototype.b = 0.5;
+/**
+ * @export 
+ * @type {number}
+ */
+box2d.b2Color.prototype.a = 1.0;
 
 /**
  * @export
@@ -76,7 +83,7 @@ box2d.b2Color.prototype.MakeStyleString = function (alpha)
 	var r = Math.round(Math.max(0, Math.min(255, this.r * 255)));
 	var g = Math.round(Math.max(0, Math.min(255, this.g * 255)));
 	var b = Math.round(Math.max(0, Math.min(255, this.b * 255)));
-	var a = (typeof(alpha) === 'undefined')?(1.0):(Math.max(0, Math.min(1, alpha)));
+	var a = (typeof(alpha) === 'undefined')?(this.a):(Math.max(0, Math.min(1, alpha)));
 	return box2d.b2Color.MakeStyleString(r, g, b, a);
 }
 

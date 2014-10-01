@@ -337,6 +337,12 @@ box2d.b2WeldJoint.prototype.InitVelocityConstraints = function (data)
 		invM += this.m_gamma;
 		this.m_mass.ez.z = invM !== 0 ? 1 / invM : 0;
 	}
+	else if (K.ez.z === 0)
+	{
+		K.GetInverse22(this.m_mass);
+		this.m_gamma = 0;
+		this.m_bias = 0;
+	}
 	else
 	{
 		K.GetSymInverse33(this.m_mass);
@@ -531,9 +537,23 @@ box2d.b2WeldJoint.prototype.SolvePositionConstraints = function (data)
 	
 //		b2Vec3 C(C1.x, C1.y, C2);
 	
-//		b2Vec3 impulse = -K.Solve33(C);
-		/*box2d.b2Vec3*/ var impulse = K.Solve33(C1.x, C1.y, C2, box2d.b2WeldJoint.prototype.SolvePositionConstraints.s_impulse).SelfNeg();
-	
+//		b2Vec3 impulse;
+		/*box2d.b2Vec3*/ var impulse = box2d.b2WeldJoint.prototype.SolvePositionConstraints.s_impulse;
+		if (K.ez.z > 0)
+		{ 
+//			impulse = -K.Solve33(C);
+			K.Solve33(C1.x, C1.y, C2, impulse).SelfNeg();
+		} 
+		else
+		{ 
+//			b2Vec2 impulse2 = -K.Solve22(C1);
+			var impulse2 = K.Solve22(C1.x, C1.y, box2d.b2WeldJoint.prototype.SolvePositionConstraints.s_impulse2).SelfNeg();
+//			impulse.Set(impulse2.x, impulse2.y, 0.0f);
+			impulse.x = impulse2.x;
+			impulse.y = impulse2.y;
+			impulse.z = 0;
+		} 
+
 //		b2Vec2 P(impulse.x, impulse.y);
 		var P = box2d.b2WeldJoint.prototype.SolvePositionConstraints.s_P.SetXY(impulse.x, impulse.y);
 	
@@ -556,6 +576,7 @@ box2d.b2WeldJoint.prototype.SolvePositionConstraints = function (data)
 box2d.b2WeldJoint.prototype.SolvePositionConstraints.s_C1 = new box2d.b2Vec2();
 box2d.b2WeldJoint.prototype.SolvePositionConstraints.s_P = new box2d.b2Vec2();
 box2d.b2WeldJoint.prototype.SolvePositionConstraints.s_impulse = new box2d.b2Vec3();
+box2d.b2WeldJoint.prototype.SolvePositionConstraints.s_impulse2 = new box2d.b2Vec2();
 
 /** 
  * @export 

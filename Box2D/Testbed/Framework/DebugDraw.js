@@ -16,7 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.Testbed.Render');
+goog.provide('box2d.Testbed.DebugDraw');
 
 goog.require('box2d');
 

@@ -78,6 +78,17 @@ box2d.b2ChainShape.prototype.m_hasPrevVertex = false;
 box2d.b2ChainShape.prototype.m_hasNextVertex = false;
 
 /** 
+ * Clear all data. 
+ * @export 
+ * @return {void}
+ */
+box2d.b2ChainShape.prototype.Clear = function ()
+{
+	this.m_vertices = null;
+	this.m_count = 0;
+}
+
+/** 
  * Create a loop. This automatically adjusts connectivity. 
  * @export 
  * @return {box2d.b2ChainShape} 
@@ -93,10 +104,8 @@ box2d.b2ChainShape.prototype.CreateLoop = function (vertices, count)
 	{
 		for (var i = 1; i < count; ++i)
 		{
-			var v1 = vertices[i-1];
-			var v2 = vertices[i];
 			// If the code crashes here, it means your vertices are too close together.
-			box2d.b2Assert(box2d.b2DistanceSquaredVV(v1, v2) > box2d.b2_linearSlop * box2d.b2_linearSlop);
+			box2d.b2Assert(box2d.b2DistanceSquaredVV(vertices[i-1], vertices[i]) > box2d.b2_linearSlop * box2d.b2_linearSlop);
 		}
 	}
 

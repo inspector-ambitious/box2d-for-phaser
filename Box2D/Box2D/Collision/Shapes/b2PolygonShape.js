@@ -263,6 +263,13 @@ box2d.b2PolygonShape.prototype.Set = function (vertices, count)
 			break;
 		}
 	}
+
+	if (m < 3)
+	{
+		// Polygon is degenerate
+		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false); }
+		return this.SetAsBox(1.0, 1.0);
+	}
 	
 	this.m_count = m;
 

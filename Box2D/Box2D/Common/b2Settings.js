@@ -399,13 +399,13 @@ box2d.b2Version.prototype.toString = function ()
  * @const 
  * @type {box2d.b2Version} 
  */
-box2d.b2_version = new box2d.b2Version(2, 3, 0);
+box2d.b2_version = new box2d.b2Version(2, 3, 2);
 /** 
  * @export 
  * @const 
  * @type {number} 
  */
-box2d.b2_changelist = 278;
+box2d.b2_changelist = 313;
 
 /** 
  * @export 

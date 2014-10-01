@@ -81,13 +81,6 @@ box2d.Testbed.ConvexHull.prototype.Generate = function ()
 	}
 
 	this.m_count = box2d.Testbed.ConvexHull.e_count;
-
-	//this.m_test_points[0].SetXY( -1.70082211,  -1.43221712 );
-	//this.m_test_points[1].SetXY(  0.5, 		-0.5 );
-	//this.m_test_points[2].SetXY(  0.104992867,  0.97400856 );
-	//this.m_test_points[3].SetXY( -0.658002853,  0.926608086 );
-	//this.m_test_points[4].SetXY( -0.994554818,  0.165337861 );
-	//this.m_count = 5;
 }
 
 /**
@@ -128,7 +121,7 @@ box2d.Testbed.ConvexHull.prototype.Step = function (settings)
 
 	for (var i = 0; i < this.m_count; ++i)
 	{
-		this.m_debugDraw.DrawPoint(this.m_test_points[i], 2.0, new box2d.b2Color(0.9, 0.5, 0.5));
+		this.m_debugDraw.DrawPoint(this.m_test_points[i], 3.0, new box2d.b2Color(0.3, 0.9, 0.3));
 		this.m_debugDraw.DrawStringWorld(this.m_test_points[i].x + 0.05, this.m_test_points[i].y + 0.05, "%d", i);
 	}
 

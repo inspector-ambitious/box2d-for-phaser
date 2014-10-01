@@ -22,6 +22,7 @@ goog.require('box2d.Testbed.Test');
 
 goog.require('box2d.Testbed.AddPair');
 goog.require('box2d.Testbed.ApplyForce');
+goog.require('box2d.Testbed.BasicSliderCrank');
 goog.require('box2d.Testbed.BodyTypes');
 goog.require('box2d.Testbed.Breakable');
 goog.require('box2d.Testbed.Bridge');
@@ -44,6 +45,8 @@ goog.require('box2d.Testbed.DynamicTreeTest');
 goog.require('box2d.Testbed.EdgeShapes');
 goog.require('box2d.Testbed.EdgeTest');
 goog.require('box2d.Testbed.Gears');
+goog.require('box2d.Testbed.HeavyOnLight');
+goog.require('box2d.Testbed.HeavyOnLightTwo');
 goog.require('box2d.Testbed.Mobile');
 goog.require('box2d.Testbed.MobileBalanced');
 goog.require('box2d.Testbed.MotorJoint');
@@ -87,20 +90,29 @@ goog.require('box2d.Testbed.PyramidTopple');
  */
 box2d.Testbed.GetTestEntries = function (entries)
 {
+	entries.push(new box2d.Testbed.TestEntry("Ragdolls", box2d.Testbed.TestRagdoll.Create));
+
+	entries.push(new box2d.Testbed.TestEntry("Tiles", box2d.Testbed.Tiles.Create));
+	entries.push(new box2d.Testbed.TestEntry("Heavy on Light", box2d.Testbed.HeavyOnLight.Create));
+	entries.push(new box2d.Testbed.TestEntry("Heavy on Light Two", box2d.Testbed.HeavyOnLightTwo.Create));
+	entries.push(new box2d.Testbed.TestEntry("Vertical Stack", box2d.Testbed.VerticalStack.Create));
+	entries.push(new box2d.Testbed.TestEntry("Basic Slider Crank", box2d.Testbed.BasicSliderCrank.Create));
+	entries.push(new box2d.Testbed.TestEntry("Slider Crank", box2d.Testbed.SliderCrank.Create));
+	entries.push(new box2d.Testbed.TestEntry("Sphere Stack", box2d.Testbed.SphereStack.Create));
 	entries.push(new box2d.Testbed.TestEntry("Convex Hull", box2d.Testbed.ConvexHull.Create));
+	entries.push(new box2d.Testbed.TestEntry("Tumbler", box2d.Testbed.Tumbler.Create));
+	entries.push(new box2d.Testbed.TestEntry("Ray-Cast", box2d.Testbed.RayCast.Create));
+	entries.push(new box2d.Testbed.TestEntry("Dump Shell", box2d.Testbed.DumpShell.Create));
 	entries.push(new box2d.Testbed.TestEntry("Apply Force", box2d.Testbed.ApplyForce.Create));
 	entries.push(new box2d.Testbed.TestEntry("Continuous Test", box2d.Testbed.ContinuousTest.Create));
 	entries.push(new box2d.Testbed.TestEntry("Time of Impact", box2d.Testbed.TimeOfImpact.Create));
 	entries.push(new box2d.Testbed.TestEntry("Motor Joint", box2d.Testbed.MotorJoint.Create));
+	entries.push(new box2d.Testbed.TestEntry("One-Sided Platform", box2d.Testbed.OneSidedPlatform.Create));
 	entries.push(new box2d.Testbed.TestEntry("Mobile", box2d.Testbed.Mobile.Create));
 	entries.push(new box2d.Testbed.TestEntry("MobileBalanced", box2d.Testbed.MobileBalanced.Create));
-	entries.push(new box2d.Testbed.TestEntry("Ray-Cast", box2d.Testbed.RayCast.Create));
 	entries.push(new box2d.Testbed.TestEntry("Conveyor Belt", box2d.Testbed.ConveyorBelt.Create));
 	entries.push(new box2d.Testbed.TestEntry("Gears", box2d.Testbed.Gears.Create));
 	entries.push(new box2d.Testbed.TestEntry("Varying Restitution", box2d.Testbed.VaryingRestitution.Create));
-	entries.push(new box2d.Testbed.TestEntry("Tumbler", box2d.Testbed.Tumbler.Create));
-	entries.push(new box2d.Testbed.TestEntry("Tiles", box2d.Testbed.Tiles.Create));
-	entries.push(new box2d.Testbed.TestEntry("Dump Shell", box2d.Testbed.DumpShell.Create));
 	entries.push(new box2d.Testbed.TestEntry("Cantilever", box2d.Testbed.Cantilever.Create));
 	entries.push(new box2d.Testbed.TestEntry("Character Collision", box2d.Testbed.CharacterCollision.Create));
 	entries.push(new box2d.Testbed.TestEntry("Edge Test", box2d.Testbed.EdgeTest.Create));
@@ -108,15 +120,11 @@ box2d.Testbed.GetTestEntries = function (entries)
 	entries.push(new box2d.Testbed.TestEntry("Shape Editing", box2d.Testbed.ShapeEditing.Create));
 	entries.push(new box2d.Testbed.TestEntry("Car", box2d.Testbed.Car.Create));
 	entries.push(new box2d.Testbed.TestEntry("Prismatic", box2d.Testbed.Prismatic.Create));
-	entries.push(new box2d.Testbed.TestEntry("Vertical Stack", box2d.Testbed.VerticalStack.Create));
-	entries.push(new box2d.Testbed.TestEntry("SphereStack", box2d.Testbed.SphereStack.Create));
 	entries.push(new box2d.Testbed.TestEntry("Revolute", box2d.Testbed.Revolute.Create));
 	entries.push(new box2d.Testbed.TestEntry("Pulleys", box2d.Testbed.Pulleys.Create));
 	entries.push(new box2d.Testbed.TestEntry("Polygon Shapes", box2d.Testbed.PolyShapes.Create));
-	entries.push(new box2d.Testbed.TestEntry("Rope", box2d.Testbed.Rope.Create));
 	entries.push(new box2d.Testbed.TestEntry("Web", box2d.Testbed.Web.Create));
 	entries.push(new box2d.Testbed.TestEntry("RopeJoint", box2d.Testbed.RopeJoint.Create));
-	entries.push(new box2d.Testbed.TestEntry("One-Sided Platform", box2d.Testbed.OneSidedPlatform.Create));
 	entries.push(new box2d.Testbed.TestEntry("Pinball", box2d.Testbed.Pinball.Create));
 	entries.push(new box2d.Testbed.TestEntry("Bullet Test", box2d.Testbed.BulletTest.Create));
 	entries.push(new box2d.Testbed.TestEntry("Confined", box2d.Testbed.Confined.Create));
@@ -134,15 +142,14 @@ box2d.Testbed.GetTestEntries = function (entries)
 	entries.push(new box2d.Testbed.TestEntry("Dominos", box2d.Testbed.Dominos.Create));
 	entries.push(new box2d.Testbed.TestEntry("Dynamic Tree", box2d.Testbed.DynamicTreeTest.Create));
 	entries.push(new box2d.Testbed.TestEntry("Sensor Test", box2d.Testbed.SensorTest.Create));
-	entries.push(new box2d.Testbed.TestEntry("Slider Crank", box2d.Testbed.SliderCrank.Create));
 	entries.push(new box2d.Testbed.TestEntry("Varying Friction", box2d.Testbed.VaryingFriction.Create));
 	entries.push(new box2d.Testbed.TestEntry("Add Pair Stress Test", box2d.Testbed.AddPair.Create));
 	
+	entries.push(new box2d.Testbed.TestEntry("Rope", box2d.Testbed.Rope.Create));
 	entries.push(new box2d.Testbed.TestEntry("Blob Test", box2d.Testbed.BlobTest.Create));
 	entries.push(new box2d.Testbed.TestEntry("Buoyancy Test", box2d.Testbed.BuoyancyTest.Create));
 	
 	entries.push(new box2d.Testbed.TestEntry("Continuous Collision", box2d.Testbed.TestCCD.Create));
-	entries.push(new box2d.Testbed.TestEntry("Ragdolls", box2d.Testbed.TestRagdoll.Create));
 	entries.push(new box2d.Testbed.TestEntry("Stacked Boxes", box2d.Testbed.TestStack.Create));
 	entries.push(new box2d.Testbed.TestEntry("Domino Tower", box2d.Testbed.DominoTower.Create));
 	entries.push(new box2d.Testbed.TestEntry("Pyramid Topple", box2d.Testbed.PyramidTopple.Create));

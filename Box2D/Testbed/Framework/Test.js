@@ -19,7 +19,7 @@
 goog.provide('box2d.Testbed.Test');
 
 goog.require('box2d');
-goog.require('box2d.Testbed.Render');
+goog.require('box2d.Testbed.DebugDraw');
 
 /** 
  * @export 

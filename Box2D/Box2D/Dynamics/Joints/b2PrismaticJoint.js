@@ -447,6 +447,9 @@ box2d.b2PrismaticJoint.prototype.InitVelocityConstraints = function (data)
 //		m_s2 = b2Cross(rB, m_perp);
 		this.m_s2 = box2d.b2CrossVV(rB, this.m_perp);
 
+//		float32 s1test;
+//		s1test = b2Cross(rA, m_perp);
+
 //		float32 k11 = mA + mB + iA * m_s1 * m_s1 + iB * m_s2 * m_s2;
 		this.m_K.ex.x = mA + mB + iA * this.m_s1 * this.m_s1 + iB * this.m_s2 * this.m_s2;
 //		float32 k12 = iA * m_s1 + iB * m_s2;

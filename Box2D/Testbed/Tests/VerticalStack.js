@@ -74,8 +74,8 @@ box2d.Testbed.VerticalStack = function (canvas, settings)
 
 			var x = 0.0;
 			//var x = box2d.b2RandomRange(-0.02, 0.02);
-			//var x = i % 2 === 0 ? -0.025 : 0.025;
-			bd.position.SetXY(xs[j] + x, 0.752 + 1.54 * i);
+			//var x = i % 2 === 0 ? -0.01 : 0.01;
+			bd.position.SetXY(xs[j] + x, 0.55 + 1.1 * i);
 			var body = this.m_world.CreateBody(bd);
 
 			this.m_bodies[n] = body;
@@ -92,13 +92,13 @@ goog.inherits(box2d.Testbed.VerticalStack, box2d.Testbed.Test);
  * @const 
  * @type {number} 
  */
-box2d.Testbed.VerticalStack.e_columnCount = 5;
+box2d.Testbed.VerticalStack.e_columnCount = 1;
 /**
  * @export 
  * @const 
  * @type {number} 
  */
-box2d.Testbed.VerticalStack.e_rowCount = 16;
+box2d.Testbed.VerticalStack.e_rowCount = 15;
 
 /**
  * @export 
@@ -152,6 +152,9 @@ box2d.Testbed.VerticalStack.prototype.Keyboard = function (key)
 			this.m_bullet.SetLinearVelocity(new box2d.b2Vec2(400.0, 0.0));
 		}
 		break;
+	case goog.events.KeyCodes.B:
+		box2d.g_blockSolve = !box2d.g_blockSolve;
+		break;
 	}
 }
 
@@ -165,7 +168,7 @@ box2d.Testbed.VerticalStack.prototype.Step = function (settings)
 	goog.base(this, 'Step', settings);
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Press: (,) to launch a bullet.");
 	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
-
+	this.m_debugDraw.DrawString(5, this.m_textLine, "Blocksolve = %d", (box2d.g_blockSolve)?(1):(0));
 	//if (this.m_stepCount === 300)
 	//{
 	//	if (this.m_bullet !== null)

@@ -30,6 +30,11 @@ goog.require('box2d.b2ChainAndCircleContact');
 goog.require('box2d.b2ChainAndPolygonContact');
 
 /**
+ * @type {boolean}
+ */
+box2d.g_blockSolve = true;
+
+/**
  * @export 
  * @constructor
  */
@@ -688,7 +693,7 @@ box2d.b2ContactSolver.prototype.InitializeVelocityConstraints = function ()
 		}
 
 		// If we have two points, then prepare the block solver.
-		if (vc.pointCount === 2)
+		if (vc.pointCount === 2 && box2d.g_blockSolve)
 		{
 			vcp1 = vc.points[0];
 			vcp2 = vc.points[1];
@@ -925,40 +930,43 @@ box2d.b2ContactSolver.prototype.SolveVelocityConstraints = function ()
 		}
 
 		// Solve normal constraints
-		if (vc.pointCount === 1)
+		if (vc.pointCount === 1 || box2d.g_blockSolve === false)
 		{
-			vcp = vc.points[0];
+			for (var ii = 0; ii < pointCount; ++ii)
+			{
+				vcp = vc.points[ii];
 
-			// Relative velocity at contact
-//			b2Vec2 dv = vB + b2Cross(wB, vcp->rB) - vA - b2Cross(wA, vcp->rA);
-			box2d.b2SubVV(
-				box2d.b2AddVCrossSV(vB, wB, vcp.rB, box2d.b2Vec2.s_t0), 
-				box2d.b2AddVCrossSV(vA, wA, vcp.rA, box2d.b2Vec2.s_t1), 
-				dv);
+				// Relative velocity at contact
+//				b2Vec2 dv = vB + b2Cross(wB, vcp->rB) - vA - b2Cross(wA, vcp->rA);
+				box2d.b2SubVV(
+					box2d.b2AddVCrossSV(vB, wB, vcp.rB, box2d.b2Vec2.s_t0), 
+					box2d.b2AddVCrossSV(vA, wA, vcp.rA, box2d.b2Vec2.s_t1), 
+					dv);
 
-			// Compute normal impulse
-//			float32 vn = b2Dot(dv, normal);
-			vn = box2d.b2DotVV(dv, normal);
-			lambda = (-vcp.normalMass * (vn - vcp.velocityBias));
+				// Compute normal impulse
+//				float32 vn = b2Dot(dv, normal);
+				vn = box2d.b2DotVV(dv, normal);
+				lambda = (-vcp.normalMass * (vn - vcp.velocityBias));
 
-			// box2d.b2Clamp the accumulated impulse
-//			float32 newImpulse = box2d.b2Max(vcp->normalImpulse + lambda, 0.0f);
-			newImpulse = box2d.b2Max(vcp.normalImpulse + lambda, 0);
-			lambda = newImpulse - vcp.normalImpulse;
-			vcp.normalImpulse = newImpulse;
+				// box2d.b2Clamp the accumulated impulse
+//				float32 newImpulse = box2d.b2Max(vcp->normalImpulse + lambda, 0.0f);
+				newImpulse = box2d.b2Max(vcp.normalImpulse + lambda, 0);
+				lambda = newImpulse - vcp.normalImpulse;
+				vcp.normalImpulse = newImpulse;
 
-			// Apply contact impulse
-//			b2Vec2 P = lambda * normal;
-			box2d.b2MulSV(lambda, normal, P);
-//			vA -= mA * P;
-			vA.SelfMulSub(mA, P);
-//			wA -= iA * b2Cross(vcp->rA, P);
-			wA -= iA * box2d.b2CrossVV(vcp.rA, P);
+				// Apply contact impulse
+//				b2Vec2 P = lambda * normal;
+				box2d.b2MulSV(lambda, normal, P);
+//				vA -= mA * P;
+				vA.SelfMulSub(mA, P);
+//				wA -= iA * b2Cross(vcp->rA, P);
+				wA -= iA * box2d.b2CrossVV(vcp.rA, P);
 
-//			vB += mB * P;
-			vB.SelfMulAdd(mB, P);
-//			wB += iB * b2Cross(vcp->rB, P);
-			wB += iB * box2d.b2CrossVV(vcp.rB, P);
+//				vB += mB * P;
+				vB.SelfMulAdd(mB, P);
+//				wB += iB * b2Cross(vcp->rB, P);
+				wB += iB * box2d.b2CrossVV(vcp.rB, P);
+			}
 		}
 		else
 		{
