@@ -33,7 +33,7 @@ deps:
 # to this makefile directory
 DEPSWRITER_PREFIX = ../../../../HelloWorld
 
-DEPS_COMMAND += $(GOOGLE_PATH)/closure-library/closure/bin/build/depswriter.py
+DEPS_COMMAND += python $(GOOGLE_PATH)/closure-library/closure/bin/build/depswriter.py
 DEPS_COMMAND += $(foreach file,$(SOURCE_FILES),--path_with_depspath="$(file) $(DEPSWRITER_PREFIX)/$(file)")
 DEPS_COMMAND += $(foreach path,$(SOURCE_PATHS),--root_with_prefix="$(path) $(DEPSWRITER_PREFIX)/$(path)")
 DEPS_COMMAND += > deps.js
