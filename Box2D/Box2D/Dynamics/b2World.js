@@ -1489,7 +1489,6 @@ box2d.b2World.prototype.QueryAABB = function (callback, aabb)
 		/* type {box2d.b2FixtureProxy} */ var fixture_proxy = broadPhase.GetUserData(proxy);
 		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(fixture_proxy instanceof box2d.b2FixtureProxy); }
 		/* type {box2d.b2Fixture} */ var fixture = fixture_proxy.fixture;
-		/** @type {number} */ var index = fixture_proxy.childIndex;
 		if (callback instanceof box2d.b2QueryCallback)
 		{
 			return callback.ReportFixture(fixture);
@@ -1524,7 +1523,6 @@ box2d.b2World.prototype.QueryShape = function (callback, shape, transform)
 		/* type {box2d.b2FixtureProxy} */ var fixture_proxy = broadPhase.GetUserData(proxy);
 		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(fixture_proxy instanceof box2d.b2FixtureProxy); }
 		/** @type {box2d.b2Fixture} */ var fixture = fixture_proxy.fixture;
-		/** @type {number} */ var index = fixture_proxy.childIndex;
 		if (box2d.b2TestOverlapShape(shape, 0, fixture.GetShape(), 0, transform, fixture.GetBody().GetTransform()))
 		{
 			if (callback instanceof box2d.b2QueryCallback)
@@ -1565,7 +1563,6 @@ box2d.b2World.prototype.QueryPoint = function (callback, point)
 		/* type {box2d.b2FixtureProxy} */ var fixture_proxy = broadPhase.GetUserData(proxy);
 		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(fixture_proxy instanceof box2d.b2FixtureProxy); }
 		/** @type {box2d.b2Fixture} */ var fixture = fixture_proxy.fixture;
-		/** @type {number} */ var index = fixture_proxy.childIndex;
 		if (fixture.TestPoint(point))
 		{
 			if (callback instanceof box2d.b2QueryCallback)
