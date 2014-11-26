@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+    <ModulePrefs 
+        title="iframe gadget" 
+        title_url="http://sites.google.com/" 
+        description="Include another web page in your Google Site" 
+        thumbnail="http://www.gstatic.com/sites-gadgets/common/images/sites-icon-gadget-thumb.png" 
+        screenshot="http://www.gstatic.com/sites-gadgets/common/images/sites-icon-gadget-ss.png"
+        height="800"
+        width="600"
+        author="Google">
+    </ModulePrefs>
+    <UserPref name="src" display_name="iframe source" required="true"/>
+    <UserPref name="scrolling" display_name="scrolling" default_value="auto" datatype="enum">
+        <EnumValue value="auto" display_value="auto"/>
+        <EnumValue value="no" display_value="no"/>
+        <EnumValue value="yes" display_value="yes"/>
+    </UserPref>
+    <Content type="html" view="default,canvas">
+        <![CDATA[
+            <div id='dest' />
+            <script type="text/javascript">
+            function OnLoad()
+            {
+                // setup variables
+                var prefs = new gadgets.Prefs();
+                var src = prefs.getString('src');
+                var scrolling = prefs.getString('scrolling');
+                var height = '100%';
+                var width = '100%';
+                if (gadgets.window)
+                {
+                    var viewport = gadgets.window.getViewportDimensions();
+                    if (viewport.width)
+                    {
+                        width = viewport.width + 'px';
+                    }
+                    if (viewport.height)
+                    {
+                        height = viewport.height + 'px';
+                    }
+                }
+                var iframe = document.createElement('iframe');
+                iframe.setAttribute('width', width);
+                iframe.setAttribute('height', height);
+                iframe.setAttribute('frameborder', 'no');
+                if (scrolling)
+                {
+                    iframe.setAttribute('scrolling', scrolling);
+                }
+                iframe.setAttribute('src', src);
+                var dest = document.getElementById('dest');
+                dest.appendChild(iframe);
+            }
+            gadgets.util.registerOnLoadHandler(OnLoad);
+            </script>
+        ]]>
+    </Content>
+</Module>
