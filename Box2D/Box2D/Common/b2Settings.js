@@ -435,13 +435,20 @@ box2d.b2ParseUInt = function (v)
  */
 box2d.b2MakeArray = function (length, init)
 {
-	if (length === undefined) length = 0;
-	var a = new Array(length);
-	if (init !== undefined)
+	length = (typeof(length) === 'number')?(length):(0);
+	var a = [];
+	if (typeof(init) === 'function')
 	{
 		for (var i = 0; i < length; ++i)
 		{
-			a[i] = init(i);
+			a.push(init(i));
+		}
+	}
+	else
+	{
+		for (var i = 0; i < length; ++i)
+		{
+			a.push(null);
 		}
 	}
 	return a;

@@ -166,7 +166,7 @@ box2d.b2PolygonShape.prototype.SetAsOrientedBox = function (hx, hy, center, angl
  */
 box2d.b2PolygonShape.prototype.Set = function (vertices, count)
 {
-	if (count === undefined) count = vertices.length;
+	count = (typeof(count) === 'number')?(count):(vertices.length);
 
 	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(3 <= count && count <= box2d.b2_maxPolygonVertices); }
 	if (count < 3)

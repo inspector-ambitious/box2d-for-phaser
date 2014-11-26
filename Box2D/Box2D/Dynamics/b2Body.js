@@ -510,7 +510,7 @@ box2d.b2Body.prototype.CreateFixture = function (def)
  */
 box2d.b2Body.prototype.CreateFixture2 = function (shape, density)
 {
-	if (density === undefined) density = 0;
+	density = (typeof(density) === 'number')?(density):(0);
 
 	var def = box2d.b2Body.prototype.CreateFixture2.s_def;
 	def.shape = shape;
