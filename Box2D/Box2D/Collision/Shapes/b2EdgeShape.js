@@ -265,9 +265,9 @@ box2d.b2EdgeShape.prototype.ComputeMass = function (massData, density)
  */
 box2d.b2EdgeShape.prototype.SetupDistanceProxy = function (proxy, index)
 {
-	proxy.m_vertices = new Array(2);
-	proxy.m_vertices[0] = this.m_vertex1;
-	proxy.m_vertices[1] = this.m_vertex2;
+	proxy.m_vertices = proxy.m_buffer;
+	proxy.m_vertices[0].Copy(this.m_vertex1);
+	proxy.m_vertices[1].Copy(this.m_vertex2);
 	proxy.m_count = 2;
 	proxy.m_radius = this.m_radius;
 }
