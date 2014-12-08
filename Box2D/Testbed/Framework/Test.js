@@ -17,6 +17,7 @@
 */
 
 goog.provide('box2d.Testbed.Test');
+goog.provide('box2d.Testbed.DestructionListener');
 
 goog.require('box2d');
 goog.require('box2d.Testbed.DebugDraw');
@@ -191,6 +192,7 @@ box2d.Testbed.TestEntry.prototype.createFcn = function (canvas, settings) {};
  * @export 
  * @constructor
  * @extends box2d.b2DestructionListener
+ * @param {box2d.Testbed.Test} test 
  */
 box2d.Testbed.DestructionListener = function (test)
 {

@@ -83,6 +83,8 @@ goog.require('box2d.Testbed.TestStack');
 goog.require('box2d.Testbed.DominoTower');
 goog.require('box2d.Testbed.PyramidTopple');
 
+goog.require('box2d.Testbed.TopdownCar');
+
 /** 
  * @export 
  * @return {Array.<box2d.Testbed.TestEntry>} 
@@ -91,6 +93,7 @@ goog.require('box2d.Testbed.PyramidTopple');
 box2d.Testbed.GetTestEntries = function (entries)
 {
 	entries.push(new box2d.Testbed.TestEntry("Ragdolls", box2d.Testbed.TestRagdoll.Create));
+	entries.push(new box2d.Testbed.TestEntry("Topdown Car", box2d.Testbed.TopdownCar.Create));
 
 	entries.push(new box2d.Testbed.TestEntry("Tiles", box2d.Testbed.Tiles.Create));
 	entries.push(new box2d.Testbed.TestEntry("Heavy on Light", box2d.Testbed.HeavyOnLight.Create));
