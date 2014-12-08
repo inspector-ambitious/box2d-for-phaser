@@ -362,7 +362,7 @@ MyDestructionListener.SayGoodbyeFixture = function (fixture)
 {
 ///	if ( FixtureUserData* fud = (FixtureUserData*)fixture.GetUserData() )
 ///		delete fud;
-	goog.base(this, 'SayGoodbyeFixture', fixture);
+	//goog.base(this, 'SayGoodbyeFixture', fixture);
 }
 
 /** 
@@ -372,7 +372,7 @@ MyDestructionListener.SayGoodbyeFixture = function (fixture)
  */
 MyDestructionListener.SayGoodbyeJoint = function (joint)
 {
-	goog.base(this, 'SayGoodbyeJoint', joint);
+	//goog.base(this, 'SayGoodbyeJoint', joint);
 }
 
 
