@@ -186,7 +186,7 @@ box2d.b2PolygonShape.prototype.Set = function (vertices, count)
 		var /*bool*/ unique = true;
 		for (var /*int32*/ j = 0; j < tempCount; ++j)
 		{
-			if (box2d.b2DistanceSquaredVV(v, ps[j]) < 0.5 * box2d.b2_linearSlop)
+			if (box2d.b2DistanceSquaredVV(v, ps[j]) < ((0.5 * box2d.b2_linearSlop) * (0.5 * box2d.b2_linearSlop)))
 			{
 				unique = false;
 				break;
