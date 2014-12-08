@@ -391,7 +391,7 @@ box2d.Testbed.TopdownCar = function (canvas, settings)
 {
 	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
-    this.m_destructionListener = new MyDestructionListener(this);
+    //this.m_destructionListener = new MyDestructionListener(this);
 
 	this.m_world.SetGravity(new box2d.b2Vec2(0.0,0.0));
 	this.m_world.SetDestructionListener(this.m_destructionListener);
