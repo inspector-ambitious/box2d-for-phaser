@@ -70,7 +70,7 @@ FixtureUserData.prototype.getType = function () { return this.m_type; }
  */
 var CarTireFUD = function ()
 {
-	goog.base(this, FUD_CAR_TIRE);
+	FixtureUserData.call(this, FUD_CAR_TIRE);
 }
 
 goog.inherits(CarTireFUD, FixtureUserData);
@@ -84,7 +84,7 @@ goog.inherits(CarTireFUD, FixtureUserData);
  */
 var GroundAreaFUD = function (fm, ooc)
 {
-	goog.base(this, FUD_GROUND_AREA);
+	FixtureUserData.call(this, FUD_GROUND_AREA);
 	this.frictionModifier = fm;
 	this.outOfCourse = ooc;
 }
@@ -349,7 +349,7 @@ TDCar.prototype.update = function (controlState) {
  */
 var MyDestructionListener = function (test)
 {
-	goog.base(this, test);
+	box2d.Testbed.DestructionListener.call(this, test);
 }
 
 goog.inherits(MyDestructionListener, box2d.Testbed.DestructionListener);
@@ -362,7 +362,7 @@ MyDestructionListener.SayGoodbyeFixture = function (fixture)
 {
 ///	if ( FixtureUserData* fud = (FixtureUserData*)fixture.GetUserData() )
 ///		delete fud;
-	//goog.base(this, 'SayGoodbyeFixture', fixture);
+	box2d.Testbed.DestructionListener.prototype.SayGoodbyeFixture.call(this, fixture);
 }
 
 /** 
@@ -372,7 +372,7 @@ MyDestructionListener.SayGoodbyeFixture = function (fixture)
  */
 MyDestructionListener.SayGoodbyeJoint = function (joint)
 {
-	//goog.base(this, 'SayGoodbyeJoint', joint);
+	box2d.Testbed.DestructionListener.prototype.SayGoodbyeJoint.call(this, joint);
 }
 
 
@@ -437,7 +437,7 @@ box2d.Testbed.TopdownCar.prototype.Keyboard = function (key)
 	case goog.events.KeyCodes.D : this.m_controlState |= TDC_RIGHT; break;
 	case goog.events.KeyCodes.W : this.m_controlState |= TDC_UP; break;
 	case goog.events.KeyCodes.S : this.m_controlState |= TDC_DOWN; break;
-	default: goog.base(this, 'Keyboard', key);
+	default: box2d.Testbed.Test.prototype.Keyboard.call(this, key);
 	}
 }
 
@@ -453,7 +453,7 @@ box2d.Testbed.TopdownCar.prototype.KeyboardUp = function (key)
 	case goog.events.KeyCodes.D : this.m_controlState &= ~TDC_RIGHT; break;
 	case goog.events.KeyCodes.W : this.m_controlState &= ~TDC_UP; break;
 	case goog.events.KeyCodes.S : this.m_controlState &= ~TDC_DOWN; break;
-	default: goog.base(this, 'KeyboardUp', key);
+	default: box2d.Testbed.Test.prototype.KeyboardUp.call(this, key);
 	}
 }
 
@@ -521,7 +521,7 @@ box2d.Testbed.TopdownCar.prototype.Step = function (settings)
 
 	this.m_car.update(this.m_controlState);
 
-	goog.base(this, 'Step', settings);
+	box2d.Testbed.Test.prototype.Step.call(this, settings);
 
 	//show some useful info
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Press w/a/s/d to control the car");
