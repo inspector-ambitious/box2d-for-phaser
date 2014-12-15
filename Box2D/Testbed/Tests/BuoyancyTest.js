@@ -36,7 +36,7 @@ box2d.Testbed.BuoyancyTest = function (canvas, settings)
 	var bc = new box2d.b2BuoyancyController();
 	this.m_controller = bc;
 
-	bc.normal.SetXY(0.0, 1.0);
+	bc.normal.Set(0.0, 1.0);
 	bc.offset = 20.0;
 	bc.density = 2.0;
 	bc.linearDrag = 5.0;
@@ -48,11 +48,11 @@ box2d.Testbed.BuoyancyTest = function (canvas, settings)
 	{
 		var shape = new box2d.b2EdgeShape();
 		shape.SetAsEdge(new box2d.b2Vec2(-40.0, 0.0), new box2d.b2Vec2( 40.0,  0.0));
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 		shape.SetAsEdge(new box2d.b2Vec2(-40.0, 0.0), new box2d.b2Vec2(-40.0, 25.0));
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 		shape.SetAsEdge(new box2d.b2Vec2( 40.0, 0.0), new box2d.b2Vec2( 40.0, 25.0));
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 	}
 
 	// Spawn in a bunch of crap
@@ -63,7 +63,7 @@ box2d.Testbed.BuoyancyTest = function (canvas, settings)
 			var bd = new box2d.b2BodyDef();
 			bd.type = box2d.b2BodyType.b2_dynamicBody;
 			//bd.isBullet = true;
-			bd.position.SetXY(Math.random() * 40.0 - 20.0, Math.random() * 15.0 + 5.0);
+			bd.position.Set(Math.random() * 40.0 - 20.0, Math.random() * 15.0 + 5.0);
 			bd.angle = Math.random() * Math.PI;
 			var body = this.m_world.CreateBody(bd);
 
@@ -87,7 +87,7 @@ box2d.Testbed.BuoyancyTest = function (canvas, settings)
 			var bd = new box2d.b2BodyDef();
 			bd.type = box2d.b2BodyType.b2_dynamicBody;
 			//bd.isBullet = true;
-			bd.position.SetXY(Math.random() * 40.0 - 20.0, Math.random() * 15.0 + 5.0);
+			bd.position.Set(Math.random() * 40.0 - 20.0, Math.random() * 15.0 + 5.0);
 			bd.angle = Math.random() * Math.PI;
 			var body = this.m_world.CreateBody(bd);
 
@@ -110,7 +110,7 @@ box2d.Testbed.BuoyancyTest = function (canvas, settings)
 			var bd = new box2d.b2BodyDef();
 			bd.type = box2d.b2BodyType.b2_dynamicBody;
 			//bd.isBullet = true;
-			bd.position.SetXY(Math.random() * 40.0 - 20.0, Math.random() * 15.0 + 5.0);
+			bd.position.Set(Math.random() * 40.0 - 20.0, Math.random() * 15.0 + 5.0);
 			bd.angle = Math.random() * Math.PI;
 			var body = this.m_world.CreateBody(bd);
 
@@ -120,7 +120,7 @@ box2d.Testbed.BuoyancyTest = function (canvas, settings)
 			fd.restitution = 0.1;
 			fd.shape = new box2d.b2PolygonShape();
 			if (Math.random() > 0.66) {
-				fd.shape.SetAsArray([
+				fd.shape.Set([
 					new box2d.b2Vec2(-1.0 - Math.random()*1.0,  1.0 + Math.random()*1.0),
 					new box2d.b2Vec2(-0.5 - Math.random()*1.0, -1.0 - Math.random()*1.0),
 					new box2d.b2Vec2( 0.5 + Math.random()*1.0, -1.0 - Math.random()*1.0),
@@ -137,11 +137,11 @@ box2d.Testbed.BuoyancyTest = function (canvas, settings)
 				array[1].SelfMul(Math.random()/2+0.8);
 				array[4] = new box2d.b2Vec2((array[3].x + array[0].x), (array[3].y + array[0].y));
 				array[4].SelfMul(Math.random()/2+0.8);
-				fd.shape.SetAsArray(array);
+				fd.shape.Set(array);
 			}
 			else 
 			{
-				fd.shape.SetAsArray([
+				fd.shape.Set([
 					new box2d.b2Vec2( 0.0, 1.0 + Math.random()*1.0),
 					new box2d.b2Vec2(-0.5 - Math.random()*1.0, -1.0 -Math.random()*1.0),
 					new box2d.b2Vec2( 0.5 + Math.random()*1.0, -1.0 -Math.random()*1.0)
@@ -158,7 +158,7 @@ box2d.Testbed.BuoyancyTest = function (canvas, settings)
 	{
 		var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
-		bd.position.SetXY(0.0, 40.0);
+		bd.position.Set(0.0, 40.0);
 		bd.angle = 0;
 		var body = this.m_world.CreateBody(bd);
 
@@ -175,19 +175,19 @@ box2d.Testbed.BuoyancyTest = function (canvas, settings)
 	{
 		var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
-		bd.position.SetXY(0.0, 30.0);
+		bd.position.Set(0.0, 30.0);
 		var body = this.m_world.CreateBody(bd);
 
 		var fd = new box2d.b2FixtureDef();
 		fd.density = 2.0;
 		fd.shape = new box2d.b2CircleShape(0.7);
-		fd.shape.m_p.SetXY( 3.0, 0.0);
+		fd.shape.m_p.Set( 3.0, 0.0);
 		body.CreateFixture(fd);
-		fd.shape.m_p.SetXY(-3.0, 0.0);
+		fd.shape.m_p.Set(-3.0, 0.0);
 		body.CreateFixture(fd);
-		fd.shape.m_p.SetXY(0.0,  3.0);
+		fd.shape.m_p.Set(0.0,  3.0);
 		body.CreateFixture(fd);
-		fd.shape.m_p.SetXY(0.0, -3.0);
+		fd.shape.m_p.Set(0.0, -3.0);
 		body.CreateFixture(fd);
 
 		fd.density = 2.0;

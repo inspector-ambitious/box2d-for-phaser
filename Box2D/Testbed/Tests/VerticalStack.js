@@ -44,10 +44,10 @@ box2d.Testbed.VerticalStack = function (canvas, settings)
 	
 		var shape = new box2d.b2EdgeShape();
 		shape.SetAsEdge(new box2d.b2Vec2(-40.0, 0.0), new box2d.b2Vec2(40.0, 0.0));
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 
 		shape.SetAsEdge(new box2d.b2Vec2(20.0, 0.0), new box2d.b2Vec2(20.0, 20.0));
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 	}
 
 	var xs = [ 0.0, -10.0, -5.0, 5.0, 10.0 ];
@@ -75,7 +75,7 @@ box2d.Testbed.VerticalStack = function (canvas, settings)
 			var x = 0.0;
 			//var x = box2d.b2RandomRange(-0.02, 0.02);
 			//var x = i % 2 === 0 ? -0.01 : 0.01;
-			bd.position.SetXY(xs[j] + x, 0.55 + 1.1 * i);
+			bd.position.Set(xs[j] + x, 0.55 + 1.1 * i);
 			var body = this.m_world.CreateBody(bd);
 
 			this.m_bodies[n] = body;
@@ -144,7 +144,7 @@ box2d.Testbed.VerticalStack.prototype.Keyboard = function (key)
 			var bd = new box2d.b2BodyDef();
 			bd.type = box2d.b2BodyType.b2_dynamicBody;
 			bd.bullet = true;
-			bd.position.SetXY(-31.0, 5.0);
+			bd.position.Set(-31.0, 5.0);
 
 			this.m_bullet = this.m_world.CreateBody(bd);
 			this.m_bullet.CreateFixture(fd);
@@ -189,7 +189,7 @@ box2d.Testbed.VerticalStack.prototype.Step = function (settings)
 	//		var bd = new box2d.b2BodyDef();
 	//		bd.type = box2d.b2BodyType.b2_dynamicBody;
 	//		bd.bullet = true;
-	//		bd.position.SetXY(-31.0, 5.0);
+	//		bd.position.Set(-31.0, 5.0);
 	  
 	//		this.m_bullet = this.m_world.CreateBody(bd);
 	//		this.m_bullet.CreateFixture(fd);

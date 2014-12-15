@@ -34,7 +34,7 @@ box2d.Testbed.DominoTower = function (canvas, settings)
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
 		fd.friction = DOMINO_FRICTION;
 		fd.restitution = 0.65;
-		bd.position.SetXY(x, y);
+		bd.position.Set(x, y);
 		bd.angle = horizontal ? (Math.PI / 2.0) : 0;
 		var myBody = world.CreateBody(bd);
 		myBody.CreateFixture(fd);
@@ -50,9 +50,9 @@ box2d.Testbed.DominoTower = function (canvas, settings)
 		sd.SetAsBox(50, 10);
 
 		var bd = new box2d.b2BodyDef();
-		bd.position.SetXY(0, -10);
+		bd.position.Set(0, -10);
 		var body = world.CreateBody(bd);
-		body.CreateFixture2(sd, 0);
+		body.CreateFixture(sd, 0);
 	}
 
 	{

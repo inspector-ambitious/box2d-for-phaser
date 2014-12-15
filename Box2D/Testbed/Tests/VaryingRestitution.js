@@ -40,7 +40,7 @@ box2d.Testbed.VaryingRestitution = function (canvas, settings)
 	
 		var shape = new box2d.b2EdgeShape();
 		shape.SetAsEdge(new box2d.b2Vec2(-40.0, 0.0), new box2d.b2Vec2(40.0, 0.0));
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 	}
 
 	if (true)
@@ -58,7 +58,7 @@ box2d.Testbed.VaryingRestitution = function (canvas, settings)
 		{
 			var bd = new box2d.b2BodyDef();
 			bd.type = box2d.b2BodyType.b2_dynamicBody;
-			bd.position.SetXY(-10.0 + 3.0 * i, 20.0);
+			bd.position.Set(-10.0 + 3.0 * i, 20.0);
 
 			var body = this.m_world.CreateBody(bd);
 

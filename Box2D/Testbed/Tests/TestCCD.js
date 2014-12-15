@@ -44,7 +44,7 @@ box2d.Testbed.TestCCD = function (canvas, settings)
 		vertices[3] = new box2d.b2Vec2(-30.0, 40.0);
 		var shape = new box2d.b2ChainShape();
 		shape.CreateLoop(vertices);
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 	}
 
 	// Always on, even if default is off
@@ -62,7 +62,7 @@ box2d.Testbed.TestCCD = function (canvas, settings)
 		bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
 		bd.bullet = true;
-		bd.position.SetXY( 15.0, 5.0 );
+		bd.position.Set( 15.0, 5.0 );
 		body = this.m_world.CreateBody(bd);
 
 		var sd_bottom = new box2d.b2PolygonShape();
@@ -92,7 +92,7 @@ box2d.Testbed.TestCCD = function (canvas, settings)
 		bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
 		bd.bullet = true;
-		bd.position.SetXY( (Math.random() * 30.0 - 25.0), (Math.random() * 32.0 + 2.0) );
+		bd.position.Set( (Math.random() * 30.0 - 25.0), (Math.random() * 32.0 + 2.0) );
 		body = this.m_world.CreateBody(bd);
 		body.CreateFixture(fd);
 	}

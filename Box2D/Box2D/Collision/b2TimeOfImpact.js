@@ -19,7 +19,7 @@
 goog.provide('box2d.b2TimeOfImpact');
 
 goog.require('box2d.b2Settings');
-goog.require('box2d.b2Distance');
+goog.require('box2d.b2ShapeDistance');
 goog.require('box2d.b2Math');
 goog.require('box2d.b2Timer');
 
@@ -231,9 +231,9 @@ box2d.b2SeparationFunction.prototype.Initialize = function (cache, proxyA, sweep
 		this.m_type = box2d.b2SeparationFunctionType.e_points;
 		/** @type {box2d.b2Vec2} */ var localPointA = this.m_proxyA.GetVertex(cache.indexA[0]);
 		/** @type {box2d.b2Vec2} */ var localPointB = this.m_proxyB.GetVertex(cache.indexB[0]);
-		/** @type {box2d.b2Vec2} */ var pointA = box2d.b2MulXV(xfA, localPointA, box2d.b2TimeOfImpact.s_pointA);
-		/** @type {box2d.b2Vec2} */ var pointB = box2d.b2MulXV(xfB, localPointB, box2d.b2TimeOfImpact.s_pointB);
-		box2d.b2SubVV(pointB, pointA, this.m_axis);
+		/** @type {box2d.b2Vec2} */ var pointA = box2d.b2Mul_X_V2(xfA, localPointA, box2d.b2TimeOfImpact.s_pointA);
+		/** @type {box2d.b2Vec2} */ var pointB = box2d.b2Mul_X_V2(xfB, localPointB, box2d.b2TimeOfImpact.s_pointB);
+		box2d.b2Sub_V2_V2(pointB, pointA, this.m_axis);
 		/** @type {number} */ var s = this.m_axis.Normalize();
 		return s;
 	}
@@ -244,16 +244,16 @@ box2d.b2SeparationFunction.prototype.Initialize = function (cache, proxyA, sweep
 		/** @type {box2d.b2Vec2} */ var localPointB1 = this.m_proxyB.GetVertex(cache.indexB[0]);
 		/** @type {box2d.b2Vec2} */ var localPointB2 = this.m_proxyB.GetVertex(cache.indexB[1]);
 
-		box2d.b2CrossVOne(box2d.b2SubVV(localPointB2, localPointB1, box2d.b2Vec2.s_t0), this.m_axis).SelfNormalize();
-		/** @type {box2d.b2Vec2} */ var normal = box2d.b2MulRV(xfB.q, this.m_axis, box2d.b2TimeOfImpact.s_normal);
+		box2d.b2Cross_V2_S(box2d.b2Sub_V2_V2(localPointB2, localPointB1, box2d.b2Vec2.s_t0), 1.0, this.m_axis).SelfNormalize();
+		/** @type {box2d.b2Vec2} */ var normal = box2d.b2Mul_R_V2(xfB.q, this.m_axis, box2d.b2TimeOfImpact.s_normal);
 
-		box2d.b2MidVV(localPointB1, localPointB2, this.m_localPoint);
-		/** type {box2d.b2Vec2} */ var pointB = box2d.b2MulXV(xfB, this.m_localPoint, box2d.b2TimeOfImpact.s_pointB);
+		box2d.b2Mid_V2_V2(localPointB1, localPointB2, this.m_localPoint);
+		/** type {box2d.b2Vec2} */ var pointB = box2d.b2Mul_X_V2(xfB, this.m_localPoint, box2d.b2TimeOfImpact.s_pointB);
 
 		/** type {box2d.b2Vec2} */ var localPointA = this.m_proxyA.GetVertex(cache.indexA[0]);
-		/** type {box2d.b2Vec2} */ var pointA = box2d.b2MulXV(xfA, localPointA, box2d.b2TimeOfImpact.s_pointA);
+		/** type {box2d.b2Vec2} */ var pointA = box2d.b2Mul_X_V2(xfA, localPointA, box2d.b2TimeOfImpact.s_pointA);
 
-		/** type {number} */ var s = box2d.b2DotVV(box2d.b2SubVV(pointA, pointB, box2d.b2Vec2.s_t0), normal);
+		/** type {number} */ var s = box2d.b2Dot_V2_V2(box2d.b2Sub_V2_V2(pointA, pointB, box2d.b2Vec2.s_t0), normal);
 		if (s < 0)
 		{
 			this.m_axis.SelfNeg();
@@ -268,16 +268,16 @@ box2d.b2SeparationFunction.prototype.Initialize = function (cache, proxyA, sweep
 		/** @type {box2d.b2Vec2} */ var localPointA1 = this.m_proxyA.GetVertex(cache.indexA[0]);
 		/** @type {box2d.b2Vec2} */ var localPointA2 = this.m_proxyA.GetVertex(cache.indexA[1]);
 
-		box2d.b2CrossVOne(box2d.b2SubVV(localPointA2, localPointA1, box2d.b2Vec2.s_t0), this.m_axis).SelfNormalize();
-		/** type {box2d.b2Vec2} */ var normal = box2d.b2MulRV(xfA.q, this.m_axis, box2d.b2TimeOfImpact.s_normal);
+		box2d.b2Cross_V2_S(box2d.b2Sub_V2_V2(localPointA2, localPointA1, box2d.b2Vec2.s_t0), 1.0, this.m_axis).SelfNormalize();
+		/** type {box2d.b2Vec2} */ var normal = box2d.b2Mul_R_V2(xfA.q, this.m_axis, box2d.b2TimeOfImpact.s_normal);
 
-		box2d.b2MidVV(localPointA1, localPointA2, this.m_localPoint);
-		/** type {box2d.b2Vec2} */ var pointA = box2d.b2MulXV(xfA, this.m_localPoint, box2d.b2TimeOfImpact.s_pointA);
+		box2d.b2Mid_V2_V2(localPointA1, localPointA2, this.m_localPoint);
+		/** type {box2d.b2Vec2} */ var pointA = box2d.b2Mul_X_V2(xfA, this.m_localPoint, box2d.b2TimeOfImpact.s_pointA);
 
 		/** type {box2d.b2Vec2} */ var localPointB = this.m_proxyB.GetVertex(cache.indexB[0]);
-		/** type {box2d.b2Vec2} */ var pointB = box2d.b2MulXV(xfB, localPointB, box2d.b2TimeOfImpact.s_pointB);
+		/** type {box2d.b2Vec2} */ var pointB = box2d.b2Mul_X_V2(xfB, localPointB, box2d.b2TimeOfImpact.s_pointB);
 
-		/** type {number} */ var s = box2d.b2DotVV(box2d.b2SubVV(pointB, pointA, box2d.b2Vec2.s_t0), normal);
+		/** type {number} */ var s = box2d.b2Dot_V2_V2(box2d.b2Sub_V2_V2(pointB, pointA, box2d.b2Vec2.s_t0), normal);
 		if (s < 0)
 		{
 			this.m_axis.SelfNeg();
@@ -305,8 +305,8 @@ box2d.b2SeparationFunction.prototype.FindMinSeparation = function (indexA, index
 	{
 	case box2d.b2SeparationFunctionType.e_points:
 		{
-			/** @type {box2d.b2Vec2} */ var axisA = box2d.b2MulTRV(xfA.q, this.m_axis, box2d.b2TimeOfImpact.s_axisA);
-			/** @type {box2d.b2Vec2} */ var axisB = box2d.b2MulTRV(xfB.q, box2d.b2NegV(this.m_axis, box2d.b2Vec2.s_t0), box2d.b2TimeOfImpact.s_axisB);
+			/** @type {box2d.b2Vec2} */ var axisA = box2d.b2MulT_R_V2(xfA.q, this.m_axis, box2d.b2TimeOfImpact.s_axisA);
+			/** @type {box2d.b2Vec2} */ var axisB = box2d.b2MulT_R_V2(xfB.q, box2d.b2Vec2.s_t0.Copy(this.m_axis).SelfNeg(), box2d.b2TimeOfImpact.s_axisB);
 
 			indexA[0] = this.m_proxyA.GetSupport(axisA);
 			indexB[0] = this.m_proxyB.GetSupport(axisB);
@@ -314,44 +314,44 @@ box2d.b2SeparationFunction.prototype.FindMinSeparation = function (indexA, index
 			/** @type {box2d.b2Vec2} */ var localPointA = this.m_proxyA.GetVertex(indexA[0]);
 			/** @type {box2d.b2Vec2} */ var localPointB = this.m_proxyB.GetVertex(indexB[0]);
 
-			/** @type {box2d.b2Vec2} */ var pointA = box2d.b2MulXV(xfA, localPointA, box2d.b2TimeOfImpact.s_pointA);
-			/** @type {box2d.b2Vec2} */ var pointB = box2d.b2MulXV(xfB, localPointB, box2d.b2TimeOfImpact.s_pointB);
+			/** @type {box2d.b2Vec2} */ var pointA = box2d.b2Mul_X_V2(xfA, localPointA, box2d.b2TimeOfImpact.s_pointA);
+			/** @type {box2d.b2Vec2} */ var pointB = box2d.b2Mul_X_V2(xfB, localPointB, box2d.b2TimeOfImpact.s_pointB);
 
-			/** @type {number} */ var separation = box2d.b2DotVV(box2d.b2SubVV(pointB, pointA, box2d.b2Vec2.s_t0), this.m_axis)
+			/** @type {number} */ var separation = box2d.b2Dot_V2_V2(box2d.b2Sub_V2_V2(pointB, pointA, box2d.b2Vec2.s_t0), this.m_axis)
 			return separation;
 		}
 
 	case box2d.b2SeparationFunctionType.e_faceA:
 		{
-			/** @type {box2d.b2Vec2} */ var normal = box2d.b2MulRV(xfA.q, this.m_axis, box2d.b2TimeOfImpact.s_normal);
-			/** type {box2d.b2Vec2} */ var pointA = box2d.b2MulXV(xfA, this.m_localPoint, box2d.b2TimeOfImpact.s_pointA);
+			/** @type {box2d.b2Vec2} */ var normal = box2d.b2Mul_R_V2(xfA.q, this.m_axis, box2d.b2TimeOfImpact.s_normal);
+			/** type {box2d.b2Vec2} */ var pointA = box2d.b2Mul_X_V2(xfA, this.m_localPoint, box2d.b2TimeOfImpact.s_pointA);
 
-			/** type {box2d.b2Vec2} */ var axisB = box2d.b2MulTRV(xfB.q, box2d.b2NegV(normal, box2d.b2Vec2.s_t0), box2d.b2TimeOfImpact.s_axisB);
+			/** type {box2d.b2Vec2} */ var axisB = box2d.b2MulT_R_V2(xfB.q, box2d.b2Vec2.s_t0.Copy(normal).SelfNeg(), box2d.b2TimeOfImpact.s_axisB);
 
 			indexA[0] = -1;
 			indexB[0] = this.m_proxyB.GetSupport(axisB);
 
 			/** type {box2d.b2Vec2} */ var localPointB = this.m_proxyB.GetVertex(indexB[0]);
-			/** type {box2d.b2Vec2} */ var pointB = box2d.b2MulXV(xfB, localPointB, box2d.b2TimeOfImpact.s_pointB);
+			/** type {box2d.b2Vec2} */ var pointB = box2d.b2Mul_X_V2(xfB, localPointB, box2d.b2TimeOfImpact.s_pointB);
 
-			/** type {number} */ var separation = box2d.b2DotVV(box2d.b2SubVV(pointB, pointA, box2d.b2Vec2.s_t0), normal)
+			/** type {number} */ var separation = box2d.b2Dot_V2_V2(box2d.b2Sub_V2_V2(pointB, pointA, box2d.b2Vec2.s_t0), normal)
 			return separation;
 		}
 
 	case box2d.b2SeparationFunctionType.e_faceB:
 		{
-			/** type {box2d.b2Vec2} */ var normal = box2d.b2MulRV(xfB.q, this.m_axis, box2d.b2TimeOfImpact.s_normal);
-			/** type {box2d.b2Vec2} */ var pointB = box2d.b2MulXV(xfB, this.m_localPoint, box2d.b2TimeOfImpact.s_pointB);
+			/** type {box2d.b2Vec2} */ var normal = box2d.b2Mul_R_V2(xfB.q, this.m_axis, box2d.b2TimeOfImpact.s_normal);
+			/** type {box2d.b2Vec2} */ var pointB = box2d.b2Mul_X_V2(xfB, this.m_localPoint, box2d.b2TimeOfImpact.s_pointB);
 
-			/** type {box2d.b2Vec2} */ var axisA = box2d.b2MulTRV(xfA.q, box2d.b2NegV(normal, box2d.b2Vec2.s_t0), box2d.b2TimeOfImpact.s_axisA);
+			/** type {box2d.b2Vec2} */ var axisA = box2d.b2MulT_R_V2(xfA.q, box2d.b2Vec2.s_t0.Copy(normal).SelfNeg(), box2d.b2TimeOfImpact.s_axisA);
 
 			indexB[0] = -1;
 			indexA[0] = this.m_proxyA.GetSupport(axisA);
 
 			/** type {box2d.b2Vec2} */ var localPointA = this.m_proxyA.GetVertex(indexA[0]);
-			/** type {box2d.b2Vec2} */ var pointA = box2d.b2MulXV(xfA, localPointA, box2d.b2TimeOfImpact.s_pointA);
+			/** type {box2d.b2Vec2} */ var pointA = box2d.b2Mul_X_V2(xfA, localPointA, box2d.b2TimeOfImpact.s_pointA);
 
-			/** type {number} */ var separation = box2d.b2DotVV(box2d.b2SubVV(pointA, pointB, box2d.b2Vec2.s_t0), normal)
+			/** type {number} */ var separation = box2d.b2Dot_V2_V2(box2d.b2Sub_V2_V2(pointA, pointB, box2d.b2Vec2.s_t0), normal)
 			return separation;
 		}
 
@@ -384,34 +384,34 @@ box2d.b2SeparationFunction.prototype.Evaluate = function (indexA, indexB, t)
 			/** @type {box2d.b2Vec2} */ var localPointA = this.m_proxyA.GetVertex(indexA);
 			/** @type {box2d.b2Vec2} */ var localPointB = this.m_proxyB.GetVertex(indexB);
 
-			/** @type {box2d.b2Vec2} */ var pointA = box2d.b2MulXV(xfA, localPointA, box2d.b2TimeOfImpact.s_pointA);
-			/** @type {box2d.b2Vec2} */ var pointB = box2d.b2MulXV(xfB, localPointB, box2d.b2TimeOfImpact.s_pointB);
-			/** @type {number} */ var separation = box2d.b2DotVV(box2d.b2SubVV(pointB, pointA, box2d.b2Vec2.s_t0), this.m_axis)
+			/** @type {box2d.b2Vec2} */ var pointA = box2d.b2Mul_X_V2(xfA, localPointA, box2d.b2TimeOfImpact.s_pointA);
+			/** @type {box2d.b2Vec2} */ var pointB = box2d.b2Mul_X_V2(xfB, localPointB, box2d.b2TimeOfImpact.s_pointB);
+			/** @type {number} */ var separation = box2d.b2Dot_V2_V2(box2d.b2Sub_V2_V2(pointB, pointA, box2d.b2Vec2.s_t0), this.m_axis)
 
 			return separation;
 		}
 
 	case box2d.b2SeparationFunctionType.e_faceA:
 		{
-			/** @type {box2d.b2Vec2} */ var normal = box2d.b2MulRV(xfA.q, this.m_axis, box2d.b2TimeOfImpact.s_normal);
-			/** type {box2d.b2Vec2} */ var pointA = box2d.b2MulXV(xfA, this.m_localPoint, box2d.b2TimeOfImpact.s_pointA);
+			/** @type {box2d.b2Vec2} */ var normal = box2d.b2Mul_R_V2(xfA.q, this.m_axis, box2d.b2TimeOfImpact.s_normal);
+			/** type {box2d.b2Vec2} */ var pointA = box2d.b2Mul_X_V2(xfA, this.m_localPoint, box2d.b2TimeOfImpact.s_pointA);
 
 			/** type {box2d.b2Vec2} */ var localPointB = this.m_proxyB.GetVertex(indexB);
-			/** type {box2d.b2Vec2} */ var pointB = box2d.b2MulXV(xfB, localPointB, box2d.b2TimeOfImpact.s_pointB);
+			/** type {box2d.b2Vec2} */ var pointB = box2d.b2Mul_X_V2(xfB, localPointB, box2d.b2TimeOfImpact.s_pointB);
 
-			/** type {number} */ var separation = box2d.b2DotVV(box2d.b2SubVV(pointB, pointA, box2d.b2Vec2.s_t0), normal)
+			/** type {number} */ var separation = box2d.b2Dot_V2_V2(box2d.b2Sub_V2_V2(pointB, pointA, box2d.b2Vec2.s_t0), normal)
 			return separation;
 		}
 
 	case box2d.b2SeparationFunctionType.e_faceB:
 		{
-			/** type {box2d.b2Vec2} */ var normal = box2d.b2MulRV(xfB.q, this.m_axis, box2d.b2TimeOfImpact.s_normal);
-			/** type {box2d.b2Vec2} */ var pointB = box2d.b2MulXV(xfB, this.m_localPoint, box2d.b2TimeOfImpact.s_pointB);
+			/** type {box2d.b2Vec2} */ var normal = box2d.b2Mul_R_V2(xfB.q, this.m_axis, box2d.b2TimeOfImpact.s_normal);
+			/** type {box2d.b2Vec2} */ var pointB = box2d.b2Mul_X_V2(xfB, this.m_localPoint, box2d.b2TimeOfImpact.s_pointB);
 
 			/** type {box2d.b2Vec2} */ var localPointA = this.m_proxyA.GetVertex(indexA);
-			/** type {box2d.b2Vec2} */ var pointA = box2d.b2MulXV(xfA, localPointA, box2d.b2TimeOfImpact.s_pointA);
+			/** type {box2d.b2Vec2} */ var pointA = box2d.b2Mul_X_V2(xfA, localPointA, box2d.b2TimeOfImpact.s_pointA);
 
-			/** type {number} */ var separation = box2d.b2DotVV(box2d.b2SubVV(pointA, pointB, box2d.b2Vec2.s_t0), normal)
+			/** type {number} */ var separation = box2d.b2Dot_V2_V2(box2d.b2Sub_V2_V2(pointA, pointB, box2d.b2Vec2.s_t0), normal)
 			return separation;
 		}
 
@@ -427,7 +427,7 @@ box2d.b2SeparationFunction.prototype.Evaluate = function (indexA, indexB, t)
  * a swept separating axis and may miss some intermediate, 
  * non-tunneling collision. If you change the time interval, you 
  * should call this function again. 
- * Note: use box2d.b2Distance to compute the contact point and 
+ * Note: use box2d.b2ShapeDistance to compute the contact point and 
  * normal at the time of impact. 
  * @export
  * @return {void}
@@ -487,7 +487,7 @@ box2d.b2TimeOfImpact = function (output, input)
 		distanceInput.transformA.Copy(xfA);
 		distanceInput.transformB.Copy(xfB);
 		/** @type {box2d.b2DistanceOutput} */ var distanceOutput = box2d.b2TimeOfImpact.s_distanceOutput;
-		box2d.b2Distance(distanceOutput, cache, distanceInput);
+		box2d.b2ShapeDistance(distanceOutput, cache, distanceInput);
 
 		// If the shapes are overlapped, we give up on continuous collision.
 		if (distanceOutput.distance <= 0)

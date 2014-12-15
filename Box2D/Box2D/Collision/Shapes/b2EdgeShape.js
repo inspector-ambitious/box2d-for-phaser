@@ -163,20 +163,20 @@ box2d.b2EdgeShape.prototype.TestPoint = function (xf, p)
 box2d.b2EdgeShape.prototype.RayCast = function (output, input, xf, childIndex)
 {
 	// Put the ray into the edge's frame of reference.
-	var p1 = box2d.b2MulTXV(xf, input.p1, box2d.b2EdgeShape.prototype.RayCast.s_p1);
-	var p2 = box2d.b2MulTXV(xf, input.p2, box2d.b2EdgeShape.prototype.RayCast.s_p2);
-	var d = box2d.b2SubVV(p2, p1, box2d.b2EdgeShape.prototype.RayCast.s_d);
+	var p1 = box2d.b2MulT_X_V2(xf, input.p1, box2d.b2EdgeShape.prototype.RayCast.s_p1);
+	var p2 = box2d.b2MulT_X_V2(xf, input.p2, box2d.b2EdgeShape.prototype.RayCast.s_p2);
+	var d = box2d.b2Sub_V2_V2(p2, p1, box2d.b2EdgeShape.prototype.RayCast.s_d);
 
 	var v1 = this.m_vertex1;
 	var v2 = this.m_vertex2;
-	var e = box2d.b2SubVV(v2, v1, box2d.b2EdgeShape.prototype.RayCast.s_e);
-	var normal = output.normal.SetXY(e.y, -e.x).SelfNormalize();
+	var e = box2d.b2Sub_V2_V2(v2, v1, box2d.b2EdgeShape.prototype.RayCast.s_e);
+	var normal = output.normal.Set(e.y, -e.x).SelfNormalize();
 
 	// q = p1 + t * d
 	// dot(normal, q - v1) = 0
 	// dot(normal, p1 - v1) + t * dot(normal, d) = 0
-	var numerator = box2d.b2DotVV(normal, box2d.b2SubVV(v1, p1, box2d.b2Vec2.s_t0));
-	var denominator = box2d.b2DotVV(normal, d);
+	var numerator = box2d.b2Dot_V2_V2(normal, box2d.b2Sub_V2_V2(v1, p1, box2d.b2Vec2.s_t0));
+	var denominator = box2d.b2Dot_V2_V2(normal, d);
 
 	if (denominator === 0)
 	{
@@ -189,25 +189,25 @@ box2d.b2EdgeShape.prototype.RayCast = function (output, input, xf, childIndex)
 		return false;
 	}
 
-	var q = box2d.b2AddVMulSV(p1, t, d, box2d.b2EdgeShape.prototype.RayCast.s_q);
+	var q = box2d.b2AddMul_V2_S_V2(p1, t, d, box2d.b2EdgeShape.prototype.RayCast.s_q);
 
 	// q = v1 + s * r
 	// s = dot(q - v1, r) / dot(r, r)
-	var r = box2d.b2SubVV(v2, v1, box2d.b2EdgeShape.prototype.RayCast.s_r);
-	var rr = box2d.b2DotVV(r, r);
+	var r = box2d.b2Sub_V2_V2(v2, v1, box2d.b2EdgeShape.prototype.RayCast.s_r);
+	var rr = box2d.b2Dot_V2_V2(r, r);
 	if (rr === 0)
 	{
 		return false;
 	}
 
-	var s = box2d.b2DotVV(box2d.b2SubVV(q, v1, box2d.b2Vec2.s_t0), r) / rr;
+	var s = box2d.b2Dot_V2_V2(box2d.b2Sub_V2_V2(q, v1, box2d.b2Vec2.s_t0), r) / rr;
 	if (s < 0 || 1 < s)
 	{
 		return false;
 	}
 
 	output.fraction = t;
-	box2d.b2MulRV(xf.q, output.normal, output.normal);
+	box2d.b2Mul_R_V2(xf.q, output.normal, output.normal);
 	if (numerator > 0)
 	{
 		output.normal.SelfNeg();
@@ -231,11 +231,11 @@ box2d.b2EdgeShape.prototype.RayCast.s_r = new box2d.b2Vec2();
  */
 box2d.b2EdgeShape.prototype.ComputeAABB = function (aabb, xf, childIndex)
 {
-	var v1 = box2d.b2MulXV(xf, this.m_vertex1, box2d.b2EdgeShape.prototype.ComputeAABB.s_v1);
-	var v2 = box2d.b2MulXV(xf, this.m_vertex2, box2d.b2EdgeShape.prototype.ComputeAABB.s_v2);
+	var v1 = box2d.b2Mul_X_V2(xf, this.m_vertex1, box2d.b2EdgeShape.prototype.ComputeAABB.s_v1);
+	var v2 = box2d.b2Mul_X_V2(xf, this.m_vertex2, box2d.b2EdgeShape.prototype.ComputeAABB.s_v2);
 
-	box2d.b2MinV(v1, v2, aabb.lowerBound);
-	box2d.b2MaxV(v1, v2, aabb.upperBound);
+	box2d.b2Min_V2_V2(v1, v2, aabb.lowerBound);
+	box2d.b2Max_V2_V2(v1, v2, aabb.upperBound);
 
 	var r = this.m_radius;
 	aabb.lowerBound.SelfSubXY(r, r);
@@ -254,7 +254,7 @@ box2d.b2EdgeShape.prototype.ComputeAABB.s_v2 = new box2d.b2Vec2();
 box2d.b2EdgeShape.prototype.ComputeMass = function (massData, density)
 {
 	massData.mass = 0;
-	box2d.b2MidVV(this.m_vertex1, this.m_vertex2, massData.center);
+	box2d.b2Mid_V2_V2(this.m_vertex1, this.m_vertex2, massData.center);
 	massData.I = 0;
 }
 
@@ -295,10 +295,10 @@ box2d.b2EdgeShape.prototype.Dump = function ()
 {
 	box2d.b2Log("    /*box2d.b2EdgeShape*/ var shape = new box2d.b2EdgeShape();\n");
 	box2d.b2Log("    shape.m_radius = %.15f;\n", this.m_radius);
-	box2d.b2Log("    shape.m_vertex0.SetXY(%.15f, %.15f);\n", this.m_vertex0.x, this.m_vertex0.y);
-	box2d.b2Log("    shape.m_vertex1.SetXY(%.15f, %.15f);\n", this.m_vertex1.x, this.m_vertex1.y);
-	box2d.b2Log("    shape.m_vertex2.SetXY(%.15f, %.15f);\n", this.m_vertex2.x, this.m_vertex2.y);
-	box2d.b2Log("    shape.m_vertex3.SetXY(%.15f, %.15f);\n", this.m_vertex3.x, this.m_vertex3.y);
+	box2d.b2Log("    shape.m_vertex0.Set(%.15f, %.15f);\n", this.m_vertex0.x, this.m_vertex0.y);
+	box2d.b2Log("    shape.m_vertex1.Set(%.15f, %.15f);\n", this.m_vertex1.x, this.m_vertex1.y);
+	box2d.b2Log("    shape.m_vertex2.Set(%.15f, %.15f);\n", this.m_vertex2.x, this.m_vertex2.y);
+	box2d.b2Log("    shape.m_vertex3.Set(%.15f, %.15f);\n", this.m_vertex3.x, this.m_vertex3.y);
 	box2d.b2Log("    shape.m_hasVertex0 = %s;\n", this.m_hasVertex0);
 	box2d.b2Log("    shape.m_hasVertex3 = %s;\n", this.m_hasVertex3);
 }

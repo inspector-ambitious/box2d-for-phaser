@@ -42,7 +42,7 @@ box2d.Testbed.Web = function (canvas, settings)
 
 		var shape = new box2d.b2EdgeShape();
 		shape.SetAsEdge(new box2d.b2Vec2(-40.0, 0.0), new box2d.b2Vec2(40.0, 0.0));
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 	}
 
 	{
@@ -52,21 +52,21 @@ box2d.Testbed.Web = function (canvas, settings)
 		var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
 
-		bd.position.SetXY(-5.0, 5.0);
+		bd.position.Set(-5.0, 5.0);
 		this.m_bodies[0] = this.m_world.CreateBody(bd);
-		this.m_bodies[0].CreateFixture2(shape, 5.0);
+		this.m_bodies[0].CreateFixture(shape, 5.0);
 
-		bd.position.SetXY(5.0, 5.0);
+		bd.position.Set(5.0, 5.0);
 		this.m_bodies[1] = this.m_world.CreateBody(bd);
-		this.m_bodies[1].CreateFixture2(shape, 5.0);
+		this.m_bodies[1].CreateFixture(shape, 5.0);
 
-		bd.position.SetXY(5.0, 15.0);
+		bd.position.Set(5.0, 15.0);
 		this.m_bodies[2] = this.m_world.CreateBody(bd);
-		this.m_bodies[2].CreateFixture2(shape, 5.0);
+		this.m_bodies[2].CreateFixture(shape, 5.0);
 
-		bd.position.SetXY(-5.0, 15.0);
+		bd.position.Set(-5.0, 15.0);
 		this.m_bodies[3] = this.m_world.CreateBody(bd);
-		this.m_bodies[3].CreateFixture2(shape, 5.0);
+		this.m_bodies[3].CreateFixture(shape, 5.0);
 
 		var jd = new box2d.b2DistanceJointDef();
 		var p1, p2, d;
@@ -76,82 +76,82 @@ box2d.Testbed.Web = function (canvas, settings)
 
 		jd.bodyA = ground;
 		jd.bodyB = this.m_bodies[0];
-		jd.localAnchorA.SetXY(-10.0, 0.0);
-		jd.localAnchorB.SetXY(-0.5, -0.5);
+		jd.localAnchorA.Set(-10.0, 0.0);
+		jd.localAnchorB.Set(-0.5, -0.5);
 		p1 = jd.bodyA.GetWorldPoint(jd.localAnchorA, new box2d.b2Vec2());
 		p2 = jd.bodyB.GetWorldPoint(jd.localAnchorB, new box2d.b2Vec2());
-		d = box2d.b2SubVV(p2, p1, new box2d.b2Vec2());
-		jd.length = d.GetLength();
+		d = box2d.b2Sub_V2_V2(p2, p1, new box2d.b2Vec2());
+		jd.length = d.Length();
 		this.m_joints[0] = this.m_world.CreateJoint(jd);
 
 		jd.bodyA = ground;
 		jd.bodyB = this.m_bodies[1];
-		jd.localAnchorA.SetXY(10.0, 0.0);
-		jd.localAnchorB.SetXY(0.5, -0.5);
+		jd.localAnchorA.Set(10.0, 0.0);
+		jd.localAnchorB.Set(0.5, -0.5);
 		p1 = jd.bodyA.GetWorldPoint(jd.localAnchorA, new box2d.b2Vec2());
 		p2 = jd.bodyB.GetWorldPoint(jd.localAnchorB, new box2d.b2Vec2());
-		d = box2d.b2SubVV(p2, p1, new box2d.b2Vec2());
-		jd.length = d.GetLength();
+		d = box2d.b2Sub_V2_V2(p2, p1, new box2d.b2Vec2());
+		jd.length = d.Length();
 		this.m_joints[1] = this.m_world.CreateJoint(jd);
 
 		jd.bodyA = ground;
 		jd.bodyB = this.m_bodies[2];
-		jd.localAnchorA.SetXY(10.0, 20.0);
-		jd.localAnchorB.SetXY(0.5, 0.5);
+		jd.localAnchorA.Set(10.0, 20.0);
+		jd.localAnchorB.Set(0.5, 0.5);
 		p1 = jd.bodyA.GetWorldPoint(jd.localAnchorA, new box2d.b2Vec2());
 		p2 = jd.bodyB.GetWorldPoint(jd.localAnchorB, new box2d.b2Vec2());
-		d = box2d.b2SubVV(p2, p1, new box2d.b2Vec2());
-		jd.length = d.GetLength();
+		d = box2d.b2Sub_V2_V2(p2, p1, new box2d.b2Vec2());
+		jd.length = d.Length();
 		this.m_joints[2] = this.m_world.CreateJoint(jd);
 
 		jd.bodyA = ground;
 		jd.bodyB = this.m_bodies[3];
-		jd.localAnchorA.SetXY(-10.0, 20.0);
-		jd.localAnchorB.SetXY(-0.5, 0.5);
+		jd.localAnchorA.Set(-10.0, 20.0);
+		jd.localAnchorB.Set(-0.5, 0.5);
 		p1 = jd.bodyA.GetWorldPoint(jd.localAnchorA, new box2d.b2Vec2());
 		p2 = jd.bodyB.GetWorldPoint(jd.localAnchorB, new box2d.b2Vec2());
-		d = box2d.b2SubVV(p2, p1, new box2d.b2Vec2());
-		jd.length = d.GetLength();
+		d = box2d.b2Sub_V2_V2(p2, p1, new box2d.b2Vec2());
+		jd.length = d.Length();
 		this.m_joints[3] = this.m_world.CreateJoint(jd);
 
 		jd.bodyA = this.m_bodies[0];
 		jd.bodyB = this.m_bodies[1];
-		jd.localAnchorA.SetXY(0.5, 0.0);
-		jd.localAnchorB.SetXY(-0.5, 0.0);;
+		jd.localAnchorA.Set(0.5, 0.0);
+		jd.localAnchorB.Set(-0.5, 0.0);;
 		p1 = jd.bodyA.GetWorldPoint(jd.localAnchorA, new box2d.b2Vec2());
 		p2 = jd.bodyB.GetWorldPoint(jd.localAnchorB, new box2d.b2Vec2());
-		d = box2d.b2SubVV(p2, p1, new box2d.b2Vec2());
-		jd.length = d.GetLength();
+		d = box2d.b2Sub_V2_V2(p2, p1, new box2d.b2Vec2());
+		jd.length = d.Length();
 		this.m_joints[4] = this.m_world.CreateJoint(jd);
 
 		jd.bodyA = this.m_bodies[1];
 		jd.bodyB = this.m_bodies[2];
-		jd.localAnchorA.SetXY(0.0, 0.5);
-		jd.localAnchorB.SetXY(0.0, -0.5);
+		jd.localAnchorA.Set(0.0, 0.5);
+		jd.localAnchorB.Set(0.0, -0.5);
 		p1 = jd.bodyA.GetWorldPoint(jd.localAnchorA, new box2d.b2Vec2());
 		p2 = jd.bodyB.GetWorldPoint(jd.localAnchorB, new box2d.b2Vec2());
-		d = box2d.b2SubVV(p2, p1, new box2d.b2Vec2());
-		jd.length = d.GetLength();
+		d = box2d.b2Sub_V2_V2(p2, p1, new box2d.b2Vec2());
+		jd.length = d.Length();
 		this.m_joints[5] = this.m_world.CreateJoint(jd);
 
 		jd.bodyA = this.m_bodies[2];
 		jd.bodyB = this.m_bodies[3];
-		jd.localAnchorA.SetXY(-0.5, 0.0);
-		jd.localAnchorB.SetXY(0.5, 0.0);
+		jd.localAnchorA.Set(-0.5, 0.0);
+		jd.localAnchorB.Set(0.5, 0.0);
 		p1 = jd.bodyA.GetWorldPoint(jd.localAnchorA, new box2d.b2Vec2());
 		p2 = jd.bodyB.GetWorldPoint(jd.localAnchorB, new box2d.b2Vec2());
-		d = box2d.b2SubVV(p2, p1, new box2d.b2Vec2());
-		jd.length = d.GetLength();
+		d = box2d.b2Sub_V2_V2(p2, p1, new box2d.b2Vec2());
+		jd.length = d.Length();
 		this.m_joints[6] = this.m_world.CreateJoint(jd);
 
 		jd.bodyA = this.m_bodies[3];
 		jd.bodyB = this.m_bodies[0];
-		jd.localAnchorA.SetXY(0.0, -0.5);
-		jd.localAnchorB.SetXY(0.0, 0.5);
+		jd.localAnchorA.Set(0.0, -0.5);
+		jd.localAnchorB.Set(0.0, 0.5);
 		p1 = jd.bodyA.GetWorldPoint(jd.localAnchorA, new box2d.b2Vec2());
 		p2 = jd.bodyB.GetWorldPoint(jd.localAnchorB, new box2d.b2Vec2());
-		d = box2d.b2SubVV(p2, p1, new box2d.b2Vec2());
-		jd.length = d.GetLength();
+		d = box2d.b2Sub_V2_V2(p2, p1, new box2d.b2Vec2());
+		jd.length = d.Length();
 		this.m_joints[7] = this.m_world.CreateJoint(jd);
 	}
 }

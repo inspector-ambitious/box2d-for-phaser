@@ -109,7 +109,7 @@ var TDTire = function (world)
 
 	var polygonShape = new box2d.b2PolygonShape();
 	polygonShape.SetAsBox( 0.5, 1.25 );
-	var fixture = this.m_body.CreateFixture2(polygonShape, 1);//shape, density
+	var fixture = this.m_body.CreateFixture(polygonShape, 1);//shape, density
 	fixture.SetUserData( new CarTireFUD() );
 
 	this.m_body.SetUserData( this );
@@ -165,7 +165,7 @@ TDTire.prototype.updateTraction = function ()
  */
 TDTire.prototype.getLateralVelocity = function () {
 	var currentRightNormal = this.m_body.GetWorldVector( new box2d.b2Vec2(1,0), new box2d.b2Vec2() );
-	return currentRightNormal.SelfMul( box2d.b2DotVV( currentRightNormal, this.m_body.GetLinearVelocity() ) );
+	return currentRightNormal.SelfMul( box2d.b2Dot_V2_V2( currentRightNormal, this.m_body.GetLinearVelocity() ) );
 }
 
 /**
@@ -173,7 +173,7 @@ TDTire.prototype.getLateralVelocity = function () {
  */
 TDTire.prototype.getForwardVelocity = function () {
 	var currentForwardNormal = this.m_body.GetWorldVector( new box2d.b2Vec2(0,1), new box2d.b2Vec2() );
-	return currentForwardNormal.SelfMul( box2d.b2DotVV( currentForwardNormal, this.m_body.GetLinearVelocity() ) );
+	return currentForwardNormal.SelfMul( box2d.b2Dot_V2_V2( currentForwardNormal, this.m_body.GetLinearVelocity() ) );
 }
 
 /**
@@ -212,7 +212,7 @@ TDTire.prototype.updateDrive = function (controlState) {
 
 	//find current speed in forward direction
 	var currentForwardNormal = this.m_body.GetWorldVector( new box2d.b2Vec2(0,1), new box2d.b2Vec2() );
-	var currentSpeed = box2d.b2DotVV( this.getForwardVelocity(), currentForwardNormal );
+	var currentSpeed = box2d.b2Dot_V2_V2( this.getForwardVelocity(), currentForwardNormal );
 
 	//apply necessary force
 	var force = 0;
@@ -265,7 +265,7 @@ var TDCar = function (world)
 	vertices[7] = new box2d.b2Vec2(-1.5,   0);
 	var polygonShape = new box2d.b2PolygonShape();
 	polygonShape.Set( vertices, 8 );
-	var fixture = this.m_body.CreateFixture2(polygonShape, 0.1);//shape, density
+	var fixture = this.m_body.CreateFixture(polygonShape, 0.1);//shape, density
 
 	//prepare common joint parameters
 	var jointDef = new box2d.b2RevoluteJointDef();
@@ -286,7 +286,7 @@ var TDCar = function (world)
 	var tire = new TDTire(world);
 	tire.setCharacteristics(maxForwardSpeed, maxBackwardSpeed, backTireMaxDriveForce, backTireMaxLateralImpulse);
 	jointDef.bodyB = tire.m_body;
-	jointDef.localAnchorA.SetXY( -3, 0.75 );
+	jointDef.localAnchorA.Set( -3, 0.75 );
 	world.CreateJoint( jointDef );
 	this.m_tires.push(tire);
 
@@ -294,7 +294,7 @@ var TDCar = function (world)
 	tire = new TDTire(world);
 	tire.setCharacteristics(maxForwardSpeed, maxBackwardSpeed, backTireMaxDriveForce, backTireMaxLateralImpulse);
 	jointDef.bodyB = tire.m_body;
-	jointDef.localAnchorA.SetXY( 3, 0.75 );
+	jointDef.localAnchorA.Set( 3, 0.75 );
 	world.CreateJoint( jointDef );
 	this.m_tires.push(tire);
 
@@ -302,7 +302,7 @@ var TDCar = function (world)
 	tire = new TDTire(world);
 	tire.setCharacteristics(maxForwardSpeed, maxBackwardSpeed, frontTireMaxDriveForce, frontTireMaxLateralImpulse);
 	jointDef.bodyB = tire.m_body;
-	jointDef.localAnchorA.SetXY( -3, 8.5 );
+	jointDef.localAnchorA.Set( -3, 8.5 );
 	this.flJoint = world.CreateJoint( jointDef );
 	this.m_tires.push(tire);
 
@@ -310,7 +310,7 @@ var TDCar = function (world)
 	tire = new TDTire(world);
 	tire.setCharacteristics(maxForwardSpeed, maxBackwardSpeed, frontTireMaxDriveForce, frontTireMaxLateralImpulse);
 	jointDef.bodyB = tire.m_body;
-	jointDef.localAnchorA.SetXY( 3, 8.5 );
+	jointDef.localAnchorA.Set( 3, 8.5 );
 	this.frJoint = world.CreateJoint( jointDef );
 	this.m_tires.push(tire);
 }

@@ -39,7 +39,7 @@ box2d.Testbed.Dominos = function (canvas, settings)
 
 		var bd = new box2d.b2BodyDef();
 		b1 = this.m_world.CreateBody(bd);
-		b1.CreateFixture2(shape, 0.0);
+		b1.CreateFixture(shape, 0.0);
 	}
 
 	if (true)
@@ -48,9 +48,9 @@ box2d.Testbed.Dominos = function (canvas, settings)
 		shape.SetAsBox(6.0, 0.25);
 
 		var bd = new box2d.b2BodyDef();
-		bd.position.SetXY(-1.5, 10.0);
+		bd.position.Set(-1.5, 10.0);
 		var ground = this.m_world.CreateBody(bd);
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 	}
 
 	if (true)
@@ -67,7 +67,7 @@ box2d.Testbed.Dominos = function (canvas, settings)
 		{
 			var bd = new box2d.b2BodyDef();
 			bd.type = box2d.b2BodyType.b2_dynamicBody;
-			bd.position.SetXY(-6.0 + 1.0 * i, 11.25);
+			bd.position.Set(-6.0 + 1.0 * i, 11.25);
 			var body = this.m_world.CreateBody(bd);
 			body.CreateFixture(fd);
 		}
@@ -79,9 +79,9 @@ box2d.Testbed.Dominos = function (canvas, settings)
 		shape.SetAsOrientedBox(7.0, 0.25, box2d.b2Vec2_zero, 0.3);
 
 		var bd = new box2d.b2BodyDef();
-		bd.position.SetXY(1.0, 6.0);
+		bd.position.Set(1.0, 6.0);
 		var ground = this.m_world.CreateBody(bd);
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 	}
 
 	var b2 = null;
@@ -91,9 +91,9 @@ box2d.Testbed.Dominos = function (canvas, settings)
 		shape.SetAsBox(0.25, 1.5);
 
 		var bd = new box2d.b2BodyDef();
-		bd.position.SetXY(-7.0, 4.0);
+		bd.position.Set(-7.0, 4.0);
 		b2 = this.m_world.CreateBody(bd);
-		b2.CreateFixture2(shape, 0.0);
+		b2.CreateFixture(shape, 0.0);
 	}
 
 	var b3 = null;
@@ -104,17 +104,17 @@ box2d.Testbed.Dominos = function (canvas, settings)
 
 		var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
-		bd.position.SetXY(-0.9, 1.0);
+		bd.position.Set(-0.9, 1.0);
 		bd.angle = -0.15;
 
 		b3 = this.m_world.CreateBody(bd);
-		b3.CreateFixture2(shape, 10.0);
+		b3.CreateFixture(shape, 10.0);
 	}
 
 	var jd = new box2d.b2RevoluteJointDef();
 	var anchor = new box2d.b2Vec2();
 
-	anchor.SetXY(-2.0, 1.0);
+	anchor.Set(-2.0, 1.0);
 	jd.Initialize(b1, b3, anchor);
 	jd.collideConnected = true;
 	this.m_world.CreateJoint(jd);
@@ -127,12 +127,12 @@ box2d.Testbed.Dominos = function (canvas, settings)
 
 		var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
-		bd.position.SetXY(-10.0, 15.0);
+		bd.position.Set(-10.0, 15.0);
 		b4 = this.m_world.CreateBody(bd);
-		b4.CreateFixture2(shape, 10.0);
+		b4.CreateFixture(shape, 10.0);
 	}
 
-	anchor.SetXY(-7.0, 15.0);
+	anchor.Set(-7.0, 15.0);
 	jd.Initialize(b2, b4, anchor);
 	this.m_world.CreateJoint(jd);
 
@@ -141,7 +141,7 @@ box2d.Testbed.Dominos = function (canvas, settings)
 	{
 		var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
-		bd.position.SetXY(6.5, 3.0);
+		bd.position.Set(6.5, 3.0);
 		b5 = this.m_world.CreateBody(bd);
 
 		var shape = new box2d.b2PolygonShape();
@@ -161,7 +161,7 @@ box2d.Testbed.Dominos = function (canvas, settings)
 		b5.CreateFixture(fd);
 	}
 
-	anchor.SetXY(6.0, 2.0);
+	anchor.Set(6.0, 2.0);
 	jd.Initialize(b1, b5, anchor);
 	this.m_world.CreateJoint(jd);
 
@@ -173,12 +173,12 @@ box2d.Testbed.Dominos = function (canvas, settings)
 
 		var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
-		bd.position.SetXY(6.5, 4.1);
+		bd.position.Set(6.5, 4.1);
 		b6 = this.m_world.CreateBody(bd);
-		b6.CreateFixture2(shape, 30.0);
+		b6.CreateFixture(shape, 30.0);
 	}
 
-	anchor.SetXY(7.5, 4.0);
+	anchor.Set(7.5, 4.0);
 	jd.Initialize(b5, b6, anchor);
 	this.m_world.CreateJoint(jd);
 
@@ -190,19 +190,19 @@ box2d.Testbed.Dominos = function (canvas, settings)
 
 		var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
-		bd.position.SetXY(7.4, 1.0);
+		bd.position.Set(7.4, 1.0);
 
 		b7 = this.m_world.CreateBody(bd);
-		b7.CreateFixture2(shape, 10.0);
+		b7.CreateFixture(shape, 10.0);
 	}
 
 	var djd = new box2d.b2DistanceJointDef();
 	djd.bodyA = b3;
 	djd.bodyB = b7;
-	djd.localAnchorA.SetXY(6.0, 0.0);
-	djd.localAnchorB.SetXY(0.0, -1.0);
-	var d = box2d.b2SubVV(djd.bodyB.GetWorldPoint(djd.localAnchorB, new box2d.b2Vec2()), djd.bodyA.GetWorldPoint(djd.localAnchorA, new box2d.b2Vec2()), new box2d.b2Vec2());
-	djd.length = d.GetLength();
+	djd.localAnchorA.Set(6.0, 0.0);
+	djd.localAnchorB.Set(0.0, -1.0);
+	var d = box2d.b2Sub_V2_V2(djd.bodyB.GetWorldPoint(djd.localAnchorB, new box2d.b2Vec2()), djd.bodyA.GetWorldPoint(djd.localAnchorA, new box2d.b2Vec2()), new box2d.b2Vec2());
+	djd.length = d.Length();
 	this.m_world.CreateJoint(djd);
 
 	if (true)
@@ -216,9 +216,9 @@ box2d.Testbed.Dominos = function (canvas, settings)
 		{
 			var bd = new box2d.b2BodyDef();
 			bd.type = box2d.b2BodyType.b2_dynamicBody;
-			bd.position.SetXY(5.9 + 2.0 * radius * i, 2.4);
+			bd.position.Set(5.9 + 2.0 * radius * i, 2.4);
 			var body = this.m_world.CreateBody(bd);
-			body.CreateFixture2(shape, 10.0);
+			body.CreateFixture(shape, 10.0);
 		}
 	}
 }

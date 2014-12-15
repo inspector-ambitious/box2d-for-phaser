@@ -34,10 +34,10 @@ box2d.b2CollideCircles = function (manifold, circleA, xfA, circleB, xfB)
 {
 	manifold.pointCount = 0;
 
-	var pA = box2d.b2MulXV(xfA, circleA.m_p, box2d.b2CollideCircles.s_pA);
-	var pB = box2d.b2MulXV(xfB, circleB.m_p, box2d.b2CollideCircles.s_pB);
+	var pA = box2d.b2Mul_X_V2(xfA, circleA.m_p, box2d.b2CollideCircles.s_pA);
+	var pB = box2d.b2Mul_X_V2(xfB, circleB.m_p, box2d.b2CollideCircles.s_pB);
 
-	var distSqr = box2d.b2DistanceSquaredVV(pA, pB);
+	var distSqr = box2d.b2DistanceSquared(pA, pB);
 	var radius = circleA.m_radius + circleB.m_radius;
 	if (distSqr > radius * radius)
 	{
@@ -71,8 +71,8 @@ box2d.b2CollidePolygonAndCircle = function (manifold, polygonA, xfA, circleB, xf
 	manifold.pointCount = 0;
 
 	// Compute circle position in the frame of the polygon.
-	var c = box2d.b2MulXV(xfB, circleB.m_p, box2d.b2CollidePolygonAndCircle.s_c);
-	var cLocal = box2d.b2MulTXV(xfA, c, box2d.b2CollidePolygonAndCircle.s_cLocal);
+	var c = box2d.b2Mul_X_V2(xfB, circleB.m_p, box2d.b2CollidePolygonAndCircle.s_c);
+	var cLocal = box2d.b2MulT_X_V2(xfA, c, box2d.b2CollidePolygonAndCircle.s_cLocal);
 
 	// Find the min separating edge.
 	var normalIndex = 0;
@@ -84,7 +84,7 @@ box2d.b2CollidePolygonAndCircle = function (manifold, polygonA, xfA, circleB, xf
 
 	for (var i = 0; i < vertexCount; ++i)
 	{
-		var s = box2d.b2DotVV(normals[i], box2d.b2SubVV(cLocal, vertices[i], box2d.b2Vec2.s_t0));
+		var s = box2d.b2Dot_V2_V2(normals[i], box2d.b2Sub_V2_V2(cLocal, vertices[i], box2d.b2Vec2.s_t0));
 
 		if (s > radius)
 		{
@@ -111,47 +111,47 @@ box2d.b2CollidePolygonAndCircle = function (manifold, polygonA, xfA, circleB, xf
 		manifold.pointCount = 1;
 		manifold.type = box2d.b2ManifoldType.e_faceA;
 		manifold.localNormal.Copy(normals[normalIndex]);
-		box2d.b2MidVV(v1, v2, manifold.localPoint);
+		box2d.b2Mid_V2_V2(v1, v2, manifold.localPoint);
 		manifold.points[0].localPoint.Copy(circleB.m_p);
 		manifold.points[0].id.key = 0;
 		return;
 	}
 
 	// Compute barycentric coordinates
-	var u1 = box2d.b2DotVV(box2d.b2SubVV(cLocal, v1, box2d.b2Vec2.s_t0), box2d.b2SubVV(v2, v1, box2d.b2Vec2.s_t1));
-	var u2 = box2d.b2DotVV(box2d.b2SubVV(cLocal, v2, box2d.b2Vec2.s_t0), box2d.b2SubVV(v1, v2, box2d.b2Vec2.s_t1));
+	var u1 = box2d.b2Dot_V2_V2(box2d.b2Sub_V2_V2(cLocal, v1, box2d.b2Vec2.s_t0), box2d.b2Sub_V2_V2(v2, v1, box2d.b2Vec2.s_t1));
+	var u2 = box2d.b2Dot_V2_V2(box2d.b2Sub_V2_V2(cLocal, v2, box2d.b2Vec2.s_t0), box2d.b2Sub_V2_V2(v1, v2, box2d.b2Vec2.s_t1));
 	if (u1 <= 0)
 	{
-		if (box2d.b2DistanceSquaredVV(cLocal, v1) > radius * radius)
+		if (box2d.b2DistanceSquared(cLocal, v1) > radius * radius)
 		{
 			return;
 		}
 
 		manifold.pointCount = 1;
 		manifold.type = box2d.b2ManifoldType.e_faceA;
-		box2d.b2SubVV(cLocal, v1, manifold.localNormal).SelfNormalize();
+		box2d.b2Sub_V2_V2(cLocal, v1, manifold.localNormal).SelfNormalize();
 		manifold.localPoint.Copy(v1);
 		manifold.points[0].localPoint.Copy(circleB.m_p);
 		manifold.points[0].id.key = 0;
 	}
 	else if (u2 <= 0)
 	{
-		if (box2d.b2DistanceSquaredVV(cLocal, v2) > radius * radius)
+		if (box2d.b2DistanceSquared(cLocal, v2) > radius * radius)
 		{
 			return;
 		}
 
 		manifold.pointCount = 1;
 		manifold.type = box2d.b2ManifoldType.e_faceA;
-		box2d.b2SubVV(cLocal, v2, manifold.localNormal).SelfNormalize();
+		box2d.b2Sub_V2_V2(cLocal, v2, manifold.localNormal).SelfNormalize();
 		manifold.localPoint.Copy(v2);
 		manifold.points[0].localPoint.Copy(circleB.m_p);
 		manifold.points[0].id.key = 0;
 	}
 	else
 	{
-		var faceCenter = box2d.b2MidVV(v1, v2, box2d.b2CollidePolygonAndCircle.s_faceCenter);
-		separation = box2d.b2DotVV(box2d.b2SubVV(cLocal, faceCenter, box2d.b2Vec2.s_t1), normals[vertIndex1]);
+		var faceCenter = box2d.b2Mid_V2_V2(v1, v2, box2d.b2CollidePolygonAndCircle.s_faceCenter);
+		separation = box2d.b2Dot_V2_V2(box2d.b2Sub_V2_V2(cLocal, faceCenter, box2d.b2Vec2.s_t1), normals[vertIndex1]);
 		if (separation > radius)
 		{
 			return;

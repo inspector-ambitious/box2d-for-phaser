@@ -153,7 +153,7 @@ box2d.b2BuoyancyController.prototype.Step = function (step)
 		if (area < box2d.b2_epsilon)
 			continue;
 		//Buoyancy
-		var buoyancyForce = box2d.b2NegV(this.gravity, new box2d.b2Vec2());
+		var buoyancyForce = this.gravity.Clone().SelfNeg();
 		buoyancyForce.SelfMul(this.density * area);
 		body.ApplyForce(buoyancyForce, massc);
 		//Linear drag

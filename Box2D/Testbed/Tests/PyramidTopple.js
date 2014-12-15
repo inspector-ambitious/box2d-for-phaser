@@ -70,16 +70,16 @@ box2d.Testbed.PyramidTopple = function (canvas, settings)
 		for(var j=0; j<(n - i); j++){
 			var offset = new box2d.b2Vec2((j - (n - 1 - i)*0.5)*1.5*HEIGHT, (i + 0.5)*(HEIGHT + 2*WIDTH) - WIDTH - 240);
 			add_domino(world, offset, false);
-			add_domino(world, box2d.b2AddVV(offset, new box2d.b2Vec2(0, (HEIGHT + WIDTH)/2), new box2d.b2Vec2()), true);
+			add_domino(world, box2d.b2Add_V2_V2(offset, new box2d.b2Vec2(0, (HEIGHT + WIDTH)/2), new box2d.b2Vec2()), true);
 			
 			if(j === 0){
-				add_domino(world, box2d.b2AddVV(offset, new box2d.b2Vec2(0.5*(WIDTH - HEIGHT), HEIGHT + WIDTH), new box2d.b2Vec2()), false);
+				add_domino(world, box2d.b2Add_V2_V2(offset, new box2d.b2Vec2(0.5*(WIDTH - HEIGHT), HEIGHT + WIDTH), new box2d.b2Vec2()), false);
 			}
 			
 			if(j != n - i - 1){
-				add_domino(world, box2d.b2AddVV(offset, new box2d.b2Vec2(HEIGHT*0.75, (HEIGHT + 3*WIDTH)/2), new box2d.b2Vec2()), true);
+				add_domino(world, box2d.b2Add_V2_V2(offset, new box2d.b2Vec2(HEIGHT*0.75, (HEIGHT + 3*WIDTH)/2), new box2d.b2Vec2()), true);
 			} else {
-				add_domino(world, box2d.b2AddVV(offset, new box2d.b2Vec2(0.5*(HEIGHT - WIDTH), HEIGHT + WIDTH), new box2d.b2Vec2()), false);
+				add_domino(world, box2d.b2Add_V2_V2(offset, new box2d.b2Vec2(0.5*(HEIGHT - WIDTH), HEIGHT + WIDTH), new box2d.b2Vec2()), false);
 			}
 		}
 	}

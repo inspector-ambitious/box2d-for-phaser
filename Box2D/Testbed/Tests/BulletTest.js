@@ -34,40 +34,40 @@ box2d.Testbed.BulletTest = function (canvas, settings)
 	if (true)
 	{
 		/*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
-		bd.position.SetXY(0.0, 0.0);
+		bd.position.Set(0.0, 0.0);
 		/*box2d.b2Body*/ var body = this.m_world.CreateBody(bd);
 
 		/*box2d.b2EdgeShape*/ var edge = new box2d.b2EdgeShape();
 
 		edge.SetAsEdge(new box2d.b2Vec2(-10.0, 0.0), new box2d.b2Vec2(10.0, 0.0));
-		body.CreateFixture2(edge, 0.0);
+		body.CreateFixture(edge, 0.0);
 
 		/*box2d.b2PolygonShape*/ var shape = new box2d.b2PolygonShape();
 		shape.SetAsOrientedBox(0.2, 1.0, new box2d.b2Vec2(0.5, 1.0), 0.0);
-		body.CreateFixture2(shape, 0.0);
+		body.CreateFixture(shape, 0.0);
 	}
 
 	if (true)
 	{
 		/*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
-		bd.position.SetXY(0.0, 4.0);
+		bd.position.Set(0.0, 4.0);
 
 		/*box2d.b2PolygonShape*/ var box = new box2d.b2PolygonShape();
 		box.SetAsBox(2.0, 0.1);
 
 		this.m_body = this.m_world.CreateBody(bd);
-		this.m_body.CreateFixture2(box, 1.0);
+		this.m_body.CreateFixture(box, 1.0);
 
 		box.SetAsBox(0.25, 0.25);
 
 		//this.m_x = box2d.b2RandomRange(-1.0, 1.0);
 		this.m_x = 0.20352793;
-		bd.position.SetXY(this.m_x, 10.0);
+		bd.position.Set(this.m_x, 10.0);
 		bd.bullet = true;
 
 		this.m_bullet = this.m_world.CreateBody(bd);
-		this.m_bullet.CreateFixture2(box, 100.0);
+		this.m_bullet.CreateFixture(box, 100.0);
 
 		this.m_bullet.SetLinearVelocity(new box2d.b2Vec2(0.0, -50.0));
 	}
@@ -97,12 +97,12 @@ box2d.Testbed.BulletTest.prototype.m_x = 0.0;
  */
 box2d.Testbed.BulletTest.prototype.Launch = function ()
 {
-	this.m_body.SetTransformVecRadians(new box2d.b2Vec2(0.0, 4.0), 0.0);
+	this.m_body.SetTransform_V2_A(new box2d.b2Vec2(0.0, 4.0), 0.0);
 	this.m_body.SetLinearVelocity(box2d.b2Vec2_zero);
 	this.m_body.SetAngularVelocity(0.0);
 
 	this.m_x = box2d.b2RandomRange(-1.0, 1.0);
-	this.m_bullet.SetTransformVecRadians(new box2d.b2Vec2(this.m_x, 10.0), 0.0);
+	this.m_bullet.SetTransform_V2_A(new box2d.b2Vec2(this.m_x, 10.0), 0.0);
 	this.m_bullet.SetLinearVelocity(new box2d.b2Vec2(0.0, -50.0));
 	this.m_bullet.SetAngularVelocity(0.0);
 

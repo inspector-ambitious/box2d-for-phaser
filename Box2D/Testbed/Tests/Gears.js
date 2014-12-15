@@ -39,7 +39,7 @@ box2d.Testbed.Gears = function (canvas, settings)
 	
 		var shape = new box2d.b2EdgeShape();
 		shape.SetAsEdge(new box2d.b2Vec2(-50.0, 0.0), new box2d.b2Vec2(50.0, 0.0));
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 	}
 
 	if (true)
@@ -55,21 +55,21 @@ box2d.Testbed.Gears = function (canvas, settings)
 		
 		var bd1 = new box2d.b2BodyDef();
 		bd1.type = box2d.b2BodyType.b2_staticBody;
-		bd1.position.SetXY(10.0, 9.0);
+		bd1.position.Set(10.0, 9.0);
 		var body1 = this.m_world.CreateBody(bd1);
-		body1.CreateFixture2(circle1, 5.0);
+		body1.CreateFixture(circle1, 5.0);
 
 		var bd2 = new box2d.b2BodyDef();
 		bd2.type = box2d.b2BodyType.b2_dynamicBody;
-		bd2.position.SetXY(10.0, 8.0);
+		bd2.position.Set(10.0, 8.0);
 		var body2 = this.m_world.CreateBody(bd2);
-		body2.CreateFixture2(box, 5.0);
+		body2.CreateFixture(box, 5.0);
 
 		var bd3 = new box2d.b2BodyDef();
 		bd3.type = box2d.b2BodyType.b2_dynamicBody;
-		bd3.position.SetXY(10.0, 6.0);
+		bd3.position.Set(10.0, 6.0);
 		var body3 = this.m_world.CreateBody(bd3);
-		body3.CreateFixture2(circle2, 5.0);
+		body3.CreateFixture(circle2, 5.0);
 
 		var jd1 = new box2d.b2RevoluteJointDef();
 		jd1.Initialize(body2, body1, bd1.position);
@@ -101,23 +101,23 @@ box2d.Testbed.Gears = function (canvas, settings)
 
 		var bd1 = new box2d.b2BodyDef();
 		bd1.type = box2d.b2BodyType.b2_dynamicBody;
-		bd1.position.SetXY(-3.0, 12.0);
+		bd1.position.Set(-3.0, 12.0);
 		var body1 = this.m_world.CreateBody(bd1);
-		body1.CreateFixture2(circle1, 5.0);
+		body1.CreateFixture(circle1, 5.0);
 
 		var jd1 = new box2d.b2RevoluteJointDef();
 		jd1.bodyA = ground;
 		jd1.bodyB = body1;
 		ground.GetLocalPoint(bd1.position, jd1.localAnchorA);
 		body1.GetLocalPoint(bd1.position, jd1.localAnchorB);
-		jd1.referenceAngle = body1.GetAngleRadians() - ground.GetAngleRadians();
+		jd1.referenceAngle = body1.GetAngle() - ground.GetAngle();
 		this.m_joint1 = /** @type {box2d.b2RevoluteJoint} */ (this.m_world.CreateJoint(jd1));
 
 		var bd2 = new box2d.b2BodyDef();
 		bd2.type = box2d.b2BodyType.b2_dynamicBody;
-		bd2.position.SetXY(0.0, 12.0);
+		bd2.position.Set(0.0, 12.0);
 		var body2 = this.m_world.CreateBody(bd2);
-		body2.CreateFixture2(circle2, 5.0);
+		body2.CreateFixture(circle2, 5.0);
 
 		var jd2 = new box2d.b2RevoluteJointDef();
 		jd2.Initialize(ground, body2, bd2.position);
@@ -125,9 +125,9 @@ box2d.Testbed.Gears = function (canvas, settings)
 
 		var bd3 = new box2d.b2BodyDef();
 		bd3.type = box2d.b2BodyType.b2_dynamicBody;
-		bd3.position.SetXY(2.5, 12.0);
+		bd3.position.Set(2.5, 12.0);
 		var body3 = this.m_world.CreateBody(bd3);
-		body3.CreateFixture2(box, 5.0);
+		body3.CreateFixture(box, 5.0);
 
 		var jd3 = new box2d.b2PrismaticJointDef();
 		jd3.Initialize(ground, body3, bd3.position, new box2d.b2Vec2(0.0, 1.0));

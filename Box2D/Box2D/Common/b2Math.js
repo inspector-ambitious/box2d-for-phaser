@@ -388,7 +388,7 @@ box2d.b2Vec2.prototype.SetZero = function ()
  * @param {number} x
  * @param {number} y
  */
-box2d.b2Vec2.prototype.SetXY = function (x, y)
+box2d.b2Vec2.prototype.Set = function (x, y)
 {
 	this.x = x;
 	this.y = y;
@@ -533,12 +533,6 @@ box2d.b2Vec2.prototype.Length = function ()
 }
 
 /** 
- * @export 
- * @return {number} 
- */
-box2d.b2Vec2.prototype.GetLength = box2d.b2Vec2.prototype.Length;
-
-/** 
  * Get the length squared. For performance, use this instead of 
  * b2Vec2::Length (if possible). 
  * @export 
@@ -551,19 +545,13 @@ box2d.b2Vec2.prototype.LengthSquared = function ()
 }
 
 /** 
- * @export 
- * @return {number} 
- */
-box2d.b2Vec2.prototype.GetLengthSquared = box2d.b2Vec2.prototype.LengthSquared;
-
-/** 
  * Convert this vector into a unit vector. Returns the length. 
  * @export 
  * @return {number}
  */
 box2d.b2Vec2.prototype.Normalize = function ()
 {
-	var length = this.GetLength();
+	var length = this.Length();
 	if (length >= box2d.b2_epsilon)
 	{
 		var inv_length = 1.0 / length;
@@ -579,13 +567,7 @@ box2d.b2Vec2.prototype.Normalize = function ()
  */
 box2d.b2Vec2.prototype.SelfNormalize = function ()
 {
-	var length = this.GetLength();
-	if (length >= box2d.b2_epsilon)
-	{
-		var inv_length = 1.0 / length;
-		this.x *= inv_length;
-		this.y *= inv_length;
-	}
+	this.Normalize();
 	return this;
 }
 
@@ -608,19 +590,9 @@ box2d.b2Vec2.prototype.SelfRotate = function (c, s)
  * @return {box2d.b2Vec2}
  * @param {number} radians
  */
-box2d.b2Vec2.prototype.SelfRotateRadians = function (radians)
+box2d.b2Vec2.prototype.SelfRotateAngle = function (radians)
 {
 	return this.SelfRotate(Math.cos(radians), Math.sin(radians));
-}
-
-/**
- * @export 
- * @return {box2d.b2Vec2}
- * @param {number} degrees
- */
-box2d.b2Vec2.prototype.SelfRotateDegrees = function (degrees)
-{
-	return this.SelfRotateRadians(box2d.b2DegToRad(degrees));
 }
 
 /** 
@@ -636,35 +608,9 @@ box2d.b2Vec2.prototype.IsValid = function ()
 /**
  * @export 
  * @return {box2d.b2Vec2}
- * @param {number} s
- */
-box2d.b2Vec2.prototype.SelfCrossVS = function (s)
-{
-	var x = this.x;
-	this.x =  s * this.y;
-	this.y = -s * x;
-	return this;
-}
-
-/**
- * @export 
- * @return {box2d.b2Vec2}
- * @param {number} s
- */
-box2d.b2Vec2.prototype.SelfCrossSV = function (s)
-{
-	var x = this.x;
-	this.x = -s * this.y;
-	this.y =  s * x;
-	return this;
-}
-
-/**
- * @export 
- * @return {box2d.b2Vec2}
  * @param {box2d.b2Vec2} v
  */
-box2d.b2Vec2.prototype.SelfMinV = function (v)
+box2d.b2Vec2.prototype.SelfMin = function (v)
 {
 	this.x = box2d.b2Min(this.x, v.x);
 	this.y = box2d.b2Min(this.y, v.y);
@@ -676,7 +622,7 @@ box2d.b2Vec2.prototype.SelfMinV = function (v)
  * @return {box2d.b2Vec2}
  * @param {box2d.b2Vec2} v
  */
-box2d.b2Vec2.prototype.SelfMaxV = function (v)
+box2d.b2Vec2.prototype.SelfMax = function (v)
 {
 	this.x = box2d.b2Max(this.x, v.x);
 	this.y = box2d.b2Max(this.y, v.y);
@@ -725,7 +671,7 @@ box2d.b2Vec2.prototype.SelfSkew = function ()
  * @param {box2d.b2Vec2} v
  * @param {box2d.b2Vec2} out
  */
-box2d.b2AbsV = function (v, out)
+box2d.b2Abs_V2 = function (v, out)
 {
 	out.x = box2d.b2Abs(v.x);
 	out.y = box2d.b2Abs(v.y);
@@ -739,7 +685,7 @@ box2d.b2AbsV = function (v, out)
  * @param {box2d.b2Vec2} b
  * @param {box2d.b2Vec2} out
  */
-box2d.b2MinV = function (a, b, out)
+box2d.b2Min_V2_V2 = function (a, b, out)
 {
 	out.x = box2d.b2Min(a.x, b.x);
 	out.y = box2d.b2Min(a.y, b.y);
@@ -753,7 +699,7 @@ box2d.b2MinV = function (a, b, out)
  * @param {box2d.b2Vec2} b
  * @param {box2d.b2Vec2} out
  */
-box2d.b2MaxV = function (a, b, out)
+box2d.b2Max_V2_V2 = function (a, b, out)
 {
 	out.x = box2d.b2Max(a.x, b.x);
 	out.y = box2d.b2Max(a.y, b.y);
@@ -768,51 +714,11 @@ box2d.b2MaxV = function (a, b, out)
  * @param {box2d.b2Vec2} hi
  * @param {box2d.b2Vec2} out
  */
-box2d.b2ClampV = function (v, lo, hi, out)
+box2d.b2Clamp_V2_V2_V2 = function (v, lo, hi, out)
 {
 	out.x = box2d.b2Clamp(v.x, lo.x, hi.x);
 	out.y = box2d.b2Clamp(v.y, lo.y, hi.y);
 	return out;
-}
-
-/**
- * @export 
- * @return {box2d.b2Vec2}
- * @param {box2d.b2Vec2} v
- * @param {number} c
- * @param {number} s
- * @param {box2d.b2Vec2} out
- */
-box2d.b2RotateV = function (v, c, s, out)
-{
-	var v_x = v.x, v_y = v.y;
-	out.x = c * v_x - s * v_y;
-	out.y = s * v_x + c * v_y;
-	return out;
-}
-
-/** 
- * @export 
- * @return {box2d.b2Vec2}
- * @param {box2d.b2Vec2} v
- * @param {number} radians
- * @param {box2d.b2Vec2} out
- */
-box2d.b2RotateRadiansV = function (v, radians, out)
-{
-	return box2d.b2RotateV(v, Math.cos(radians), Math.sin(radians), out);
-}
-
-/**
- * @export 
- * @return {box2d.b2Vec2}
- * @param {box2d.b2Vec2} v
- * @param {number} degrees
- * @param {box2d.b2Vec2} out
- */
-box2d.b2RotateDegreesV = function (v, degrees, out)
-{
-	return box2d.b2RotateRadiansV(v, box2d.b2DegToRad(degrees), out);
 }
 
 /** 
@@ -823,7 +729,7 @@ box2d.b2RotateDegreesV = function (v, degrees, out)
  * @param {box2d.b2Vec2} a
  * @param {box2d.b2Vec2} b
  */
-box2d.b2DotVV = function (a, b)
+box2d.b2Dot_V2_V2 = function (a, b)
 {
 	return a.x * b.x + a.y * b.y;
 }
@@ -836,7 +742,7 @@ box2d.b2DotVV = function (a, b)
  * @param {box2d.b2Vec2} a
  * @param {box2d.b2Vec2} b
  */
-box2d.b2CrossVV = function (a, b)
+box2d.b2Cross_V2_V2 = function (a, b)
 {
 	return a.x * b.y - a.y * b.x;
 }
@@ -850,26 +756,11 @@ box2d.b2CrossVV = function (a, b)
  * @param {number} s
  * @param {box2d.b2Vec2} out
  */
-box2d.b2CrossVS = function (v, s, out)
+box2d.b2Cross_V2_S = function (v, s, out)
 {
 	var v_x = v.x;
 	out.x =  s * v.y;
 	out.y = -s * v_x;
-	return out;
-}
-
-/**
- * box2d.b2CrossVS(v, 1.0, out) 
- * @export 
- * @return {box2d.b2Vec2}
- * @param {box2d.b2Vec2} v
- * @param {box2d.b2Vec2} out
- */
-box2d.b2CrossVOne = function (v, out)
-{
-	var v_x = v.x;
-	out.x =  v.y;
-	out.y = -v_x;
 	return out;
 }
 
@@ -882,26 +773,11 @@ box2d.b2CrossVOne = function (v, out)
  * @param {box2d.b2Vec2} v
  * @param {box2d.b2Vec2} out
  */
-box2d.b2CrossSV = function (s, v, out)
+box2d.b2Cross_S_V2 = function (s, v, out)
 {
 	var v_x = v.x;
 	out.x = -s * v.y;
 	out.y =  s * v_x;
-	return out;
-}
-
-/** 
- * box2d.b2CrossSV(1.0, v, out) 
- * @export 
- * @return {box2d.b2Vec2}
- * @param {box2d.b2Vec2} v
- * @param {box2d.b2Vec2} out
- */
-box2d.b2CrossOneV = function (v, out)
-{
-	var v_x = v.x;
-	out.x = -v.y;
-	out.y =  v_x;
 	return out;
 }
 
@@ -913,7 +789,7 @@ box2d.b2CrossOneV = function (v, out)
  * @param {box2d.b2Vec2} b
  * @param {box2d.b2Vec2} out
  */
-box2d.b2AddVV = function (a, b, out) { out.x = a.x + b.x; out.y = a.y + b.y; return out; }
+box2d.b2Add_V2_V2 = function (a, b, out) { out.x = a.x + b.x; out.y = a.y + b.y; return out; }
 
 /** 
  * Subtract two vectors component-wise. 
@@ -923,7 +799,7 @@ box2d.b2AddVV = function (a, b, out) { out.x = a.x + b.x; out.y = a.y + b.y; ret
  * @param {box2d.b2Vec2} b
  * @param {box2d.b2Vec2} out
  */
-box2d.b2SubVV = function (a, b, out) { out.x = a.x - b.x; out.y = a.y - b.y; return out; }
+box2d.b2Sub_V2_V2 = function (a, b, out) { out.x = a.x - b.x; out.y = a.y - b.y; return out; }
 
 /**
  * @export 
@@ -932,7 +808,7 @@ box2d.b2SubVV = function (a, b, out) { out.x = a.x - b.x; out.y = a.y - b.y; ret
  * @param {box2d.b2Vec2} v
  * @param {box2d.b2Vec2} out
  */
-box2d.b2MulSV = function (s, v, out) { out.x = v.x * s; out.y = v.y * s; return out; }
+box2d.b2Mul_S_V2 = function (s, v, out) { out.x = v.x * s; out.y = v.y * s; return out; }
 
 /** 
  * out = a + (s * b)
@@ -943,7 +819,7 @@ box2d.b2MulSV = function (s, v, out) { out.x = v.x * s; out.y = v.y * s; return 
  * @param {box2d.b2Vec2} b
  * @param {box2d.b2Vec2} out
  */
-box2d.b2AddVMulSV = function (a, s, b, out) { out.x = a.x + (s * b.x); out.y = a.y + (s * b.y); return out; }
+box2d.b2AddMul_V2_S_V2 = function (a, s, b, out) { out.x = a.x + (s * b.x); out.y = a.y + (s * b.y); return out; }
 /** 
  * out = a - (s * b)
  * @export 
@@ -953,10 +829,10 @@ box2d.b2AddVMulSV = function (a, s, b, out) { out.x = a.x + (s * b.x); out.y = a
  * @param {box2d.b2Vec2} b
  * @param {box2d.b2Vec2} out
  */
-box2d.b2SubVMulSV = function (a, s, b, out) { out.x = a.x - (s * b.x); out.y = a.y - (s * b.y); return out; }
+box2d.b2SubMul_V2_S_V2 = function (a, s, b, out) { out.x = a.x - (s * b.x); out.y = a.y - (s * b.y); return out; }
 
 /** 
- * out = a + b2CrossSV(s, v) 
+ * out = a + b2Cross(s, v) 
  * @export 
  * @return {box2d.b2Vec2} 
  * @param {box2d.b2Vec2} a
@@ -964,7 +840,7 @@ box2d.b2SubVMulSV = function (a, s, b, out) { out.x = a.x - (s * b.x); out.y = a
  * @param {box2d.b2Vec2} v
  * @param {box2d.b2Vec2} out 
  */
-box2d.b2AddVCrossSV = function (a, s, v, out)
+box2d.b2AddCross_V2_S_V2 = function (a, s, v, out)
 {
 	var v_x = v.x;
 	out.x = a.x - (s * v.y);
@@ -980,7 +856,7 @@ box2d.b2AddVCrossSV = function (a, s, v, out)
  * @param {box2d.b2Vec2} b
  * @param {box2d.b2Vec2} out
  */
-box2d.b2MidVV = function (a, b, out) { out.x = (a.x + b.x) * 0.5; out.y = (a.y + b.y) * 0.5; return out; }
+box2d.b2Mid_V2_V2 = function (a, b, out) { out.x = (a.x + b.x) * 0.5; out.y = (a.y + b.y) * 0.5; return out; }
 
 /** 
  * Get the extent of two vectors (half-widths). 
@@ -990,18 +866,7 @@ box2d.b2MidVV = function (a, b, out) { out.x = (a.x + b.x) * 0.5; out.y = (a.y +
  * @param {box2d.b2Vec2} b
  * @param {box2d.b2Vec2} out
  */
-box2d.b2ExtVV = function (a, b, out) { out.x = (b.x - a.x) * 0.5; out.y = (b.y - a.y) * 0.5; return out; }
-
-/**
- * @export 
- * @return {boolean}
- * @param {box2d.b2Vec2} a
- * @param {box2d.b2Vec2} b
- */
-box2d.b2IsEqualToV = function (a, b)
-{
-	return a.x === b.x && a.y === b.y;
-}
+box2d.b2Ext_V2_V2 = function (a, b, out) { out.x = (b.x - a.x) * 0.5; out.y = (b.y - a.y) * 0.5; return out; }
 
 /**
  * @export 
@@ -1009,7 +874,7 @@ box2d.b2IsEqualToV = function (a, b)
  * @param {box2d.b2Vec2} a
  * @param {box2d.b2Vec2} b
  */
-box2d.b2DistanceVV = function (a, b)
+box2d.b2Distance = function (a, b)
 {
 	var c_x = a.x - b.x;
 	var c_y = a.y - b.y;
@@ -1022,20 +887,12 @@ box2d.b2DistanceVV = function (a, b)
  * @param {box2d.b2Vec2} a
  * @param {box2d.b2Vec2} b
  */
-box2d.b2DistanceSquaredVV = function (a, b)
+box2d.b2DistanceSquared = function (a, b)
 {
 	var c_x = a.x - b.x;
 	var c_y = a.y - b.y;
 	return (c_x * c_x + c_y * c_y);
 }
-
-/**
- * @export 
- * @return {box2d.b2Vec2}
- * @param {box2d.b2Vec2} v
- * @param {box2d.b2Vec2} out
- */
-box2d.b2NegV = function (v, out) { out.x = -v.x; out.y = -v.y; return out; }
 
 /** 
  * @export 
@@ -1122,7 +979,7 @@ box2d.b2Vec3.prototype.SetZero = function ()
  * @param {number} y
  * @param {number} z
  */
-box2d.b2Vec3.prototype.SetXYZ = function (x, y, z)
+box2d.b2Vec3.prototype.Set = function (x, y, z)
 {
 	this.x = x;
 	this.y = y;
@@ -1172,6 +1029,20 @@ box2d.b2Vec3.prototype.SelfAdd = function (v)
 /**
  * @export 
  * @return {box2d.b2Vec3}
+ * @param {box2d.b2Vec2} v
+ * @param {number} z
+ */
+box2d.b2Vec3.prototype.SelfAddV2 = function (v, z)
+{
+	this.x += v.x;
+	this.y += v.y;
+	this.z += z;
+	return this;
+}
+
+/**
+ * @export 
+ * @return {box2d.b2Vec3}
  * @param {number} x 
  * @param {number} y 
  * @param {number} z 
@@ -1200,6 +1071,20 @@ box2d.b2Vec3.prototype.SelfSub = function (v)
 /**
  * @export 
  * @return {box2d.b2Vec3}
+ * @param {box2d.b2Vec2} v
+ * @param {number} z
+ */
+box2d.b2Vec3.prototype.SelfSubV2 = function (v, z)
+{
+	this.x -= v.x;
+	this.y -= v.y;
+	this.z -= z;
+	return this;
+}
+
+/**
+ * @export 
+ * @return {box2d.b2Vec3}
  * @param {number} x 
  * @param {number} y 
  * @param {number} z 
@@ -1215,14 +1100,88 @@ box2d.b2Vec3.prototype.SelfSubXYZ = function (x, y, z)
 /**
  * @export 
  * @return {box2d.b2Vec3}
+ * @param {box2d.b2Vec3} v
+ */
+box2d.b2Vec3.prototype.SelfMul = function (v)
+{
+	this.x *= v.x;
+	this.y *= v.y;
+	this.z *= v.z;
+	return this;
+}
+
+/**
+ * @export 
+ * @return {box2d.b2Vec3}
+ * @param {box2d.b2Vec2} v
+ * @param {number} z
+ */
+box2d.b2Vec3.prototype.SelfMulV2 = function (v, z)
+{
+	this.x *= v.x;
+	this.y *= v.y;
+	this.z *= z;
+	return this;
+}
+
+/**
+ * @export 
+ * @return {box2d.b2Vec3}
+ * @param {number} x
+ * @param {number} y
+ * @param {number} z
+ */
+box2d.b2Vec3.prototype.SelfMulXYZ = function (x, y, z)
+{
+	this.x *= x;
+	this.y *= y;
+	this.z *= z;
+	return this;
+}
+
+/**
+ * @export 
+ * @return {box2d.b2Vec3}
  * @param {number} s
  */
-box2d.b2Vec3.prototype.SelfMul = function (s)
+box2d.b2Vec3.prototype.SelfMulScalar = function (s)
 {
 	this.x *= s;
 	this.y *= s;
 	this.z *= s;
 	return this;
+}
+
+/** 
+ * Add two vectors component-wise.
+ * @export 
+ * @return {box2d.b2Vec3}
+ * @param {box2d.b2Vec3} a
+ * @param {box2d.b2Vec3} b
+ * @param {box2d.b2Vec3} out
+ */
+box2d.b2Add_V3_V3 = function (a, b, out)
+{
+	out.x = a.x + b.x;
+	out.y = a.y + b.y;
+	out.z = a.z + b.z;
+	return out;
+}
+
+/** 
+ * Add two vectors component-wise.
+ * @export 
+ * @return {box2d.b2Vec3}
+ * @param {box2d.b2Vec3} a
+ * @param {box2d.b2Vec3} b
+ * @param {box2d.b2Vec3} out
+ */
+box2d.b2Sub_V3_V3 = function (a, b, out)
+{
+	out.x = a.x + b.x;
+	out.y = a.y + b.y;
+	out.z = a.z + b.z;
+	return out;
 }
 
 /** 
@@ -1232,7 +1191,7 @@ box2d.b2Vec3.prototype.SelfMul = function (s)
  * @param {box2d.b2Vec3} a
  * @param {box2d.b2Vec3} b
  */
-box2d.b2DotV3V3 = function (a, b)
+box2d.b2Dot_V3_V3 = function (a, b)
 {
 	return a.x * b.x + a.y * b.y + a.z * b.z;
 }
@@ -1245,7 +1204,7 @@ box2d.b2DotV3V3 = function (a, b)
  * @param {box2d.b2Vec3} b
  * @param {box2d.b2Vec3} out
  */
-box2d.b2CrossV3V3 = function (a, b, out)
+box2d.b2Cross_V3_V3 = function (a, b, out)
 {
 	var a_x = a.x, a_y = a.y, a_z = a.z;
 	var b_x = b.x, b_y = b.y, b_z = b.z;
@@ -1293,74 +1252,6 @@ box2d.b2Mat22.prototype.Clone = function ()
 }
 
 /** 
- * Construct this matrix using columns. 
- * @export 
- * @return {box2d.b2Mat22}
- * @param {box2d.b2Vec2} c1
- * @param {box2d.b2Vec2} c2
- */
-box2d.b2Mat22.FromVV = function (c1, c2)
-{
-	return new box2d.b2Mat22().SetVV(c1, c2);
-}
-
-/** 
- * Construct this matrix using scalars. 
- * @export 
- * @return {box2d.b2Mat22}
- * @param {number} r1c1 or ex.x
- * @param {number} r1c2 or ey.x
- * @param {number} r2c1 or ex.y
- * @param {number} r2c2 or ey.y
- */
-box2d.b2Mat22.FromSSSS = function (r1c1, r1c2, r2c1, r2c2)
-{
-	return new box2d.b2Mat22().SetSSSS(r1c1, r1c2, r2c1, r2c2);
-}
-
-/** 
- * Construct this matrix using an angle. This matrix becomes an 
- * orthonormal rotation matrix. 
- * @export 
- * @return {box2d.b2Mat22}
- * @param {number} radians
- */
-box2d.b2Mat22.FromAngleRadians = function (radians)
-{
-	return new box2d.b2Mat22().SetAngleRadians(radians);
-}
-
-/** 
- * Initialize this matrix using scalars. 
- * @export 
- * @return {box2d.b2Mat22}
- * @param {number} r1c1 or ex.x
- * @param {number} r1c2 or ey.x
- * @param {number} r2c1 or ex.y
- * @param {number} r2c2 or ey.y
- */
-box2d.b2Mat22.prototype.SetSSSS = function (r1c1, r1c2, r2c1, r2c2)
-{
-	this.ex.SetXY(r1c1, r2c1);
-	this.ey.SetXY(r1c2, r2c2);
-	return this;
-}
-
-/** 
- * Initialize this matrix using columns. 
- * @export 
- * @return {box2d.b2Mat22}
- * @param {box2d.b2Vec2} c1
- * @param {box2d.b2Vec2} c2
- */
-box2d.b2Mat22.prototype.SetVV = function (c1, c2)
-{
-	this.ex.Copy(c1);
-	this.ey.Copy(c2);
-	return this;
-}
-
-/** 
  * Initialize this matrix using an angle. This matrix becomes an 
  * orthonormal rotation matrix. 
  * @export 
@@ -1371,14 +1262,10 @@ box2d.b2Mat22.prototype.SetAngle = function (radians)
 {
 	var c = Math.cos(radians);
 	var s = Math.sin(radians);
-	this.ex.SetXY( c, s);
-	this.ey.SetXY(-s, c);
+	this.ex.Set( c, s);
+	this.ey.Set(-s, c);
 	return this;
 }
-
-box2d.b2Mat22.prototype.SetAngleRadians = box2d.b2Mat22.prototype.SetAngle;
-
-box2d.b2Mat22.prototype.SetAngleDegrees = function (angle) { return this.SetAngle(box2d.b2DegToRad(angle)); }
 
 /**
  * @export 
@@ -1400,8 +1287,8 @@ box2d.b2Mat22.prototype.Copy = function (other)
  */
 box2d.b2Mat22.prototype.SetIdentity = function ()
 {
-	this.ex.SetXY(1.0, 0.0);
-	this.ey.SetXY(0.0, 1.0);
+	this.ex.Set(1.0, 0.0);
+	this.ey.Set(0.0, 1.0);
 	return this;
 }
 
@@ -1427,8 +1314,6 @@ box2d.b2Mat22.prototype.GetAngle = function ()
 {
 	return Math.atan2(this.ex.y, this.ex.x);
 }
-
-box2d.b2Mat22.prototype.GetAngleRadians = box2d.b2Mat22.prototype.GetAngle;
 
 /**
  * @export 
@@ -1501,7 +1386,7 @@ box2d.b2Mat22.prototype.SelfInv = function ()
  * @return {box2d.b2Mat22}
  * @param {box2d.b2Mat22} M
  */
-box2d.b2Mat22.prototype.SelfAddM = function (M)
+box2d.b2Mat22.prototype.SelfAdd = function (M)
 {
 	this.ex.SelfAdd(M.ex);
 	this.ey.SelfAdd(M.ey);
@@ -1513,7 +1398,7 @@ box2d.b2Mat22.prototype.SelfAddM = function (M)
  * @return {box2d.b2Mat22}
  * @param {box2d.b2Mat22} M
  */
-box2d.b2Mat22.prototype.SelfSubM = function (M)
+box2d.b2Mat22.prototype.SelfSub = function (M)
 {
 	this.ex.SelfSub(M.ex);
 	this.ey.SelfSub(M.ey);
@@ -1526,7 +1411,7 @@ box2d.b2Mat22.prototype.SelfSubM = function (M)
  * @param {box2d.b2Mat22} M
  * @param {box2d.b2Mat22} out
  */
-box2d.b2AbsM = function (M, out)
+box2d.b2Abs_M22 = function (M, out)
 {
 	var M_ex = M.ex, M_ey = M.ey;
 	out.ex.x = box2d.b2Abs(M_ex.x);
@@ -1546,7 +1431,7 @@ box2d.b2AbsM = function (M, out)
  * @param {box2d.b2Vec2} v
  * @param {box2d.b2Vec2} out
  */
-box2d.b2MulMV = function (M, v, out)
+box2d.b2Mul_M22_V2 = function (M, v, out)
 {
 	var M_ex = M.ex, M_ey = M.ey;
 	var v_x = v.x, v_y = v.y;
@@ -1565,7 +1450,7 @@ box2d.b2MulMV = function (M, v, out)
  * @param {box2d.b2Vec2} v
  * @param {box2d.b2Vec2} out
  */
-box2d.b2MulTMV = function (M, v, out)
+box2d.b2MulT_M22_V2 = function (M, v, out)
 {
 	var M_ex = M.ex, M_ey = M.ey;
 	var v_x = v.x, v_y = v.y;
@@ -1581,7 +1466,7 @@ box2d.b2MulTMV = function (M, v, out)
  * @param {box2d.b2Mat22} B
  * @param {box2d.b2Mat22} out
  */
-box2d.b2AddMM = function (A, B, out)
+box2d.b2Add_M22_M22 = function (A, B, out)
 {
 	var A_ex = A.ex, A_ey = A.ey;
 	var B_ex = B.ex, B_ey = B.ey;
@@ -1599,7 +1484,7 @@ box2d.b2AddMM = function (A, B, out)
  * @param {box2d.b2Mat22} B
  * @param {box2d.b2Mat22} out
  */
-box2d.b2MulMM = function (A, B, out)
+box2d.b2Mul_M22_M22 = function (A, B, out)
 {
 	var A_ex_x = A.ex.x, A_ex_y = A.ex.y;
 	var A_ey_x = A.ey.x, A_ey_y = A.ey.y;
@@ -1619,7 +1504,7 @@ box2d.b2MulMM = function (A, B, out)
  * @param {box2d.b2Mat22} B
  * @param {box2d.b2Mat22} out
  */
-box2d.b2MulTMM = function (A, B, out)
+box2d.b2MulT_M22_M22 = function (A, B, out)
 {
 	var A_ex_x = A.ex.x, A_ex_y = A.ex.y;
 	var A_ey_x = A.ey.x, A_ey_y = A.ey.y;
@@ -1678,21 +1563,6 @@ box2d.b2Mat33.prototype.Clone = function ()
 /**
  * @export 
  * @return {box2d.b2Mat33}
- * @param {box2d.b2Vec3} c1
- * @param {box2d.b2Vec3} c2
- * @param {box2d.b2Vec3} c3
- */
-box2d.b2Mat33.prototype.SetVVV = function (c1, c2, c3)
-{
-	this.ex.Copy(c1);
-	this.ey.Copy(c2);
-	this.ez.Copy(c3);
-	return this;
-}
-
-/**
- * @export 
- * @return {box2d.b2Mat33}
  * @param {box2d.b2Mat33} other
  */
 box2d.b2Mat33.prototype.Copy = function (other)
@@ -1710,9 +1580,9 @@ box2d.b2Mat33.prototype.Copy = function (other)
  */
 box2d.b2Mat33.prototype.SetIdentity = function ()
 {
-	this.ex.SetXYZ(1.0, 0.0, 0.0);
-	this.ey.SetXYZ(0.0, 1.0, 0.0);
-	this.ez.SetXYZ(0.0, 0.0, 1.0);
+	this.ex.Set(1.0, 0.0, 0.0);
+	this.ey.Set(0.0, 1.0, 0.0);
+	this.ez.Set(0.0, 0.0, 1.0);
 	return this;
 }
 
@@ -1734,7 +1604,7 @@ box2d.b2Mat33.prototype.SetZero = function ()
  * @return {box2d.b2Mat33}
  * @param {box2d.b2Mat33} M
  */
-box2d.b2Mat33.prototype.SelfAddM = function (M)
+box2d.b2Mat33.prototype.SelfAdd = function (M)
 {
 	this.ex.SelfAdd(M.ex);
 	this.ey.SelfAdd(M.ey);
@@ -1822,7 +1692,7 @@ box2d.b2Mat33.prototype.GetInverse22 = function (M)
  */
 box2d.b2Mat33.prototype.GetSymInverse33 = function (M)
 {
-	var det = box2d.b2DotV3V3(this.ex, box2d.b2CrossV3V3(this.ey, this.ez, box2d.b2Vec3.s_t0));
+	var det = box2d.b2Dot_V3_V3(this.ex, box2d.b2Cross_V3_V3(this.ey, this.ez, box2d.b2Vec3.s_t0));
 	if (det !== 0.0)
 	{
 		det = 1.0 / det;
@@ -1853,7 +1723,7 @@ box2d.b2Mat33.prototype.GetSymInverse33 = function (M)
  * @param {box2d.b2Vec3} v
  * @param {box2d.b2Vec3} out
  */
-box2d.b2MulM33V3 = function (A, v, out)
+box2d.b2Mul_M33_V3 = function (A, v, out)
 {
 	var v_x = v.x, v_y = v.y, v_z = v.z;
 	out.x = A.ex.x * v_x + A.ey.x * v_y + A.ez.x * v_z;
@@ -1870,7 +1740,7 @@ box2d.b2MulM33V3 = function (A, v, out)
  * @param {number} z
  * @param {box2d.b2Vec3} out
  */
-box2d.b2MulM33XYZ = function (A, x, y, z, out)
+box2d.b2Mul_M33_X_Y_Z = function (A, x, y, z, out)
 {
 	out.x = A.ex.x * x + A.ey.x * y + A.ez.x * z;
 	out.y = A.ex.y * x + A.ey.y * y + A.ez.y * z;
@@ -1884,7 +1754,7 @@ box2d.b2MulM33XYZ = function (A, x, y, z, out)
  * @param {box2d.b2Vec2} v
  * @param {box2d.b2Vec2} out
  */
-box2d.b2MulM33V2 = function (A, v, out)
+box2d.b2Mul22_M33_V2 = function (A, v, out)
 {
 	var v_x = v.x, v_y = v.y;
 	out.x = A.ex.x * v_x + A.ey.x * v_y;
@@ -1899,7 +1769,7 @@ box2d.b2MulM33V2 = function (A, v, out)
  * @param {number} y
  * @param {box2d.b2Vec2} out
  */
-box2d.b2MulM33XY = function (A, x, y, out)
+box2d.b2Mul_M33_X_Y = function (A, x, y, out)
 {
 	out.x = A.ex.x * x + A.ey.x * y;
 	out.y = A.ex.y * x + A.ey.y * y;
@@ -1975,7 +1845,7 @@ box2d.b2Rot.prototype.Copy = function (other)
  * @return {box2d.b2Rot} 
  * @param {number} angle 
  */
-box2d.b2Rot.prototype.SetAngle = function (angle)
+box2d.b2Rot.prototype.Set = function (angle)
 {
 	/// TODO_ERIN optimize
 	if (this.angle !== angle)
@@ -1987,9 +1857,12 @@ box2d.b2Rot.prototype.SetAngle = function (angle)
 	return this;
 }
 
-box2d.b2Rot.prototype.SetAngleRadians = box2d.b2Rot.prototype.SetAngle;
-
-box2d.b2Rot.prototype.SetAngleDegrees = function (angle) { return this.SetAngle(box2d.b2DegToRad(angle)); }
+/** 
+ * @export 
+ * @return {box2d.b2Rot} 
+ * @param {number} angle 
+ */
+box2d.b2Rot.prototype.SetAngle = box2d.b2Rot.prototype.Set;
 
 /** 
  * Set to the identity rotation 
@@ -2014,10 +1887,6 @@ box2d.b2Rot.prototype.GetAngle = function ()
 	return this.angle;
 //	return Math.atan2(this.s, this.c);
 }
-
-box2d.b2Rot.prototype.GetAngleRadians = box2d.b2Rot.prototype.GetAngle;
-
-box2d.b2Rot.prototype.GetAngleDegrees = function () { return box2d.b2RadToDeg(this.GetAngle()); }
 
 /** 
  * Get the x-axis 
@@ -2053,7 +1922,7 @@ box2d.b2Rot.prototype.GetYAxis = function (out)
  * @param {box2d.b2Rot} r
  * @param {box2d.b2Rot} out 
  */
-box2d.b2MulRR = function (q, r, out)
+box2d.b2Mul_R_R = function (q, r, out)
 {
 	// [qc -qs] * [rc -rs] = [qc*rc-qs*rs -qc*rs-qs*rc]
 	// [qs  qc]   [rs  rc]   [qs*rc+qc*rs -qs*rs+qc*rc]
@@ -2077,7 +1946,7 @@ box2d.b2MulRR = function (q, r, out)
  * @param {box2d.b2Rot} r
  * @param {box2d.b2Rot} out 
  */
-box2d.b2MulTRR = function (q, r, out)
+box2d.b2MulT_R_R = function (q, r, out)
 {
 	// [ qc qs] * [rc -rs] = [qc*rc+qs*rs -qc*rs+qs*rc]
 	// [-qs qc]   [rs  rc]   [-qs*rc+qc*rs qs*rs+qc*rc]
@@ -2101,7 +1970,7 @@ box2d.b2MulTRR = function (q, r, out)
  * @param {box2d.b2Vec2} v 
  * @param {box2d.b2Vec2} out 
  */
-box2d.b2MulRV = function (q, v, out)
+box2d.b2Mul_R_V2 = function (q, v, out)
 {
 	var q_c = q.c, q_s = q.s;
 	var v_x = v.x, v_y = v.y;
@@ -2118,7 +1987,7 @@ box2d.b2MulRV = function (q, v, out)
  * @param {box2d.b2Vec2} v 
  * @param {box2d.b2Vec2} out 
  */
-box2d.b2MulTRV = function (q, v, out)
+box2d.b2MulT_R_V2 = function (q, v, out)
 {
 	var q_c = q.c, q_s = q.s;
 	var v_x = v.x, v_y = v.y;
@@ -2210,10 +2079,10 @@ box2d.b2Transform.prototype.SetPositionRotation = function (position, q)
  * @param {box2d.b2Vec2} pos
  * @param {number} a
  */
-box2d.b2Transform.prototype.SetPositionAngleRadians = function (pos, a)
+box2d.b2Transform.prototype.SetPositionRotationAngle = function (pos, a)
 {
 	this.p.Copy(pos);
-	this.q.SetAngleRadians(a);
+	this.q.SetAngle(a);
 	return this;
 }
 
@@ -2236,7 +2105,7 @@ box2d.b2Transform.prototype.SetPosition = function (position)
  */
 box2d.b2Transform.prototype.SetPositionXY = function (x, y)
 {
-	this.p.SetXY(x, y);
+	this.p.Set(x, y);
 	return this;
 }
 
@@ -2254,11 +2123,11 @@ box2d.b2Transform.prototype.SetRotation = function (rotation)
 /**
  * @export 
  * @return {box2d.b2Transform}
- * @param {number} radians
+ * @param {number} angle
  */
-box2d.b2Transform.prototype.SetRotationAngleRadians = function (radians)
+box2d.b2Transform.prototype.SetRotationAngle = function (angle)
 {
-	this.q.SetAngleRadians(radians);
+	this.q.SetAngle(angle);
 	return this;
 }
 
@@ -2289,8 +2158,6 @@ box2d.b2Transform.prototype.GetRotationAngle = function ()
 	return this.q.GetAngle();
 }
 
-box2d.b2Transform.prototype.GetRotationAngleRadians = box2d.b2Transform.prototype.GetRotationAngle;
-
 /**
  * @export 
  * @return {number}
@@ -2300,8 +2167,6 @@ box2d.b2Transform.prototype.GetAngle = function ()
 	return this.q.GetAngle();
 }
 
-box2d.b2Transform.prototype.GetAngleRadians = box2d.b2Transform.prototype.GetAngle;
-
 /**
  * @export 
  * @return {box2d.b2Vec2}
@@ -2309,7 +2174,7 @@ box2d.b2Transform.prototype.GetAngleRadians = box2d.b2Transform.prototype.GetAng
  * @param {box2d.b2Vec2} v
  * @param {box2d.b2Vec2} out
  */
-box2d.b2MulXV = function (T, v, out)
+box2d.b2Mul_X_V2 = function (T, v, out)
 {
 //	float32 x = (T.q.c * v.x - T.q.s * v.y) + T.p.x;
 //	float32 y = (T.q.s * v.x + T.q.c * v.y) + T.p.y;
@@ -2329,7 +2194,7 @@ box2d.b2MulXV = function (T, v, out)
  * @param {box2d.b2Vec2} v
  * @param {box2d.b2Vec2} out
  */
-box2d.b2MulTXV = function (T, v, out)
+box2d.b2MulT_X_V2 = function (T, v, out)
 {
 //	float32 px = v.x - T.p.x;
 //	float32 py = v.y - T.p.y;
@@ -2354,10 +2219,10 @@ box2d.b2MulTXV = function (T, v, out)
  * @param {box2d.b2Transform} B
  * @param {box2d.b2Transform} out 
  */
-box2d.b2MulXX = function (A, B, out)
+box2d.b2Mul_X_X = function (A, B, out)
 {
-	box2d.b2MulRR(A.q, B.q, out.q);
-	box2d.b2AddVV(box2d.b2MulRV(A.q, B.p, out.p), A.p, out.p);
+	box2d.b2Mul_R_R(A.q, B.q, out.q);
+	box2d.b2Add_V2_V2(box2d.b2Mul_R_V2(A.q, B.p, out.p), A.p, out.p);
 	return out;
 }
 
@@ -2370,10 +2235,10 @@ box2d.b2MulXX = function (A, B, out)
  * @param {box2d.b2Transform} B
  * @param {box2d.b2Transform} out 
  */
-box2d.b2MulTXX = function (A, B, out)
+box2d.b2MulT_X_X = function (A, B, out)
 {
-	box2d.b2MulTRR(A.q, B.q, out.q);
-	box2d.b2MulTRV(A.q, box2d.b2SubVV(B.p, A.p, out.p), out.p);
+	box2d.b2MulT_R_R(A.q, B.q, out.q);
+	box2d.b2MulT_R_V2(A.q, box2d.b2Sub_V2_V2(B.p, A.p, out.p), out.p);
 	return out;
 }
 
@@ -2465,10 +2330,10 @@ box2d.b2Sweep.prototype.GetTransform = function (xf, beta)
 	xf.p.x = one_minus_beta * this.c0.x + beta * this.c.x;
 	xf.p.y = one_minus_beta * this.c0.y + beta * this.c.y;
 	var angle = one_minus_beta * this.a0 + beta * this.a;
-	xf.q.SetAngleRadians(angle);
+	xf.q.SetAngle(angle);
 
 	// Shift to origin
-	xf.p.SelfSub(box2d.b2MulRV(xf.q, this.localCenter, box2d.b2Vec2.s_t0));
+	xf.p.SelfSub(box2d.b2Mul_R_V2(xf.q, this.localCenter, box2d.b2Vec2.s_t0));
 	return xf;
 }
 
@@ -2499,5 +2364,209 @@ box2d.b2Sweep.prototype.Normalize = function ()
 	var d = box2d.b2_two_pi * Math.floor(this.a0 / box2d.b2_two_pi);
 	this.a0 -= d;
 	this.a -= d;
+}
+
+/** 
+ * @export 
+ * @return {number}
+ * @param {box2d.b2Vec3|box2d.b2Vec2} a
+ * @param {box2d.b2Vec3|box2d.b2Vec2} b
+ */
+box2d.b2Dot = function (a, b)
+{
+	if ((a instanceof box2d.b2Vec2) && (b instanceof box2d.b2Vec2))
+	{
+		return box2d.b2Dot_V2_V2(a, b);
+	}
+	else if ((a instanceof box2d.b2Vec3) && (b instanceof box2d.b2Vec3))
+	{
+		return box2d.b2Dot_V3_V3(a, b);
+	}
+	else
+	{
+		throw new Error();
+	}
+}
+
+/** 
+ * @export 
+ * @return {box2d.b2Vec3|box2d.b2Vec2|number}
+ * @param {box2d.b2Vec3|box2d.b2Vec2|number} a
+ * @param {box2d.b2Vec3|box2d.b2Vec2|number} b
+ * @param {box2d.b2Vec3|box2d.b2Vec2} out
+ */
+box2d.b2Cross = function (a, b, out)
+{
+	if ((a instanceof box2d.b2Vec2) && (b instanceof box2d.b2Vec2))
+	{
+		return box2d.b2Cross_V2_V2(a, b);
+	}
+	else if ((a instanceof box2d.b2Vec2) && (typeof(b) === 'number') && (out instanceof box2d.b2Vec2))
+	{
+		return box2d.b2Cross_V2_S(a, b, out);
+	}
+	else if ((typeof(a) === 'number') && (b instanceof box2d.b2Vec2) && (out instanceof box2d.b2Vec2))
+	{
+		return box2d.b2Cross_S_V2(a, b, out);
+	}
+	else if ((a instanceof box2d.b2Vec3) && (b instanceof box2d.b2Vec3) && (out instanceof box2d.b2Vec3))
+	{
+		return box2d.b2Cross_V3_V3(a, b, out);
+	}
+	else
+	{
+		throw new Error();
+	}
+}
+
+/** 
+ * @export 
+ * @return {box2d.b2Vec3|box2d.b2Vec2}
+ * @param {box2d.b2Vec3|box2d.b2Vec2} a
+ * @param {box2d.b2Vec3|box2d.b2Vec2} b
+ * @param {box2d.b2Vec3|box2d.b2Vec2} out
+ */
+box2d.b2Add = function (a, b, out)
+{
+	if ((a instanceof box2d.b2Vec2) && (b instanceof box2d.b2Vec2) && (out instanceof box2d.b2Vec2))
+	{
+		return box2d.b2Add_V2_V2(a, b, out);
+	}
+	else if ((a instanceof box2d.b2Vec3) && (b instanceof box2d.b2Vec3) && (out instanceof box2d.b2Vec3))
+	{
+		return box2d.b2Add_V3_V3(a, b, out);
+	}
+	else
+	{
+		throw new Error();
+	}
+}
+
+/** 
+ * @export 
+ * @return {box2d.b2Vec3|box2d.b2Vec2}
+ * @param {box2d.b2Vec3|box2d.b2Vec2} a
+ * @param {box2d.b2Vec3|box2d.b2Vec2} b
+ * @param {box2d.b2Vec3|box2d.b2Vec2} out
+ */
+box2d.b2Sub = function (a, b, out)
+{
+	if ((a instanceof box2d.b2Vec2) && (b instanceof box2d.b2Vec2) && (out instanceof box2d.b2Vec2))
+	{
+		return box2d.b2Sub_V2_V2(a, b, out);
+	}
+	else if ((a instanceof box2d.b2Vec3) && (b instanceof box2d.b2Vec3) && (out instanceof box2d.b2Vec3))
+	{
+		return box2d.b2Sub_V3_V3(a, b, out);
+	}
+	else
+	{
+		throw new Error();
+	}
+}
+
+/** 
+ * @export 
+ * @return {box2d.b2Transform|box2d.b2Rot|box2d.b2Mat22|box2d.b2Vec3|box2d.b2Vec2}
+ * @param {box2d.b2Transform|box2d.b2Rot|box2d.b2Mat33|box2d.b2Mat22} a
+ * @param {box2d.b2Transform|box2d.b2Rot|box2d.b2Mat22|box2d.b2Vec3|box2d.b2Vec2} b
+ * @param {box2d.b2Transform|box2d.b2Rot|box2d.b2Mat22|box2d.b2Vec3|box2d.b2Vec2} out
+ */
+box2d.b2Mul = function (a, b, out)
+{
+	if ((a instanceof box2d.b2Mat22) && (b instanceof box2d.b2Vec2) && (out instanceof box2d.b2Vec2))
+	{
+		return box2d.b2Mul_M22_V2(a, b, out);
+	}
+	else if ((a instanceof box2d.b2Mat22) && (b instanceof box2d.b2Mat22) && (out instanceof box2d.b2Mat22))
+	{
+		return box2d.b2Mul_M22_M22(a, b, out);
+	}
+	else if ((a instanceof box2d.b2Mat33) && (b instanceof box2d.b2Vec3) && (out instanceof box2d.b2Vec3))
+	{
+		return box2d.b2Mul_M33_V3(a, b, out);
+	}
+	else if ((a instanceof box2d.b2Rot) && (b instanceof box2d.b2Rot) && (out instanceof box2d.b2Rot))
+	{
+		return box2d.b2Mul_R_R(a, b, out);
+	}
+	else if ((a instanceof box2d.b2Rot) && (b instanceof box2d.b2Vec2) && (out instanceof box2d.b2Vec2))
+	{
+		return box2d.b2Mul_R_V2(a, b, out);
+	}
+	else if ((a instanceof box2d.b2Transform) && (b instanceof box2d.b2Vec2) && (out instanceof box2d.b2Vec2))
+	{
+		return box2d.b2Mul_X_V2(a, b, out);
+	}
+	else if ((a instanceof box2d.b2Transform) && (b instanceof box2d.b2Transform) && (out instanceof box2d.b2Transform))
+	{
+		return box2d.b2Mul_X_X(a, b, out);
+	}
+	else
+	{
+		throw new Error();
+	}
+}
+
+/** 
+ * @export 
+ * @return {box2d.b2Vec2}
+ * @param {box2d.b2Mat22} a
+ * @param {box2d.b2Vec2} b
+ * @param {box2d.b2Vec2} out
+ */
+box2d.b2Mul22 = function (a, b, out)
+{
+	if ((a instanceof box2d.b2Mat33) && (b instanceof box2d.b2Vec2))
+	{
+		return box2d.b2Mul22_M33_V2(a, b, out);
+	}
+	else
+	{
+		throw new Error();
+	}
+}
+
+/** 
+ * @export 
+ * @return {box2d.b2Transform|box2d.b2Rot|box2d.b2Mat22|box2d.b2Vec3|box2d.b2Vec2}
+ * @param {box2d.b2Transform|box2d.b2Rot|box2d.b2Mat33|box2d.b2Mat22} a
+ * @param {box2d.b2Transform|box2d.b2Rot|box2d.b2Mat22|box2d.b2Vec3|box2d.b2Vec2} b
+ * @param {box2d.b2Transform|box2d.b2Rot|box2d.b2Mat22|box2d.b2Vec3|box2d.b2Vec2} out
+ */
+box2d.b2MulT = function (a, b, out)
+{
+	if ((a instanceof box2d.b2Mat22) && (b instanceof box2d.b2Vec2) && (out instanceof box2d.b2Vec2))
+	{
+		return box2d.b2MulT_M22_V2(a, b, out);
+	}
+	else if ((a instanceof box2d.b2Mat22) && (b instanceof box2d.b2Mat22) && (out instanceof box2d.b2Mat22))
+	{
+		return box2d.b2MulT_M22_M22(a, b, out);
+	}
+///	else if ((a instanceof box2d.b2Mat33) && (b instanceof box2d.b2Vec3) && (out instanceof box2d.b2Vec3))
+///	{
+///		return box2d.b2MulT_M33_V3(a, b, out);
+///	}
+	else if ((a instanceof box2d.b2Rot) && (b instanceof box2d.b2Rot) && (out instanceof box2d.b2Rot))
+	{
+		return box2d.b2MulT_R_R(a, b, out);
+	}
+	else if ((a instanceof box2d.b2Rot) && (b instanceof box2d.b2Vec2) && (out instanceof box2d.b2Vec2))
+	{
+		return box2d.b2MulT_R_V2(a, b, out);
+	}
+	else if ((a instanceof box2d.b2Transform) && (b instanceof box2d.b2Vec2) && (out instanceof box2d.b2Vec2))
+	{
+		return box2d.b2MulT_X_V2(a, b, out);
+	}
+	else if ((a instanceof box2d.b2Transform) && (b instanceof box2d.b2Transform) && (out instanceof box2d.b2Transform))
+	{
+		return box2d.b2MulT_X_X(a, b, out);
+	}
+	else
+	{
+		throw new Error();
+	}
 }
 

@@ -40,19 +40,19 @@ box2d.Testbed.Confined = function (canvas, settings)
 
 		// Floor
 		shape.SetAsEdge(new box2d.b2Vec2(-10.0, 0.0), new box2d.b2Vec2(10.0, 0.0));
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 
 		// Left wall
 		shape.SetAsEdge(new box2d.b2Vec2(-10.0, 0.0), new box2d.b2Vec2(-10.0, 20.0));
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 
 		// Right wall
 		shape.SetAsEdge(new box2d.b2Vec2(10.0, 0.0), new box2d.b2Vec2(10.0, 20.0));
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 
 		// Roof
 		shape.SetAsEdge(new box2d.b2Vec2(-10.0, 20.0), new box2d.b2Vec2(10.0, 20.0));
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 	}
 
 	var radius = 0.5;
@@ -71,7 +71,7 @@ box2d.Testbed.Confined = function (canvas, settings)
 		{
 			var bd = new box2d.b2BodyDef();
 			bd.type = box2d.b2BodyType.b2_dynamicBody;
-			bd.position.SetXY(-10.0 + (2.1 * j + 1.0 + 0.01 * i) * radius, (2.0 * i + 1.0) * radius);
+			bd.position.Set(-10.0 + (2.1 * j + 1.0 + 0.01 * i) * radius, (2.0 * i + 1.0) * radius);
 			var body = this.m_world.CreateBody(bd);
 
 			body.CreateFixture(fd);

@@ -34,31 +34,31 @@ box2d.Testbed.ContinuousTest = function (canvas, settings)
 	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
-		bd.position.SetXY(0.0, 0.0);
+		bd.position.Set(0.0, 0.0);
 		var body = this.m_world.CreateBody(bd);
 
 		var edge = new box2d.b2EdgeShape();
 
 		edge.SetAsEdge(new box2d.b2Vec2(-10.0, 0.0), new box2d.b2Vec2(10.0, 0.0));
-		body.CreateFixture2(edge, 0.0);
+		body.CreateFixture(edge, 0.0);
 
 		var shape = new box2d.b2PolygonShape();
 		shape.SetAsOrientedBox(0.2, 1.0, new box2d.b2Vec2(0.5, 1.0), 0.0);
-		body.CreateFixture2(shape, 0.0);
+		body.CreateFixture(shape, 0.0);
 	}
 
 	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
-		bd.position.SetXY(0.0, 20.0);
+		bd.position.Set(0.0, 20.0);
 		//bd.angle = 0.1;
 
 		var shape = new box2d.b2PolygonShape();
 		shape.SetAsBox(2.0, 0.1);
 
 		this.m_body = this.m_world.CreateBody(bd);
-		this.m_body.CreateFixture2(shape, 1.0);
+		this.m_body.CreateFixture(shape, 1.0);
 
 		this.m_angularVelocity = box2d.b2RandomRange(-50.0, 50.0);
 		//this.m_angularVelocity = 46.661274;
@@ -70,18 +70,18 @@ box2d.Testbed.ContinuousTest = function (canvas, settings)
 	{
 		var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
-		bd.position.SetXY(0.0, 2.0);
+		bd.position.Set(0.0, 2.0);
 		var body = this.m_world.CreateBody(bd);
 
 		var shape = new box2d.b2CircleShape();
 		shape.m_p.SetZero();
 		shape.m_radius = 0.5;
-		body.CreateFixture2(shape, 1.0);
+		body.CreateFixture(shape, 1.0);
 
 		bd.bullet = true;
-		bd.position.SetXY(0.0, 10.0);
+		bd.position.Set(0.0, 10.0);
 		body = this.m_world.CreateBody(bd);
-		body.CreateFixture2(shape, 1.0);
+		body.CreateFixture(shape, 1.0);
 		body.SetLinearVelocity(new box2d.b2Vec2(0.0, -100.0));
 	}
 	*/
@@ -116,7 +116,7 @@ box2d.Testbed.ContinuousTest.prototype.Launch = function ()
 	box2d.b2_toiRootIters = 0; box2d.b2_toiMaxRootIters = 0;
 	box2d.b2_toiTime = 0.0; box2d.b2_toiMaxTime = 0.0;
 
-	this.m_body.SetTransformVecRadians(new box2d.b2Vec2(0.0, 20.0), 0.0);
+	this.m_body.SetTransform_V2_A(new box2d.b2Vec2(0.0, 20.0), 0.0);
 	this.m_angularVelocity = box2d.b2RandomRange(-50.0, 50.0);
 	this.m_body.SetLinearVelocity(new box2d.b2Vec2(0.0, -100.0));
 	this.m_body.SetAngularVelocity(this.m_angularVelocity);

@@ -90,7 +90,7 @@ box2d.b2TensorDampingController.prototype.Step = function (step)
 		if (!body.IsAwake())
 			continue;
 		var damping = body.GetWorldVector(
-			box2d.b2MulMV(
+			box2d.b2Mul_M22_V2(
 				this.T, 
 				body.GetLocalVector(
 					body.GetLinearVelocity(), 
@@ -98,7 +98,7 @@ box2d.b2TensorDampingController.prototype.Step = function (step)
 				box2d.b2Vec2.s_t1),
 			box2d.b2TensorDampingController.prototype.Step.s_damping);
 //		body->SetLinearVelocity(body->GetLinearVelocity() + timestep * damping);
-		body.SetLinearVelocity(box2d.b2AddVV(body.GetLinearVelocity(), box2d.b2MulSV(timestep, damping, box2d.b2Vec2.s_t0), box2d.b2Vec2.s_t1));
+		body.SetLinearVelocity(box2d.b2Add_V2_V2(body.GetLinearVelocity(), box2d.b2Mul_S_V2(timestep, damping, box2d.b2Vec2.s_t0), box2d.b2Vec2.s_t1));
 	}
 }
 box2d.b2TensorDampingController.prototype.Step.s_damping = new box2d.b2Vec2();

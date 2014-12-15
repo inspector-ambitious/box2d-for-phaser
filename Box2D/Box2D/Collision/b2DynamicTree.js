@@ -225,13 +225,13 @@ box2d.b2DynamicTree.prototype.RayCast = function (callback, input)
 
 	/** @type {box2d.b2Vec2} */ var p1 = input.p1;
 	/** @type {box2d.b2Vec2} */ var p2 = input.p2;
-	/** @type {box2d.b2Vec2} */ var r = box2d.b2SubVV(p2, p1, box2d.b2DynamicTree.s_r);
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(r.GetLengthSquared() > 0); }
+	/** @type {box2d.b2Vec2} */ var r = box2d.b2Sub_V2_V2(p2, p1, box2d.b2DynamicTree.s_r);
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(r.LengthSquared() > 0); }
 	r.Normalize();
 
 	// v is perpendicular to the segment.
-	/** @type {box2d.b2Vec2} */ var v = box2d.b2CrossOneV(r, box2d.b2DynamicTree.s_v);
-	/** @type {box2d.b2Vec2} */ var abs_v = box2d.b2AbsV(v, box2d.b2DynamicTree.s_abs_v);
+	/** @type {box2d.b2Vec2} */ var v = box2d.b2Cross_S_V2(1.0, r, box2d.b2DynamicTree.s_v);
+	/** @type {box2d.b2Vec2} */ var abs_v = box2d.b2Abs_V2(v, box2d.b2DynamicTree.s_abs_v);
 
 	// Separating axis for segment (Gino, p80).
 	// |dot(v, p1 - c)| > dot(|v|, h)
@@ -267,7 +267,7 @@ box2d.b2DynamicTree.prototype.RayCast = function (callback, input)
 		// |dot(v, p1 - c)| > dot(|v|, h)
 		/** @type {box2d.b2Vec2} */ var c = node.aabb.GetCenter();
 		/** @type {box2d.b2Vec2} */ var h = node.aabb.GetExtents();
-		/** @type {number} */ var separation = box2d.b2Abs(box2d.b2DotVV(v, box2d.b2SubVV(p1, c, box2d.b2Vec2.s_t0))) - box2d.b2DotVV(abs_v, h);
+		/** @type {number} */ var separation = box2d.b2Abs(box2d.b2Dot_V2_V2(v, box2d.b2Sub_V2_V2(p1, c, box2d.b2Vec2.s_t0))) - box2d.b2Dot_V2_V2(abs_v, h);
 		if (separation > 0)
 		{
 			continue;

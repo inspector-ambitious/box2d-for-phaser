@@ -43,7 +43,7 @@ box2d.Testbed.Breakable = function (canvas, settings)
 	
 		/*box2d.b2EdgeShape*/ var shape = new box2d.b2EdgeShape();
 		shape.SetAsEdge(new box2d.b2Vec2(-40.0, 0.0), new box2d.b2Vec2(40.0, 0.0));
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 	}
 
 	// Breakable dynamic body
@@ -51,17 +51,17 @@ box2d.Testbed.Breakable = function (canvas, settings)
 	{
 		/*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
-		bd.position.SetXY(0.0, 40.0);
+		bd.position.Set(0.0, 40.0);
 		bd.angle = 0.25 * box2d.b2_pi;
 		this.m_body1 = this.m_world.CreateBody(bd);
 
 		this.m_shape1 = new box2d.b2PolygonShape();
 		this.m_shape1.SetAsOrientedBox(0.5, 0.5, new box2d.b2Vec2(-0.5, 0.0), 0.0);
-		this.m_piece1 = this.m_body1.CreateFixture2(this.m_shape1, 1.0);
+		this.m_piece1 = this.m_body1.CreateFixture(this.m_shape1, 1.0);
 
 		this.m_shape2 = new box2d.b2PolygonShape();
 		this.m_shape2.SetAsOrientedBox(0.5, 0.5, new box2d.b2Vec2(0.5, 0.0), 0.0);
-		this.m_piece2 = this.m_body1.CreateFixture2(this.m_shape2, 1.0);
+		this.m_piece2 = this.m_body1.CreateFixture(this.m_shape2, 1.0);
 	}
 }
 
@@ -166,18 +166,18 @@ box2d.Testbed.Breakable.prototype.Break = function ()
 	/*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
 	bd.type = box2d.b2BodyType.b2_dynamicBody;
 	bd.position = body1.GetPosition();
-	bd.angle = body1.GetAngleRadians();
+	bd.angle = body1.GetAngle();
 
 	/*box2d.b2Body*/ var body2 = this.m_world.CreateBody(bd);
-	this.m_piece2 = body2.CreateFixture2(this.m_shape2, 1.0);
+	this.m_piece2 = body2.CreateFixture(this.m_shape2, 1.0);
 
 	// Compute consistent velocities for new bodies based on
 	// cached velocity.
 	/*box2d.b2Vec2*/ var center1 = body1.GetWorldCenter();
 	/*box2d.b2Vec2*/ var center2 = body2.GetWorldCenter();
 	
-	/*box2d.b2Vec2*/ var velocity1 = box2d.b2AddVCrossSV(this.m_velocity, this.m_angularVelocity, box2d.b2SubVV(center1, center, box2d.b2Vec2.s_t0), new box2d.b2Vec2());
-	/*box2d.b2Vec2*/ var velocity2 = box2d.b2AddVCrossSV(this.m_velocity, this.m_angularVelocity, box2d.b2SubVV(center2, center, box2d.b2Vec2.s_t0), new box2d.b2Vec2());
+	/*box2d.b2Vec2*/ var velocity1 = box2d.b2AddCross_V2_S_V2(this.m_velocity, this.m_angularVelocity, box2d.b2Sub_V2_V2(center1, center, box2d.b2Vec2.s_t0), new box2d.b2Vec2());
+	/*box2d.b2Vec2*/ var velocity2 = box2d.b2AddCross_V2_S_V2(this.m_velocity, this.m_angularVelocity, box2d.b2Sub_V2_V2(center2, center, box2d.b2Vec2.s_t0), new box2d.b2Vec2());
 
 	body1.SetAngularVelocity(this.m_angularVelocity);
 	body1.SetLinearVelocity(velocity1);

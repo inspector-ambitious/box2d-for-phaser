@@ -601,7 +601,7 @@ box2d.b2Fixture.prototype.Synchronize = function (broadPhase, transform1, transf
 	
 		proxy.aabb.Combine2(aabb1, aabb2);
 	
-		var displacement = box2d.b2SubVV(transform2.p, transform1.p, box2d.b2Fixture.prototype.Synchronize.s_displacement);
+		var displacement = box2d.b2Sub_V2_V2(transform2.p, transform1.p, box2d.b2Fixture.prototype.Synchronize.s_displacement);
 	
 		broadPhase.MoveProxy(proxy.proxy, proxy.aabb, displacement);
 	}

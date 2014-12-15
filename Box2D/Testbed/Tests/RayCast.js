@@ -278,7 +278,7 @@ box2d.Testbed.RayCast = function (canvas, settings)
 
 		var shape = new box2d.b2EdgeShape();
 		shape.SetAsEdge(new box2d.b2Vec2(-40.0, 0.0), new box2d.b2Vec2(40.0, 0.0));
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 	}
 
 	if (true)
@@ -287,7 +287,7 @@ box2d.Testbed.RayCast = function (canvas, settings)
 		vertices[0] = new box2d.b2Vec2(-0.5, 0.0);
 		vertices[1] = new box2d.b2Vec2(0.5, 0.0);
 		vertices[2] = new box2d.b2Vec2(0.0, 1.5);
-		this.m_polygons[0].SetAsArray(vertices, 3);
+		this.m_polygons[0].Set(vertices, 3);
 	}
 
 	if (true)
@@ -296,7 +296,7 @@ box2d.Testbed.RayCast = function (canvas, settings)
 		vertices[0] = new box2d.b2Vec2(-0.1, 0.0);
 		vertices[1] = new box2d.b2Vec2(0.1, 0.0);
 		vertices[2] = new box2d.b2Vec2(0.0, 1.5);
-		this.m_polygons[1].SetAsArray(vertices, 3);
+		this.m_polygons[1].Set(vertices, 3);
 	}
 
 	if (true)
@@ -315,7 +315,7 @@ box2d.Testbed.RayCast = function (canvas, settings)
 		vertices[6] = new box2d.b2Vec2(-0.5 * w, b);
 		vertices[7] = new box2d.b2Vec2(-0.5 * s, 0.0);
 
-		this.m_polygons[2].SetAsArray(vertices, 8);
+		this.m_polygons[2].Set(vertices, 8);
 	}
 
 	if (true)
@@ -395,7 +395,7 @@ box2d.Testbed.RayCast.prototype.CreateBody = function (index)
 
 	var x = box2d.b2RandomRange(-10.0, 10.0);
 	var y = box2d.b2RandomRange(0.0, 20.0);
-	bd.position.SetXY(x, y);
+	bd.position.Set(x, y);
 	bd.angle = box2d.b2RandomRange(-box2d.b2_pi, box2d.b2_pi);
 
 	bd.userData = new Object();
@@ -523,7 +523,7 @@ box2d.Testbed.RayCast.prototype.Step = function (settings)
 	var L = 11.0;
 	var point1 = new box2d.b2Vec2(0.0, 10.0);
 	var d = new box2d.b2Vec2(L * box2d.b2Cos(this.m_angle), L * box2d.b2Sin(this.m_angle));
-	var point2 = box2d.b2AddVV(point1, d, new box2d.b2Vec2());
+	var point2 = box2d.b2Add_V2_V2(point1, d, new box2d.b2Vec2());
 
 	if (this.m_mode === box2d.Testbed.RayCastMode.e_closest)
 	{
@@ -534,7 +534,7 @@ box2d.Testbed.RayCast.prototype.Step = function (settings)
 		{
 			this.m_debugDraw.DrawPoint(callback.m_point, 5.0, new box2d.b2Color(0.4, 0.9, 0.4));
 			this.m_debugDraw.DrawSegment(point1, callback.m_point, new box2d.b2Color(0.8, 0.8, 0.8));
-			var head = box2d.b2AddVV(callback.m_point, box2d.b2MulSV(0.5, callback.m_normal, box2d.b2Vec2.s_t0), new box2d.b2Vec2());
+			var head = box2d.b2Add_V2_V2(callback.m_point, box2d.b2Mul_S_V2(0.5, callback.m_normal, box2d.b2Vec2.s_t0), new box2d.b2Vec2());
 			this.m_debugDraw.DrawSegment(callback.m_point, head, new box2d.b2Color(0.9, 0.9, 0.4));
 		}
 		else
@@ -551,7 +551,7 @@ box2d.Testbed.RayCast.prototype.Step = function (settings)
 		{
 			this.m_debugDraw.DrawPoint(callback.m_point, 5.0, new box2d.b2Color(0.4, 0.9, 0.4));
 			this.m_debugDraw.DrawSegment(point1, callback.m_point, new box2d.b2Color(0.8, 0.8, 0.8));
-			var head = box2d.b2AddVV(callback.m_point, box2d.b2MulSV(0.5, callback.m_normal, box2d.b2Vec2.s_t0), new box2d.b2Vec2());
+			var head = box2d.b2Add_V2_V2(callback.m_point, box2d.b2Mul_S_V2(0.5, callback.m_normal, box2d.b2Vec2.s_t0), new box2d.b2Vec2());
 			this.m_debugDraw.DrawSegment(callback.m_point, head, new box2d.b2Color(0.9, 0.9, 0.4));
 		}
 		else
@@ -571,7 +571,7 @@ box2d.Testbed.RayCast.prototype.Step = function (settings)
 			var n = callback.m_normals[i];
 			this.m_debugDraw.DrawPoint(p, 5.0, new box2d.b2Color(0.4, 0.9, 0.4));
 			this.m_debugDraw.DrawSegment(point1, p, new box2d.b2Color(0.8, 0.8, 0.8));
-			var head = box2d.b2AddVV(p, box2d.b2MulSV(0.5, n, box2d.b2Vec2.s_t0), new box2d.b2Vec2());
+			var head = box2d.b2Add_V2_V2(p, box2d.b2Mul_S_V2(0.5, n, box2d.b2Vec2.s_t0), new box2d.b2Vec2());
 			this.m_debugDraw.DrawSegment(p, head, new box2d.b2Color(0.9, 0.9, 0.4));
 		}
 	}

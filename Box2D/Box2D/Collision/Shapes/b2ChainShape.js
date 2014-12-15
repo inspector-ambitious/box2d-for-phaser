@@ -105,7 +105,7 @@ box2d.b2ChainShape.prototype.CreateLoop = function (vertices, count)
 		for (var i = 1; i < count; ++i)
 		{
 			// If the code crashes here, it means your vertices are too close together.
-			box2d.b2Assert(box2d.b2DistanceSquaredVV(vertices[i-1], vertices[i]) > box2d.b2_linearSlop * box2d.b2_linearSlop);
+			box2d.b2Assert(box2d.b2DistanceSquared(vertices[i-1], vertices[i]) > box2d.b2_linearSlop * box2d.b2_linearSlop);
 		}
 	}
 
@@ -142,7 +142,7 @@ box2d.b2ChainShape.prototype.CreateChain = function (vertices, count)
 			var v1 = vertices[i-1];
 			var v2 = vertices[i];
 			// If the code crashes here, it means your vertices are too close together.
-			box2d.b2Assert(box2d.b2DistanceSquaredVV(v1, v2) > box2d.b2_linearSlop * box2d.b2_linearSlop);
+			box2d.b2Assert(box2d.b2DistanceSquared(v1, v2) > box2d.b2_linearSlop * box2d.b2_linearSlop);
 		}
 	}
 
@@ -324,11 +324,11 @@ box2d.b2ChainShape.prototype.ComputeAABB = function (aabb, xf, childIndex)
 	/** @type {box2d.b2Vec2} */ var vertexi1 = this.m_vertices[childIndex];
 	/** @type {box2d.b2Vec2} */ var vertexi2 = this.m_vertices[(childIndex + 1) % this.m_count];
 
-	/** @type {box2d.b2Vec2} */ var v1 = box2d.b2MulXV(xf, vertexi1, box2d.b2ChainShape.prototype.ComputeAABB.s_v1);
-	/** @type {box2d.b2Vec2} */ var v2 = box2d.b2MulXV(xf, vertexi2, box2d.b2ChainShape.prototype.ComputeAABB.s_v2);
+	/** @type {box2d.b2Vec2} */ var v1 = box2d.b2Mul_X_V2(xf, vertexi1, box2d.b2ChainShape.prototype.ComputeAABB.s_v1);
+	/** @type {box2d.b2Vec2} */ var v2 = box2d.b2Mul_X_V2(xf, vertexi2, box2d.b2ChainShape.prototype.ComputeAABB.s_v2);
 
-	box2d.b2MinV(v1, v2, aabb.lowerBound);
-	box2d.b2MaxV(v1, v2, aabb.upperBound);
+	box2d.b2Min_V2_V2(v1, v2, aabb.lowerBound);
+	box2d.b2Max_V2_V2(v1, v2, aabb.upperBound);
 }
 /**
  * @export 
@@ -404,11 +404,11 @@ box2d.b2ChainShape.prototype.Dump = function ()
 	box2d.b2Log("    /*box2d.b2Vec2[]*/ var vs = box2d.b2Vec2.MakeArray(%d);\n", box2d.b2_maxPolygonVertices);
 	for (var i = 0; i < this.m_count; ++i)
 	{
-		box2d.b2Log("    vs[%d].SetXY(%.15f, %.15f);\n", i, this.m_vertices[i].x, this.m_vertices[i].y);
+		box2d.b2Log("    vs[%d].Set(%.15f, %.15f);\n", i, this.m_vertices[i].x, this.m_vertices[i].y);
 	}
 	box2d.b2Log("    shape.CreateChain(vs, %d);\n", this.m_count);
-	box2d.b2Log("    shape.m_prevVertex.SetXY(%.15f, %.15f);\n", this.m_prevVertex.x, this.m_prevVertex.y);
-	box2d.b2Log("    shape.m_nextVertex.SetXY(%.15f, %.15f);\n", this.m_nextVertex.x, this.m_nextVertex.y);
+	box2d.b2Log("    shape.m_prevVertex.Set(%.15f, %.15f);\n", this.m_prevVertex.x, this.m_prevVertex.y);
+	box2d.b2Log("    shape.m_nextVertex.Set(%.15f, %.15f);\n", this.m_nextVertex.x, this.m_nextVertex.y);
 	box2d.b2Log("    shape.m_hasPrevVertex = %s;\n", (this.m_hasPrevVertex)?('true'):('false'));
 	box2d.b2Log("    shape.m_hasNextVertex = %s;\n", (this.m_hasNextVertex)?('true'):('false'));
 }

@@ -86,9 +86,9 @@ box2d.b2CircleShape.prototype.GetChildCount = function ()
  */
 box2d.b2CircleShape.prototype.TestPoint = function (transform, p)
 {
-	var center = box2d.b2MulXV(transform, this.m_p, box2d.b2CircleShape.prototype.TestPoint.s_center);
-	var d = box2d.b2SubVV(p, center, box2d.b2CircleShape.prototype.TestPoint.s_d);
-	return box2d.b2DotVV(d, d) <= box2d.b2Sq(this.m_radius);
+	var center = box2d.b2Mul_X_V2(transform, this.m_p, box2d.b2CircleShape.prototype.TestPoint.s_center);
+	var d = box2d.b2Sub_V2_V2(p, center, box2d.b2CircleShape.prototype.TestPoint.s_d);
+	return box2d.b2Dot_V2_V2(d, d) <= box2d.b2Sq(this.m_radius);
 }
 box2d.b2CircleShape.prototype.TestPoint.s_center = new box2d.b2Vec2();
 box2d.b2CircleShape.prototype.TestPoint.s_d = new box2d.b2Vec2();
@@ -108,14 +108,14 @@ box2d.b2CircleShape.prototype.TestPoint.s_d = new box2d.b2Vec2();
  */
 box2d.b2CircleShape.prototype.RayCast = function (output, input, transform, childIndex)
 {
-	var position = box2d.b2MulXV(transform, this.m_p, box2d.b2CircleShape.prototype.RayCast.s_position);
-	var s = box2d.b2SubVV(input.p1, position, box2d.b2CircleShape.prototype.RayCast.s_s);
-	var b = box2d.b2DotVV(s, s) - box2d.b2Sq(this.m_radius);
+	var position = box2d.b2Mul_X_V2(transform, this.m_p, box2d.b2CircleShape.prototype.RayCast.s_position);
+	var s = box2d.b2Sub_V2_V2(input.p1, position, box2d.b2CircleShape.prototype.RayCast.s_s);
+	var b = box2d.b2Dot_V2_V2(s, s) - box2d.b2Sq(this.m_radius);
 
 	// Solve quadratic equation.
-	var r = box2d.b2SubVV(input.p2, input.p1, box2d.b2CircleShape.prototype.RayCast.s_r);
-	var c = box2d.b2DotVV(s, r);
-	var rr = box2d.b2DotVV(r, r);
+	var r = box2d.b2Sub_V2_V2(input.p2, input.p1, box2d.b2CircleShape.prototype.RayCast.s_r);
+	var c = box2d.b2Dot_V2_V2(s, r);
+	var rr = box2d.b2Dot_V2_V2(r, r);
 	var sigma = c * c - rr * b;
 
 	// Check for negative discriminant and short segment.
@@ -132,7 +132,7 @@ box2d.b2CircleShape.prototype.RayCast = function (output, input, transform, chil
 	{
 		a /= rr;
 		output.fraction = a;
-		box2d.b2AddVMulSV(s, a, r, output.normal).SelfNormalize();
+		box2d.b2AddMul_V2_S_V2(s, a, r, output.normal).SelfNormalize();
 		return true;
 	}
 
@@ -152,9 +152,9 @@ box2d.b2CircleShape.prototype.RayCast.s_r = new box2d.b2Vec2();
  */
 box2d.b2CircleShape.prototype.ComputeAABB = function (aabb, transform, childIndex)
 {
-	var p = box2d.b2MulXV(transform, this.m_p, box2d.b2CircleShape.prototype.ComputeAABB.s_p);
-	aabb.lowerBound.SetXY(p.x - this.m_radius, p.y - this.m_radius);
-	aabb.upperBound.SetXY(p.x + this.m_radius, p.y + this.m_radius);
+	var p = box2d.b2Mul_X_V2(transform, this.m_p, box2d.b2CircleShape.prototype.ComputeAABB.s_p);
+	aabb.lowerBound.Set(p.x - this.m_radius, p.y - this.m_radius);
+	aabb.upperBound.Set(p.x + this.m_radius, p.y + this.m_radius);
 }
 box2d.b2CircleShape.prototype.ComputeAABB.s_p = new box2d.b2Vec2();
 
@@ -172,7 +172,7 @@ box2d.b2CircleShape.prototype.ComputeMass = function (massData, density)
 	massData.center.Copy(this.m_p);
 
 	// inertia about the local origin
-	massData.I = massData.mass * (0.5 * radius_sq + box2d.b2DotVV(this.m_p, this.m_p));
+	massData.I = massData.mass * (0.5 * radius_sq + box2d.b2Dot_V2_V2(this.m_p, this.m_p));
 }
 
 /**
@@ -198,8 +198,8 @@ box2d.b2CircleShape.prototype.SetupDistanceProxy = function (proxy, index)
  */
 box2d.b2CircleShape.prototype.ComputeSubmergedArea = function (normal, offset, xf, c)
 {
-	/** @type {box2d.b2Vec2} */ var p = box2d.b2MulXV(xf, this.m_p, new box2d.b2Vec2());
-	/** @type {number} */ var l = (-(box2d.b2DotVV(normal, p) - offset));
+	/** @type {box2d.b2Vec2} */ var p = box2d.b2Mul_X_V2(xf, this.m_p, new box2d.b2Vec2());
+	/** @type {number} */ var l = (-(box2d.b2Dot_V2_V2(normal, p) - offset));
 
 	if (l < (-this.m_radius) + box2d.b2_epsilon)
 	{
@@ -234,6 +234,6 @@ box2d.b2CircleShape.prototype.Dump = function ()
 {
 	box2d.b2Log("    /*box2d.b2CircleShape*/ var shape = new box2d.b2CircleShape();\n");
 	box2d.b2Log("    shape.m_radius = %.15f;\n", this.m_radius);
-	box2d.b2Log("    shape.m_p.SetXY(%.15f, %.15f);\n", this.m_p.x, this.m_p.y);
+	box2d.b2Log("    shape.m_p.Set(%.15f, %.15f);\n", this.m_p.x, this.m_p.y);
 }
 

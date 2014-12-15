@@ -142,7 +142,7 @@ box2d.b2Rope.prototype.Initialize = function (def)
 	{
 		/*box2d.b2Vec2&*/ var p1 = this.m_ps[i];
 		/*box2d.b2Vec2&*/ var p2 = this.m_ps[i+1];
-		this.m_Ls[i] = box2d.b2DistanceVV(p1, p2);
+		this.m_Ls[i] = box2d.b2Distance(p1, p2);
 	}
 
 	for (/*int32*/ var i = 0; i < count3; ++i)
@@ -151,11 +151,11 @@ box2d.b2Rope.prototype.Initialize = function (def)
 		/*box2d.b2Vec2&*/ var p2 = this.m_ps[i + 1];
 		/*box2d.b2Vec2&*/ var p3 = this.m_ps[i + 2];
 
-		/*box2d.b2Vec2*/ var d1 = box2d.b2SubVV(p2, p1, box2d.b2Vec2.s_t0);
-		/*box2d.b2Vec2*/ var d2 = box2d.b2SubVV(p3, p2, box2d.b2Vec2.s_t1);
+		/*box2d.b2Vec2*/ var d1 = box2d.b2Sub_V2_V2(p2, p1, box2d.b2Vec2.s_t0);
+		/*box2d.b2Vec2*/ var d2 = box2d.b2Sub_V2_V2(p3, p2, box2d.b2Vec2.s_t1);
 
-		/*float32*/ var a = box2d.b2CrossVV(d1, d2);
-		/*float32*/ var b = box2d.b2DotVV(d1, d2);
+		/*float32*/ var a = box2d.b2Cross_V2_V2(d1, d2);
+		/*float32*/ var b = box2d.b2Dot_V2_V2(d1, d2);
 
 		this.m_as[i] = box2d.b2Atan2(a, b);
 	}
@@ -203,7 +203,7 @@ box2d.b2Rope.prototype.Step = function (/*float32*/ h, /*int32*/ iterations)
 	/*float32*/ var inv_h = 1 / h;
 	for (/*int32*/ var i = 0; i < this.m_count; ++i)
 	{
-		box2d.b2MulSV(inv_h, box2d.b2SubVV(this.m_ps[i], this.m_p0s[i], box2d.b2Vec2.s_t0), this.m_vs[i]);
+		box2d.b2Mul_S_V2(inv_h, box2d.b2Sub_V2_V2(this.m_ps[i], this.m_p0s[i], box2d.b2Vec2.s_t0), this.m_vs[i]);
 	}
 }
 
@@ -220,7 +220,7 @@ box2d.b2Rope.prototype.SolveC2 = function ()
 		/*box2d.b2Vec2&*/ var p1 = this.m_ps[i];
 		/*box2d.b2Vec2&*/ var p2 = this.m_ps[i + 1];
 
-		/*box2d.b2Vec2*/ var d = box2d.b2SubVV(p2, p1, box2d.b2Rope.s_d);
+		/*box2d.b2Vec2*/ var d = box2d.b2Sub_V2_V2(p2, p1, box2d.b2Rope.s_d);
 		/*float32*/ var L = d.Normalize();
 
 		/*float32*/ var im1 = this.m_ims[i];
@@ -248,7 +248,7 @@ box2d.b2Rope.s_d = new box2d.b2Vec2();
  * @return {void}
  * @param {number} angle
  */
-box2d.b2Rope.prototype.SetAngleRadians = function (angle)
+box2d.b2Rope.prototype.SetAngle = function (angle)
 {
 	/*int32*/ var count3 = this.m_count - 2;
 	for (/*int32*/ var i = 0; i < count3; ++i)
@@ -275,30 +275,30 @@ box2d.b2Rope.prototype.SolveC3 = function ()
 		/*float32*/ var m2 = this.m_ims[i + 1];
 		/*float32*/ var m3 = this.m_ims[i + 2];
 
-		/*box2d.b2Vec2*/ var d1 = box2d.b2SubVV(p2, p1, box2d.b2Rope.s_d1);
-		/*box2d.b2Vec2*/ var d2 = box2d.b2SubVV(p3, p2, box2d.b2Rope.s_d2);
+		/*box2d.b2Vec2*/ var d1 = box2d.b2Sub_V2_V2(p2, p1, box2d.b2Rope.s_d1);
+		/*box2d.b2Vec2*/ var d2 = box2d.b2Sub_V2_V2(p3, p2, box2d.b2Rope.s_d2);
 
-		/*float32*/ var L1sqr = d1.GetLengthSquared();
-		/*float32*/ var L2sqr = d2.GetLengthSquared();
+		/*float32*/ var L1sqr = d1.LengthSquared();
+		/*float32*/ var L2sqr = d2.LengthSquared();
 
 		if (L1sqr * L2sqr === 0)
 		{
 			continue;
 		}
 
-		/*float32*/ var a = box2d.b2CrossVV(d1, d2);
-		/*float32*/ var b = box2d.b2DotVV(d1, d2);
+		/*float32*/ var a = box2d.b2Cross_V2_V2(d1, d2);
+		/*float32*/ var b = box2d.b2Dot_V2_V2(d1, d2);
 
 		/*float32*/ var angle = box2d.b2Atan2(a, b);
 
-		/*box2d.b2Vec2*/ var Jd1 = box2d.b2MulSV((-1 / L1sqr), d1.SelfSkew(), box2d.b2Rope.s_Jd1);
-		/*box2d.b2Vec2*/ var Jd2 = box2d.b2MulSV(( 1 / L2sqr), d2.SelfSkew(), box2d.b2Rope.s_Jd2);
+		/*box2d.b2Vec2*/ var Jd1 = box2d.b2Mul_S_V2((-1 / L1sqr), d1.SelfSkew(), box2d.b2Rope.s_Jd1);
+		/*box2d.b2Vec2*/ var Jd2 = box2d.b2Mul_S_V2(( 1 / L2sqr), d2.SelfSkew(), box2d.b2Rope.s_Jd2);
 
-		/*box2d.b2Vec2*/ var J1 = box2d.b2NegV(Jd1, box2d.b2Rope.s_J1);
-		/*box2d.b2Vec2*/ var J2 = box2d.b2SubVV(Jd1, Jd2, box2d.b2Rope.s_J2);
+		/*box2d.b2Vec2*/ var J1 = box2d.b2Rope.s_J1.Copy(Jd1).SelfNeg();
+		/*box2d.b2Vec2*/ var J2 = box2d.b2Sub_V2_V2(Jd1, Jd2, box2d.b2Rope.s_J2);
 		/*box2d.b2Vec2*/ var J3 = Jd2;
 
-		/*float32*/ var mass = m1 * box2d.b2DotVV(J1, J1) + m2 * box2d.b2DotVV(J2, J2) + m3 * box2d.b2DotVV(J3, J3);
+		/*float32*/ var mass = m1 * box2d.b2Dot_V2_V2(J1, J1) + m2 * box2d.b2Dot_V2_V2(J2, J2) + m3 * box2d.b2Dot_V2_V2(J3, J3);
 		if (mass === 0)
 		{
 			continue;

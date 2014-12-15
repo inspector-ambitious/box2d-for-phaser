@@ -42,7 +42,7 @@ box2d.Testbed.ApplyForce = function (canvas, settings)
 	if (true)
 	{
 		/*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
-		bd.position.SetXY(0.0, 20.0);
+		bd.position.Set(0.0, 20.0);
 		ground = this.m_world.CreateBody(bd);
 	
 		/*box2d.b2EdgeShape*/ var shape = new box2d.b2EdgeShape();
@@ -72,31 +72,31 @@ box2d.Testbed.ApplyForce = function (canvas, settings)
 	if (true)
 	{
 		/*box2d.b2Transform*/ var xf1 = new box2d.b2Transform();
-		xf1.q.SetAngleRadians(0.3524 * box2d.b2_pi);
-		xf1.p.Copy(box2d.b2MulRV(xf1.q, new box2d.b2Vec2(1.0, 0.0), new box2d.b2Vec2()));
+		xf1.q.SetAngle(0.3524 * box2d.b2_pi);
+		xf1.p.Copy(box2d.b2Mul_R_V2(xf1.q, new box2d.b2Vec2(1.0, 0.0), new box2d.b2Vec2()));
 
 		/*box2d.b2Vec2[]*/ var vertices = new Array();
-		vertices[0] = box2d.b2MulXV(xf1, new box2d.b2Vec2(-1.0, 0.0), new box2d.b2Vec2());
-		vertices[1] = box2d.b2MulXV(xf1, new box2d.b2Vec2(1.0, 0.0), new box2d.b2Vec2());
-		vertices[2] = box2d.b2MulXV(xf1, new box2d.b2Vec2(0.0, 0.5), new box2d.b2Vec2());
+		vertices[0] = box2d.b2Mul_X_V2(xf1, new box2d.b2Vec2(-1.0, 0.0), new box2d.b2Vec2());
+		vertices[1] = box2d.b2Mul_X_V2(xf1, new box2d.b2Vec2(1.0, 0.0), new box2d.b2Vec2());
+		vertices[2] = box2d.b2Mul_X_V2(xf1, new box2d.b2Vec2(0.0, 0.5), new box2d.b2Vec2());
 
 		/*box2d.b2PolygonShape*/ var poly1 = new box2d.b2PolygonShape();
-		poly1.SetAsArray(vertices, 3);
+		poly1.Set(vertices, 3);
 
 		/*box2d.b2FixtureDef*/ var sd1 = new box2d.b2FixtureDef();
 		sd1.shape = poly1;
 		sd1.density = 4.0;
 
 		/*box2d.b2Transform*/ var xf2 = new box2d.b2Transform();
-		xf2.q.SetAngleRadians(-0.3524 * box2d.b2_pi);
-		xf2.p.Copy(box2d.b2MulRV(xf2.q, new box2d.b2Vec2(-1.0, 0.0), new box2d.b2Vec2()));
+		xf2.q.SetAngle(-0.3524 * box2d.b2_pi);
+		xf2.p.Copy(box2d.b2Mul_R_V2(xf2.q, new box2d.b2Vec2(-1.0, 0.0), new box2d.b2Vec2()));
 
-		vertices[0] = box2d.b2MulXV(xf2, new box2d.b2Vec2(-1.0, 0.0), new box2d.b2Vec2());
-		vertices[1] = box2d.b2MulXV(xf2, new box2d.b2Vec2(1.0, 0.0), new box2d.b2Vec2());
-		vertices[2] = box2d.b2MulXV(xf2, new box2d.b2Vec2(0.0, 0.5), new box2d.b2Vec2());
+		vertices[0] = box2d.b2Mul_X_V2(xf2, new box2d.b2Vec2(-1.0, 0.0), new box2d.b2Vec2());
+		vertices[1] = box2d.b2Mul_X_V2(xf2, new box2d.b2Vec2(1.0, 0.0), new box2d.b2Vec2());
+		vertices[2] = box2d.b2Mul_X_V2(xf2, new box2d.b2Vec2(0.0, 0.5), new box2d.b2Vec2());
 
 		/*box2d.b2PolygonShape*/ var poly2 = new box2d.b2PolygonShape();
-		poly2.SetAsArray(vertices, 3);
+		poly2.Set(vertices, 3);
 
 		/*box2d.b2FixtureDef*/ var sd2 = new box2d.b2FixtureDef();
 		sd2.shape = poly2;
@@ -107,7 +107,7 @@ box2d.Testbed.ApplyForce = function (canvas, settings)
 		bd.angularDamping = 2.0;
 		bd.linearDamping = 0.5;
 
-		bd.position.SetXY(0.0, 2.0);
+		bd.position.Set(0.0, 2.0);
 		bd.angle = box2d.b2_pi;
 		bd.allowSleep = false;
 		this.m_body = this.m_world.CreateBody(bd);
@@ -130,7 +130,7 @@ box2d.Testbed.ApplyForce = function (canvas, settings)
 			/*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
 			bd.type = box2d.b2BodyType.b2_dynamicBody;
 
-			bd.position.SetXY(0.0, 5.0 + 1.54 * i);
+			bd.position.Set(0.0, 5.0 + 1.54 * i);
 			/*box2d.b2Body*/ var body = this.m_world.CreateBody(bd);
 
 			body.CreateFixture(fd);

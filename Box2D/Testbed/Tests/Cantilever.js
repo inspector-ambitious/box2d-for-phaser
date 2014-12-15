@@ -43,7 +43,7 @@ box2d.Testbed.Cantilever = function (canvas, settings)
 	
 		var shape = new box2d.b2EdgeShape();
 		shape.SetAsEdge(new box2d.b2Vec2(-40.0, 0.0), new box2d.b2Vec2(40.0, 0.0));
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 	}
 
 	if (true)
@@ -62,7 +62,7 @@ box2d.Testbed.Cantilever = function (canvas, settings)
 		{
 			var bd = new box2d.b2BodyDef();
 			bd.type = box2d.b2BodyType.b2_dynamicBody;
-			bd.position.SetXY(-14.5 + 1.0 * i, 5.0);
+			bd.position.Set(-14.5 + 1.0 * i, 5.0);
 			var body = this.m_world.CreateBody(bd);
 			body.CreateFixture(fd);
 
@@ -92,7 +92,7 @@ box2d.Testbed.Cantilever = function (canvas, settings)
 		{
 			var bd = new box2d.b2BodyDef();
 			bd.type = box2d.b2BodyType.b2_dynamicBody;
-			bd.position.SetXY(-14.0 + 2.0 * i, 15.0);
+			bd.position.Set(-14.0 + 2.0 * i, 15.0);
 			var body = this.m_world.CreateBody(bd);
 			body.CreateFixture(fd);
 
@@ -120,7 +120,7 @@ box2d.Testbed.Cantilever = function (canvas, settings)
 		{
 			var bd = new box2d.b2BodyDef();
 			bd.type = box2d.b2BodyType.b2_dynamicBody;
-			bd.position.SetXY(-4.5 + 1.0 * i, 15.0);
+			bd.position.Set(-4.5 + 1.0 * i, 15.0);
 			var body = this.m_world.CreateBody(bd);
 			body.CreateFixture(fd);
 
@@ -153,7 +153,7 @@ box2d.Testbed.Cantilever = function (canvas, settings)
 		{
 			var bd = new box2d.b2BodyDef();
 			bd.type = box2d.b2BodyType.b2_dynamicBody;
-			bd.position.SetXY(5.5 + 1.0 * i, 10.0);
+			bd.position.Set(5.5 + 1.0 * i, 10.0);
 			var body = this.m_world.CreateBody(bd);
 			body.CreateFixture(fd);
 
@@ -176,7 +176,7 @@ box2d.Testbed.Cantilever = function (canvas, settings)
 		vertices[2] = new box2d.b2Vec2(0.0, 1.5);
 
 		var shape = new box2d.b2PolygonShape();
-		shape.SetAsArray(vertices);
+		shape.Set(vertices);
 
 		var fd = new box2d.b2FixtureDef();
 		fd.shape = shape;
@@ -184,7 +184,7 @@ box2d.Testbed.Cantilever = function (canvas, settings)
 
 		var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
-		bd.position.SetXY(-8.0 + 8.0 * i, 12.0);
+		bd.position.Set(-8.0 + 8.0 * i, 12.0);
 		var body = this.m_world.CreateBody(bd);
 		body.CreateFixture(fd);
 	}
@@ -200,7 +200,7 @@ box2d.Testbed.Cantilever = function (canvas, settings)
 
 		var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
-		bd.position.SetXY(-6.0 + 6.0 * i, 10.0);
+		bd.position.Set(-6.0 + 6.0 * i, 10.0);
 		var body = this.m_world.CreateBody(bd);
 		body.CreateFixture(fd);
 	}

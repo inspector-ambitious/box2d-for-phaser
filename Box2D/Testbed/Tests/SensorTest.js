@@ -45,7 +45,7 @@ box2d.Testbed.SensorTest = function (canvas, settings)
 	{
 		var shape = new box2d.b2EdgeShape();
 		shape.SetAsEdge(new box2d.b2Vec2(-40.0, 0.0), new box2d.b2Vec2(40.0, 0.0));
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 	}
 
 	/*
@@ -61,7 +61,7 @@ box2d.Testbed.SensorTest = function (canvas, settings)
 	{
 		var shape = new box2d.b2CircleShape();
 		shape.m_radius = 5.0;
-		shape.m_p.SetXY(0.0, 10.0);
+		shape.m_p.Set(0.0, 10.0);
 
 		var fd = new box2d.b2FixtureDef();
 		fd.shape = shape;
@@ -78,13 +78,13 @@ box2d.Testbed.SensorTest = function (canvas, settings)
 		{
 			//var bd = new box2d.b2BodyDef();
 			bd.type = box2d.b2BodyType.b2_dynamicBody;
-			bd.position.SetXY(-10.0 + 3.0 * i, 20.0);
+			bd.position.Set(-10.0 + 3.0 * i, 20.0);
 			bd.userData = this.m_touching[i];
 
 			this.m_touching[i][0] = false;
 			this.m_bodies[i] = this.m_world.CreateBody(bd);
 
-			this.m_bodies[i].CreateFixture2(shape, 1.0);
+			this.m_bodies[i].CreateFixture(shape, 1.0);
 		}
 	}
 }
@@ -204,14 +204,14 @@ box2d.Testbed.SensorTest.prototype.Step = function (settings)
 
 		var position = body.GetPosition();
 
-		var d = box2d.b2SubVV(center, position, new box2d.b2Vec2());
-		if (d.GetLengthSquared() < box2d.b2_epsilon_sq)
+		var d = box2d.b2Sub_V2_V2(center, position, new box2d.b2Vec2());
+		if (d.LengthSquared() < box2d.b2_epsilon_sq)
 		{
 			continue;
 		}
 
 		d.Normalize();
-		var F = box2d.b2MulSV(100.0, d, new box2d.b2Vec2());
+		var F = box2d.b2Mul_S_V2(100.0, d, new box2d.b2Vec2());
 		body.ApplyForce(F, position);
 	}
 }

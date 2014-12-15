@@ -81,7 +81,7 @@ box2d.Testbed.PolyShapesCallback.prototype.DrawFixture = function (fixture)
 			//var circle = ((shape instanceof box2d.b2CircleShape ? shape : null));
 			var circle = fixture.GetShape();
 
-			var center = box2d.b2MulXV(xf, circle.m_p, new box2d.b2Vec2());
+			var center = box2d.b2Mul_X_V2(xf, circle.m_p, new box2d.b2Vec2());
 			var radius = circle.m_radius;
 
 			this.m_debugDraw.DrawCircle(center, radius, color);
@@ -98,7 +98,7 @@ box2d.Testbed.PolyShapesCallback.prototype.DrawFixture = function (fixture)
 
 			for (var i = 0; i < vertexCount; ++i)
 			{
-				vertices[i] = box2d.b2MulXV(xf, poly.m_vertices[i], new box2d.b2Vec2());
+				vertices[i] = box2d.b2Mul_X_V2(xf, poly.m_vertices[i], new box2d.b2Vec2());
 			}
 
 			this.m_debugDraw.DrawPolygon(vertices, vertexCount, color);
@@ -164,7 +164,7 @@ box2d.Testbed.PolyShapes = function (canvas, settings)
 
 		var shape = new box2d.b2EdgeShape();
 		shape.SetAsEdge(new box2d.b2Vec2(-40.0, 0.0), new box2d.b2Vec2(40.0, 0.0));
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 	}
 
 	if (true)
@@ -173,7 +173,7 @@ box2d.Testbed.PolyShapes = function (canvas, settings)
 		vertices[0] = new box2d.b2Vec2(-0.5, 0.0);
 		vertices[1] = new box2d.b2Vec2(0.5, 0.0);
 		vertices[2] = new box2d.b2Vec2(0.0, 1.5);
-		this.m_polygons[0].SetAsArray(vertices, 3);
+		this.m_polygons[0].Set(vertices, 3);
 	}
 
 	if (true)
@@ -182,7 +182,7 @@ box2d.Testbed.PolyShapes = function (canvas, settings)
 		vertices[0] = new box2d.b2Vec2(-0.1, 0.0);
 		vertices[1] = new box2d.b2Vec2(0.1, 0.0);
 		vertices[2] = new box2d.b2Vec2(0.0, 1.5);
-		this.m_polygons[1].SetAsArray(vertices, 3);
+		this.m_polygons[1].Set(vertices, 3);
 	}
 
 	if (true)
@@ -201,7 +201,7 @@ box2d.Testbed.PolyShapes = function (canvas, settings)
 		vertices[6] = new box2d.b2Vec2(-0.5 * w, b);
 		vertices[7] = new box2d.b2Vec2(-0.5 * s, 0.0);
 
-		this.m_polygons[2].SetAsArray(vertices, 8);
+		this.m_polygons[2].Set(vertices, 8);
 	}
 
 	if (true)
@@ -246,7 +246,7 @@ box2d.Testbed.PolyShapes.prototype.CreateBody = function (index)
 	bd.type = box2d.b2BodyType.b2_dynamicBody;
 
 	var x = box2d.b2RandomRange(-2.0, 2.0);
-	bd.position.SetXY(x, 10.0);
+	bd.position.Set(x, 10.0);
 	bd.angle = box2d.b2RandomRange(-box2d.b2_pi, box2d.b2_pi);
 
 	if (index === 4)
@@ -339,7 +339,7 @@ box2d.Testbed.PolyShapes.prototype.Step = function (settings)
 
 	var callback = new box2d.Testbed.PolyShapesCallback();
 	callback.m_circle.m_radius = 2.0;
-	callback.m_circle.m_p.SetXY(0.0, 1.1);
+	callback.m_circle.m_p.Set(0.0, 1.1);
 	callback.m_transform.SetIdentity();
 	callback.m_debugDraw = this.m_debugDraw;
 

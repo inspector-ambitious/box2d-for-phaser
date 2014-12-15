@@ -36,7 +36,7 @@ box2d.Testbed.Mobile = function (canvas, settings)
 	// Create ground body.
 	{
 		var /*b2BodyDef*/ bodyDef = new box2d.b2BodyDef();
-		bodyDef.position.SetXY(0.0, 20.0);
+		bodyDef.position.Set(0.0, 20.0);
 		ground = this.m_world.CreateBody(bodyDef);
 	}
 
@@ -85,7 +85,7 @@ box2d.Testbed.Mobile.prototype.AddNode = function (parent, localAnchor, depth, o
 
 	var /*b2PolygonShape*/ shape = new box2d.b2PolygonShape();
 	shape.SetAsBox(0.25 * a, a);
-	body.CreateFixture2(shape, density);
+	body.CreateFixture(shape, density);
 
 	if (depth === box2d.Testbed.Mobile.e_depth)
 	{

@@ -39,29 +39,29 @@ box2d.Testbed.CompoundShapes = function (canvas, settings)
 		var shape = new box2d.b2EdgeShape();
 		shape.SetAsEdge(new box2d.b2Vec2(50.0, 0.0), new box2d.b2Vec2(-50.0, 0.0));
 
-		body.CreateFixture2(shape, 0.0);
+		body.CreateFixture(shape, 0.0);
 	}
 
 	if (true)
 	{
 		var circle1 = new box2d.b2CircleShape();
 		circle1.m_radius = 0.5;
-		circle1.m_p.SetXY(-0.5, 0.5);
+		circle1.m_p.Set(-0.5, 0.5);
 
 		var circle2 = new box2d.b2CircleShape();
 		circle2.m_radius = 0.5;
-		circle2.m_p.SetXY(0.5, 0.5);
+		circle2.m_p.Set(0.5, 0.5);
 
 		for (var i = 0; i < 10; ++i)
 		{
 			var x = box2d.b2RandomRange(-0.1, 0.1);
 			var bd = new box2d.b2BodyDef();
 			bd.type = box2d.b2BodyType.b2_dynamicBody;
-			bd.position.SetXY(x + 5.0, 1.05 + 2.5 * i);
+			bd.position.Set(x + 5.0, 1.05 + 2.5 * i);
 			bd.angle = box2d.b2RandomRange(-box2d.b2_pi, box2d.b2_pi);
 			var body = this.m_world.CreateBody(bd);
-			body.CreateFixture2(circle1, 2.0);
-			body.CreateFixture2(circle2, 0.0);
+			body.CreateFixture(circle1, 2.0);
+			body.CreateFixture(circle2, 0.0);
 		}
 	}
 
@@ -78,48 +78,48 @@ box2d.Testbed.CompoundShapes = function (canvas, settings)
 			var x = box2d.b2RandomRange(-0.1, 0.1);
 			var bd = new box2d.b2BodyDef();
 			bd.type = box2d.b2BodyType.b2_dynamicBody;
-			bd.position.SetXY(x - 5.0, 1.05 + 2.5 * i);
+			bd.position.Set(x - 5.0, 1.05 + 2.5 * i);
 			bd.angle = box2d.b2RandomRange(-box2d.b2_pi, box2d.b2_pi);
 			var body = this.m_world.CreateBody(bd);
-			body.CreateFixture2(polygon1, 2.0);
-			body.CreateFixture2(polygon2, 2.0);
+			body.CreateFixture(polygon1, 2.0);
+			body.CreateFixture(polygon2, 2.0);
 		}
 	}
 
 	if (true)
 	{
 		var xf1 = new box2d.b2Transform();
-		xf1.q.SetAngleRadians(0.3524 * box2d.b2_pi);
-		xf1.p.Copy(box2d.b2MulRV(xf1.q, new box2d.b2Vec2(1.0, 0.0), new box2d.b2Vec2()));
+		xf1.q.SetAngle(0.3524 * box2d.b2_pi);
+		xf1.p.Copy(box2d.b2Mul_R_V2(xf1.q, new box2d.b2Vec2(1.0, 0.0), new box2d.b2Vec2()));
 
 		var vertices = new Array();
 
 		var triangle1 = new box2d.b2PolygonShape();
-		vertices[0] = box2d.b2MulXV(xf1, new box2d.b2Vec2(-1.0, 0.0), new box2d.b2Vec2());
-		vertices[1] = box2d.b2MulXV(xf1, new box2d.b2Vec2(1.0, 0.0), new box2d.b2Vec2());
-		vertices[2] = box2d.b2MulXV(xf1, new box2d.b2Vec2(0.0, 0.5), new box2d.b2Vec2());
-		triangle1.SetAsArray(vertices, 3);
+		vertices[0] = box2d.b2Mul_X_V2(xf1, new box2d.b2Vec2(-1.0, 0.0), new box2d.b2Vec2());
+		vertices[1] = box2d.b2Mul_X_V2(xf1, new box2d.b2Vec2(1.0, 0.0), new box2d.b2Vec2());
+		vertices[2] = box2d.b2Mul_X_V2(xf1, new box2d.b2Vec2(0.0, 0.5), new box2d.b2Vec2());
+		triangle1.Set(vertices, 3);
 
 		var xf2 = new box2d.b2Transform();
-		xf2.q.SetAngleRadians(-0.3524 * box2d.b2_pi);
-		xf2.p.Copy(box2d.b2MulRV(xf2.q, new box2d.b2Vec2(-1.0, 0.0), new box2d.b2Vec2()));
+		xf2.q.SetAngle(-0.3524 * box2d.b2_pi);
+		xf2.p.Copy(box2d.b2Mul_R_V2(xf2.q, new box2d.b2Vec2(-1.0, 0.0), new box2d.b2Vec2()));
 
 		var triangle2 = new box2d.b2PolygonShape();
-		vertices[0] = box2d.b2MulXV(xf2, new box2d.b2Vec2(-1.0, 0.0), new box2d.b2Vec2());
-		vertices[1] = box2d.b2MulXV(xf2, new box2d.b2Vec2(1.0, 0.0), new box2d.b2Vec2());
-		vertices[2] = box2d.b2MulXV(xf2, new box2d.b2Vec2(0.0, 0.5), new box2d.b2Vec2());
-		triangle2.SetAsArray(vertices, 3);
+		vertices[0] = box2d.b2Mul_X_V2(xf2, new box2d.b2Vec2(-1.0, 0.0), new box2d.b2Vec2());
+		vertices[1] = box2d.b2Mul_X_V2(xf2, new box2d.b2Vec2(1.0, 0.0), new box2d.b2Vec2());
+		vertices[2] = box2d.b2Mul_X_V2(xf2, new box2d.b2Vec2(0.0, 0.5), new box2d.b2Vec2());
+		triangle2.Set(vertices, 3);
 
 		for (var i = 0; i < 10; ++i)
 		{
 			var x = box2d.b2RandomRange(-0.1, 0.1);
 			var bd = new box2d.b2BodyDef();
 			bd.type = box2d.b2BodyType.b2_dynamicBody;
-			bd.position.SetXY(x, 2.05 + 2.5 * i);
+			bd.position.Set(x, 2.05 + 2.5 * i);
 			bd.angle = 0;
 			var body = this.m_world.CreateBody(bd);
-			body.CreateFixture2(triangle1, 2.0);
-			body.CreateFixture2(triangle2, 2.0);
+			body.CreateFixture(triangle1, 2.0);
+			body.CreateFixture(triangle2, 2.0);
 		}
 	}
 
@@ -136,11 +136,11 @@ box2d.Testbed.CompoundShapes = function (canvas, settings)
 
 		var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
-		bd.position.SetXY( 0.0, 2.0 );
+		bd.position.Set( 0.0, 2.0 );
 		var body = this.m_world.CreateBody(bd);
-		body.CreateFixture2(bottom, 4.0);
-		body.CreateFixture2(left, 4.0);
-		body.CreateFixture2(right, 4.0);
+		body.CreateFixture(bottom, 4.0);
+		body.CreateFixture(left, 4.0);
+		body.CreateFixture(right, 4.0);
 	}
 }
 

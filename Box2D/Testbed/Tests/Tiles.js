@@ -60,7 +60,7 @@ box2d.Testbed.Tiles = function (canvas, settings)
 				{
 					/*box2d.b2PolygonShape*/ var shape = new box2d.b2PolygonShape();
 					shape.SetAsOrientedBox(a, a, position, 0.0);
-					ground.CreateFixture2(shape, 0.0);
+					ground.CreateFixture(shape, 0.0);
 					++this.m_fixtureCount;
 					position.x += 2.0 * a;
 				}
@@ -80,7 +80,7 @@ box2d.Testbed.Tiles = function (canvas, settings)
 //				{
 //					/*box2d.b2PolygonShape*/ var shape = new box2d.b2PolygonShape();
 //					shape.SetAsOrientedBox(a, a, position, 0.0);
-//					ground.CreateFixture2(shape, 0.0);
+//					ground.CreateFixture(shape, 0.0);
 //					position.y -= 2.0 * a;
 //				}
 //				position.x += 2.0 * a;
@@ -119,7 +119,7 @@ box2d.Testbed.Tiles = function (canvas, settings)
 				//}
 
 				/*box2d.b2Body*/ var body = this.m_world.CreateBody(bd);
-				body.CreateFixture2(shape, 5.0);
+				body.CreateFixture(shape, 5.0);
 				++this.m_fixtureCount;
 				y.SelfAdd(deltaY);
 			}

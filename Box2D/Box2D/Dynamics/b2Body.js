@@ -248,7 +248,7 @@ box2d.b2Body = function (bd, world)
 	this.m_world = world;
 
 	this.m_xf.p.Copy(bd.position);
-	this.m_xf.q.SetAngleRadians(bd.angle);
+	this.m_xf.q.SetAngle(bd.angle);
 
 	this.m_sweep.localCenter.SetZero();
 	this.m_sweep.c0.Copy(this.m_xf.p);
@@ -447,6 +447,28 @@ box2d.b2Body.prototype.m_controllerList = null;
 box2d.b2Body.prototype.m_controllerCount = 0;
 
 /** 
+ * @export 
+ * @return {box2d.b2Fixture}
+ * @param {box2d.b2FixtureDef|box2d.b2Shape} a
+ * @param {number=} b
+ */
+box2d.b2Body.prototype.CreateFixture = function (a, b)
+{
+	if (a instanceof box2d.b2FixtureDef)
+	{
+		return this.CreateFixture_Def(a);
+	}
+	else if ((a instanceof box2d.b2Shape) && (typeof(b) === 'number'))
+	{
+		return this.CreateFixture_Shape_Density(a, b);
+	}
+	else
+	{
+		throw new Error();
+	}
+}
+
+/** 
  * Creates a fixture and attach it to this body. Use this 
  * function if you need to set some fixture parameters, like 
  * friction. Otherwise you can create the fixture directly from 
@@ -459,7 +481,7 @@ box2d.b2Body.prototype.m_controllerCount = 0;
  * @return {box2d.b2Fixture}
  * @param {box2d.b2FixtureDef} def the fixture definition.
  */
-box2d.b2Body.prototype.CreateFixture = function (def)
+box2d.b2Body.prototype.CreateFixture_Def = function (def)
 {
 	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_world.IsLocked() === false); }
 	if (this.m_world.IsLocked() === true)
@@ -508,16 +530,16 @@ box2d.b2Body.prototype.CreateFixture = function (def)
  * @param {box2d.b2Shape} shape the shape to be cloned.
  * @param {number} density the shape density (set to zero for static bodies).
  */
-box2d.b2Body.prototype.CreateFixture2 = function (shape, density)
+box2d.b2Body.prototype.CreateFixture_Shape_Density = function (shape, density)
 {
 	density = (typeof(density) === 'number')?(density):(0);
 
-	var def = box2d.b2Body.prototype.CreateFixture2.s_def;
+	var def = box2d.b2Body.prototype.CreateFixture_Shape_Density.s_def;
 	def.shape = shape;
 	def.density = density;
 	return this.CreateFixture(def);
 }
-box2d.b2Body.prototype.CreateFixture2.s_def = new box2d.b2FixtureDef();
+box2d.b2Body.prototype.CreateFixture_Shape_Density.s_def = new box2d.b2FixtureDef();
 
 /** 
  * Destroy a fixture. This removes the fixture from the 
@@ -600,6 +622,33 @@ box2d.b2Body.prototype.DestroyFixture = function (fixture)
 }
 
 /** 
+ * @export 
+ * @return {void} 
+ * @param {box2d.b2Transform|box2d.b2Vec2|number} a
+ * @param {number} b
+ * @param {number} c
+ */
+box2d.b2Body.prototype.SetTransform = function (a, b, c)
+{
+	if ((a instanceof box2d.b2Vec2) && (typeof(b) === 'number'))
+	{
+		this.SetTransform_X_Y_A(a.x, a.y, b);
+	}
+	else if (a instanceof box2d.b2Transform)
+	{
+		this.SetTransform_X_Y_A(a.p.x, a.p.y, a.GetAngle());
+	}
+	else if ((typeof(a) === 'number') && (typeof(b) === 'number') && (typeof(c) === 'number'))
+	{
+		this.SetTransform_X_Y_A(a, b, c);		
+	}
+	else
+	{
+		throw new Error();
+	}
+}
+
+/** 
  * Set the position of the body's origin and rotation. 
  * Manipulating a body's transform may cause non-physical 
  * behavior. 
@@ -609,9 +658,9 @@ box2d.b2Body.prototype.DestroyFixture = function (fixture)
  * @param {box2d.b2Vec2} position the world position of the body's local origin.
  * @param {number} angle the world rotation in radians.
  */
-box2d.b2Body.prototype.SetTransformVecRadians = function (position, angle)
+box2d.b2Body.prototype.SetTransform_V2_A = function (position, angle)
 {
-	this.SetTransformXYRadians(position.x, position.y, angle);
+	this.SetTransform_X_Y_A(position.x, position.y, angle);
 }
 
 /**
@@ -621,7 +670,7 @@ box2d.b2Body.prototype.SetTransformVecRadians = function (position, angle)
  * @param {number} y 
  * @param {number} angle 
  */
-box2d.b2Body.prototype.SetTransformXYRadians = function (x, y, angle)
+box2d.b2Body.prototype.SetTransform_X_Y_A = function (x, y, angle)
 {
 	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_world.IsLocked() === false); }
 	if (this.m_world.IsLocked() === true)
@@ -631,15 +680,15 @@ box2d.b2Body.prototype.SetTransformXYRadians = function (x, y, angle)
 
 	if ((this.m_xf.p.x === x) && 
 		(this.m_xf.p.y === y) && 
-		(this.m_xf.q.GetAngleRadians()) === angle)
+		(this.m_xf.q.GetAngle()) === angle)
 	{
 		return;
 	}
 
-	this.m_xf.q.SetAngleRadians(angle);
-	this.m_xf.p.SetXY(x, y);
+	this.m_xf.q.SetAngle(angle);
+	this.m_xf.p.Set(x, y);
 
-	box2d.b2MulXV(this.m_xf, this.m_sweep.localCenter, this.m_sweep.c);
+	box2d.b2Mul_X_V2(this.m_xf, this.m_sweep.localCenter, this.m_sweep.c);
 	this.m_sweep.a = angle;
 
 	this.m_sweep.c0.Copy(this.m_sweep.c);
@@ -657,9 +706,9 @@ box2d.b2Body.prototype.SetTransformXYRadians = function (x, y, angle)
  * @return {void} 
  * @param {box2d.b2Transform} xf 
  */
-box2d.b2Body.prototype.SetTransform = function (xf)
+box2d.b2Body.prototype.SetTransform_X = function (xf)
 {
-	this.SetTransformVecRadians(xf.p, xf.GetAngleRadians());
+	this.SetTransform_X_Y_A(xf.p.x, xf.p.y, xf.GetAngle());
 }
 
 /** 
@@ -693,7 +742,7 @@ box2d.b2Body.prototype.GetPosition = function (out)
  */
 box2d.b2Body.prototype.SetPosition = function (position)
 {
-	this.SetTransformVecRadians(position, this.GetAngleRadians());
+	this.SetTransform_V2_A(position, this.GetAngle());
 }
 
 /**
@@ -704,7 +753,29 @@ box2d.b2Body.prototype.SetPosition = function (position)
  */
 box2d.b2Body.prototype.SetPositionXY = function (x, y)
 {
-	this.SetTransformXYRadians(x, y, this.GetAngleRadians());
+	this.SetTransform_X_Y_A(x, y, this.GetAngle());
+}
+
+/** 
+ * Get the world body origin rotation. 
+ * @export 
+ * @return {box2d.b2Rot} the world rotation of the body's origin.
+ * @param {box2d.b2Rot=} out 
+ */
+box2d.b2Body.prototype.GetRotation = function (out)
+{
+	out = out || this.m_out_xf.q;
+	return out.Copy(this.m_xf.q);
+}
+
+/**
+ * @export 
+ * @return {void} 
+ * @param {box2d.b2Rot} rotation 
+ */
+box2d.b2Body.prototype.SetRotation = function (rotation)
+{
+	this.SetTransform_V2_A(this.GetPosition(), rotation.GetAngle());
 }
 
 /** 
@@ -717,10 +788,6 @@ box2d.b2Body.prototype.GetAngle = function ()
 	return this.m_sweep.a;
 }
 
-box2d.b2Body.prototype.GetAngleRadians = box2d.b2Body.prototype.GetAngle;
-
-box2d.b2Body.prototype.GetAngleDegrees = function () { return box2d.b2RadToDeg(this.GetAngle()); }
-
 /**
  * @export 
  * @return {void} 
@@ -728,12 +795,8 @@ box2d.b2Body.prototype.GetAngleDegrees = function () { return box2d.b2RadToDeg(t
  */
 box2d.b2Body.prototype.SetAngle = function (angle)
 {
-	this.SetTransformVecRadians(this.GetPosition(), angle);
+	this.SetTransform_V2_A(this.GetPosition(), angle);
 }
-
-box2d.b2Body.prototype.SetAngleRadians = box2d.b2Body.prototype.SetAngle;
-
-box2d.b2Body.prototype.SetAngleDegrees = function (angle) { this.SetAngle(box2d.b2DegToRad(angle)); }
 
 /** 
  * Get the world position of the center of mass. 
@@ -772,7 +835,7 @@ box2d.b2Body.prototype.SetLinearVelocity = function (v)
 		return;
 	}
 
-	if (box2d.b2DotVV(v,v) > 0)
+	if (box2d.b2Dot_V2_V2(v,v) > 0)
 	{
 		this.SetAwake(true);
 	}
@@ -832,7 +895,7 @@ box2d.b2Body.prototype.GetDefinition = function (bd)
 {
 	bd.type = this.GetType();
 	bd.allowSleep = (this.m_flags & box2d.b2BodyFlag.e_autoSleepFlag) === box2d.b2BodyFlag.e_autoSleepFlag;
-	bd.angle = this.GetAngleRadians();
+	bd.angle = this.GetAngle();
 	bd.angularDamping = this.m_angularDamping;
 	bd.gravityScale = this.m_gravityScale;
 	bd.angularVelocity = this.m_angularVelocity;
@@ -888,7 +951,7 @@ box2d.b2Body.prototype.ApplyForce = function (force, point, wake)
  */
 box2d.b2Body.prototype.ApplyForceToCenter = function (force, wake)
 {
-	wake = wake || true;
+	wake = (typeof(wake) === 'boolean')?(wake):(true);
 
 	if (this.m_type !== box2d.b2BodyType.b2_dynamicBody)
 	{
@@ -919,7 +982,7 @@ box2d.b2Body.prototype.ApplyForceToCenter = function (force, wake)
  */
 box2d.b2Body.prototype.ApplyTorque = function (torque, wake)
 {
-	wake = wake || true;
+	wake = (typeof(wake) === 'boolean')?(wake):(true);
 
 	if (this.m_type !== box2d.b2BodyType.b2_dynamicBody)
 	{
@@ -951,7 +1014,7 @@ box2d.b2Body.prototype.ApplyTorque = function (torque, wake)
  */
 box2d.b2Body.prototype.ApplyLinearImpulse = function (impulse, point, wake)
 {
-	wake = wake || true;
+	wake = (typeof(wake) === 'boolean')?(wake):(true);
 
 	if (this.m_type !== box2d.b2BodyType.b2_dynamicBody)
 	{
@@ -981,7 +1044,7 @@ box2d.b2Body.prototype.ApplyLinearImpulse = function (impulse, point, wake)
  */
 box2d.b2Body.prototype.ApplyAngularImpulse = function (impulse, wake)
 {
-	wake = wake || true;
+	wake = (typeof(wake) === 'boolean')?(wake):(true);
 
 	if (this.m_type !== box2d.b2BodyType.b2_dynamicBody)
 	{
@@ -1018,7 +1081,7 @@ box2d.b2Body.prototype.GetMass = function ()
  */
 box2d.b2Body.prototype.GetInertia = function ()
 {
-	return this.m_I + this.m_mass * box2d.b2DotVV(this.m_sweep.localCenter, this.m_sweep.localCenter);
+	return this.m_I + this.m_mass * box2d.b2Dot_V2_V2(this.m_sweep.localCenter, this.m_sweep.localCenter);
 }
 
 /** 
@@ -1030,7 +1093,7 @@ box2d.b2Body.prototype.GetInertia = function ()
 box2d.b2Body.prototype.GetMassData = function (data)
 {
 	data.mass = this.m_mass;
-	data.I = this.m_I + this.m_mass * box2d.b2DotVV(this.m_sweep.localCenter, this.m_sweep.localCenter);
+	data.I = this.m_I + this.m_mass * box2d.b2Dot_V2_V2(this.m_sweep.localCenter, this.m_sweep.localCenter);
 	data.center.Copy(this.m_sweep.localCenter);
 	return data;
 }
@@ -1073,7 +1136,7 @@ box2d.b2Body.prototype.SetMassData = function (massData)
 
 	if (massData.I > 0 && (this.m_flags & box2d.b2BodyFlag.e_fixedRotationFlag) === 0)
 	{
-		this.m_I = massData.I - this.m_mass * box2d.b2DotVV(massData.center, massData.center);
+		this.m_I = massData.I - this.m_mass * box2d.b2Dot_V2_V2(massData.center, massData.center);
 		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_I > 0); }
 		this.m_invI = 1 / this.m_I;
 	}
@@ -1081,11 +1144,11 @@ box2d.b2Body.prototype.SetMassData = function (massData)
 	// Move center of mass.
 	var oldCenter = box2d.b2Body.prototype.SetMassData.s_oldCenter.Copy(this.m_sweep.c);
 	this.m_sweep.localCenter.Copy(massData.center);
-	box2d.b2MulXV(this.m_xf, this.m_sweep.localCenter, this.m_sweep.c);
+	box2d.b2Mul_X_V2(this.m_xf, this.m_sweep.localCenter, this.m_sweep.c);
 	this.m_sweep.c0.Copy(this.m_sweep.c);
 
 	// Update center of mass velocity.
-	box2d.b2AddVCrossSV(this.m_linearVelocity, this.m_angularVelocity, box2d.b2SubVV(this.m_sweep.c, oldCenter, box2d.b2Vec2.s_t0), this.m_linearVelocity);
+	box2d.b2AddCross_V2_S_V2(this.m_linearVelocity, this.m_angularVelocity, box2d.b2Sub_V2_V2(this.m_sweep.c, oldCenter, box2d.b2Vec2.s_t0), this.m_linearVelocity);
 }
 box2d.b2Body.prototype.SetMassData.s_oldCenter = new box2d.b2Vec2();
 
@@ -1150,7 +1213,7 @@ box2d.b2Body.prototype.ResetMassData = function ()
 	if (this.m_I > 0 && (this.m_flags & box2d.b2BodyFlag.e_fixedRotationFlag) === 0)
 	{
 		// Center the inertia about the center of mass.
-		this.m_I -= this.m_mass * box2d.b2DotVV(localCenter, localCenter);
+		this.m_I -= this.m_mass * box2d.b2Dot_V2_V2(localCenter, localCenter);
 		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_I > 0); }
 		this.m_invI = 1 / this.m_I;
 	}
@@ -1163,11 +1226,11 @@ box2d.b2Body.prototype.ResetMassData = function ()
 	// Move center of mass.
 	var oldCenter = box2d.b2Body.prototype.ResetMassData.s_oldCenter.Copy(this.m_sweep.c);
 	this.m_sweep.localCenter.Copy(localCenter);
-	box2d.b2MulXV(this.m_xf, this.m_sweep.localCenter, this.m_sweep.c);
+	box2d.b2Mul_X_V2(this.m_xf, this.m_sweep.localCenter, this.m_sweep.c);
 	this.m_sweep.c0.Copy(this.m_sweep.c);
 
 	// Update center of mass velocity.
-	box2d.b2AddVCrossSV(this.m_linearVelocity, this.m_angularVelocity, box2d.b2SubVV(this.m_sweep.c, oldCenter, box2d.b2Vec2.s_t0), this.m_linearVelocity);
+	box2d.b2AddCross_V2_S_V2(this.m_linearVelocity, this.m_angularVelocity, box2d.b2Sub_V2_V2(this.m_sweep.c, oldCenter, box2d.b2Vec2.s_t0), this.m_linearVelocity);
 }
 box2d.b2Body.prototype.ResetMassData.s_localCenter = new box2d.b2Vec2();
 box2d.b2Body.prototype.ResetMassData.s_oldCenter = new box2d.b2Vec2();
@@ -1183,7 +1246,7 @@ box2d.b2Body.prototype.ResetMassData.s_massData = new box2d.b2MassData();
  */
 box2d.b2Body.prototype.GetWorldPoint = function (localPoint, out)
 {
-	return box2d.b2MulXV(this.m_xf, localPoint, out);
+	return box2d.b2Mul_X_V2(this.m_xf, localPoint, out);
 }
 
 /** 
@@ -1196,7 +1259,7 @@ box2d.b2Body.prototype.GetWorldPoint = function (localPoint, out)
  */
 box2d.b2Body.prototype.GetWorldVector = function (localVector, out)
 {
-	return box2d.b2MulRV(this.m_xf.q, localVector, out);
+	return box2d.b2Mul_R_V2(this.m_xf.q, localVector, out);
 }
 
 /** 
@@ -1209,7 +1272,7 @@ box2d.b2Body.prototype.GetWorldVector = function (localVector, out)
  */
 box2d.b2Body.prototype.GetLocalPoint = function (worldPoint, out)
 {
-	return box2d.b2MulTXV(this.m_xf, worldPoint, out);
+	return box2d.b2MulT_X_V2(this.m_xf, worldPoint, out);
 }
 
 /** 
@@ -1221,7 +1284,7 @@ box2d.b2Body.prototype.GetLocalPoint = function (worldPoint, out)
  */
 box2d.b2Body.prototype.GetLocalVector = function (worldVector, out)
 {
-	return box2d.b2MulTRV(this.m_xf.q, worldVector, out);
+	return box2d.b2MulT_R_V2(this.m_xf.q, worldVector, out);
 }
 
 /** 
@@ -1234,7 +1297,7 @@ box2d.b2Body.prototype.GetLocalVector = function (worldVector, out)
  */
 box2d.b2Body.prototype.GetLinearVelocityFromWorldPoint = function (worldPoint, out)
 {
-	return box2d.b2AddVCrossSV(this.m_linearVelocity, this.m_angularVelocity, box2d.b2SubVV(worldPoint, this.m_sweep.c, box2d.b2Vec2.s_t0), out);
+	return box2d.b2AddCross_V2_S_V2(this.m_linearVelocity, this.m_angularVelocity, box2d.b2Sub_V2_V2(worldPoint, this.m_sweep.c, box2d.b2Vec2.s_t0), out);
 }
 
 /** 
@@ -1673,9 +1736,9 @@ box2d.b2Body.prototype.GetWorld = function ()
 box2d.b2Body.prototype.SynchronizeFixtures = function ()
 {
 	var xf1 = box2d.b2Body.prototype.SynchronizeFixtures.s_xf1;
-	xf1.q.SetAngleRadians(this.m_sweep.a0);
-	box2d.b2MulRV(xf1.q, this.m_sweep.localCenter, xf1.p);
-	box2d.b2SubVV(this.m_sweep.c0, xf1.p, xf1.p);
+	xf1.q.SetAngle(this.m_sweep.a0);
+	box2d.b2Mul_R_V2(xf1.q, this.m_sweep.localCenter, xf1.p);
+	box2d.b2Sub_V2_V2(this.m_sweep.c0, xf1.p, xf1.p);
 
 	var broadPhase = this.m_world.m_contactManager.m_broadPhase;
 	for (var f = this.m_fixtureList; f; f = f.m_next)
@@ -1691,9 +1754,9 @@ box2d.b2Body.prototype.SynchronizeFixtures.s_xf1 = new box2d.b2Transform();
  */
 box2d.b2Body.prototype.SynchronizeTransform = function ()
 {
-	this.m_xf.q.SetAngleRadians(this.m_sweep.a);
-	box2d.b2MulRV(this.m_xf.q, this.m_sweep.localCenter, this.m_xf.p);
-	box2d.b2SubVV(this.m_sweep.c, this.m_xf.p, this.m_xf.p);
+	this.m_xf.q.SetAngle(this.m_sweep.a);
+	box2d.b2Mul_R_V2(this.m_xf.q, this.m_sweep.localCenter, this.m_xf.p);
+	box2d.b2Sub_V2_V2(this.m_sweep.c, this.m_xf.p, this.m_xf.p);
 }
 
 /** 
@@ -1737,9 +1800,9 @@ box2d.b2Body.prototype.Advance = function (alpha)
 	this.m_sweep.Advance(alpha);
 	this.m_sweep.c.Copy(this.m_sweep.c0);
 	this.m_sweep.a = this.m_sweep.a0;
-	this.m_xf.q.SetAngleRadians(this.m_sweep.a);
-	box2d.b2MulRV(this.m_xf.q, this.m_sweep.localCenter, this.m_xf.p);
-	box2d.b2SubVV(this.m_sweep.c, this.m_xf.p, this.m_xf.p);
+	this.m_xf.q.SetAngle(this.m_sweep.a);
+	box2d.b2Mul_R_V2(this.m_xf.q, this.m_sweep.localCenter, this.m_xf.p);
+	box2d.b2Sub_V2_V2(this.m_sweep.c, this.m_xf.p, this.m_xf.p);
 }
 
 /** 
@@ -1773,9 +1836,9 @@ box2d.b2Body.prototype.Dump = function ()
 			break;
 		}
 		box2d.b2Log("  bd.type = %s;\n", type_str);
-		box2d.b2Log("  bd.position.SetXY(%.15f, %.15f);\n", this.m_xf.p.x, this.m_xf.p.y);
+		box2d.b2Log("  bd.position.Set(%.15f, %.15f);\n", this.m_xf.p.x, this.m_xf.p.y);
 		box2d.b2Log("  bd.angle = %.15f;\n", this.m_sweep.a);
-		box2d.b2Log("  bd.linearVelocity.SetXY(%.15f, %.15f);\n", this.m_linearVelocity.x, this.m_linearVelocity.y);
+		box2d.b2Log("  bd.linearVelocity.Set(%.15f, %.15f);\n", this.m_linearVelocity.x, this.m_linearVelocity.y);
 		box2d.b2Log("  bd.angularVelocity = %.15f;\n", this.m_angularVelocity);
 		box2d.b2Log("  bd.linearDamping = %.15f;\n", this.m_linearDamping);
 		box2d.b2Log("  bd.angularDamping = %.15f;\n", this.m_angularDamping);

@@ -124,9 +124,9 @@ box2d.b2AreaJoint = function (def)
 		var body_c = body.GetWorldCenter();
 		var next_c = next.GetWorldCenter();
 
-		this.m_targetLengths[i] = box2d.b2DistanceVV(body_c, next_c);
+		this.m_targetLengths[i] = box2d.b2Distance(body_c, next_c);
 
-		this.m_targetArea += box2d.b2CrossVV(body_c, next_c);
+		this.m_targetArea += box2d.b2Cross_V2_V2(body_c, next_c);
 
 		djd.Initialize(body, next, body_c, next_c);
 		this.m_joints[i] = def.world.CreateJoint(djd);
@@ -291,7 +291,7 @@ box2d.b2AreaJoint.prototype.InitVelocityConstraints = function (data)
 		var next_c = data.positions[next.m_islandIndex].c;
 		var delta = this.m_deltas[i];
 
-		box2d.b2SubVV(next_c, prev_c, delta);
+		box2d.b2Sub_V2_V2(next_c, prev_c, delta);
 	}
 
 	if (data.step.warmStarting)
@@ -330,8 +330,8 @@ box2d.b2AreaJoint.prototype.SolveVelocityConstraints = function (data)
 		var body_v = data.velocities[body.m_islandIndex].v;
 		var delta = this.m_deltas[i];
 
-		dotMassSum += delta.GetLengthSquared() / body.GetMass();
-		crossMassSum += box2d.b2CrossVV(body_v, delta);
+		dotMassSum += delta.LengthSquared() / body.GetMass();
+		crossMassSum += box2d.b2Cross_V2_V2(body_v, delta);
 	}
 
 	var lambda = -2 * crossMassSum / dotMassSum;
@@ -367,9 +367,9 @@ box2d.b2AreaJoint.prototype.SolvePositionConstraints = function (data)
 		var body_c = data.positions[body.m_islandIndex].c;
 		var next_c = data.positions[next.m_islandIndex].c;
 
-		var delta = box2d.b2SubVV(next_c, body_c, this.m_delta);
+		var delta = box2d.b2Sub_V2_V2(next_c, body_c, this.m_delta);
 
-		var dist = delta.GetLength();
+		var dist = delta.Length();
 		if (dist < box2d.b2_epsilon)
 		{
 			dist = 1;
@@ -380,7 +380,7 @@ box2d.b2AreaJoint.prototype.SolvePositionConstraints = function (data)
 
 		perimeter += dist;
 
-		area += box2d.b2CrossVV(body_c, next_c);
+		area += box2d.b2Cross_V2_V2(body_c, next_c);
 	}
 
 	area *= 0.5;
@@ -395,10 +395,10 @@ box2d.b2AreaJoint.prototype.SolvePositionConstraints = function (data)
 		var body_c = data.positions[body.m_islandIndex].c;
 		var next_i = (i+1)%ict;
 
-		var delta = box2d.b2AddVV(this.m_normals[i], this.m_normals[next_i], this.m_delta);
+		var delta = box2d.b2Add_V2_V2(this.m_normals[i], this.m_normals[next_i], this.m_delta);
 		delta.SelfMul(toExtrude);
 
-		var norm_sq = delta.GetLengthSquared();
+		var norm_sq = delta.LengthSquared();
 		if (norm_sq > box2d.b2Sq(box2d.b2_maxLinearCorrection))
 		{
 			delta.SelfMul(box2d.b2_maxLinearCorrection / box2d.b2Sqrt(norm_sq));

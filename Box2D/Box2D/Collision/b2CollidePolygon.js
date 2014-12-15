@@ -38,21 +38,21 @@ box2d.b2FindMaxSeparation = function (edgeIndex, poly1, xf1, poly2, xf2)
 	var /*const b2Vec2**/ n1s = poly1.m_normals;
 	var /*const b2Vec2**/ v1s = poly1.m_vertices;
 	var /*const b2Vec2**/ v2s = poly2.m_vertices;
-	var /*b2Transform*/ xf = box2d.b2MulTXX(xf2, xf1, box2d.b2FindMaxSeparation.s_xf);
+	var /*b2Transform*/ xf = box2d.b2MulT_X_X(xf2, xf1, box2d.b2FindMaxSeparation.s_xf);
 
 	var /*int32*/ bestIndex = 0;
 	var /*float32*/ maxSeparation = -box2d.b2_maxFloat;
 	for (var /*int32*/ i = 0; i < count1; ++i)
 	{
 		// Get poly1 normal in frame2.
-		var /*b2Vec2*/ n = box2d.b2MulRV(xf.q, n1s[i], box2d.b2FindMaxSeparation.s_n);
-		var /*b2Vec2*/ v1 = box2d.b2MulXV(xf, v1s[i], box2d.b2FindMaxSeparation.s_v1);
+		var /*b2Vec2*/ n = box2d.b2Mul_R_V2(xf.q, n1s[i], box2d.b2FindMaxSeparation.s_n);
+		var /*b2Vec2*/ v1 = box2d.b2Mul_X_V2(xf, v1s[i], box2d.b2FindMaxSeparation.s_v1);
 
 		// Find deepest point for normal i.
 		var /*float32*/ si = box2d.b2_maxFloat;
 		for (var /*int32*/ j = 0; j < count2; ++j)
 		{
-			var /*float32*/ sij = box2d.b2DotVV(n, box2d.b2SubVV(v2s[j], v1, box2d.b2Vec2.s_t0)); // b2Dot(n, v2s[j] - v1);
+			var /*float32*/ sij = box2d.b2Dot_V2_V2(n, box2d.b2Sub_V2_V2(v2s[j], v1, box2d.b2Vec2.s_t0)); // b2Dot(n, v2s[j] - v1);
 			if (sij < si)
 			{
 				si = sij;
@@ -95,14 +95,14 @@ box2d.b2FindIncidentEdge = function (c, poly1, xf1, edge1, poly2, xf2)
 	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(0 <= edge1 && edge1 < count1); }
 
 	// Get the normal of the reference edge in poly2's frame.
-	var normal1 = box2d.b2MulTRV(xf2.q, box2d.b2MulRV(xf1.q, normals1[edge1], box2d.b2Vec2.s_t0), box2d.b2FindIncidentEdge.s_normal1);
+	var normal1 = box2d.b2MulT_R_V2(xf2.q, box2d.b2Mul_R_V2(xf1.q, normals1[edge1], box2d.b2Vec2.s_t0), box2d.b2FindIncidentEdge.s_normal1);
 
 	// Find the incident edge on poly2.
 	var index = 0;
 	var minDot = box2d.b2_maxFloat;
 	for (var i = 0; i < count2; ++i)
 	{
-		var dot = box2d.b2DotVV(normal1, normals2[i]);
+		var dot = box2d.b2Dot_V2_V2(normal1, normals2[i]);
 		if (dot < minDot)
 		{
 			minDot = dot;
@@ -115,7 +115,7 @@ box2d.b2FindIncidentEdge = function (c, poly1, xf1, edge1, poly2, xf2)
 	var i2 = (i1 + 1) % count2;
 
 	var c0 = c[0];
-	box2d.b2MulXV(xf2, vertices2[i1], c0.v);
+	box2d.b2Mul_X_V2(xf2, vertices2[i1], c0.v);
 	var cf0 = c0.id.cf;
 	cf0.indexA = edge1;
 	cf0.indexB = i1;
@@ -123,7 +123,7 @@ box2d.b2FindIncidentEdge = function (c, poly1, xf1, edge1, poly2, xf2)
 	cf0.typeB = box2d.b2ContactFeatureType.e_vertex;
 
 	var c1 = c[1];
-	box2d.b2MulXV(xf2, vertices2[i2], c1.v);
+	box2d.b2Mul_X_V2(xf2, vertices2[i2], c1.v);
 	var cf1 = c1.id.cf;
 	cf1.indexA = edge1;
 	cf1.indexB = i2;
@@ -203,24 +203,24 @@ box2d.b2CollidePolygons = function (manifold, polyA, xfA, polyB, xfB)
 	var local_v11 = vertices1[iv1];
 	var local_v12 = vertices1[iv2];
 
-	var localTangent = box2d.b2SubVV(local_v12, local_v11, box2d.b2CollidePolygons.s_localTangent);
+	var localTangent = box2d.b2Sub_V2_V2(local_v12, local_v11, box2d.b2CollidePolygons.s_localTangent);
 	localTangent.Normalize();
 
-	var localNormal = box2d.b2CrossVOne(localTangent, box2d.b2CollidePolygons.s_localNormal);
-	var planePoint = box2d.b2MidVV(local_v11, local_v12, box2d.b2CollidePolygons.s_planePoint);
+	var localNormal = box2d.b2Cross_V2_S(localTangent, 1.0, box2d.b2CollidePolygons.s_localNormal);
+	var planePoint = box2d.b2Mid_V2_V2(local_v11, local_v12, box2d.b2CollidePolygons.s_planePoint);
 
-	var tangent = box2d.b2MulRV(xf1.q, localTangent, box2d.b2CollidePolygons.s_tangent);
-	var normal = box2d.b2CrossVOne(tangent, box2d.b2CollidePolygons.s_normal);
+	var tangent = box2d.b2Mul_R_V2(xf1.q, localTangent, box2d.b2CollidePolygons.s_tangent);
+	var normal = box2d.b2Cross_V2_S(tangent, 1.0, box2d.b2CollidePolygons.s_normal);
 
-	var v11 = box2d.b2MulXV(xf1, local_v11, box2d.b2CollidePolygons.s_v11);
-	var v12 = box2d.b2MulXV(xf1, local_v12, box2d.b2CollidePolygons.s_v12);
+	var v11 = box2d.b2Mul_X_V2(xf1, local_v11, box2d.b2CollidePolygons.s_v11);
+	var v12 = box2d.b2Mul_X_V2(xf1, local_v12, box2d.b2CollidePolygons.s_v12);
 
 	// Face offset.
-	var frontOffset = box2d.b2DotVV(normal, v11);
+	var frontOffset = box2d.b2Dot_V2_V2(normal, v11);
 
 	// Side offsets, extended by polytope skin thickness.
-	var sideOffset1 = -box2d.b2DotVV(tangent, v11) + totalRadius;
-	var sideOffset2 = box2d.b2DotVV(tangent, v12) + totalRadius;
+	var sideOffset1 = -box2d.b2Dot_V2_V2(tangent, v11) + totalRadius;
+	var sideOffset2 = box2d.b2Dot_V2_V2(tangent, v12) + totalRadius;
 
 	// Clip incident edge against extruded edge1 side edges.
 	var clipPoints1 = box2d.b2CollidePolygons.s_clipPoints1;
@@ -228,7 +228,7 @@ box2d.b2CollidePolygons = function (manifold, polyA, xfA, polyB, xfB)
 	var np;
 
 	// Clip to box side 1
-	var ntangent = box2d.b2NegV(tangent, box2d.b2CollidePolygons.s_ntangent);
+	var ntangent = box2d.b2CollidePolygons.s_ntangent.Copy(tangent).SelfNeg();
 	np = box2d.b2ClipSegmentToLine(clipPoints1, incidentEdge, ntangent, sideOffset1, iv1);
 
 	if (np < 2)
@@ -250,12 +250,12 @@ box2d.b2CollidePolygons = function (manifold, polyA, xfA, polyB, xfB)
 	for (var i = 0; i < box2d.b2_maxManifoldPoints; ++i)
 	{
 		var cv = clipPoints2[i];
-		var separation = box2d.b2DotVV(normal, cv.v) - frontOffset;
+		var separation = box2d.b2Dot_V2_V2(normal, cv.v) - frontOffset;
 
 		if (separation <= totalRadius)
 		{
 			var cp = manifold.points[pointCount];
-			box2d.b2MulTXV(xf2, cv.v, cp.localPoint);
+			box2d.b2MulT_X_V2(xf2, cv.v, cp.localPoint);
 			cp.id.Copy(cv.id);
 			if (flip)
 			{

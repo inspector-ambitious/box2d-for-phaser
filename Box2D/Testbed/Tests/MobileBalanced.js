@@ -36,7 +36,7 @@ box2d.Testbed.MobileBalanced = function (canvas, settings)
 	// Create ground body.
 	{
 		var /*b2BodyDef*/ bodyDef = new box2d.b2BodyDef();
-		bodyDef.position.SetXY(0.0, 20.0);
+		bodyDef.position.Set(0.0, 20.0);
 		ground = this.m_world.CreateBody(bodyDef);
 	}
 
@@ -85,7 +85,7 @@ box2d.Testbed.MobileBalanced.prototype.AddNode = function (parent, localAnchor, 
 
 	var /*b2PolygonShape*/ shape = new box2d.b2PolygonShape();
 	shape.SetAsBox(0.25 * a, a);
-	body.CreateFixture2(shape, density);
+	body.CreateFixture(shape, density);
 
 	if (depth === box2d.Testbed.MobileBalanced.e_depth)
 	{
@@ -93,7 +93,7 @@ box2d.Testbed.MobileBalanced.prototype.AddNode = function (parent, localAnchor, 
 	}
 
 	shape.SetAsOrientedBox(offset, 0.25 * a, new box2d.b2Vec2(0, -a), 0.0);
-	body.CreateFixture2(shape, density);
+	body.CreateFixture(shape, density);
 
 	var /*b2Vec2*/ a1 = new box2d.b2Vec2(offset, -a);
 	var /*b2Vec2*/ a2 = new box2d.b2Vec2(-offset, -a);

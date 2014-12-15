@@ -20,7 +20,7 @@ goog.provide('box2d.b2Shape');
 
 goog.require('box2d.b2Settings');
 goog.require('box2d.b2Math');
-goog.require('box2d.b2Distance');
+goog.require('box2d.b2ShapeDistance');
 
 /** 
  * This holds the mass data computed for a shape. 

@@ -450,10 +450,10 @@ box2d.b2Island.prototype.Solve = function (profile, step, gravity, allowSleep)
 		/*float32*/ var w = this.m_velocities[i].w;
 
 		// Check for large velocities
-		/*box2d.b2Vec2*/ var translation = box2d.b2MulSV(h, v, box2d.b2Island.s_translation);
-		if (box2d.b2DotVV(translation, translation) > box2d.b2_maxTranslationSquared)
+		/*box2d.b2Vec2*/ var translation = box2d.b2Mul_S_V2(h, v, box2d.b2Island.s_translation);
+		if (box2d.b2Dot_V2_V2(translation, translation) > box2d.b2_maxTranslationSquared)
 		{
-			/*float32*/ var ratio = box2d.b2_maxTranslation / translation.GetLength();
+			/*float32*/ var ratio = box2d.b2_maxTranslation / translation.Length();
 			v.SelfMul(ratio);
 		}
 
@@ -529,7 +529,7 @@ box2d.b2Island.prototype.Solve = function (profile, step, gravity, allowSleep)
 
 			if ((b.m_flags & box2d.b2BodyFlag.e_autoSleepFlag) === 0 || 
 				b.m_angularVelocity * b.m_angularVelocity > angTolSqr || 
-				box2d.b2DotVV(b.m_linearVelocity, b.m_linearVelocity) > linTolSqr)
+				box2d.b2Dot_V2_V2(b.m_linearVelocity, b.m_linearVelocity) > linTolSqr)
 			{
 				b.m_sleepTime = 0;
 				minSleepTime = 0;
@@ -658,10 +658,10 @@ box2d.b2Island.prototype.SolveTOI = function (subStep, toiIndexA, toiIndexB)
 		/*float32*/ var w = this.m_velocities[i].w;
 
 		// Check for large velocities
-		/*box2d.b2Vec2*/ var translation = box2d.b2MulSV(h, v, box2d.b2Island.s_translation);
-		if (box2d.b2DotVV(translation, translation) > box2d.b2_maxTranslationSquared)
+		/*box2d.b2Vec2*/ var translation = box2d.b2Mul_S_V2(h, v, box2d.b2Island.s_translation);
+		if (box2d.b2Dot_V2_V2(translation, translation) > box2d.b2_maxTranslationSquared)
 		{
-			/*float32*/ var ratio = box2d.b2_maxTranslation / translation.GetLength();
+			/*float32*/ var ratio = box2d.b2_maxTranslation / translation.Length();
 			v.SelfMul(ratio);
 		}
 

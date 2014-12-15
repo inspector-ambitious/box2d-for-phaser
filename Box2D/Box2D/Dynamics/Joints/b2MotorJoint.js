@@ -86,8 +86,8 @@ box2d.b2MotorJointDef.prototype.Initialize = function (bA, bB)
 //	linearOffset = bodyA->GetLocalPoint(xB);
 	this.bodyA.GetLocalPoint(this.bodyB.GetPosition(), this.linearOffset);
 
-	/** @type {number} */ var angleA = this.bodyA.GetAngleRadians();
-	/** @type {number} */ var angleB = this.bodyB.GetAngleRadians();
+	/** @type {number} */ var angleA = this.bodyA.GetAngle();
+	/** @type {number} */ var angleB = this.bodyB.GetAngle();
 	this.angularOffset = angleB - angleA;
 }
 
@@ -277,7 +277,7 @@ box2d.b2MotorJoint.prototype.GetAnchorB = function (out)
 box2d.b2MotorJoint.prototype.GetReactionForce = function (inv_dt, out)
 {
 //	return inv_dt * m_linearImpulse;
-	return box2d.b2MulSV(inv_dt, this.m_linearImpulse, out);
+	return box2d.b2Mul_S_V2(inv_dt, this.m_linearImpulse, out);
 }
 
 /** 
@@ -318,7 +318,7 @@ box2d.b2MotorJoint.prototype.GetCorrectionFactor = function ()
  */
 box2d.b2MotorJoint.prototype.SetLinearOffset = function (linearOffset)
 {
-	if (!box2d.b2IsEqualToV(linearOffset, this.m_linearOffset))
+	if (linearOffset.x != this.m_linearOffset.x || linearOffset.y != this.m_linearOffset.y)
 	{
 		this.m_bodyA.SetAwake(true);
 		this.m_bodyB.SetAwake(true);
@@ -429,13 +429,13 @@ box2d.b2MotorJoint.prototype.InitVelocityConstraints = function (data)
 	/*box2d.b2Vec2&*/ var vB = data.velocities[this.m_indexB].v;
 	/*float32*/ var wB = data.velocities[this.m_indexB].w;
 
-	/*box2d.b2Rot*/ var qA = this.m_qA.SetAngleRadians(aA), qB = this.m_qB.SetAngleRadians(aB);
+	/*box2d.b2Rot*/ var qA = this.m_qA.SetAngle(aA), qB = this.m_qB.SetAngle(aB);
 
 	// Compute the effective mass matrix.
 //	this.m_rA = b2Mul(qA, -this.m_localCenterA);
-	var rA = box2d.b2MulRV(qA, box2d.b2NegV(this.m_localCenterA, box2d.b2Vec2.s_t0), this.m_rA);
+	var rA = box2d.b2Mul_R_V2(qA, box2d.b2Vec2.s_t0.Copy(this.m_localCenterA).SelfNeg(), this.m_rA);
 //	this.m_rB = b2Mul(qB, -this.m_localCenterB); 
-	var rB = box2d.b2MulRV(qB, box2d.b2NegV(this.m_localCenterB, box2d.b2Vec2.s_t0), this.m_rB);
+	var rB = box2d.b2Mul_R_V2(qB, box2d.b2Vec2.s_t0.Copy(this.m_localCenterB).SelfNeg(), this.m_rB);
 
 	// J = [-I -r1_skew I r2_skew]
 	//     [ 0       -1 0       1]
@@ -465,12 +465,12 @@ box2d.b2MotorJoint.prototype.InitVelocityConstraints = function (data)
 	}
 
 //	this.m_linearError = cB + rB - cA - rA - b2Mul(qA, this.m_linearOffset);
-	box2d.b2SubVV(
-		box2d.b2SubVV(
-			box2d.b2AddVV(cB, rB, box2d.b2Vec2.s_t0), 
-			box2d.b2AddVV(cA, rA, box2d.b2Vec2.s_t1), 
+	box2d.b2Sub_V2_V2(
+		box2d.b2Sub_V2_V2(
+			box2d.b2Add_V2_V2(cB, rB, box2d.b2Vec2.s_t0), 
+			box2d.b2Add_V2_V2(cA, rA, box2d.b2Vec2.s_t1), 
 			box2d.b2Vec2.s_t2),
-		box2d.b2MulRV(qA, this.m_linearOffset, box2d.b2Vec2.s_t3), 
+		box2d.b2Mul_R_V2(qA, this.m_linearOffset, box2d.b2Vec2.s_t3), 
 		this.m_linearError);
 	this.m_angularError = aB - aA - this.m_angularOffset; 
 
@@ -485,10 +485,10 @@ box2d.b2MotorJoint.prototype.InitVelocityConstraints = function (data)
 		var P = this.m_linearImpulse;
 //		vA -= mA * P;
 		vA.SelfMulSub(mA, P);
-		wA -= iA * (box2d.b2CrossVV(rA, P) + this.m_angularImpulse);
+		wA -= iA * (box2d.b2Cross_V2_V2(rA, P) + this.m_angularImpulse);
 //		vB += mB * P;
 		vB.SelfMulAdd(mB, P);
-		wB += iB * (box2d.b2CrossVV(rB, P) + this.m_angularImpulse);
+		wB += iB * (box2d.b2Cross_V2_V2(rB, P) + this.m_angularImpulse);
 	}
 	else
 	{
@@ -541,15 +541,15 @@ box2d.b2MotorJoint.prototype.SolveVelocityConstraints = function (data)
 
 //		b2Vec2 Cdot = vB + b2CrossSV(wB, rB) - vA - b2CrossSV(wA, rA) + inv_h * this.m_correctionFactor * this.m_linearError;
 		var Cdot = 
-			box2d.b2AddVV(
-				box2d.b2SubVV(
-					box2d.b2AddVV(vB, box2d.b2CrossSV(wB, rB, box2d.b2Vec2.s_t0), box2d.b2Vec2.s_t0), 
-					box2d.b2AddVV(vA, box2d.b2CrossSV(wA, rA, box2d.b2Vec2.s_t1), box2d.b2Vec2.s_t1), box2d.b2Vec2.s_t2), 
-				box2d.b2MulSV(inv_h * this.m_correctionFactor, this.m_linearError, box2d.b2Vec2.s_t3), 
+			box2d.b2Add_V2_V2(
+				box2d.b2Sub_V2_V2(
+					box2d.b2Add_V2_V2(vB, box2d.b2Cross_S_V2(wB, rB, box2d.b2Vec2.s_t0), box2d.b2Vec2.s_t0), 
+					box2d.b2Add_V2_V2(vA, box2d.b2Cross_S_V2(wA, rA, box2d.b2Vec2.s_t1), box2d.b2Vec2.s_t1), box2d.b2Vec2.s_t2), 
+				box2d.b2Mul_S_V2(inv_h * this.m_correctionFactor, this.m_linearError, box2d.b2Vec2.s_t3), 
 				box2d.b2MotorJoint.prototype.SolveVelocityConstraints.s_Cdot);
 
 //		b2Vec2 impulse = -b2Mul(this.m_linearMass, Cdot);
-		var impulse = box2d.b2MulMV(this.m_linearMass, Cdot, box2d.b2MotorJoint.prototype.SolveVelocityConstraints.s_impulse).SelfNeg();
+		var impulse = box2d.b2Mul_M22_V2(this.m_linearMass, Cdot, box2d.b2MotorJoint.prototype.SolveVelocityConstraints.s_impulse).SelfNeg();
 //		b2Vec2 oldImpulse = this.m_linearImpulse;
 		var oldImpulse = box2d.b2MotorJoint.prototype.SolveVelocityConstraints.s_oldImpulse.Copy(this.m_linearImpulse);
 //		this.m_linearImpulse += impulse;
@@ -557,7 +557,7 @@ box2d.b2MotorJoint.prototype.SolveVelocityConstraints = function (data)
 
 		/*float32*/ var maxImpulse = h * this.m_maxForce;
 
-		if (this.m_linearImpulse.GetLengthSquared() > maxImpulse * maxImpulse)
+		if (this.m_linearImpulse.LengthSquared() > maxImpulse * maxImpulse)
 		{
 			this.m_linearImpulse.Normalize();
 //			this.m_linearImpulse *= maxImpulse;
@@ -565,17 +565,17 @@ box2d.b2MotorJoint.prototype.SolveVelocityConstraints = function (data)
 		}
 
 //		impulse = this.m_linearImpulse - oldImpulse;
-		box2d.b2SubVV(this.m_linearImpulse, oldImpulse, impulse);
+		box2d.b2Sub_V2_V2(this.m_linearImpulse, oldImpulse, impulse);
 
 //		vA -= mA * impulse;
 		vA.SelfMulSub(mA, impulse);
 //		wA -= iA * b2CrossVV(rA, impulse);
-		wA -= iA * box2d.b2CrossVV(rA, impulse);
+		wA -= iA * box2d.b2Cross_V2_V2(rA, impulse);
 
 //		vB += mB * impulse;
 		vB.SelfMulAdd(mB, impulse);
 //		wB += iB * b2CrossVV(rB, impulse);
-		wB += iB * box2d.b2CrossVV(rB, impulse);
+		wB += iB * box2d.b2Cross_V2_V2(rB, impulse);
 	}
 
 //	data.velocities[this.m_indexA].v = vA; // vA is a reference
@@ -615,7 +615,7 @@ box2d.b2MotorJoint.prototype.Dump = function ()
 		box2d.b2Log("  jd.bodyB = bodies[%d];\n", indexB);
 		box2d.b2Log("  jd.collideConnected = %s;\n", (this.m_collideConnected)?('true'):('false'));
 
-		box2d.b2Log("  jd.linearOffset.SetXY(%.15f, %.15f);\n", this.m_linearOffset.x, this.m_linearOffset.y);
+		box2d.b2Log("  jd.linearOffset.Set(%.15f, %.15f);\n", this.m_linearOffset.x, this.m_linearOffset.y);
 		box2d.b2Log("  jd.angularOffset = %.15f;\n", this.m_angularOffset);
 		box2d.b2Log("  jd.maxForce = %.15f;\n", this.m_maxForce);
 		box2d.b2Log("  jd.maxTorque = %.15f;\n", this.m_maxTorque);

@@ -40,15 +40,15 @@ box2d.Testbed.DistanceTest = function (canvas, settings)
 	if (true)
 	{
 		this.m_transformA.SetIdentity();
-		this.m_transformA.p.SetXY(0.0, -0.2);
+		this.m_transformA.p.Set(0.0, -0.2);
 		this.m_polygonA.SetAsBox(10.0, 0.2);
 	}
 
 	if (true)
 	{
-		this.m_positionB.SetXY(12.017401, 0.13678508);
+		this.m_positionB.Set(12.017401, 0.13678508);
 		this.m_angleB = -0.0109265;
-		this.m_transformB.SetPositionAngleRadians(this.m_positionB, this.m_angleB);
+		this.m_transformB.SetPositionRotationAngle(this.m_positionB, this.m_angleB);
 
 		this.m_polygonB.SetAsBox(2.0, 0.1);
 	}
@@ -105,7 +105,7 @@ box2d.Testbed.DistanceTest.prototype.Step = function (settings)
 	var cache = new box2d.b2SimplexCache();
 	cache.count = 0;
 	var output = new box2d.b2DistanceOutput();
-	box2d.b2Distance(output, cache, input);
+	box2d.b2ShapeDistance(output, cache, input);
 
 	this.m_debugDraw.DrawString(5, this.m_textLine, "distance = %4.2f", output.distance);
 	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
@@ -118,13 +118,13 @@ box2d.Testbed.DistanceTest.prototype.Step = function (settings)
 		var v = new Array(box2d.b2_maxPolygonVertices);
 		for (var i = 0; i < this.m_polygonA.m_count; ++i)
 		{
-			v[i] = box2d.b2MulXV(this.m_transformA, this.m_polygonA.m_vertices[i], new box2d.b2Vec2());
+			v[i] = box2d.b2Mul_X_V2(this.m_transformA, this.m_polygonA.m_vertices[i], new box2d.b2Vec2());
 		}
 		this.m_debugDraw.DrawPolygon(v, this.m_polygonA.m_count, color);
 
 		for (var i = 0; i < this.m_polygonB.m_count; ++i)
 		{
-			v[i] = box2d.b2MulXV(this.m_transformB, this.m_polygonB.m_vertices[i], new box2d.b2Vec2());
+			v[i] = box2d.b2Mul_X_V2(this.m_transformB, this.m_polygonB.m_vertices[i], new box2d.b2Vec2());
 		}
 		this.m_debugDraw.DrawPolygon(v, this.m_polygonB.m_count, color);
 	}
@@ -173,7 +173,7 @@ box2d.Testbed.DistanceTest.prototype.Keyboard = function (key)
 		break;
 	}
 
-	this.m_transformB.SetPositionAngleRadians(this.m_positionB, this.m_angleB);
+	this.m_transformB.SetPositionRotationAngle(this.m_positionB, this.m_angleB);
 }
 
 /** 

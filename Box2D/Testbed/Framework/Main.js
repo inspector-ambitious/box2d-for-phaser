@@ -365,7 +365,7 @@ box2d.Testbed.Main.prototype.ConvertViewportToElement = function (viewport, out)
 	var rect = this.m_canvas_div.getBoundingClientRect();
 	var element_x = (+viewport.x) + rect.left + (0.5 * rect.width);
 	var element_y = (-viewport.y) + rect.top + (0.5 * rect.height);
-	var element = out.SetXY(element_x, element_y);
+	var element = out.Set(element_x, element_y);
 	return element;
 }
 
@@ -381,7 +381,7 @@ box2d.Testbed.Main.prototype.ConvertElementToViewport = function (element, out)
 	var rect = this.m_canvas_div.getBoundingClientRect();
 	var viewport_x = +(element.x - rect.left - (0.5 * rect.width));
 	var viewport_y = -(element.y - rect.top - (0.5 * rect.height));
-	var viewport = out.SetXY(viewport_x, viewport_y);
+	var viewport = out.Set(viewport_x, viewport_y);
 	return viewport;
 }
 
@@ -394,8 +394,8 @@ box2d.Testbed.Main.prototype.ConvertElementToViewport = function (element, out)
 box2d.Testbed.Main.prototype.ConvertProjectionToViewport = function (projection, out)
 {
 	var viewport = out.Copy(projection);
-	box2d.b2MulSV(this.m_settings.viewZoom, viewport, viewport);
-	box2d.b2MulSV(this.m_settings.canvasScale, viewport, viewport);
+	box2d.b2Mul_S_V2(this.m_settings.viewZoom, viewport, viewport);
+	box2d.b2Mul_S_V2(this.m_settings.canvasScale, viewport, viewport);
 	return viewport;
 }
 
@@ -408,8 +408,8 @@ box2d.Testbed.Main.prototype.ConvertProjectionToViewport = function (projection,
 box2d.Testbed.Main.prototype.ConvertViewportToProjection = function (viewport, out)
 {
 	var projection = out.Copy(viewport);
-	box2d.b2MulSV(1 / this.m_settings.canvasScale, projection, projection);
-	box2d.b2MulSV(1 / this.m_settings.viewZoom, projection, projection);
+	box2d.b2Mul_S_V2(1 / this.m_settings.canvasScale, projection, projection);
+	box2d.b2Mul_S_V2(1 / this.m_settings.viewZoom, projection, projection);
 	return projection;
 }
 
@@ -422,8 +422,8 @@ box2d.Testbed.Main.prototype.ConvertViewportToProjection = function (viewport, o
 box2d.Testbed.Main.prototype.ConvertWorldToProjection = function (world, out)
 {
 	var projection = out.Copy(world);
-	box2d.b2SubVV(projection, this.m_settings.viewCenter, projection);
-	box2d.b2MulTRV(this.m_settings.viewRotation, projection, projection);
+	box2d.b2Sub_V2_V2(projection, this.m_settings.viewCenter, projection);
+	box2d.b2MulT_R_V2(this.m_settings.viewRotation, projection, projection);
 	return projection;
 }
 /**
@@ -435,8 +435,8 @@ box2d.Testbed.Main.prototype.ConvertWorldToProjection = function (world, out)
 box2d.Testbed.Main.prototype.ConvertProjectionToWorld = function (projection, out)
 {
 	var world = out.Copy(projection);
-	box2d.b2MulRV(this.m_settings.viewRotation, world, world);
-	box2d.b2AddVV(this.m_settings.viewCenter, world, world);
+	box2d.b2Mul_R_V2(this.m_settings.viewRotation, world, world);
+	box2d.b2Add_V2_V2(this.m_settings.viewCenter, world, world);
 	return world;
 }
 
@@ -474,7 +474,7 @@ box2d.Testbed.Main.prototype.MoveCamera = function (move)
 {
 	var position = this.m_settings.viewCenter.Clone();
 	var rotation = this.m_settings.viewRotation.Clone();
-	move.SelfRotateRadians(rotation.GetAngleRadians());
+	move.SelfRotateAngle(rotation.GetAngle());
 	position.SelfAdd(move);
 	this.m_settings.viewCenter.Copy(position);
 }
@@ -486,8 +486,8 @@ box2d.Testbed.Main.prototype.MoveCamera = function (move)
  */
 box2d.Testbed.Main.prototype.RollCamera = function (roll)
 {
-	var angle = this.m_settings.viewRotation.GetAngleRadians();
-	this.m_settings.viewRotation.SetAngleRadians(angle + roll);
+	var angle = this.m_settings.viewRotation.GetAngle();
+	this.m_settings.viewRotation.SetAngle(angle + roll);
 }
 
 /**
@@ -507,8 +507,8 @@ box2d.Testbed.Main.prototype.ZoomCamera = function (zoom)
  */
 box2d.Testbed.Main.prototype.HomeCamera = function ()
 {
-	this.m_settings.viewCenter.SetXY(0, 20);
-	this.m_settings.viewRotation.SetAngleRadians(box2d.b2DegToRad(0));
+	this.m_settings.viewCenter.Set(0, 20);
+	this.m_settings.viewRotation.SetAngle(box2d.b2DegToRad(0));
 	this.m_settings.viewZoom = 1;
 }
 
@@ -528,8 +528,8 @@ box2d.Testbed.Main.prototype.HandleMouseMove = function (e)
 	{
 		// viewCenter = viewCenter0 - (projection - projection0);
 		var projection = this.ConvertElementToProjection(element, new box2d.b2Vec2());
-		var diff = box2d.b2SubVV(projection, this.m_projection0, new box2d.b2Vec2());
-		var viewCenter = box2d.b2SubVV(this.m_viewCenter0, diff, new box2d.b2Vec2());
+		var diff = box2d.b2Sub_V2_V2(projection, this.m_projection0, new box2d.b2Vec2());
+		var viewCenter = box2d.b2Sub_V2_V2(this.m_viewCenter0, diff, new box2d.b2Vec2());
 		this.m_settings.viewCenter.Copy(viewCenter);
 	}
 }
@@ -922,7 +922,7 @@ box2d.Testbed.Main.prototype.SimulationLoop = function ()
 			// apply camera
 			ctx.scale(this.m_settings.viewZoom, this.m_settings.viewZoom);
 			ctx.lineWidth /= this.m_settings.viewZoom;
-			ctx.rotate(-this.m_settings.viewRotation.GetAngleRadians());
+			ctx.rotate(-this.m_settings.viewRotation.GetAngle());
 			ctx.translate(-this.m_settings.viewCenter.x, -this.m_settings.viewCenter.y);
 
 			var hz = this.m_settings.hz;

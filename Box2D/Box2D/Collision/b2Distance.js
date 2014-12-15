@@ -16,7 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2Distance');
+goog.provide('box2d.b2ShapeDistance');
 
 goog.require('box2d.b2Settings');
 goog.require('box2d.b2Math');
@@ -87,10 +87,10 @@ box2d.b2DistanceProxy.prototype.SetShape = function (shape, index)
 box2d.b2DistanceProxy.prototype.GetSupport = function (d)
 {
 	/** @type {number} */ var bestIndex = 0;
-	/** @type {number} */ var bestValue = box2d.b2DotVV(this.m_vertices[0], d);
+	/** @type {number} */ var bestValue = box2d.b2Dot_V2_V2(this.m_vertices[0], d);
 	for (var i = 1; i < this.m_count; ++i)
 	{
-		/** @type {number} */ var value = box2d.b2DotVV(this.m_vertices[i], d);
+		/** @type {number} */ var value = box2d.b2Dot_V2_V2(this.m_vertices[i], d);
 		if (value > bestValue)
 		{
 			bestIndex = i;
@@ -111,10 +111,10 @@ box2d.b2DistanceProxy.prototype.GetSupport = function (d)
 box2d.b2DistanceProxy.prototype.GetSupportVertex = function (d, out)
 {
 	/** @type {number} */ var bestIndex = 0;
-	/** @type {number} */ var bestValue = box2d.b2DotVV(this.m_vertices[0], d);
+	/** @type {number} */ var bestValue = box2d.b2Dot_V2_V2(this.m_vertices[0], d);
 	for (var i = 1; i < this.m_count; ++i)
 	{
-		/** @type {number} */ var value = box2d.b2DotVV(this.m_vertices[i], d);
+		/** @type {number} */ var value = box2d.b2Dot_V2_V2(this.m_vertices[i], d);
 		if (value > bestValue)
 		{
 			bestIndex = i;
@@ -433,9 +433,9 @@ box2d.b2Simplex.prototype.ReadCache = function (cache, proxyA, transformA, proxy
 		v.indexB = cache.indexB[i];
 		/** @type {box2d.b2Vec2} */ var wALocal = proxyA.GetVertex(v.indexA);
 		/** @type {box2d.b2Vec2} */ var wBLocal = proxyB.GetVertex(v.indexB);
-		box2d.b2MulXV(transformA, wALocal, v.wA);
-		box2d.b2MulXV(transformB, wBLocal, v.wB);
-		box2d.b2SubVV(v.wB, v.wA, v.w);
+		box2d.b2Mul_X_V2(transformA, wALocal, v.wA);
+		box2d.b2Mul_X_V2(transformB, wBLocal, v.wB);
+		box2d.b2Sub_V2_V2(v.wB, v.wA, v.w);
 		v.a = 0;
 	}
 
@@ -460,9 +460,9 @@ box2d.b2Simplex.prototype.ReadCache = function (cache, proxyA, transformA, proxy
 		v.indexB = 0;
 		/** type {box2d.b2Vec2} */ var wALocal = proxyA.GetVertex(0);
 		/** type {box2d.b2Vec2} */ var wBLocal = proxyB.GetVertex(0);
-		box2d.b2MulXV(transformA, wALocal, v.wA);
-		box2d.b2MulXV(transformB, wBLocal, v.wB);
-		box2d.b2SubVV(v.wB, v.wA, v.w);
+		box2d.b2Mul_X_V2(transformA, wALocal, v.wA);
+		box2d.b2Mul_X_V2(transformB, wBLocal, v.wB);
+		box2d.b2Sub_V2_V2(v.wB, v.wA, v.w);
 		v.a = 1;
 		this.m_count = 1;
 	}
@@ -495,21 +495,21 @@ box2d.b2Simplex.prototype.GetSearchDirection = function (out)
 	switch (this.m_count)
 	{
 	case 1:
-		return box2d.b2NegV(this.m_v1.w, out);
+		return out.Copy(this.m_v1.w).SelfNeg();
 
 	case 2:
 		{
-			var e12 = box2d.b2SubVV(this.m_v2.w, this.m_v1.w, out);
-			var sgn = box2d.b2CrossVV(e12, box2d.b2NegV(this.m_v1.w, box2d.b2Vec2.s_t0));
+			var e12 = box2d.b2Sub_V2_V2(this.m_v2.w, this.m_v1.w, out);
+			var sgn = box2d.b2Cross_V2_V2(e12, box2d.b2Vec2.s_t0.Copy(this.m_v1.w).SelfNeg());
 			if (sgn > 0)
 			{
 				// Origin is left of e12.
-				return box2d.b2CrossOneV(e12, out);
+				return box2d.b2Cross_S_V2(1.0, e12, out);
 			}
 			else
 			{
 				// Origin is right of e12.
-				return box2d.b2CrossVOne(e12, out);
+				return box2d.b2Cross_V2_S(e12, 1.0, out);
 			}
 		}
 
@@ -536,7 +536,7 @@ box2d.b2Simplex.prototype.GetClosestPoint = function (out)
 		return out.Copy(this.m_v1.w);
 
 	case 2:
-		return out.SetXY(
+		return out.Set(
 			this.m_v1.a * this.m_v1.w.x + this.m_v2.a * this.m_v2.w.x, 
 			this.m_v1.a * this.m_v1.w.y + this.m_v2.a * this.m_v2.w.y);
 
@@ -602,10 +602,10 @@ box2d.b2Simplex.prototype.GetMetric = function ()
 		return 0;
 
 	case 2:
-		return box2d.b2DistanceVV(this.m_v1.w, this.m_v2.w);
+		return box2d.b2Distance(this.m_v1.w, this.m_v2.w);
 
 	case 3:
-		return box2d.b2CrossVV(box2d.b2SubVV(this.m_v2.w, this.m_v1.w, box2d.b2Vec2.s_t0), box2d.b2SubVV(this.m_v3.w, this.m_v1.w, box2d.b2Vec2.s_t1));
+		return box2d.b2Cross_V2_V2(box2d.b2Sub_V2_V2(this.m_v2.w, this.m_v1.w, box2d.b2Vec2.s_t0), box2d.b2Sub_V2_V2(this.m_v3.w, this.m_v1.w, box2d.b2Vec2.s_t1));
 
 	default:
 		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false); }
@@ -645,10 +645,10 @@ box2d.b2Simplex.prototype.Solve2 = function ()
 {
 	/** @type {box2d.b2Vec2} */ var w1 = this.m_v1.w;
 	/** @type {box2d.b2Vec2} */ var w2 = this.m_v2.w;
-	/** @type {box2d.b2Vec2} */ var e12 = box2d.b2SubVV(w2, w1, box2d.b2Simplex.s_e12);
+	/** @type {box2d.b2Vec2} */ var e12 = box2d.b2Sub_V2_V2(w2, w1, box2d.b2Simplex.s_e12);
 
 	// w1 region
-	/** @type {number} */ var d12_2 = (-box2d.b2DotVV(w1, e12));
+	/** @type {number} */ var d12_2 = (-box2d.b2Dot_V2_V2(w1, e12));
 	if (d12_2 <= 0)
 	{
 		// a2 <= 0, so we clamp it to 0
@@ -658,7 +658,7 @@ box2d.b2Simplex.prototype.Solve2 = function ()
 	}
 
 	// w2 region
-	/** @type {number} */ var d12_1 = box2d.b2DotVV(w2, e12);
+	/** @type {number} */ var d12_1 = box2d.b2Dot_V2_V2(w2, e12);
 	if (d12_1 <= 0)
 	{
 		// a1 <= 0, so we clamp it to 0
@@ -694,9 +694,9 @@ box2d.b2Simplex.prototype.Solve3 = function ()
 	// [1      1     ][a1] = [1]
 	// [w1.e12 w2.e12][a2] = [0]
 	// a3 = 0
-	/** @type {box2d.b2Vec2} */ var e12 = box2d.b2SubVV(w2, w1, box2d.b2Simplex.s_e12);
-	/** @type {number} */ var w1e12 = box2d.b2DotVV(w1, e12);
-	/** @type {number} */ var w2e12 = box2d.b2DotVV(w2, e12);
+	/** @type {box2d.b2Vec2} */ var e12 = box2d.b2Sub_V2_V2(w2, w1, box2d.b2Simplex.s_e12);
+	/** @type {number} */ var w1e12 = box2d.b2Dot_V2_V2(w1, e12);
+	/** @type {number} */ var w2e12 = box2d.b2Dot_V2_V2(w2, e12);
 	/** @type {number} */ var d12_1 = w2e12;
 	/** @type {number} */ var d12_2 = (-w1e12);
 
@@ -704,9 +704,9 @@ box2d.b2Simplex.prototype.Solve3 = function ()
 	// [1      1     ][a1] = [1]
 	// [w1.e13 w3.e13][a3] = [0]
 	// a2 = 0
-	/** @type {box2d.b2Vec2} */ var e13 = box2d.b2SubVV(w3, w1, box2d.b2Simplex.s_e13);
-	/** @type {number} */ var w1e13 = box2d.b2DotVV(w1, e13);
-	/** @type {number} */ var w3e13 = box2d.b2DotVV(w3, e13);
+	/** @type {box2d.b2Vec2} */ var e13 = box2d.b2Sub_V2_V2(w3, w1, box2d.b2Simplex.s_e13);
+	/** @type {number} */ var w1e13 = box2d.b2Dot_V2_V2(w1, e13);
+	/** @type {number} */ var w3e13 = box2d.b2Dot_V2_V2(w3, e13);
 	/** @type {number} */ var d13_1 = w3e13;
 	/** @type {number} */ var d13_2 = (-w1e13);
 
@@ -714,18 +714,18 @@ box2d.b2Simplex.prototype.Solve3 = function ()
 	// [1      1     ][a2] = [1]
 	// [w2.e23 w3.e23][a3] = [0]
 	// a1 = 0
-	/** @type {box2d.b2Vec2} */ var e23 = box2d.b2SubVV(w3, w2, box2d.b2Simplex.s_e23);
-	/** @type {number} */ var w2e23 = box2d.b2DotVV(w2, e23);
-	/** @type {number} */ var w3e23 = box2d.b2DotVV(w3, e23);
+	/** @type {box2d.b2Vec2} */ var e23 = box2d.b2Sub_V2_V2(w3, w2, box2d.b2Simplex.s_e23);
+	/** @type {number} */ var w2e23 = box2d.b2Dot_V2_V2(w2, e23);
+	/** @type {number} */ var w3e23 = box2d.b2Dot_V2_V2(w3, e23);
 	/** @type {number} */ var d23_1 = w3e23;
 	/** @type {number} */ var d23_2 = (-w2e23);
 
 	// Triangle123
-	/** @type {number} */ var n123 = box2d.b2CrossVV(e12, e13);
+	/** @type {number} */ var n123 = box2d.b2Cross_V2_V2(e12, e13);
 
-	/** @type {number} */ var d123_1 = n123 * box2d.b2CrossVV(w2, w3);
-	/** @type {number} */ var d123_2 = n123 * box2d.b2CrossVV(w3, w1);
-	/** @type {number} */ var d123_3 = n123 * box2d.b2CrossVV(w1, w2);
+	/** @type {number} */ var d123_1 = n123 * box2d.b2Cross_V2_V2(w2, w3);
+	/** @type {number} */ var d123_2 = n123 * box2d.b2Cross_V2_V2(w3, w1);
+	/** @type {number} */ var d123_3 = n123 * box2d.b2Cross_V2_V2(w1, w2);
 
 	// w1 region
 	if (d12_2 <= 0 && d13_2 <= 0)
@@ -806,7 +806,7 @@ box2d.b2Simplex.s_e23 = new box2d.b2Vec2();
  * @param {box2d.b2DistanceInput} input 
  * @return {void} 
  */
-box2d.b2Distance = function (output, cache, input)
+box2d.b2ShapeDistance = function (output, cache, input)
 {
 	++box2d.b2_gjkCalls;
 
@@ -870,7 +870,7 @@ box2d.b2Distance = function (output, cache, input)
 
 		// Compute closest point.
 		/** @type {box2d.b2Vec2} */ var p = simplex.GetClosestPoint(box2d.b2Distance.s_p);
-		distanceSqr2 = p.GetLengthSquared();
+		distanceSqr2 = p.LengthSquared();
 
 		// Ensure progress
 		/*
@@ -886,7 +886,7 @@ box2d.b2Distance = function (output, cache, input)
 		/** @type {box2d.b2Vec2} */ var d = simplex.GetSearchDirection(box2d.b2Distance.s_d);
 
 		// Ensure the search direction is numerically fit.
-		if (d.GetLengthSquared() < box2d.b2_epsilon_sq)
+		if (d.LengthSquared() < box2d.b2_epsilon_sq)
 		{
 			// The origin is probably contained by a line segment
 			// or triangle. Thus the shapes are overlapped.
@@ -899,11 +899,11 @@ box2d.b2Distance = function (output, cache, input)
 
 		// Compute a tentative new simplex vertex using support points.
 		/** @type {box2d.b2SimplexVertex} */ var vertex = vertices[simplex.m_count];
-		vertex.indexA = proxyA.GetSupport(box2d.b2MulTRV(transformA.q, box2d.b2NegV(d, box2d.b2Vec2.s_t0), box2d.b2Distance.s_supportA));
-		box2d.b2MulXV(transformA, proxyA.GetVertex(vertex.indexA), vertex.wA);
-		vertex.indexB = proxyB.GetSupport(box2d.b2MulTRV(transformB.q, d, box2d.b2Distance.s_supportB));
-		box2d.b2MulXV(transformB, proxyB.GetVertex(vertex.indexB), vertex.wB);
-		box2d.b2SubVV(vertex.wB, vertex.wA, vertex.w);
+		vertex.indexA = proxyA.GetSupport(box2d.b2MulT_R_V2(transformA.q, box2d.b2Vec2.s_t0.Copy(d).SelfNeg(), box2d.b2Distance.s_supportA));
+		box2d.b2Mul_X_V2(transformA, proxyA.GetVertex(vertex.indexA), vertex.wA);
+		vertex.indexB = proxyB.GetSupport(box2d.b2MulT_R_V2(transformB.q, d, box2d.b2Distance.s_supportB));
+		box2d.b2Mul_X_V2(transformB, proxyB.GetVertex(vertex.indexB), vertex.wB);
+		box2d.b2Sub_V2_V2(vertex.wB, vertex.wA, vertex.w);
 
 		// Iteration count is equated to the number of support point calls.
 		++iter;
@@ -934,7 +934,7 @@ box2d.b2Distance = function (output, cache, input)
 
 	// Prepare output.
 	simplex.GetWitnessPoints(output.pointA, output.pointB);
-	output.distance = box2d.b2DistanceVV(output.pointA, output.pointB);
+	output.distance = box2d.b2Distance(output.pointA, output.pointB);
 	output.iterations = iter;
 
 	// Cache the simplex.
@@ -951,7 +951,7 @@ box2d.b2Distance = function (output, cache, input)
 			// Shapes are still no overlapped.
 			// Move the witness points to the outer surface.
 			output.distance -= rA + rB;
-			/** @type {box2d.b2Vec2} */ var normal = box2d.b2SubVV(output.pointB, output.pointA, box2d.b2Distance.s_normal);
+			/** @type {box2d.b2Vec2} */ var normal = box2d.b2Sub_V2_V2(output.pointB, output.pointA, box2d.b2Distance.s_normal);
 			normal.Normalize();
 			output.pointA.SelfMulAdd(rA, normal);
 			output.pointB.SelfMulSub(rB, normal);
@@ -960,7 +960,7 @@ box2d.b2Distance = function (output, cache, input)
 		{
 			// Shapes are overlapped when radii are considered.
 			// Move the witness points to the middle.
-			/** type {box2d.b2Vec2} */ var p = box2d.b2MidVV(output.pointA, output.pointB, box2d.b2Distance.s_p);
+			/** type {box2d.b2Vec2} */ var p = box2d.b2Mid_V2_V2(output.pointA, output.pointB, box2d.b2Distance.s_p);
 			output.pointA.Copy(p);
 			output.pointB.Copy(p);
 			output.distance = 0;

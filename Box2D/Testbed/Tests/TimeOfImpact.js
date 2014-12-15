@@ -61,16 +61,16 @@ box2d.Testbed.TimeOfImpact.prototype.Step = function (settings)
 	box2d.Testbed.Test.prototype.Step.call(this, settings);
 
 	var sweepA = new box2d.b2Sweep;
-	sweepA.c0.SetXY(24.0, -60.0);
+	sweepA.c0.Set(24.0, -60.0);
 	sweepA.a0 = 2.95;
 	sweepA.c = sweepA.c0;
 	sweepA.a = sweepA.a0;
 	sweepA.localCenter.SetZero();
 
 	var sweepB = new box2d.b2Sweep;
-	sweepB.c0.SetXY(53.474274, -50.252514);
+	sweepB.c0.Set(53.474274, -50.252514);
 	sweepB.a0 = 513.36676; // - 162.0 * box2d.b2_pi;
-	sweepB.c.SetXY(54.595478, -51.083473);
+	sweepB.c.Set(54.595478, -51.083473);
 	sweepB.a = 513.62781; //  - 162.0 * box2d.b2_pi;
 	sweepB.localCenter.SetZero();
 
@@ -102,7 +102,7 @@ box2d.Testbed.TimeOfImpact.prototype.Step = function (settings)
 	sweepA.GetTransform(transformA, 0.0);
 	for (var i = 0; i < this.m_shapeA.m_count; ++i)
 	{
-		vertices[i] = box2d.b2MulXV(transformA, this.m_shapeA.m_vertices[i], new box2d.b2Vec2());
+		vertices[i] = box2d.b2Mul_X_V2(transformA, this.m_shapeA.m_vertices[i], new box2d.b2Vec2());
 	}
 	this.m_debugDraw.DrawPolygon(vertices, this.m_shapeA.m_count, new box2d.b2Color(0.9, 0.9, 0.9));
 
@@ -113,21 +113,21 @@ box2d.Testbed.TimeOfImpact.prototype.Step = function (settings)
 
 	for (var i = 0; i < this.m_shapeB.m_count; ++i)
 	{
-		vertices[i] = box2d.b2MulXV(transformB, this.m_shapeB.m_vertices[i], new box2d.b2Vec2());
+		vertices[i] = box2d.b2Mul_X_V2(transformB, this.m_shapeB.m_vertices[i], new box2d.b2Vec2());
 	}
 	this.m_debugDraw.DrawPolygon(vertices, this.m_shapeB.m_count, new box2d.b2Color(0.5, 0.9, 0.5));
 
 	sweepB.GetTransform(transformB, output.t);
 	for (var i = 0; i < this.m_shapeB.m_count; ++i)
 	{
-		vertices[i] = box2d.b2MulXV(transformB, this.m_shapeB.m_vertices[i], new box2d.b2Vec2());
+		vertices[i] = box2d.b2Mul_X_V2(transformB, this.m_shapeB.m_vertices[i], new box2d.b2Vec2());
 	}
 	this.m_debugDraw.DrawPolygon(vertices, this.m_shapeB.m_count, new box2d.b2Color(0.5, 0.7, 0.9));
 
 	sweepB.GetTransform(transformB, 1.0);
 	for (var i = 0; i < this.m_shapeB.m_count; ++i)
 	{
-		vertices[i] = box2d.b2MulXV(transformB, this.m_shapeB.m_vertices[i], new box2d.b2Vec2());
+		vertices[i] = box2d.b2Mul_X_V2(transformB, this.m_shapeB.m_vertices[i], new box2d.b2Vec2());
 	}
 	this.m_debugDraw.DrawPolygon(vertices, this.m_shapeB.m_count, new box2d.b2Color(0.9, 0.5, 0.5));
 

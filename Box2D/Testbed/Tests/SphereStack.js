@@ -40,7 +40,7 @@ box2d.Testbed.SphereStack = function (canvas, settings)
 	
 		var shape = new box2d.b2EdgeShape();
 		shape.SetAsEdge(new box2d.b2Vec2(-40.0, 0.0), new box2d.b2Vec2(40.0, 0.0));
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 	}
 
 	if (true)
@@ -52,11 +52,11 @@ box2d.Testbed.SphereStack = function (canvas, settings)
 		{
 			var bd = new box2d.b2BodyDef();
 			bd.type = box2d.b2BodyType.b2_dynamicBody;
-			bd.position.SetXY(0.0, 4.0 + 3.0 * i);
+			bd.position.Set(0.0, 4.0 + 3.0 * i);
 
 			this.m_bodies[i] = this.m_world.CreateBody(bd);
 
-			this.m_bodies[i].CreateFixture2(shape, 1.0);
+			this.m_bodies[i].CreateFixture(shape, 1.0);
 
 			this.m_bodies[i].SetLinearVelocity(new box2d.b2Vec2(0.0, -50.0));
 		}

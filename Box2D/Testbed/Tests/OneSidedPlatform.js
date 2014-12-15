@@ -39,19 +39,19 @@ box2d.Testbed.OneSidedPlatform = function (canvas, settings)
 
 		var shape = new box2d.b2EdgeShape();
 		shape.SetAsEdge(new box2d.b2Vec2(-40.0, 0.0), new box2d.b2Vec2(40.0, 0.0));
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 	}
 
 	// Platform
 	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
-		bd.position.SetXY(0.0, 10.0);
+		bd.position.Set(0.0, 10.0);
 		var body = this.m_world.CreateBody(bd);
 
 		var shape = new box2d.b2PolygonShape();
 		shape.SetAsBox(3.0, 0.5);
-		this.m_platform = body.CreateFixture2(shape, 0.0);
+		this.m_platform = body.CreateFixture(shape, 0.0);
 
 		this.m_bottom = 10.0 - 0.5;
 		this.m_top = 10.0 + 0.5;
@@ -62,13 +62,13 @@ box2d.Testbed.OneSidedPlatform = function (canvas, settings)
 	{
 		var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
-		bd.position.SetXY(0.0, 12.0);
+		bd.position.Set(0.0, 12.0);
 		var body = this.m_world.CreateBody(bd);
 
 		this.m_radius = 0.5;
 		var shape = new box2d.b2CircleShape();
 		shape.m_radius = this.m_radius;
-		this.m_character = body.CreateFixture2(shape, 20.0);
+		this.m_character = body.CreateFixture(shape, 20.0);
 
 		body.SetLinearVelocity(new box2d.b2Vec2(0.0, -50.0));
 

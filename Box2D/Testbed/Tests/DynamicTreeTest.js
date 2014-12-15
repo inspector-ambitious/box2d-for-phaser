@@ -86,13 +86,13 @@ box2d.Testbed.DynamicTreeTest = function (canvas, settings)
 	this.m_stepCount = 0;
 
 	var h = this.m_worldExtent;
-	this.m_queryAABB.lowerBound.SetXY(-3.0, -4.0 + h);
-	this.m_queryAABB.upperBound.SetXY(5.0, 6.0 + h);
+	this.m_queryAABB.lowerBound.Set(-3.0, -4.0 + h);
+	this.m_queryAABB.upperBound.Set(5.0, 6.0 + h);
 
-	this.m_rayCastInput.p1.SetXY(-5.0, 5.0 + h);
-	this.m_rayCastInput.p2.SetXY(7.0, -4.0 + h);
-	//this.m_rayCastInput.p1.SetXY(0.0, 2.0 + h);
-	//this.m_rayCastInput.p2.SetXY(0.0, -2.0 + h);
+	this.m_rayCastInput.p1.Set(-5.0, 5.0 + h);
+	this.m_rayCastInput.p2.Set(7.0, -4.0 + h);
+	//this.m_rayCastInput.p1.Set(0.0, 2.0 + h);
+	//this.m_rayCastInput.p2.Set(0.0, -2.0 + h);
 	this.m_rayCastInput.maxFraction = 1.0;
 
 	this.m_automated = false;
@@ -224,7 +224,7 @@ box2d.Testbed.DynamicTreeTest.prototype.Step = function (settings)
 	{
 		var cr = new box2d.b2Color(0.2, 0.2, 0.9);
 		//box2d.b2Vec2 p = this.m_rayCastInput.p1 + this.m_rayActor.fraction * (this.m_rayCastInput.p2 - this.m_rayCastInput.p1);
-		var p = box2d.b2AddVV(this.m_rayCastInput.p1, box2d.b2MulSV(this.m_rayActor.fraction, box2d.b2SubVV(this.m_rayCastInput.p2, this.m_rayCastInput.p1, new box2d.b2Vec2()), new box2d.b2Vec2()), new box2d.b2Vec2());
+		var p = box2d.b2Add_V2_V2(this.m_rayCastInput.p1, box2d.b2Mul_S_V2(this.m_rayActor.fraction, box2d.b2Sub_V2_V2(this.m_rayCastInput.p2, this.m_rayCastInput.p1, new box2d.b2Vec2()), new box2d.b2Vec2()), new box2d.b2Vec2());
 		this.m_debugDraw.DrawPoint(p, 6.0, cr);
 	}
 
@@ -303,7 +303,7 @@ box2d.Testbed.DynamicTreeTest.prototype.RayCastCallback = function (input, proxy
  */
 box2d.Testbed.DynamicTreeTest.prototype.GetRandomAABB = function (aabb)
 {
-	var w = new box2d.b2Vec2(); w.SetXY(2.0 * this.m_proxyExtent, 2.0 * this.m_proxyExtent);
+	var w = new box2d.b2Vec2(); w.Set(2.0 * this.m_proxyExtent, 2.0 * this.m_proxyExtent);
 	//aabb.lowerBound.x = -this.m_proxyExtent;
 	//aabb.lowerBound.y = -this.m_proxyExtent + this.m_worldExtent;
 	aabb.lowerBound.x = box2d.b2RandomRange(-this.m_worldExtent, this.m_worldExtent);
@@ -329,13 +329,13 @@ box2d.Testbed.DynamicTreeTest.prototype.MoveAABB = function (aabb)
 	aabb.upperBound.SelfAdd(d);
 
 	//box2d.b2Vec2 c0 = 0.5 * (aabb.lowerBound + aabb.upperBound);
-	var c0 = box2d.b2MulSV(0.5, box2d.b2AddVV(aabb.lowerBound, aabb.upperBound, box2d.b2Vec2.s_t0), new box2d.b2Vec2());
+	var c0 = box2d.b2Mul_S_V2(0.5, box2d.b2Add_V2_V2(aabb.lowerBound, aabb.upperBound, box2d.b2Vec2.s_t0), new box2d.b2Vec2());
 	var min = new box2d.b2Vec2(-this.m_worldExtent, 0.0);
 	var max = new box2d.b2Vec2(this.m_worldExtent, 2.0 * this.m_worldExtent);
-	var c = box2d.b2ClampV(c0, min, max, new box2d.b2Vec2());
+	var c = box2d.b2Clamp_V2_V2_V2(c0, min, max, new box2d.b2Vec2());
 
-	aabb.lowerBound.SelfAdd(box2d.b2SubVV(c, c0, new box2d.b2Vec2()));
-	aabb.upperBound.SelfAdd(box2d.b2SubVV(c, c0, new box2d.b2Vec2()));
+	aabb.lowerBound.SelfAdd(box2d.b2Sub_V2_V2(c, c0, new box2d.b2Vec2()));
+	aabb.upperBound.SelfAdd(box2d.b2Sub_V2_V2(c, c0, new box2d.b2Vec2()));
 }
 
 //void CreateProxy()
@@ -397,7 +397,7 @@ box2d.Testbed.DynamicTreeTest.prototype.MoveProxy = function ()
 		var aabb0 = new box2d.b2AABB();
 		aabb0.Copy(actor.aabb);
 		this.MoveAABB(actor.aabb);
-		var displacement = box2d.b2SubVV(actor.aabb.GetCenter(), aabb0.GetCenter(), new box2d.b2Vec2());
+		var displacement = box2d.b2Sub_V2_V2(actor.aabb.GetCenter(), aabb0.GetCenter(), new box2d.b2Vec2());
 		this.m_tree.MoveProxy(actor.proxyId, actor.aabb, displacement);
 		return;
 	}

@@ -37,11 +37,11 @@ box2d.Testbed.BlobTest = function (canvas, settings)
 	{
 		var shape = new box2d.b2EdgeShape();
 		shape.SetAsEdge(new box2d.b2Vec2(-40.0, 0.0), new box2d.b2Vec2( 40.0,  0.0));
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 		shape.SetAsEdge(new box2d.b2Vec2(-40.0, 0.0), new box2d.b2Vec2(-40.0, 25.0));
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 		shape.SetAsEdge(new box2d.b2Vec2( 40.0, 0.0), new box2d.b2Vec2( 40.0, 25.0));
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 	}
 
 	if (true)
@@ -64,7 +64,7 @@ box2d.Testbed.BlobTest = function (canvas, settings)
 
 			var x = cx + rx * Math.cos(angle);
 			var y = cy + ry * Math.sin(angle);
-			bd.position.SetXY(x, y);
+			bd.position.Set(x, y);
 			bd.type = box2d.b2BodyType.b2_dynamicBody;
 			var body = this.m_world.CreateBody(bd);
 

@@ -44,7 +44,7 @@ box2d.Testbed.TestStack = function (canvas, settings)
 		vertices[3] = new box2d.b2Vec2(-30.0, 40.0);
 		var shape = new box2d.b2ChainShape();
 		shape.CreateLoop(vertices);
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 	}
 
 	// Add bodies
@@ -60,35 +60,35 @@ box2d.Testbed.TestStack = function (canvas, settings)
 	// Create 3 stacks
 	for (var i = 0; i < 10; ++i)
 	{
-		bd.position.SetXY(( 0.0 + Math.random()*0.2 - 0.1), (30.0-i*2.5));
+		bd.position.Set(( 0.0 + Math.random()*0.2 - 0.1), (30.0-i*2.5));
 		this.m_world.CreateBody(bd).CreateFixture(fd);
 	}
 	for (var i = 0; i < 10; ++i)
 	{
-		bd.position.SetXY((10.0 + Math.random()*0.2 - 0.1), (30.0-i*2.5));
+		bd.position.Set((10.0 + Math.random()*0.2 - 0.1), (30.0-i*2.5));
 		this.m_world.CreateBody(bd).CreateFixture(fd);
 	}
 	for (var i = 0; i < 10; ++i)
 	{
-		bd.position.SetXY((20.0 + Math.random()*0.2 - 0.1), (30.0-i*2.5));
+		bd.position.Set((20.0 + Math.random()*0.2 - 0.1), (30.0-i*2.5));
 		this.m_world.CreateBody(bd).CreateFixture(fd);
 	}
 	// Create ramp
 	bd.type = box2d.b2BodyType.b2_staticBody;
-	bd.position.SetXY(0.0, 0.0);
+	bd.position.Set(0.0, 0.0);
 	var vxs = 
 	[
 		new box2d.b2Vec2(-30.0, 0.0),
 		new box2d.b2Vec2(-10.0, 0.0),
 		new box2d.b2Vec2(-30.0, 10.0)
 	];
-	fd.shape.SetAsArray(vxs, vxs.length);
+	fd.shape.Set(vxs, vxs.length);
 	fd.density = 0;
 	this.m_world.CreateBody(bd).CreateFixture(fd);
 
 	// Create ball
 	bd.type = box2d.b2BodyType.b2_dynamicBody;
-	bd.position.SetXY(-25.0, 20.0);
+	bd.position.Set(-25.0, 20.0);
 	fd.shape = new box2d.b2CircleShape(4.0);
 	fd.density = 2;
 	fd.restitution = 0.2;

@@ -54,7 +54,7 @@ box2d.Testbed.RopeJoint = function (canvas, settings)
 
 		/*box2d.b2EdgeShape*/ var shape = new box2d.b2EdgeShape();
 		shape.SetAsEdge(new box2d.b2Vec2(-40.0, 0.0), new box2d.b2Vec2(40.0, 0.0));
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 	}
 
 	if (true)
@@ -74,20 +74,20 @@ box2d.Testbed.RopeJoint = function (canvas, settings)
 
 		/*const int32*/ var N = 10;
 		/*const float32*/ var y = 15.0;
-		this.m_ropeDef.localAnchorA.SetXY(0.0, y);
+		this.m_ropeDef.localAnchorA.Set(0.0, y);
 
 		/*box2d.b2Body*/ var prevBody = ground;
 		for (/*int32*/ var i = 0; i < N; ++i)
 		{
 			/*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
 			bd.type = box2d.b2BodyType.b2_dynamicBody;
-			bd.position.SetXY(0.5 + 1.0 * i, y);
+			bd.position.Set(0.5 + 1.0 * i, y);
 			if (i === N - 1)
 			{
 				shape.SetAsBox(1.5, 1.5);
 				fd.density = 100.0;
 				fd.filter.categoryBits = 0x0002;
-				bd.position.SetXY(1.0 * i, y);
+				bd.position.Set(1.0 * i, y);
 				bd.angularDamping = 0.4;
 			}
 

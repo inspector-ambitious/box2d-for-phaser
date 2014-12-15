@@ -44,16 +44,16 @@ box2d.Testbed.Pulleys = function (canvas, settings)
 
 		var edge = new box2d.b2EdgeShape();
 		edge.SetAsEdge(new box2d.b2Vec2(-40.0, 0.0), new box2d.b2Vec2(40.0, 0.0));
-		//ground.CreateFixture2(edge, 0.0);
+		//ground.CreateFixture(edge, 0.0);
 
 		/*box2d.b2CircleShape*/ var circle = new box2d.b2CircleShape();
 		circle.m_radius = 2.0;
 
-		circle.m_p.SetXY(-10.0, y + b + L);
-		ground.CreateFixture2(circle, 0.0);
+		circle.m_p.Set(-10.0, y + b + L);
+		ground.CreateFixture(circle, 0.0);
 
-		circle.m_p.SetXY(10.0, y + b + L);
-		ground.CreateFixture2(circle, 0.0);
+		circle.m_p.Set(10.0, y + b + L);
+		ground.CreateFixture(circle, 0.0);
 	}
 
 	{
@@ -65,13 +65,13 @@ box2d.Testbed.Pulleys = function (canvas, settings)
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
 
 		//bd.fixedRotation = true;
-		bd.position.SetXY(-10.0, y);
+		bd.position.Set(-10.0, y);
 		var body1 = this.m_world.CreateBody(bd);
-		body1.CreateFixture2(shape, 5.0);
+		body1.CreateFixture(shape, 5.0);
 
-		bd.position.SetXY(10.0, y);
+		bd.position.Set(10.0, y);
 		var body2 = this.m_world.CreateBody(bd);
-		body2.CreateFixture2(shape, 5.0);
+		body2.CreateFixture(shape, 5.0);
 
 		var pulleyDef = new box2d.b2PulleyJointDef();
 		var anchor1 = new box2d.b2Vec2(-10.0, y + b);

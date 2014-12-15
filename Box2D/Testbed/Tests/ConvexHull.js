@@ -77,7 +77,7 @@ box2d.Testbed.ConvexHull.prototype.Generate = function ()
 		// This will stress the convex hull algorithm.
 		x = box2d.b2Clamp(x, -8.0, 8.0);
 		y = box2d.b2Clamp(y, -8.0, 8.0);
-		this.m_test_points[i].SetXY(x, y);
+		this.m_test_points[i].Set(x, y);
 	}
 
 	this.m_count = box2d.Testbed.ConvexHull.e_count;
@@ -112,7 +112,7 @@ box2d.Testbed.ConvexHull.prototype.Step = function (settings)
 	box2d.Testbed.Test.prototype.Step.call(this, settings);
 
 	var shape = new box2d.b2PolygonShape();
-	shape.SetAsVector(this.m_test_points, this.m_count);
+	shape.Set(this.m_test_points, this.m_count);
 
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Press g to generate a new random convex hull");
 	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;

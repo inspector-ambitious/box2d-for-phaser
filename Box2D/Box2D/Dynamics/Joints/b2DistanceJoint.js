@@ -93,7 +93,7 @@ box2d.b2DistanceJointDef.prototype.Initialize = function (b1, b2, anchor1, ancho
 	this.bodyB = b2;
 	this.bodyA.GetLocalPoint(anchor1, this.localAnchorA);
 	this.bodyB.GetLocalPoint(anchor2, this.localAnchorB);
-	this.length = box2d.b2DistanceVV(anchor1, anchor2);
+	this.length = box2d.b2Distance(anchor1, anchor2);
 	this.frequencyHz = 0;
 	this.dampingRatio = 0;
 }
@@ -288,7 +288,7 @@ box2d.b2DistanceJoint.prototype.GetAnchorB = function (out)
  */
 box2d.b2DistanceJoint.prototype.GetReactionForce = function (inv_dt, out)
 {
-	return out.SetXY(inv_dt * this.m_impulse * this.m_u.x, inv_dt * this.m_impulse * this.m_u.y);
+	return out.Set(inv_dt * this.m_impulse * this.m_u.x, inv_dt * this.m_impulse * this.m_u.y);
 }
 
 /** 
@@ -394,8 +394,8 @@ box2d.b2DistanceJoint.prototype.Dump = function ()
 		box2d.b2Log("  jd.bodyA = bodies[%d];\n", indexA);
 		box2d.b2Log("  jd.bodyB = bodies[%d];\n", indexB);
 		box2d.b2Log("  jd.collideConnected = %s;\n", (this.m_collideConnected)?('true'):('false'));
-		box2d.b2Log("  jd.localAnchorA.SetXY(%.15f, %.15f);\n", this.m_localAnchorA.x, this.m_localAnchorA.y);
-		box2d.b2Log("  jd.localAnchorB.SetXY(%.15f, %.15f);\n", this.m_localAnchorB.x, this.m_localAnchorB.y);
+		box2d.b2Log("  jd.localAnchorA.Set(%.15f, %.15f);\n", this.m_localAnchorA.x, this.m_localAnchorA.y);
+		box2d.b2Log("  jd.localAnchorB.Set(%.15f, %.15f);\n", this.m_localAnchorB.x, this.m_localAnchorB.y);
 		box2d.b2Log("  jd.length = %.15f;\n", this.m_length);
 		box2d.b2Log("  jd.frequencyHz = %.15f;\n", this.m_frequencyHz);
 		box2d.b2Log("  jd.dampingRatio = %.15f;\n", this.m_dampingRatio);
@@ -430,20 +430,20 @@ box2d.b2DistanceJoint.prototype.InitVelocityConstraints = function (data)
 	/*float32*/ var wB = data.velocities[this.m_indexB].w;
 
 //	var qA = new box2d.b2Rot(aA), qB = new box2d.b2Rot(aB);
-	var qA = this.m_qA.SetAngleRadians(aA), qB = this.m_qB.SetAngleRadians(aB);
+	var qA = this.m_qA.SetAngle(aA), qB = this.m_qB.SetAngle(aB);
 
 //	m_rA = b2Mul(qA, m_localAnchorA - m_localCenterA);
-	box2d.b2SubVV(this.m_localAnchorA, this.m_localCenterA, this.m_lalcA);
-	box2d.b2MulRV(qA, this.m_lalcA, this.m_rA);
+	box2d.b2Sub_V2_V2(this.m_localAnchorA, this.m_localCenterA, this.m_lalcA);
+	box2d.b2Mul_R_V2(qA, this.m_lalcA, this.m_rA);
 //	m_rB = b2Mul(qB, m_localAnchorB - m_localCenterB);
-	box2d.b2SubVV(this.m_localAnchorB, this.m_localCenterB, this.m_lalcB);
-	box2d.b2MulRV(qB, this.m_lalcB, this.m_rB);
+	box2d.b2Sub_V2_V2(this.m_localAnchorB, this.m_localCenterB, this.m_lalcB);
+	box2d.b2Mul_R_V2(qB, this.m_lalcB, this.m_rB);
 //	m_u = cB + m_rB - cA - m_rA;
 	this.m_u.x = cB.x + this.m_rB.x - cA.x - this.m_rA.x;
 	this.m_u.y = cB.y + this.m_rB.y - cA.y - this.m_rA.y;
 
 	// Handle singularity.
-	var length = this.m_u.GetLength();
+	var length = this.m_u.Length();
 	if (length > box2d.b2_linearSlop)
 	{
 		this.m_u.SelfMul(1 / length);
@@ -454,9 +454,9 @@ box2d.b2DistanceJoint.prototype.InitVelocityConstraints = function (data)
 	}
 
 //	float32 crAu = b2Cross(m_rA, m_u);
-	var crAu = box2d.b2CrossVV(this.m_rA, this.m_u);
+	var crAu = box2d.b2Cross_V2_V2(this.m_rA, this.m_u);
 //	float32 crBu = b2Cross(m_rB, m_u);
-	var crBu = box2d.b2CrossVV(this.m_rB, this.m_u);
+	var crBu = box2d.b2Cross_V2_V2(this.m_rB, this.m_u);
 //	float32 invMass = m_invMassA + m_invIA * crAu * crAu + m_invMassB + m_invIB * crBu * crBu;
 	var invMass = this.m_invMassA + this.m_invIA * crAu * crAu + this.m_invMassB + this.m_invIB * crBu * crBu;
 
@@ -497,16 +497,16 @@ box2d.b2DistanceJoint.prototype.InitVelocityConstraints = function (data)
 		this.m_impulse *= data.step.dtRatio;
 
 //		box2d.b2Vec2 P = m_impulse * m_u;
-		var P = box2d.b2MulSV(this.m_impulse, this.m_u, box2d.b2DistanceJoint.prototype.InitVelocityConstraints.s_P);
+		var P = box2d.b2Mul_S_V2(this.m_impulse, this.m_u, box2d.b2DistanceJoint.prototype.InitVelocityConstraints.s_P);
 
 //		vA -= m_invMassA * P;
 		vA.SelfMulSub(this.m_invMassA, P);
 //		wA -= m_invIA * b2Cross(m_rA, P);
-		wA -= this.m_invIA * box2d.b2CrossVV(this.m_rA, P);
+		wA -= this.m_invIA * box2d.b2Cross_V2_V2(this.m_rA, P);
 //		vB += m_invMassB * P;
 		vB.SelfMulAdd(this.m_invMassB, P);
 //		wB += m_invIB * b2Cross(m_rB, P);
-		wB += this.m_invIB * box2d.b2CrossVV(this.m_rB, P);
+		wB += this.m_invIB * box2d.b2Cross_V2_V2(this.m_rB, P);
 	}
 	else
 	{
@@ -533,26 +533,26 @@ box2d.b2DistanceJoint.prototype.SolveVelocityConstraints = function (data)
 	/*float32*/ var wB = data.velocities[this.m_indexB].w;
 
 //	box2d.b2Vec2 vpA = vA + b2Cross(wA, m_rA);
-	var vpA = box2d.b2AddVCrossSV(vA, wA, this.m_rA, box2d.b2DistanceJoint.prototype.SolveVelocityConstraints.s_vpA);
+	var vpA = box2d.b2AddCross_V2_S_V2(vA, wA, this.m_rA, box2d.b2DistanceJoint.prototype.SolveVelocityConstraints.s_vpA);
 //	box2d.b2Vec2 vpB = vB + b2Cross(wB, m_rB);
-	var vpB = box2d.b2AddVCrossSV(vB, wB, this.m_rB, box2d.b2DistanceJoint.prototype.SolveVelocityConstraints.s_vpB);
+	var vpB = box2d.b2AddCross_V2_S_V2(vB, wB, this.m_rB, box2d.b2DistanceJoint.prototype.SolveVelocityConstraints.s_vpB);
 //	float32 Cdot = b2Dot(m_u, vpB - vpA);
-	var Cdot = box2d.b2DotVV(this.m_u, box2d.b2SubVV(vpB, vpA, box2d.b2Vec2.s_t0));
+	var Cdot = box2d.b2Dot_V2_V2(this.m_u, box2d.b2Sub_V2_V2(vpB, vpA, box2d.b2Vec2.s_t0));
 
 	var impulse = (-this.m_mass * (Cdot + this.m_bias + this.m_gamma * this.m_impulse));
 	this.m_impulse += impulse;
 
 //	box2d.b2Vec2 P = impulse * m_u;
-	var P = box2d.b2MulSV(impulse, this.m_u, box2d.b2DistanceJoint.prototype.SolveVelocityConstraints.s_P);
+	var P = box2d.b2Mul_S_V2(impulse, this.m_u, box2d.b2DistanceJoint.prototype.SolveVelocityConstraints.s_P);
 
 //	vA -= m_invMassA * P;
 	vA.SelfMulSub(this.m_invMassA, P);
 //	wA -= m_invIA * b2Cross(m_rA, P);
-	wA -= this.m_invIA * box2d.b2CrossVV(this.m_rA, P);
+	wA -= this.m_invIA * box2d.b2Cross_V2_V2(this.m_rA, P);
 //	vB += m_invMassB * P;
 	vB.SelfMulAdd(this.m_invMassB, P);
 //	wB += m_invIB * b2Cross(m_rB, P);
-	wB += this.m_invIB * box2d.b2CrossVV(this.m_rB, P);
+	wB += this.m_invIB * box2d.b2Cross_V2_V2(this.m_rB, P);
 
 //	data.velocities[this.m_indexA].v = vA;
 	data.velocities[this.m_indexA].w = wA;
@@ -582,12 +582,12 @@ box2d.b2DistanceJoint.prototype.SolvePositionConstraints = function (data)
 	/*float32*/ var aB = data.positions[this.m_indexB].a;
 
 //	var qA = new box2d.b2Rot(aA), qB = new box2d.b2Rot(aB);
-	var qA = this.m_qA.SetAngleRadians(aA), qB = this.m_qB.SetAngleRadians(aB);
+	var qA = this.m_qA.SetAngle(aA), qB = this.m_qB.SetAngle(aB);
 
 //	box2d.b2Vec2 rA = b2Mul(qA, m_localAnchorA - m_localCenterA);
-	var rA = box2d.b2MulRV(this.m_qA, this.m_lalcA, this.m_rA); // use m_rA
+	var rA = box2d.b2Mul_R_V2(this.m_qA, this.m_lalcA, this.m_rA); // use m_rA
 //	box2d.b2Vec2 rB = b2Mul(qB, m_localAnchorB - m_localCenterB);
-	var rB = box2d.b2MulRV(this.m_qB, this.m_lalcB, this.m_rB); // use m_rB
+	var rB = box2d.b2Mul_R_V2(this.m_qB, this.m_lalcB, this.m_rB); // use m_rB
 //	box2d.b2Vec2 u = cB + rB - cA - rA;
 	var u = this.m_u; // use m_u
 	u.x = cB.x + rB.x - cA.x - rA.x;
@@ -601,16 +601,16 @@ box2d.b2DistanceJoint.prototype.SolvePositionConstraints = function (data)
 
 	var impulse = (-this.m_mass * C);
 //	box2d.b2Vec2 P = impulse * u;
-	var P = box2d.b2MulSV(impulse, u, box2d.b2DistanceJoint.prototype.SolvePositionConstraints.s_P);
+	var P = box2d.b2Mul_S_V2(impulse, u, box2d.b2DistanceJoint.prototype.SolvePositionConstraints.s_P);
 
 //	cA -= m_invMassA * P;
 	cA.SelfMulSub(this.m_invMassA, P);
 //	aA -= m_invIA * b2Cross(rA, P);
-	aA -= this.m_invIA * box2d.b2CrossVV(rA, P);
+	aA -= this.m_invIA * box2d.b2Cross_V2_V2(rA, P);
 //	cB += m_invMassB * P;
 	cB.SelfMulAdd(this.m_invMassB, P);
 //	aB += m_invIB * b2Cross(rB, P);
-	aB += this.m_invIB * box2d.b2CrossVV(rB, P);
+	aB += this.m_invIB * box2d.b2Cross_V2_V2(rB, P);
 
 //	data.positions[this.m_indexA].c = cA;
 	data.positions[this.m_indexA].a = aA;

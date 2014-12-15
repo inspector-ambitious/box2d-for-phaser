@@ -104,12 +104,12 @@ box2d.Testbed.TheoJansen.prototype.CreateLeg = function (s, wheelAnchor)
 		vertices[0] = p1;
 		vertices[1] = p2;
 		vertices[2] = p3;
-		poly1.SetAsArray(vertices);
+		poly1.Set(vertices);
 
 		vertices[0] = box2d.b2Vec2_zero;
-		vertices[1] = box2d.b2SubVV(p5, p4, new box2d.b2Vec2());
-		vertices[2] = box2d.b2SubVV(p6, p4, new box2d.b2Vec2());
-		poly2.SetAsArray(vertices);
+		vertices[1] = box2d.b2Sub_V2_V2(p5, p4, new box2d.b2Vec2());
+		vertices[2] = box2d.b2Sub_V2_V2(p6, p4, new box2d.b2Vec2());
+		poly2.Set(vertices);
 	}
 	else
 	{
@@ -118,12 +118,12 @@ box2d.Testbed.TheoJansen.prototype.CreateLeg = function (s, wheelAnchor)
 		vertices[0] = p1;
 		vertices[1] = p3;
 		vertices[2] = p2;
-		poly1.SetAsArray(vertices);
+		poly1.Set(vertices);
 
 		vertices[0] = box2d.b2Vec2_zero;
-		vertices[1] = box2d.b2SubVV(p6, p4, new box2d.b2Vec2());
-		vertices[2] = box2d.b2SubVV(p5, p4, new box2d.b2Vec2());
-		poly2.SetAsArray(vertices);
+		vertices[1] = box2d.b2Sub_V2_V2(p6, p4, new box2d.b2Vec2());
+		vertices[2] = box2d.b2Sub_V2_V2(p5, p4, new box2d.b2Vec2());
+		poly2.Set(vertices);
 	}
 
 	fd1.shape = poly1;
@@ -134,7 +134,7 @@ box2d.Testbed.TheoJansen.prototype.CreateLeg = function (s, wheelAnchor)
 	bd1.type = box2d.b2BodyType.b2_dynamicBody;
 	bd2.type = box2d.b2BodyType.b2_dynamicBody;
 	bd1.position.Copy(this.m_offset);
-	bd2.position.Copy(box2d.b2AddVV(p4, this.m_offset, new box2d.b2Vec2()));
+	bd2.position.Copy(box2d.b2Add_V2_V2(p4, this.m_offset, new box2d.b2Vec2()));
 
 	bd1.angularDamping = 10.0;
 	bd2.angularDamping = 10.0;
@@ -153,21 +153,21 @@ box2d.Testbed.TheoJansen.prototype.CreateLeg = function (s, wheelAnchor)
 	djd.dampingRatio = 0.5;
 	djd.frequencyHz = 10.0;
 
-	djd.Initialize(body1, body2, box2d.b2AddVV(p2, this.m_offset, new box2d.b2Vec2()), box2d.b2AddVV(p5, this.m_offset, new box2d.b2Vec2()));
+	djd.Initialize(body1, body2, box2d.b2Add_V2_V2(p2, this.m_offset, new box2d.b2Vec2()), box2d.b2Add_V2_V2(p5, this.m_offset, new box2d.b2Vec2()));
 	this.m_world.CreateJoint(djd);
 
-	djd.Initialize(body1, body2, box2d.b2AddVV(p3, this.m_offset, new box2d.b2Vec2()), box2d.b2AddVV(p4, this.m_offset, new box2d.b2Vec2()));
+	djd.Initialize(body1, body2, box2d.b2Add_V2_V2(p3, this.m_offset, new box2d.b2Vec2()), box2d.b2Add_V2_V2(p4, this.m_offset, new box2d.b2Vec2()));
 	this.m_world.CreateJoint(djd);
 
-	djd.Initialize(body1, this.m_wheel, box2d.b2AddVV(p3, this.m_offset, new box2d.b2Vec2()), box2d.b2AddVV(wheelAnchor, this.m_offset, new box2d.b2Vec2()));
+	djd.Initialize(body1, this.m_wheel, box2d.b2Add_V2_V2(p3, this.m_offset, new box2d.b2Vec2()), box2d.b2Add_V2_V2(wheelAnchor, this.m_offset, new box2d.b2Vec2()));
 	this.m_world.CreateJoint(djd);
 
-	djd.Initialize(body2, this.m_wheel, box2d.b2AddVV(p6, this.m_offset, new box2d.b2Vec2()), box2d.b2AddVV(wheelAnchor, this.m_offset, new box2d.b2Vec2()));
+	djd.Initialize(body2, this.m_wheel, box2d.b2Add_V2_V2(p6, this.m_offset, new box2d.b2Vec2()), box2d.b2Add_V2_V2(wheelAnchor, this.m_offset, new box2d.b2Vec2()));
 	this.m_world.CreateJoint(djd);
 
 	var rjd = new box2d.b2RevoluteJointDef();
 
-	rjd.Initialize(body2, this.m_chassis, box2d.b2AddVV(p4, this.m_offset, new box2d.b2Vec2()));
+	rjd.Initialize(body2, this.m_chassis, box2d.b2Add_V2_V2(p4, this.m_offset, new box2d.b2Vec2()));
 	this.m_world.CreateJoint(rjd);
 }
 
@@ -177,7 +177,7 @@ box2d.Testbed.TheoJansen.prototype.CreateLeg = function (s, wheelAnchor)
  */
 box2d.Testbed.TheoJansen.prototype.Construct = function ()
 {
-	this.m_offset.SetXY(0.0, 8.0);
+	this.m_offset.Set(0.0, 8.0);
 	this.m_motorSpeed = 2.0;
 	this.m_motorOn = true;
 	var pivot = new box2d.b2Vec2(0.0, 0.8);
@@ -190,13 +190,13 @@ box2d.Testbed.TheoJansen.prototype.Construct = function ()
 
 		var shape = new box2d.b2EdgeShape();
 		shape.SetAsEdge(new box2d.b2Vec2(-50.0, 0.0), new box2d.b2Vec2(50.0, 0.0));
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 
 		shape.SetAsEdge(new box2d.b2Vec2(-50.0, 0.0), new box2d.b2Vec2(-50.0, 10.0));
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 
 		shape.SetAsEdge(new box2d.b2Vec2(50.0, 0.0), new box2d.b2Vec2(50.0, 10.0));
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 	}
 
 	// Balls
@@ -207,10 +207,10 @@ box2d.Testbed.TheoJansen.prototype.Construct = function ()
 
 		var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
-		bd.position.SetXY(-40.0 + 2.0 * i, 0.5);
+		bd.position.Set(-40.0 + 2.0 * i, 0.5);
 
 		var body = this.m_world.CreateBody(bd);
-		body.CreateFixture2(shape, 1.0);
+		body.CreateFixture(shape, 1.0);
 	}
 
 	// Chassis
@@ -225,7 +225,7 @@ box2d.Testbed.TheoJansen.prototype.Construct = function ()
 		sd.filter.groupIndex = -1;
 		var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
-		bd.position = box2d.b2AddVV(pivot, this.m_offset, new box2d.b2Vec2());
+		bd.position = box2d.b2Add_V2_V2(pivot, this.m_offset, new box2d.b2Vec2());
 		this.m_chassis = this.m_world.CreateBody(bd);
 		this.m_chassis.CreateFixture(sd);
 	}
@@ -241,7 +241,7 @@ box2d.Testbed.TheoJansen.prototype.Construct = function ()
 		sd.filter.groupIndex = -1;
 		var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
-		bd.position = box2d.b2AddVV(pivot, this.m_offset, new box2d.b2Vec2());
+		bd.position = box2d.b2Add_V2_V2(pivot, this.m_offset, new box2d.b2Vec2());
 		this.m_wheel = this.m_world.CreateBody(bd);
 		this.m_wheel.CreateFixture(sd);
 	}
@@ -249,7 +249,7 @@ box2d.Testbed.TheoJansen.prototype.Construct = function ()
 	if (true)
 	{
 		var jd = new box2d.b2RevoluteJointDef();
-		jd.Initialize(this.m_wheel, this.m_chassis, box2d.b2AddVV(pivot, this.m_offset, new box2d.b2Vec2()));
+		jd.Initialize(this.m_wheel, this.m_chassis, box2d.b2Add_V2_V2(pivot, this.m_offset, new box2d.b2Vec2()));
 		jd.collideConnected = false;
 		jd.motorSpeed = this.m_motorSpeed;
 		jd.maxMotorTorque = 400.0;
@@ -257,16 +257,16 @@ box2d.Testbed.TheoJansen.prototype.Construct = function ()
 		this.m_motorJoint = this.m_world.CreateJoint(jd);
 	}
 
-	var wheelAnchor = box2d.b2AddVV(pivot, new box2d.b2Vec2(0.0, -0.8), new box2d.b2Vec2());
+	var wheelAnchor = box2d.b2Add_V2_V2(pivot, new box2d.b2Vec2(0.0, -0.8), new box2d.b2Vec2());
 
 	this.CreateLeg(-1.0, wheelAnchor);
 	this.CreateLeg(1.0, wheelAnchor);
 
-	this.m_wheel.SetTransformVecRadians(this.m_wheel.GetPosition(), 120.0 * box2d.b2_pi / 180.0);
+	this.m_wheel.SetTransform_V2_A(this.m_wheel.GetPosition(), 120.0 * box2d.b2_pi / 180.0);
 	this.CreateLeg(-1.0, wheelAnchor);
 	this.CreateLeg(1.0, wheelAnchor);
 
-	this.m_wheel.SetTransformVecRadians(this.m_wheel.GetPosition(), -120.0 * box2d.b2_pi / 180.0);
+	this.m_wheel.SetTransform_V2_A(this.m_wheel.GetPosition(), -120.0 * box2d.b2_pi / 180.0);
 	this.CreateLeg(-1.0, wheelAnchor);
 	this.CreateLeg(1.0, wheelAnchor);
 }

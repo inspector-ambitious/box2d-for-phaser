@@ -551,9 +551,9 @@ box2d.Testbed.Test.prototype.MouseDown = function (p)
 	// Make a small box.
 	var aabb = new box2d.b2AABB();
 	var d = new box2d.b2Vec2();
-	d.SetXY(0.001, 0.001);
-	box2d.b2SubVV(p, d, aabb.lowerBound);
-	box2d.b2AddVV(p, d, aabb.upperBound);
+	d.Set(0.001, 0.001);
+	box2d.b2Sub_V2_V2(p, d, aabb.lowerBound);
+	box2d.b2Add_V2_V2(p, d, aabb.upperBound);
 
 	var that = this;
 	var hit_fixture = null;
@@ -617,7 +617,7 @@ box2d.Testbed.Test.prototype.CompleteBombSpawn = function (p)
 	}
 
 	var multiplier = 30;
-	var vel = box2d.b2SubVV(this.m_bombSpawnPoint, p, new box2d.b2Vec2());
+	var vel = box2d.b2Sub_V2_V2(this.m_bombSpawnPoint, p, new box2d.b2Vec2());
 	vel.SelfMul(multiplier);
 	this.LaunchBombAt(this.m_bombSpawnPoint, vel);
 	this.m_bombSpawning = false;
@@ -681,7 +681,7 @@ box2d.Testbed.Test.prototype.MouseMove = function (p)
 box2d.Testbed.Test.prototype.LaunchBomb = function ()
 {
 	var p = new box2d.b2Vec2(box2d.b2RandomRange(-15, 15), 30);
-	var v = box2d.b2MulSV(-5, p, new box2d.b2Vec2());
+	var v = box2d.b2Mul_S_V2(-5, p, new box2d.b2Vec2());
 	this.LaunchBombAt(p, v);
 }
 
@@ -892,21 +892,21 @@ box2d.Testbed.Test.prototype.Step = function (settings)
 			if (settings.drawContactNormals === true)
 			{
 				var p1 = point.position;
-				var p2 = box2d.b2AddVV(p1, box2d.b2MulSV(k_axisScale, point.normal, box2d.b2Vec2.s_t0), new box2d.b2Vec2());
+				var p2 = box2d.b2Add_V2_V2(p1, box2d.b2Mul_S_V2(k_axisScale, point.normal, box2d.b2Vec2.s_t0), new box2d.b2Vec2());
 				this.m_debugDraw.DrawSegment(p1, p2, new box2d.b2Color(0.9, 0.9, 0.9));
 			}
 			else if (settings.drawContactImpulse === true)
 			{
 				var p1 = point.position;
-				var p2 = box2d.b2AddVMulSV(p1, k_impulseScale * point.normalImpulse, point.normal, new box2d.b2Vec2());
+				var p2 = box2d.b2AddMul_V2_S_V2(p1, k_impulseScale * point.normalImpulse, point.normal, new box2d.b2Vec2());
 				this.m_debugDraw.DrawSegment(p1, p2, new box2d.b2Color(0.9, 0.9, 0.3));
 			}
 
 			if (settings.drawFrictionImpulse === true)
 			{
-				var tangent = box2d.b2CrossVOne(point.normal, new box2d.b2Vec2());
+				var tangent = box2d.b2Cross_V2_S(point.normal, 1.0, new box2d.b2Vec2());
 				var p1 = point.position;
-				var p2 = box2d.b2AddVMulSV(p1, k_impulseScale * point.tangentImpulse, tangent, new box2d.b2Vec2());
+				var p2 = box2d.b2AddMul_V2_S_V2(p1, k_impulseScale * point.tangentImpulse, tangent, new box2d.b2Vec2());
 				this.m_debugDraw.DrawSegment(p1, p2, new box2d.b2Color(0.9, 0.9, 0.3));
 			}
 		}

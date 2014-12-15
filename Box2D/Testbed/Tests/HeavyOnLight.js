@@ -38,22 +38,22 @@ box2d.Testbed.HeavyOnLight = function (canvas, settings)
 
 		/*box2d.b2EdgeShape*/ var shape = new box2d.b2EdgeShape();
 		shape.SetAsEdge(new box2d.b2Vec2(-40.0, 0.0), new box2d.b2Vec2(40.0, 0.0));
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 	}
 
 	/*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
 	bd.type = box2d.b2BodyType.b2_dynamicBody;
-	bd.position.SetXY(0.0, 0.5);
+	bd.position.Set(0.0, 0.5);
 	/*box2d.b2Body*/ var body = this.m_world.CreateBody(bd);
 
 	/*box2d.b2CircleShape*/ var shape = new box2d.b2CircleShape();
 	shape.m_radius = 0.5;
-	body.CreateFixture2(shape, 10.0);
+	body.CreateFixture(shape, 10.0);
 
-	bd.position.SetXY(0.0, 6.0);
+	bd.position.Set(0.0, 6.0);
 	body = this.m_world.CreateBody(bd);
 	shape.m_radius = 5.0;
-	body.CreateFixture2(shape, 10.0);
+	body.CreateFixture(shape, 10.0);
 }
 
 goog.inherits(box2d.Testbed.HeavyOnLight, box2d.Testbed.Test);

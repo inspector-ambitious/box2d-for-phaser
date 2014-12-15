@@ -52,13 +52,13 @@ box2d.b2ConstantAccelController.prototype.A = null;
  */
 box2d.b2ConstantAccelController.prototype.Step = function (step)
 {
-	var dtA = box2d.b2MulSV(step.dt, this.A, box2d.b2ConstantAccelController.prototype.Step.s_dtA);
+	var dtA = box2d.b2Mul_S_V2(step.dt, this.A, box2d.b2ConstantAccelController.prototype.Step.s_dtA);
 	for (var i = this.m_bodyList; i; i = i.nextBody)
 	{
 		var body = i.body;
 		if (!body.IsAwake())
 			continue;
-		body.SetLinearVelocity(box2d.b2AddVV(body.GetLinearVelocity(), dtA, box2d.b2Vec2.s_t0));
+		body.SetLinearVelocity(box2d.b2Add_V2_V2(body.GetLinearVelocity(), dtA, box2d.b2Vec2.s_t0));
 	}
 }
 box2d.b2ConstantAccelController.prototype.Step.s_dtA = new box2d.b2Vec2();

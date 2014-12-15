@@ -40,7 +40,7 @@ goog.require('box2d.b2ChainShape');
 goog.require('box2d.b2PolygonShape');
 
 goog.require('box2d.b2BroadPhase');
-goog.require('box2d.b2Distance');
+goog.require('box2d.b2ShapeDistance');
 goog.require('box2d.b2DynamicTree');
 goog.require('box2d.b2TimeOfImpact');
 

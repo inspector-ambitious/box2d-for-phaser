@@ -40,15 +40,15 @@ box2d.Testbed.PolyCollision = function (canvas, settings)
 	if (true)
 	{
 		this.m_polygonA.SetAsBox(0.2, 0.4);
-		this.m_transformA.SetPositionAngleRadians(new box2d.b2Vec2(0.0, 0.0), 0.0);
+		this.m_transformA.SetPositionRotationAngle(new box2d.b2Vec2(0.0, 0.0), 0.0);
 	}
 
 	if (true)
 	{
 		this.m_polygonB.SetAsBox(0.5, 0.5);
-		this.m_positionB.SetXY(19.345284, 1.5632932);
+		this.m_positionB.Set(19.345284, 1.5632932);
 		this.m_angleB = 1.9160721;
-		this.m_transformB.SetPositionAngleRadians(this.m_positionB, this.m_angleB);
+		this.m_transformB.SetPositionRotationAngle(this.m_positionB, this.m_angleB);
 	}
 }
 
@@ -107,13 +107,13 @@ box2d.Testbed.PolyCollision.prototype.Step = function (settings)
 		var v = new Array(box2d.b2_maxPolygonVertices);
 		for (var i = 0; i < this.m_polygonA.m_count; ++i)
 		{
-			v[i] = box2d.b2MulXV(this.m_transformA, this.m_polygonA.m_vertices[i], new box2d.b2Vec2());
+			v[i] = box2d.b2Mul_X_V2(this.m_transformA, this.m_polygonA.m_vertices[i], new box2d.b2Vec2());
 		}
 		this.m_debugDraw.DrawPolygon(v, this.m_polygonA.m_count, color);
 
 		for (var i = 0; i < this.m_polygonB.m_count; ++i)
 		{
-			v[i] = box2d.b2MulXV(this.m_transformB, this.m_polygonB.m_vertices[i], new box2d.b2Vec2());
+			v[i] = box2d.b2Mul_X_V2(this.m_transformB, this.m_polygonB.m_vertices[i], new box2d.b2Vec2());
 		}
 		this.m_debugDraw.DrawPolygon(v, this.m_polygonB.m_count, color);
 	}
@@ -158,7 +158,7 @@ box2d.Testbed.PolyCollision.prototype.Keyboard = function (key)
 		break;
 	}
 
-	this.m_transformB.SetPositionAngleRadians(this.m_positionB, this.m_angleB);
+	this.m_transformB.SetPositionRotationAngle(this.m_positionB, this.m_angleB);
 }
 
 /** 

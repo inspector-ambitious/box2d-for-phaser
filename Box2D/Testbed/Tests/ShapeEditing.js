@@ -38,17 +38,17 @@ box2d.Testbed.ShapeEditing = function (canvas, settings)
 
 		var shape = new box2d.b2EdgeShape();
 		shape.SetAsEdge(new box2d.b2Vec2(-40.0, 0.0), new box2d.b2Vec2(40.0, 0.0));
-		ground.CreateFixture2(shape, 0.0);
+		ground.CreateFixture(shape, 0.0);
 	}
 
 	var bd = new box2d.b2BodyDef();
 	bd.type = box2d.b2BodyType.b2_dynamicBody;
-	bd.position.SetXY(0.0, 10.0);
+	bd.position.Set(0.0, 10.0);
 	this.m_body = this.m_world.CreateBody(bd);
 
 	var shape = new box2d.b2PolygonShape();
 	shape.SetAsOrientedBox(4.0, 4.0, new box2d.b2Vec2(0.0, 0.0), 0.0);
-	this.m_fixture1 = this.m_body.CreateFixture2(shape, 10.0);
+	this.m_fixture1 = this.m_body.CreateFixture(shape, 10.0);
 
 	this.m_fixture2 = null;
 
@@ -92,8 +92,8 @@ box2d.Testbed.ShapeEditing.prototype.Keyboard = function (key)
 		{
 			var shape = new box2d.b2CircleShape();
 			shape.m_radius = 3.0;
-			shape.m_p.SetXY(0.5, -4.0);
-			this.m_fixture2 = this.m_body.CreateFixture2(shape, 10.0);
+			shape.m_p.Set(0.5, -4.0);
+			this.m_fixture2 = this.m_body.CreateFixture(shape, 10.0);
 			this.m_body.SetAwake(true);
 		}
 		break;

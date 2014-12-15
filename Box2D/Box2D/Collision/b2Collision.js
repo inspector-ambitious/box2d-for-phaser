@@ -20,7 +20,7 @@ goog.provide('box2d.b2Collision');
 
 goog.require('box2d.b2Settings');
 goog.require('box2d.b2Math');
-goog.require('box2d.b2Distance');
+goog.require('box2d.b2ShapeDistance');
 
 /**
  * Structures and functions used for computing contact points, 
@@ -467,51 +467,51 @@ box2d.b2WorldManifold.prototype.Initialize = function (manifold, xfA, radiusA, x
 	{
 	case box2d.b2ManifoldType.e_circles:
 		{
-			this.normal.SetXY(1, 0);
-			var pointA = box2d.b2MulXV(xfA, manifold.localPoint, box2d.b2WorldManifold.prototype.Initialize.s_pointA);
-			var pointB = box2d.b2MulXV(xfB, manifold.points[0].localPoint, box2d.b2WorldManifold.prototype.Initialize.s_pointB);
-			if (box2d.b2DistanceSquaredVV(pointA, pointB) > box2d.b2_epsilon_sq)
+			this.normal.Set(1, 0);
+			var pointA = box2d.b2Mul_X_V2(xfA, manifold.localPoint, box2d.b2WorldManifold.prototype.Initialize.s_pointA);
+			var pointB = box2d.b2Mul_X_V2(xfB, manifold.points[0].localPoint, box2d.b2WorldManifold.prototype.Initialize.s_pointB);
+			if (box2d.b2DistanceSquared(pointA, pointB) > box2d.b2_epsilon_sq)
 			{
-				box2d.b2SubVV(pointB, pointA, this.normal).SelfNormalize();
+				box2d.b2Sub_V2_V2(pointB, pointA, this.normal).SelfNormalize();
 			}
 
-			var cA = box2d.b2AddVMulSV(pointA, radiusA, this.normal, box2d.b2WorldManifold.prototype.Initialize.s_cA);
-			var cB = box2d.b2SubVMulSV(pointB, radiusB, this.normal, box2d.b2WorldManifold.prototype.Initialize.s_cB);
-			box2d.b2MidVV(cA, cB, this.points[0]);
-			this.separations[0] = box2d.b2DotVV(box2d.b2SubVV(cB, cA, box2d.b2Vec2.s_t0), this.normal); // b2Dot(cB - cA, normal);
+			var cA = box2d.b2AddMul_V2_S_V2(pointA, radiusA, this.normal, box2d.b2WorldManifold.prototype.Initialize.s_cA);
+			var cB = box2d.b2SubMul_V2_S_V2(pointB, radiusB, this.normal, box2d.b2WorldManifold.prototype.Initialize.s_cB);
+			box2d.b2Mid_V2_V2(cA, cB, this.points[0]);
+			this.separations[0] = box2d.b2Dot_V2_V2(box2d.b2Sub_V2_V2(cB, cA, box2d.b2Vec2.s_t0), this.normal); // b2Dot(cB - cA, normal);
 		}
 		break;
 
 	case box2d.b2ManifoldType.e_faceA:
 		{
-			box2d.b2MulRV(xfA.q, manifold.localNormal, this.normal);
-			var planePoint = box2d.b2MulXV(xfA, manifold.localPoint, box2d.b2WorldManifold.prototype.Initialize.s_planePoint);
+			box2d.b2Mul_R_V2(xfA.q, manifold.localNormal, this.normal);
+			var planePoint = box2d.b2Mul_X_V2(xfA, manifold.localPoint, box2d.b2WorldManifold.prototype.Initialize.s_planePoint);
 
 			for (var i = 0, ict = manifold.pointCount; i < ict; ++i)
 			{
-				var clipPoint = box2d.b2MulXV(xfB, manifold.points[i].localPoint, box2d.b2WorldManifold.prototype.Initialize.s_clipPoint);
-				var s = radiusA - box2d.b2DotVV(box2d.b2SubVV(clipPoint, planePoint, box2d.b2Vec2.s_t0), this.normal);
-				var cA = box2d.b2AddVMulSV(clipPoint, s, this.normal, box2d.b2WorldManifold.prototype.Initialize.s_cA);
-				var cB = box2d.b2SubVMulSV(clipPoint, radiusB, this.normal, box2d.b2WorldManifold.prototype.Initialize.s_cB);
-				box2d.b2MidVV(cA, cB, this.points[i]);
-				this.separations[i] = box2d.b2DotVV(box2d.b2SubVV(cB, cA, box2d.b2Vec2.s_t0), this.normal); // b2Dot(cB - cA, normal);
+				var clipPoint = box2d.b2Mul_X_V2(xfB, manifold.points[i].localPoint, box2d.b2WorldManifold.prototype.Initialize.s_clipPoint);
+				var s = radiusA - box2d.b2Dot_V2_V2(box2d.b2Sub_V2_V2(clipPoint, planePoint, box2d.b2Vec2.s_t0), this.normal);
+				var cA = box2d.b2AddMul_V2_S_V2(clipPoint, s, this.normal, box2d.b2WorldManifold.prototype.Initialize.s_cA);
+				var cB = box2d.b2SubMul_V2_S_V2(clipPoint, radiusB, this.normal, box2d.b2WorldManifold.prototype.Initialize.s_cB);
+				box2d.b2Mid_V2_V2(cA, cB, this.points[i]);
+				this.separations[i] = box2d.b2Dot_V2_V2(box2d.b2Sub_V2_V2(cB, cA, box2d.b2Vec2.s_t0), this.normal); // b2Dot(cB - cA, normal);
 			}
 		}
 		break;
 
 	case box2d.b2ManifoldType.e_faceB:
 		{
-			box2d.b2MulRV(xfB.q, manifold.localNormal, this.normal);
-			var planePoint = box2d.b2MulXV(xfB, manifold.localPoint, box2d.b2WorldManifold.prototype.Initialize.s_planePoint);
+			box2d.b2Mul_R_V2(xfB.q, manifold.localNormal, this.normal);
+			var planePoint = box2d.b2Mul_X_V2(xfB, manifold.localPoint, box2d.b2WorldManifold.prototype.Initialize.s_planePoint);
 
 			for (var i = 0, ict = manifold.pointCount; i < ict; ++i)
 			{
-				var clipPoint = box2d.b2MulXV(xfA, manifold.points[i].localPoint, box2d.b2WorldManifold.prototype.Initialize.s_clipPoint);
-				var s = radiusB - box2d.b2DotVV(box2d.b2SubVV(clipPoint, planePoint, box2d.b2Vec2.s_t0), this.normal);
-				var cB = box2d.b2AddVMulSV(clipPoint, s, this.normal, box2d.b2WorldManifold.prototype.Initialize.s_cB);
-				var cA = box2d.b2SubVMulSV(clipPoint, radiusA, this.normal, box2d.b2WorldManifold.prototype.Initialize.s_cA);
-				box2d.b2MidVV(cA, cB, this.points[i]);
-				this.separations[i] = box2d.b2DotVV(box2d.b2SubVV(cA, cB, box2d.b2Vec2.s_t0), this.normal); // b2Dot(cA - cB, normal);
+				var clipPoint = box2d.b2Mul_X_V2(xfA, manifold.points[i].localPoint, box2d.b2WorldManifold.prototype.Initialize.s_clipPoint);
+				var s = radiusB - box2d.b2Dot_V2_V2(box2d.b2Sub_V2_V2(clipPoint, planePoint, box2d.b2Vec2.s_t0), this.normal);
+				var cB = box2d.b2AddMul_V2_S_V2(clipPoint, s, this.normal, box2d.b2WorldManifold.prototype.Initialize.s_cB);
+				var cA = box2d.b2SubMul_V2_S_V2(clipPoint, radiusA, this.normal, box2d.b2WorldManifold.prototype.Initialize.s_cA);
+				box2d.b2Mid_V2_V2(cA, cB, this.points[i]);
+				this.separations[i] = box2d.b2Dot_V2_V2(box2d.b2Sub_V2_V2(cA, cB, box2d.b2Vec2.s_t0), this.normal); // b2Dot(cA - cB, normal);
 			}
 
 			// Ensure normal points from A to B.
@@ -793,7 +793,7 @@ box2d.b2AABB.prototype.IsValid = function ()
  */
 box2d.b2AABB.prototype.GetCenter = function ()
 {
-	return box2d.b2MidVV(this.lowerBound, this.upperBound, this.m_out_center);
+	return box2d.b2Mid_V2_V2(this.lowerBound, this.upperBound, this.m_out_center);
 }
 
 /** 
@@ -803,7 +803,7 @@ box2d.b2AABB.prototype.GetCenter = function ()
  */
 box2d.b2AABB.prototype.GetExtents = function ()
 {
-	return box2d.b2ExtVV(this.lowerBound, this.upperBound, this.m_out_extent);
+	return box2d.b2Ext_V2_V2(this.lowerBound, this.upperBound, this.m_out_extent);
 }
 
 /** 
@@ -1059,8 +1059,8 @@ box2d.b2ClipSegmentToLine = function (vOut, vIn, normal, offset, vertexIndexA)
 	var vIn1 = vIn[1];
 
 	// Calculate the distance of end points to the line
-	var distance0 = box2d.b2DotVV(normal, vIn0.v) - offset;
-	var distance1 = box2d.b2DotVV(normal, vIn1.v) - offset;
+	var distance0 = box2d.b2Dot_V2_V2(normal, vIn0.v) - offset;
+	var distance1 = box2d.b2Dot_V2_V2(normal, vIn1.v) - offset;
 
 	// If the points are behind the plane
 	if (distance0 <= 0) vOut[numOut++].Copy(vIn0);
@@ -1109,7 +1109,7 @@ box2d.b2TestOverlapShape = function (shapeA, indexA, shapeB, indexB, xfA, xfB)
 
 	var output = box2d.b2TestOverlapShape.s_output.Reset();
 
-	box2d.b2Distance(output, simplexCache, input);
+	box2d.b2ShapeDistance(output, simplexCache, input);
 
 	return output.distance < 10 * box2d.b2_epsilon;
 }
