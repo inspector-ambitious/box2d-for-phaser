@@ -38,7 +38,6 @@ box2d.Testbed.CharacterCollision = function (canvas, settings)
 	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	// Ground body
-	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
 		var ground = this.m_world.CreateBody(bd);
@@ -51,7 +50,6 @@ box2d.Testbed.CharacterCollision = function (canvas, settings)
 	// Collinear edges with no adjacency information.
 	// This shows the problematic case where a box shape can hit
 	// an internal vertex.
-	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
 		var ground = this.m_world.CreateBody(bd);
@@ -66,7 +64,6 @@ box2d.Testbed.CharacterCollision = function (canvas, settings)
 	}
 
 	// Chain shape
-	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
 		bd.angle = 0.25 * box2d.b2_pi;
@@ -85,7 +82,6 @@ box2d.Testbed.CharacterCollision = function (canvas, settings)
 	// Square tiles. This shows that adjacency shapes may
 	// have non-smooth collision. There is no solution
 	// to this problem.
-	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
 		var ground = this.m_world.CreateBody(bd);
@@ -100,7 +96,6 @@ box2d.Testbed.CharacterCollision = function (canvas, settings)
 	}
 
 	// Square made from an edge loop. Collision should be smooth.
-	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
 		var ground = this.m_world.CreateBody(bd);
@@ -116,7 +111,6 @@ box2d.Testbed.CharacterCollision = function (canvas, settings)
 	}
 
 	// Edge loop. Collision should be smooth.
-	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
 		bd.position.Set(-10.0, 4.0);
@@ -139,7 +133,6 @@ box2d.Testbed.CharacterCollision = function (canvas, settings)
 	}
 
 	// Square character 1
-	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
 		bd.position.Set(-3.0, 8.0);
@@ -159,7 +152,6 @@ box2d.Testbed.CharacterCollision = function (canvas, settings)
 	}
 
 	// Square character 2
-	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
 		bd.position.Set(-5.0, 5.0);
@@ -179,7 +171,6 @@ box2d.Testbed.CharacterCollision = function (canvas, settings)
 	}
 
 	// Hexagon character
-	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
 		bd.position.Set(-5.0, 8.0);
@@ -208,7 +199,6 @@ box2d.Testbed.CharacterCollision = function (canvas, settings)
 	}
 
 	// Circle character
-	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
 		bd.position.Set(3.0, 5.0);
@@ -228,7 +218,6 @@ box2d.Testbed.CharacterCollision = function (canvas, settings)
 	}
 
 	// Circle character
-	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
 		bd.position.Set(-7.0, 6.0);

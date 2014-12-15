@@ -31,7 +31,6 @@ box2d.Testbed.VaryingFriction = function (canvas, settings)
 {
 	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
-	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
 		var ground = this.m_world.CreateBody(bd);
@@ -41,7 +40,6 @@ box2d.Testbed.VaryingFriction = function (canvas, settings)
 		ground.CreateFixture(shape, 0.0);
 	}
 
-	if (true)
 	{
 		var shape = new box2d.b2PolygonShape();
 		shape.SetAsBox(13.0, 0.25);
@@ -54,7 +52,6 @@ box2d.Testbed.VaryingFriction = function (canvas, settings)
 		ground.CreateFixture(shape, 0.0);
 	}
 
-	if (true)
 	{
 		var shape = new box2d.b2PolygonShape();
 		shape.SetAsBox(0.25, 1.0);
@@ -66,7 +63,6 @@ box2d.Testbed.VaryingFriction = function (canvas, settings)
 		ground.CreateFixture(shape, 0.0);
 	}
 
-	if (true)
 	{
 		var shape = new box2d.b2PolygonShape();
 		shape.SetAsBox(13.0, 0.25);
@@ -79,7 +75,6 @@ box2d.Testbed.VaryingFriction = function (canvas, settings)
 		ground.CreateFixture(shape, 0.0);
 	}
 
-	if (true)
 	{
 		var shape = new box2d.b2PolygonShape();
 		shape.SetAsBox(0.25, 1.0);
@@ -91,7 +86,6 @@ box2d.Testbed.VaryingFriction = function (canvas, settings)
 		ground.CreateFixture(shape, 0.0);
 	}
 
-	if (true)
 	{
 		var shape = new box2d.b2PolygonShape();
 		shape.SetAsBox(13.0, 0.25);
@@ -104,7 +98,6 @@ box2d.Testbed.VaryingFriction = function (canvas, settings)
 		ground.CreateFixture(shape, 0.0);
 	}
 
-	if (true)
 	{
 		var shape = new box2d.b2PolygonShape();
 		shape.SetAsBox(0.5, 0.5);

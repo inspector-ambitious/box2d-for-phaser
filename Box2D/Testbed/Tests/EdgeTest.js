@@ -31,7 +31,6 @@ box2d.Testbed.EdgeTest = function (canvas, settings)
 {
 	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
-	if (true)
 	{
 		/*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
 		/*box2d.b2Body*/ var ground = this.m_world.CreateBody(bd);
@@ -80,7 +79,6 @@ box2d.Testbed.EdgeTest = function (canvas, settings)
 		ground.CreateFixture(shape, 0.0);
 	}
 
-	if (true)
 	{
 		/*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
@@ -94,7 +92,6 @@ box2d.Testbed.EdgeTest = function (canvas, settings)
 		body.CreateFixture(shape, 1.0);
 	}
 
-	if (true)
 	{
 		/*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;

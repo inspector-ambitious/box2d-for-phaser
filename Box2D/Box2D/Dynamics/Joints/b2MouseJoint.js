@@ -226,7 +226,7 @@ box2d.b2MouseJoint.prototype.m_K = null;
  */
 box2d.b2MouseJoint.prototype.SetTarget = function (target)
 {
-	if (this.m_bodyB.IsAwake() === false)
+	if (!this.m_bodyB.IsAwake())
 	{
 		this.m_bodyB.SetAwake(true);
 	}

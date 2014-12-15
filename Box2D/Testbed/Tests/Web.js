@@ -35,7 +35,6 @@ box2d.Testbed.Web = function (canvas, settings)
 	this.m_joints = new Array(8);
 
 	var ground = null;
-	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
 		ground = this.m_world.CreateBody(bd);

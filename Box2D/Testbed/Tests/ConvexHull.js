@@ -125,7 +125,7 @@ box2d.Testbed.ConvexHull.prototype.Step = function (settings)
 		this.m_debugDraw.DrawStringWorld(this.m_test_points[i].x + 0.05, this.m_test_points[i].y + 0.05, "%d", i);
 	}
 
-	if (shape.Validate() === false)
+	if (!shape.Validate())
 	{
 		this.m_textLine += 0;
 	}

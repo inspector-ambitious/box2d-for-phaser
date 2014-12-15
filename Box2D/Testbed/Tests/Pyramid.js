@@ -31,7 +31,6 @@ box2d.Testbed.Pyramid = function (canvas, settings)
 {
 	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
-	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
 		var ground = this.m_world.CreateBody(bd);
@@ -41,7 +40,6 @@ box2d.Testbed.Pyramid = function (canvas, settings)
 		ground.CreateFixture(shape, 0.0);
 	}
 
-	if (true)
 	{
 		var a = 0.5;
 		var shape = new box2d.b2PolygonShape();

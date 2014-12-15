@@ -37,7 +37,6 @@ box2d.Testbed.VerticalStack = function (canvas, settings)
 	/** @type {Array.<number>} */
 	this.m_indices = new Array(box2d.Testbed.VerticalStack.e_rowCount * box2d.Testbed.VerticalStack.e_columnCount);
 
-	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
 		var ground = this.m_world.CreateBody(bd);

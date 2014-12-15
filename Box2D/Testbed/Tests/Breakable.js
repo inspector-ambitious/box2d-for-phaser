@@ -36,7 +36,6 @@ box2d.Testbed.Breakable = function (canvas, settings)
 	this.m_shape2 = new box2d.b2PolygonShape();
 
 	// Ground body
-	if (true)
 	{
 		/*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
 		/*box2d.b2Body*/ var ground = this.m_world.CreateBody(bd);
@@ -47,7 +46,6 @@ box2d.Testbed.Breakable = function (canvas, settings)
 	}
 
 	// Breakable dynamic body
-	if (true)
 	{
 		/*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
@@ -201,7 +199,7 @@ box2d.Testbed.Breakable.prototype.Step = function (settings)
 	}
 
 	// Cache velocities to improve movement on breakage.
-	if (this.m_broke === false)
+	if (!this.m_broke)
 	{
 		this.m_velocity = this.m_body1.GetLinearVelocity();
 		this.m_angularVelocity = this.m_body1.GetAngularVelocity();

@@ -33,7 +33,6 @@ box2d.Testbed.SphereStack = function (canvas, settings)
 
 	this.m_bodies = new Array(box2d.Testbed.SphereStack.e_count);
 
-	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
 		var ground = this.m_world.CreateBody(bd);
@@ -43,7 +42,6 @@ box2d.Testbed.SphereStack = function (canvas, settings)
 		ground.CreateFixture(shape, 0.0);
 	}
 
-	if (true)
 	{
 		var shape = new box2d.b2CircleShape();
 		shape.m_radius = 1.0;

@@ -398,12 +398,12 @@ box2d.b2RevoluteJoint.prototype.InitVelocityConstraints = function (data)
 		this.m_motorMass = 1 / this.m_motorMass;
 	}
 
-	if (this.m_enableMotor === false || fixedRotation)
+	if (!this.m_enableMotor || fixedRotation)
 	{
 		this.m_motorImpulse = 0;
 	}
 
-	if (this.m_enableLimit && fixedRotation === false)
+	if (this.m_enableLimit && !fixedRotation)
 	{
 		/*float32*/ var jointAngle = aB - aA - this.m_referenceAngle;
 		if (box2d.b2Abs(this.m_upperAngle - this.m_lowerAngle) < 2 * box2d.b2_angularSlop)
@@ -485,7 +485,7 @@ box2d.b2RevoluteJoint.prototype.SolveVelocityConstraints = function (data)
 	/*bool*/ var fixedRotation = (iA + iB === 0);
 
 	// Solve motor constraint.
-	if (this.m_enableMotor && this.m_limitState !== box2d.b2LimitState.e_equalLimits && fixedRotation === false)
+	if (this.m_enableMotor && this.m_limitState !== box2d.b2LimitState.e_equalLimits && !fixedRotation)
 	{
 		/*float32*/ var Cdot = wB - wA - this.m_motorSpeed;
 		/*float32*/ var impulse = -this.m_motorMass * Cdot;
@@ -499,7 +499,7 @@ box2d.b2RevoluteJoint.prototype.SolveVelocityConstraints = function (data)
 	}
 
 	// Solve limit constraint.
-	if (this.m_enableLimit && this.m_limitState !== box2d.b2LimitState.e_inactiveLimit && fixedRotation === false)
+	if (this.m_enableLimit && this.m_limitState !== box2d.b2LimitState.e_inactiveLimit && !fixedRotation)
 	{
 //		b2Vec2 Cdot1 = vB + b2Cross(wB, m_rB) - vA - b2Cross(wA, m_rA);
 		var Cdot1 = box2d.b2Sub_V2_V2(
@@ -626,7 +626,7 @@ box2d.b2RevoluteJoint.prototype.SolvePositionConstraints = function (data)
 	/*bool*/ var fixedRotation = (this.m_invIA + this.m_invIB === 0);
 
 	// Solve angular limit constraint.
-	if (this.m_enableLimit && this.m_limitState !== box2d.b2LimitState.e_inactiveLimit && fixedRotation === false)
+	if (this.m_enableLimit && this.m_limitState !== box2d.b2LimitState.e_inactiveLimit && !fixedRotation)
 	{
 		/*float32*/ var angle = aB - aA - this.m_referenceAngle;
 		/*float32*/ var limitImpulse = 0;

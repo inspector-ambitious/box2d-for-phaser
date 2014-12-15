@@ -33,7 +33,6 @@ box2d.Testbed.BlobTest = function (canvas, settings)
 
 	var ground = this.m_world.CreateBody(new box2d.b2BodyDef());
 
-	if (true)
 	{
 		var shape = new box2d.b2EdgeShape();
 		shape.SetAsEdge(new box2d.b2Vec2(-40.0, 0.0), new box2d.b2Vec2( 40.0,  0.0));
@@ -44,7 +43,6 @@ box2d.Testbed.BlobTest = function (canvas, settings)
 		ground.CreateFixture(shape, 0.0);
 	}
 
-	if (true)
 	{
 		var ajd = new box2d.b2AreaJointDef();
 		ajd.world = this.m_world;

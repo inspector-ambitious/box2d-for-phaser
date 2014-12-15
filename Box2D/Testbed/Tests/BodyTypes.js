@@ -32,7 +32,6 @@ box2d.Testbed.BodyTypes = function (canvas, settings)
 	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	/*box2d.b2Body*/ var ground = null;
-	if (true)
 	{
 		/*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
 		ground = this.m_world.CreateBody(bd);
@@ -47,7 +46,6 @@ box2d.Testbed.BodyTypes = function (canvas, settings)
 	}
 
 	// Define attachment
-	if (true)
 	{
 		/*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
@@ -60,7 +58,6 @@ box2d.Testbed.BodyTypes = function (canvas, settings)
 	}
 
 	// Define platform
-	if (true)
 	{
 		/*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
@@ -97,7 +94,6 @@ box2d.Testbed.BodyTypes = function (canvas, settings)
 	}
 
 	// Create a payload
-	if (true)
 	{
 		/*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;

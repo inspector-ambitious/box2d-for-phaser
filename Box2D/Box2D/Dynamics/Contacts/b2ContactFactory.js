@@ -56,37 +56,34 @@ box2d.b2ContactFactory.prototype.m_allocator = null;
  */
 box2d.b2ContactFactory.prototype.AddType = function (createFcn, destroyFcn, type1, type2)
 {
-	if (true)
+	var pool = box2d.b2MakeArray(256, function (i) { return createFcn(); } ); // TODO: b2Settings
+
+	var poolCreateFcn = function (allocator)
 	{
-		var pool = box2d.b2MakeArray(256, function (i) { return createFcn(); } ); // TODO: b2Settings
-
-		var poolCreateFcn = function (allocator)
+		if (pool.length > 0)
 		{
-			if (pool.length > 0)
-			{
-				return pool.pop();
-			}
-
-			return createFcn(allocator);
+			return pool.pop();
 		}
 
-		var poolDestroyFcn = function (contact, allocator)
-		{
-			pool.push(contact);
-		}
+		return createFcn(allocator);
+	}
 
-		this.m_registers[type1][type2].pool = pool;
-		this.m_registers[type1][type2].createFcn = poolCreateFcn;
-		this.m_registers[type1][type2].destroyFcn = poolDestroyFcn;
-		this.m_registers[type1][type2].primary = true;
+	var poolDestroyFcn = function (contact, allocator)
+	{
+		pool.push(contact);
+	}
 
-		if (type1 !== type2)
-		{
-			this.m_registers[type2][type1].pool = pool;
-			this.m_registers[type2][type1].createFcn = poolCreateFcn;
-			this.m_registers[type2][type1].destroyFcn = poolDestroyFcn;
-			this.m_registers[type2][type1].primary = false;
-		}
+	this.m_registers[type1][type2].pool = pool;
+	this.m_registers[type1][type2].createFcn = poolCreateFcn;
+	this.m_registers[type1][type2].destroyFcn = poolDestroyFcn;
+	this.m_registers[type1][type2].primary = true;
+
+	if (type1 !== type2)
+	{
+		this.m_registers[type2][type1].pool = pool;
+		this.m_registers[type2][type1].createFcn = poolCreateFcn;
+		this.m_registers[type2][type1].destroyFcn = poolDestroyFcn;
+		this.m_registers[type2][type1].primary = false;
 	}
 
 	/*
@@ -181,8 +178,8 @@ box2d.b2ContactFactory.prototype.Destroy = function (contact)
 	var fixtureB = contact.m_fixtureB;
 
 	if (contact.m_manifold.pointCount > 0 &&
-		fixtureA.IsSensor() === false &&
-		fixtureB.IsSensor() === false)
+		!fixtureA.IsSensor() &&
+		!fixtureB.IsSensor())
 	{
 		fixtureA.GetBody().SetAwake(true);
 		fixtureB.GetBody().SetAwake(true);

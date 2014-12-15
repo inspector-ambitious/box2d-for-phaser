@@ -32,7 +32,6 @@ box2d.Testbed.CollisionFiltering = function (canvas, settings)
 	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	// Ground body
-	if (true)
 	{
 		var shape = new box2d.b2EdgeShape();
 		shape.SetAsEdge(new box2d.b2Vec2(-40.0, 0.0), new box2d.b2Vec2(40.0, 0.0));
@@ -81,7 +80,6 @@ box2d.Testbed.CollisionFiltering = function (canvas, settings)
 	var body2 = this.m_world.CreateBody(triangleBodyDef);
 	body2.CreateFixture(triangleShapeDef);
 
-	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;

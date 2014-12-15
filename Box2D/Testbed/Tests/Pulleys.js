@@ -37,7 +37,6 @@ box2d.Testbed.Pulleys = function (canvas, settings)
 	var b = 2.0;
 
 	var ground = null;
-	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
 		ground = this.m_world.CreateBody(bd);

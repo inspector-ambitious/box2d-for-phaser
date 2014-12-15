@@ -44,7 +44,6 @@ box2d.Testbed.BuoyancyTest = function (canvas, settings)
 
 	var ground = this.m_world.CreateBody(new box2d.b2BodyDef());
 
-	if (true)
 	{
 		var shape = new box2d.b2EdgeShape();
 		shape.SetAsEdge(new box2d.b2Vec2(-40.0, 0.0), new box2d.b2Vec2( 40.0,  0.0));
@@ -56,7 +55,6 @@ box2d.Testbed.BuoyancyTest = function (canvas, settings)
 	}
 
 	// Spawn in a bunch of crap
-	if (true)
 	{
 		for (var i = 0; i < 5; i++)
 		{
@@ -80,7 +78,6 @@ box2d.Testbed.BuoyancyTest = function (canvas, settings)
 		}
 	}
 
-	if (true)
 	{
 		for (var i = 0; i < 5; i++)
 		{
@@ -103,7 +100,6 @@ box2d.Testbed.BuoyancyTest = function (canvas, settings)
 		}
 	}
 
-	if (true)
 	{
 		for (var i = 0; i < 15; i++)
 		{
@@ -154,7 +150,6 @@ box2d.Testbed.BuoyancyTest = function (canvas, settings)
 	}
 
 	//Add some exciting bath toys
-	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
@@ -171,7 +166,6 @@ box2d.Testbed.BuoyancyTest = function (canvas, settings)
 		this.m_bodies.push(body);
 	}
 
-	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;

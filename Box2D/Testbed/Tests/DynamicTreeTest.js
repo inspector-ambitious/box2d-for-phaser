@@ -174,7 +174,7 @@ box2d.Testbed.DynamicTreeTest.prototype.Step = function (settings)
 		this.m_actors[i].overlap = false;
 	}
 
-	if (this.m_automated === true)
+	if (this.m_automated)
 	{
 		var actionCount = box2d.b2Max(1, box2d.Testbed.DynamicTreeTest.e_actorCount >> 2);
 

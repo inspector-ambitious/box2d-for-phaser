@@ -32,7 +32,6 @@ box2d.Testbed.OneSidedPlatform = function (canvas, settings)
 	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	// Ground
-	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
 		var ground = this.m_world.CreateBody(bd);
@@ -43,7 +42,6 @@ box2d.Testbed.OneSidedPlatform = function (canvas, settings)
 	}
 
 	// Platform
-	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
 		bd.position.Set(0.0, 10.0);
@@ -58,7 +56,6 @@ box2d.Testbed.OneSidedPlatform = function (canvas, settings)
 	}
 
 	// Actor
-	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;

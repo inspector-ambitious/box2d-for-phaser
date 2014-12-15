@@ -32,13 +32,11 @@ box2d.Testbed.Tumbler = function (canvas, settings)
 	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	/*b2Body*/ var ground = null;
-	if (true)
 	{
 		/*b2BodyDef*/ var bd = new box2d.b2BodyDef();
 		ground = this.m_world.CreateBody(bd);
 	}
 
-	if (true)
 	{
 		/*b2BodyDef*/ var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;

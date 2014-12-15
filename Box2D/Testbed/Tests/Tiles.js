@@ -40,14 +40,12 @@ box2d.Testbed.Tiles = function (canvas, settings)
 	this.m_fixtureCount = 0;
 	/*box2d.b2Timer*/ var timer = new box2d.b2Timer();
 
-	if (true)
 	{
 		/*float32*/ var a = 0.5;
 		/*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
 		bd.position.y = -a;
 		/*box2d.b2Body*/ var ground = this.m_world.CreateBody(bd);
 
-		if (true)
 		{
 			/*int32*/ var N = 200;
 			/*int32*/ var M = 10;
@@ -88,7 +86,6 @@ box2d.Testbed.Tiles = function (canvas, settings)
 //		}
 	}
 
-	if (true)
 	{
 		/*float32*/ var a = 0.5;
 		/*box2d.b2PolygonShape*/ var shape = new box2d.b2PolygonShape();

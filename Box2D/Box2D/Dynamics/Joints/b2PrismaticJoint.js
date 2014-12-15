@@ -513,7 +513,7 @@ box2d.b2PrismaticJoint.prototype.InitVelocityConstraints = function (data)
 		this.m_impulse.z = 0;
 	}
 
-	if (this.m_enableMotor === false)
+	if (!this.m_enableMotor)
 	{
 		this.m_motorImpulse = 0;
 	}

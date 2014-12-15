@@ -348,7 +348,6 @@ box2d.b2FrictionJoint.prototype.SolveVelocityConstraints = function (data)
 	/*float32*/ var h = data.step.dt;
 
 	// Solve angular friction
-	if (true)
 	{
 		/*float32*/ var Cdot = wB - wA;
 		/*float32*/ var impulse = (-this.m_angularMass * Cdot);
@@ -363,7 +362,6 @@ box2d.b2FrictionJoint.prototype.SolveVelocityConstraints = function (data)
 	}
 
 	// Solve linear friction
-	if (true)
 	{
 //		b2Vec2 Cdot = vB + b2Cross(wB, m_rB) - vA - b2Cross(wA, m_rA);
 		var Cdot = box2d.b2Sub_V2_V2(

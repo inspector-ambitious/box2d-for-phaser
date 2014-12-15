@@ -47,7 +47,6 @@ box2d.Testbed.RopeJoint = function (canvas, settings)
 	this.m_ropeDef = new box2d.b2RopeJointDef();
 
 	/*box2d.b2Body*/ var ground = null;
-	if (true)
 	{
 		/*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
 		ground = this.m_world.CreateBody(bd);
@@ -57,7 +56,6 @@ box2d.Testbed.RopeJoint = function (canvas, settings)
 		ground.CreateFixture(shape, 0.0);
 	}
 
-	if (true)
 	{
 		/*box2d.b2PolygonShape*/ var shape = new box2d.b2PolygonShape();
 		shape.SetAsBox(0.5, 0.125);
@@ -109,7 +107,6 @@ box2d.Testbed.RopeJoint = function (canvas, settings)
 		this.m_ropeDef.bodyB = prevBody;
 	}
 
-	if (true)
 	{
 		this.m_ropeDef.bodyA = ground;
 		this.m_rope = this.m_world.CreateJoint(this.m_ropeDef);

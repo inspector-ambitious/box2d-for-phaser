@@ -31,7 +31,6 @@ box2d.Testbed.CompoundShapes = function (canvas, settings)
 {
 	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
-	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
 		var body = this.m_world.CreateBody(bd);
@@ -42,7 +41,6 @@ box2d.Testbed.CompoundShapes = function (canvas, settings)
 		body.CreateFixture(shape, 0.0);
 	}
 
-	if (true)
 	{
 		var circle1 = new box2d.b2CircleShape();
 		circle1.m_radius = 0.5;
@@ -65,7 +63,6 @@ box2d.Testbed.CompoundShapes = function (canvas, settings)
 		}
 	}
 
-	if (true)
 	{
 		var polygon1 = new box2d.b2PolygonShape();
 		polygon1.SetAsBox(0.25, 0.5);
@@ -86,7 +83,6 @@ box2d.Testbed.CompoundShapes = function (canvas, settings)
 		}
 	}
 
-	if (true)
 	{
 		var xf1 = new box2d.b2Transform();
 		xf1.q.SetAngle(0.3524 * box2d.b2_pi);
@@ -123,7 +119,6 @@ box2d.Testbed.CompoundShapes = function (canvas, settings)
 		}
 	}
 
-	if (true)
 	{
 		var bottom = new box2d.b2PolygonShape();
 		bottom.SetAsBox( 1.5, 0.15 );

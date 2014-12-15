@@ -930,7 +930,7 @@ box2d.b2ContactSolver.prototype.SolveVelocityConstraints = function ()
 		}
 
 		// Solve normal constraints
-		if (vc.pointCount === 1 || box2d.g_blockSolve === false)
+		if (vc.pointCount === 1 || !box2d.g_blockSolve)
 		{
 			for (var ii = 0; ii < pointCount; ++ii)
 			{

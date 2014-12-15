@@ -91,7 +91,6 @@ box2d.Testbed.EdgeShapes = function (canvas, settings)
 	this.m_angle = 0.0;
 
 	// Ground body
-	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
 		var ground = this.m_world.CreateBody(bd);
@@ -112,7 +111,6 @@ box2d.Testbed.EdgeShapes = function (canvas, settings)
 		}
 	}
 
-	if (true)
 	{
 		var vertices = new Array(3);
 		vertices[0] = new box2d.b2Vec2(-0.5, 0.0);
@@ -121,7 +119,6 @@ box2d.Testbed.EdgeShapes = function (canvas, settings)
 		this.m_polygons[0].Set(vertices, 3);
 	}
 
-	if (true)
 	{
 		var vertices = new Array(3);
 		vertices[0] = new box2d.b2Vec2(-0.1, 0.0);
@@ -130,7 +127,6 @@ box2d.Testbed.EdgeShapes = function (canvas, settings)
 		this.m_polygons[1].Set(vertices, 3);
 	}
 
-	if (true)
 	{
 		var w = 1.0;
 		var b = w / (2.0 + box2d.b2Sqrt(2.0));
@@ -149,12 +145,10 @@ box2d.Testbed.EdgeShapes = function (canvas, settings)
 		this.m_polygons[2].Set(vertices, 8);
 	}
 
-	if (true)
 	{
 		this.m_polygons[3].SetAsBox(0.5, 0.5);
 	}
 
-	if (true)
 	{
 		this.m_circle.m_radius = 0.5;
 	}
@@ -296,7 +290,7 @@ box2d.Testbed.EdgeShapes.prototype.Keyboard = function (key)
  */
 box2d.Testbed.EdgeShapes.prototype.Step = function (settings)
 {
-	var advanceRay = settings.pause === false || settings.singleStep;
+	var advanceRay = !settings.pause || settings.singleStep;
 
 	box2d.Testbed.Test.prototype.Step.call(this, settings);
 	this.m_debugDraw.DrawString(5, this.m_textLine, "Press 1-5 to drop stuff, m to change the mode");

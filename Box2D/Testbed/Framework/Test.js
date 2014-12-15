@@ -611,7 +611,7 @@ box2d.Testbed.Test.prototype.SpawnBomb = function (worldPt)
  */
 box2d.Testbed.Test.prototype.CompleteBombSpawn = function (p)
 {
-	if (this.m_bombSpawning === false)
+	if (!this.m_bombSpawning)
 	{
 		return;
 	}
@@ -789,7 +789,6 @@ box2d.Testbed.Test.prototype.Step = function (settings)
 	}
 
 	// Track maximum profile times
-	if (true)
 	{
 		var p = this.m_world.GetProfile();
 		this.m_maxProfile.step = box2d.b2Max(this.m_maxProfile.step, p.step);
@@ -889,20 +888,20 @@ box2d.Testbed.Test.prototype.Step = function (settings)
 				this.m_debugDraw.DrawPoint(point.position, 5, new box2d.b2Color(0.3, 0.3, 0.95));
 			}
 
-			if (settings.drawContactNormals === true)
+			if (settings.drawContactNormals)
 			{
 				var p1 = point.position;
 				var p2 = box2d.b2Add_V2_V2(p1, box2d.b2Mul_S_V2(k_axisScale, point.normal, box2d.b2Vec2.s_t0), new box2d.b2Vec2());
 				this.m_debugDraw.DrawSegment(p1, p2, new box2d.b2Color(0.9, 0.9, 0.9));
 			}
-			else if (settings.drawContactImpulse === true)
+			else if (settings.drawContactImpulse)
 			{
 				var p1 = point.position;
 				var p2 = box2d.b2AddMul_V2_S_V2(p1, k_impulseScale * point.normalImpulse, point.normal, new box2d.b2Vec2());
 				this.m_debugDraw.DrawSegment(p1, p2, new box2d.b2Color(0.9, 0.9, 0.3));
 			}
 
-			if (settings.drawFrictionImpulse === true)
+			if (settings.drawFrictionImpulse)
 			{
 				var tangent = box2d.b2Cross_V2_S(point.normal, 1.0, new box2d.b2Vec2());
 				var p1 = point.position;

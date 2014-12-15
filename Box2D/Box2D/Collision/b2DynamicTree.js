@@ -194,7 +194,7 @@ box2d.b2DynamicTree.prototype.Query = function (callback, aabb)
 			if (node.IsLeaf())
 			{
 				/** @type {boolean} */ var proceed = callback(node);
-				if (proceed === false)
+				if (!proceed)
 				{
 					return;
 				}
@@ -258,7 +258,7 @@ box2d.b2DynamicTree.prototype.RayCast = function (callback, input)
 			continue;
 		}
 
-		if (box2d.b2TestOverlapAABB(node.aabb, segmentAABB) === false)
+		if (!box2d.b2TestOverlapAABB(node.aabb, segmentAABB))
 		{
 			continue;
 		}
@@ -441,7 +441,7 @@ box2d.b2DynamicTree.prototype.InsertLeaf = function (leaf)
 	/** @type {box2d.b2TreeNode} */ var index = this.m_root;
 	/** @type {box2d.b2TreeNode} */ var child1;
 	/** @type {box2d.b2TreeNode} */ var child2;
-	while (index.IsLeaf() === false)
+	while (!index.IsLeaf())
 	{
 		child1 = index.child1;
 		child2 = index.child2;
@@ -981,7 +981,7 @@ box2d.b2DynamicTree.prototype.GetMaxBalance = function ()
 			return maxBalance;
 		}
 
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(node.IsLeaf() === false); }
+		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(!node.IsLeaf()); }
 
 		/** @type {box2d.b2TreeNode} */ var child1 = node.child1;
 		/** @type {box2d.b2TreeNode} */ var child2 = node.child2;
@@ -1001,7 +1001,7 @@ box2d.b2DynamicTree.prototype.GetMaxBalance = function ()
 			continue;
 		}
 
-		b2Assert(node.IsLeaf() === false);
+		b2Assert(!node.IsLeaf());
 
 		int32 child1 = node.child1;
 		int32 child2 = node.child2;
@@ -1117,7 +1117,7 @@ box2d.b2DynamicTree.prototype.ShiftOrigin = function (newOrigin)
 			return;
 		}
 
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(node.IsLeaf() === false); }
+		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(!node.IsLeaf()); }
 
 		/** @type {box2d.b2TreeNode} */ var child1 = node.child1;
 		/** @type {box2d.b2TreeNode} */ var child2 = node.child2;

@@ -36,22 +36,6 @@ goog.require('box2d.b2JointFactory');
  * efficient memory management facilities. 
  */
 
-/**
- * @export 
- * @enum
- */
-box2d.b2WorldFlag = 
-{
-	e_none			: 0,
-	e_newFixture	: 0x1,
-	e_locked		: 0x2,
-	e_clearForces	: 0x4
-};
-goog.exportProperty(box2d.b2WorldFlag, 'e_none'       , box2d.b2WorldFlag.e_none       );
-goog.exportProperty(box2d.b2WorldFlag, 'e_newFixture' , box2d.b2WorldFlag.e_newFixture );
-goog.exportProperty(box2d.b2WorldFlag, 'e_locked'     , box2d.b2WorldFlag.e_locked     );
-goog.exportProperty(box2d.b2WorldFlag, 'e_clearForces', box2d.b2WorldFlag.e_clearForces);
-
 /** 
  * Construct a world object. 
  * @export 
@@ -60,7 +44,7 @@ goog.exportProperty(box2d.b2WorldFlag, 'e_clearForces', box2d.b2WorldFlag.e_clea
  */
 box2d.b2World = function (gravity)
 {
-	this.m_flags = box2d.b2WorldFlag.e_clearForces;
+	this.m_flag_clearForces = true;
 
 	this.m_contactManager = new box2d.b2ContactManager();
 
@@ -89,9 +73,19 @@ box2d.b2World = function (gravity)
 
 /**
  * @export 
- * @type {box2d.b2WorldFlag}
+ * @type {boolean}
  */
-box2d.b2World.prototype.m_flags = box2d.b2WorldFlag.e_none;
+box2d.b2World.prototype.m_flag_newFixture = false;
+/**
+ * @export 
+ * @type {boolean}
+ */
+box2d.b2World.prototype.m_flag_locked = false;
+/**
+ * @export 
+ * @type {boolean}
+ */
+box2d.b2World.prototype.m_flag_clearForces = false;
 
 /**
  * @export 
@@ -223,7 +217,7 @@ box2d.b2World.prototype.SetAllowSleeping = function (flag)
 	}
 
 	this.m_allowSleep = flag;
-	if (this.m_allowSleep === false)
+	if (!this.m_allowSleep)
 	{
 		for (/** @type {box2d.b2Body} */ var b = this.m_bodyList; b; b = b.m_next)
 		{
@@ -416,7 +410,7 @@ box2d.b2World.prototype.GetGravity = function (out)
  */
 box2d.b2World.prototype.IsLocked = function ()
 {
-	return (this.m_flags & box2d.b2WorldFlag.e_locked) > 0;
+	return this.m_flag_locked;
 }
 
 /** 
@@ -428,14 +422,7 @@ box2d.b2World.prototype.IsLocked = function ()
  */
 box2d.b2World.prototype.SetAutoClearForces = function (flag)
 {
-	if (flag)
-	{
-		this.m_flags |= box2d.b2WorldFlag.e_clearForces;
-	}
-	else
-	{
-		this.m_flags &= ~box2d.b2WorldFlag.e_clearForces;
-	}
+	this.m_flag_clearForces = flag;
 }
 
 /** 
@@ -446,7 +433,7 @@ box2d.b2World.prototype.SetAutoClearForces = function (flag)
  */
 box2d.b2World.prototype.GetAutoClearForces = function ()
 {
-	return (this.m_flags & box2d.b2WorldFlag.e_clearForces) === box2d.b2WorldFlag.e_clearForces;
+	return this.m_flag_clearForces;
 }
 
 /** 
@@ -531,7 +518,7 @@ box2d.b2World.prototype.SetDebugDraw = function (debugDraw)
  */
 box2d.b2World.prototype.CreateBody = function (def)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.IsLocked() === false); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(!this.IsLocked()); }
 	if (this.IsLocked())
 	{
 		return null;
@@ -566,7 +553,7 @@ box2d.b2World.prototype.CreateBody = function (def)
 box2d.b2World.prototype.DestroyBody = function (b)
 {
 	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_bodyCount > 0); }
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.IsLocked() === false); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(!this.IsLocked()); }
 	if (this.IsLocked())
 	{
 		return;
@@ -661,7 +648,7 @@ box2d.b2World.prototype.DestroyBody = function (b)
  */
 box2d.b2World.prototype.CreateJoint = function (def)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.IsLocked() === false); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(!this.IsLocked()); }
 	if (this.IsLocked())
 	{
 		return null;
@@ -698,7 +685,7 @@ box2d.b2World.prototype.CreateJoint = function (def)
 	/** @type {box2d.b2Body} */ var bodyB = def.bodyB;
 
 	// If the joint prevents collisions, then flag any contacts for filtering.
-	if (def.collideConnected === false)
+	if (!def.collideConnected)
 	{
 		/** @type {box2d.b2ContactEdge} */ var edge = bodyB.GetContactList();
 		while (edge)
@@ -729,7 +716,7 @@ box2d.b2World.prototype.CreateJoint = function (def)
  */
 box2d.b2World.prototype.DestroyJoint = function (j)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.IsLocked() === false); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(!this.IsLocked()); }
 	if (this.IsLocked())
 	{
 		return;
@@ -805,7 +792,7 @@ box2d.b2World.prototype.DestroyJoint = function (j)
 	--this.m_jointCount;
 
 	// If the joint prevents collisions, then flag any contacts for filtering.
-	if (collideConnected === false)
+	if (!collideConnected)
 	{
 		/** @type {box2d.b2ContactEdge} */ var edge = bodyB.GetContactList();
 		while (edge)
@@ -852,11 +839,11 @@ box2d.b2World.prototype.Solve = function (step)
 	// Clear all the island flags.
 	for (/** @type {box2d.b2Body} */ var b = this.m_bodyList; b; b = b.m_next)
 	{
-		b.m_flags &= ~box2d.b2BodyFlag.e_islandFlag;
+		b.m_flag_islandFlag = false;
 	}
 	for (/** @type {box2d.b2Contact} */ var c = this.m_contactManager.m_contactList; c; c = c.m_next)
 	{
-		c.m_flags &= ~box2d.b2ContactFlag.e_islandFlag;
+		c.m_flag_islandFlag = false;
 	}
 	for (/** @type {box2d.b2Joint} */ var j = this.m_jointList; j; j = j.m_next)
 	{
@@ -868,12 +855,12 @@ box2d.b2World.prototype.Solve = function (step)
 	/** @type {Array.<?box2d.b2Body>} */ var stack = this.s_stack;
 	for (/** @type {box2d.b2Body} */ var seed = this.m_bodyList; seed; seed = seed.m_next)
 	{
-		if (seed.m_flags & box2d.b2BodyFlag.e_islandFlag)
+		if (seed.m_flag_islandFlag)
 		{
 			continue;
 		}
 
-		if (seed.IsAwake() === false || seed.IsActive() === false)
+		if (!seed.IsAwake() || !seed.IsActive())
 		{
 			continue;
 		}
@@ -888,14 +875,14 @@ box2d.b2World.prototype.Solve = function (step)
 		island.Clear();
 		/** @type {number} */ var stackCount = 0;
 		stack[stackCount++] = seed;
-		seed.m_flags |= box2d.b2BodyFlag.e_islandFlag;
+		seed.m_flag_islandFlag = true;
 
 		// Perform a depth first search (DFS) on the constraint graph.
 		while (stackCount > 0)
 		{
 			// Grab the next body off the stack and add it to the island.
 			/* type {box2d.b2Body} */ var b = stack[--stackCount];
-			if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(b.IsActive() === true); }
+			if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(b.IsActive()); }
 			island.AddBody(b);
 
 			// Make sure the body is awake.
@@ -914,14 +901,14 @@ box2d.b2World.prototype.Solve = function (step)
 				/** @type {box2d.b2Contact} */ var contact = ce.contact;
 
 				// Has this contact already been added to an island?
-				if (contact.m_flags & box2d.b2ContactFlag.e_islandFlag)
+				if (contact.m_flag_islandFlag)
 				{
 					continue;
 				}
 
 				// Is this contact solid and touching?
-				if (contact.IsEnabled() === false ||
-					contact.IsTouching() === false)
+				if (!contact.IsEnabled() ||
+					!contact.IsTouching())
 				{
 					continue;
 				}
@@ -935,25 +922,25 @@ box2d.b2World.prototype.Solve = function (step)
 				}
 
 				island.AddContact(contact);
-				contact.m_flags |= box2d.b2ContactFlag.e_islandFlag;
+				contact.m_flag_islandFlag = true;
 
 				/** @type {box2d.b2Body} */ var other = ce.other;
 
 				// Was the other body already added to this island?
-				if (other.m_flags & box2d.b2BodyFlag.e_islandFlag)
+				if (other.m_flag_islandFlag)
 				{
 					continue;
 				}
 
 				if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(stackCount < stackSize); }
 				stack[stackCount++] = other;
-				other.m_flags |= box2d.b2BodyFlag.e_islandFlag;
+				other.m_flag_islandFlag = true;
 			}
 
 			// Search all joints connect to this body.
 			for (/** @type {box2d.b2JointEdge} */ var je = b.m_jointList; je; je = je.next)
 			{
-				if (je.joint.m_islandFlag === true)
+				if (je.joint.m_islandFlag)
 				{
 					continue;
 				}
@@ -961,7 +948,7 @@ box2d.b2World.prototype.Solve = function (step)
 				/* type {box2d.b2Body} */ var other = je.other;
 
 				// Don't simulate joints connected to inactive bodies.
-				if (other.IsActive() === false)
+				if (!other.IsActive())
 				{
 					continue;
 				}
@@ -969,14 +956,14 @@ box2d.b2World.prototype.Solve = function (step)
 				island.AddJoint(je.joint);
 				je.joint.m_islandFlag = true;
 
-				if (other.m_flags & box2d.b2BodyFlag.e_islandFlag)
+				if (other.m_flag_islandFlag)
 				{
 					continue;
 				}
 
 				if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(stackCount < stackSize); }
 				stack[stackCount++] = other;
-				other.m_flags |= box2d.b2BodyFlag.e_islandFlag;
+				other.m_flag_islandFlag = true;
 			}
 		}
 
@@ -993,7 +980,7 @@ box2d.b2World.prototype.Solve = function (step)
 			/* type {box2d.b2Body} */ var b = island.m_bodies[i];
 			if (b.GetType() === box2d.b2BodyType.b2_staticBody)
 			{
-				b.m_flags &= ~box2d.b2BodyFlag.e_islandFlag;
+				b.m_flag_islandFlag = false;
 			}
 		}
 	}
@@ -1011,7 +998,7 @@ box2d.b2World.prototype.Solve = function (step)
 		for (/* type {box2d.b2Body} */ var b = this.m_bodyList; b; b = b.m_next)
 		{
 			// If a body was not in an island then it did not move.
-			if ((b.m_flags & box2d.b2BodyFlag.e_islandFlag) === 0)
+			if (!b.m_flag_islandFlag)
 			{
 				continue;
 			}
@@ -1047,14 +1034,14 @@ box2d.b2World.prototype.SolveTOI = function (step)
 	{
 		for (/** @type {box2d.b2Body} */ var b = this.m_bodyList; b; b = b.m_next)
 		{
-			b.m_flags &= ~box2d.b2BodyFlag.e_islandFlag;
+			b.m_flag_islandFlag = false;
 			b.m_sweep.alpha0 = 0;
 		}
 
 		for (/** @type {box2d.b2Contact} */ var c = this.m_contactManager.m_contactList; c; c = c.m_next)
 		{
 			// Invalidate TOI
-			c.m_flags &= ~(box2d.b2ContactFlag.e_toiFlag | box2d.b2ContactFlag.e_islandFlag);
+			c.m_flag_toiFlag = c.m_flag_islandFlag = false;
 			c.m_toiCount = 0;
 			c.m_toi = 1;
 		}
@@ -1070,7 +1057,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 		for (/* type {box2d.b2Contact} */ var c = this.m_contactManager.m_contactList; c; c = c.m_next)
 		{
 			// Is this contact disabled?
-			if (c.IsEnabled() === false)
+			if (!c.IsEnabled())
 			{
 				continue;
 			}
@@ -1082,7 +1069,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 			}
 
 			/** @type {number} */ var alpha = 1;
-			if (c.m_flags & box2d.b2ContactFlag.e_toiFlag)
+			if (c.m_flag_toiFlag)
 			{
 				// This contact has a valid cached TOI.
 				alpha = c.m_toi;
@@ -1109,7 +1096,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 				/** @type {boolean} */ var activeB = bB.IsAwake() && typeB !== box2d.b2BodyType.b2_staticBody;
 
 				// Is at least one body active (awake and dynamic or kinematic)?
-				if (activeA === false && activeB === false)
+				if (!activeA && !activeB)
 				{
 					continue;
 				}
@@ -1118,7 +1105,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 				/** @type {boolean} */ var collideB = bB.IsBullet() || typeB !== box2d.b2BodyType.b2_dynamicBody;
 
 				// Are these two non-bullet dynamic bodies?
-				if (collideA === false && collideB === false)
+				if (!collideA && !collideB)
 				{
 					continue;
 				}
@@ -1166,7 +1153,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 				}
 
 				c.m_toi = alpha;
-				c.m_flags |= box2d.b2ContactFlag.e_toiFlag;
+				c.m_flag_toiFlag = true;
 			}
 
 			if (alpha < minAlpha)
@@ -1198,11 +1185,11 @@ box2d.b2World.prototype.SolveTOI = function (step)
 
 		// The TOI contact likely has some new contact points.
 		minContact.Update(this.m_contactManager.m_contactListener);
-		minContact.m_flags &= ~box2d.b2ContactFlag.e_toiFlag;
+		minContact.m_flag_toiFlag = false;
 		++minContact.m_toiCount;
 
 		// Is the contact solid?
-		if (minContact.IsEnabled() === false || minContact.IsTouching() === false)
+		if (!minContact.IsEnabled() || !minContact.IsTouching())
 		{
 			// Restore the sweeps.
 			minContact.SetEnabled(false);
@@ -1222,9 +1209,9 @@ box2d.b2World.prototype.SolveTOI = function (step)
 		island.AddBody(bB);
 		island.AddContact(minContact);
 
-		bA.m_flags |= box2d.b2BodyFlag.e_islandFlag;
-		bB.m_flags |= box2d.b2BodyFlag.e_islandFlag;
-		minContact.m_flags |= box2d.b2ContactFlag.e_islandFlag;
+		bA.m_flag_islandFlag = true;
+		bB.m_flag_islandFlag = true;
+		minContact.m_flag_islandFlag = true;
 
 		// Get contacts on bodyA and bodyB.
 		//** @type {box2d.b2Body} */ var bodies = [bA, bB];
@@ -1248,7 +1235,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 					/** @type {box2d.b2Contact} */ var contact = ce.contact;
 
 					// Has this contact already been added to the island?
-					if (contact.m_flags & box2d.b2ContactFlag.e_islandFlag)
+					if (contact.m_flag_islandFlag)
 					{
 						continue;
 					}
@@ -1256,7 +1243,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 					// Only add static, kinematic, or bullet bodies.
 					/** @type {box2d.b2Body} */ var other = ce.other;
 					if (other.m_type === box2d.b2BodyType.b2_dynamicBody &&
-						body.IsBullet() === false && other.IsBullet() === false)
+						!body.IsBullet() && !other.IsBullet())
 					{
 						continue;
 					}
@@ -1271,7 +1258,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 
 					// Tentatively advance the body to the TOI.
 					/** @type {box2d.b2Sweep} */ var backup = box2d.b2World.prototype.SolveTOI.s_backup.Copy(other.m_sweep);
-					if ((other.m_flags & box2d.b2BodyFlag.e_islandFlag) === 0)
+					if (!other.m_flag_islandFlag)
 					{
 						other.Advance(minAlpha);
 					}
@@ -1280,7 +1267,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 					contact.Update(this.m_contactManager.m_contactListener);
 
 					// Was the contact disabled by the user?
-					if (contact.IsEnabled() === false)
+					if (!contact.IsEnabled())
 					{
 						other.m_sweep.Copy(backup);
 						other.SynchronizeTransform();
@@ -1288,7 +1275,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 					}
 
 					// Are there contact points?
-					if (contact.IsTouching() === false)
+					if (!contact.IsTouching())
 					{
 						other.m_sweep.Copy(backup);
 						other.SynchronizeTransform();
@@ -1296,17 +1283,17 @@ box2d.b2World.prototype.SolveTOI = function (step)
 					}
 
 					// Add the contact to the island
-					contact.m_flags |= box2d.b2ContactFlag.e_islandFlag;
+					contact.m_flag_islandFlag = true;
 					island.AddContact(contact);
 
 					// Has the other body already been added to the island?
-					if (other.m_flags & box2d.b2BodyFlag.e_islandFlag)
+					if (other.m_flag_islandFlag)
 					{
 						continue;
 					}
 					
 					// Add the other body to the island.
-					other.m_flags |= box2d.b2BodyFlag.e_islandFlag;
+					other.m_flag_islandFlag = true;
 
 					if (other.m_type !== box2d.b2BodyType.b2_staticBody)
 					{
@@ -1331,7 +1318,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 		for (/* type {number} */ var i = 0; i < island.m_bodyCount; ++i)
 		{
 			/* type {box2d.b2Body} */ var body = island.m_bodies[i];
-			body.m_flags &= ~box2d.b2BodyFlag.e_islandFlag;
+			body.m_flag_islandFlag = false;
 
 			if (body.m_type !== box2d.b2BodyType.b2_dynamicBody)
 			{
@@ -1343,7 +1330,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 			// Invalidate all contact TOIs on this displaced body.
 			for (/* type {box2d.b2ContactEdge} */ var ce = body.m_contactList; ce; ce = ce.next)
 			{
-				ce.contact.m_flags &= ~(box2d.b2ContactFlag.e_toiFlag | box2d.b2ContactFlag.e_islandFlag);
+				ce.contact.m_flag_toiFlag = ce.contact.m_flag_islandFlag = false;
 			}
 		}
 
@@ -1379,13 +1366,13 @@ box2d.b2World.prototype.Step = function (dt, velocityIterations, positionIterati
 	/** @type {box2d.b2Timer} */ var stepTimer = new box2d.b2Timer();
 
 	// If new fixtures were added, we need to find the new contacts.
-	if (this.m_flags & box2d.b2WorldFlag.e_newFixture)
+	if (this.m_flag_newFixture)
 	{
 		this.m_contactManager.FindNewContacts();
-		this.m_flags &= ~box2d.b2WorldFlag.e_newFixture;
+		this.m_flag_newFixture = false;
 	}
 
-	this.m_flags |= box2d.b2WorldFlag.e_locked;
+	this.m_flag_locked = true;
 
 	/** @type {box2d.b2TimeStep} */ var step = box2d.b2World.prototype.Step.s_step;
 	step.dt = dt;
@@ -1405,7 +1392,6 @@ box2d.b2World.prototype.Step = function (dt, velocityIterations, positionIterati
 	step.warmStarting = this.m_warmStarting;
 
 	// Update contacts. This is where some contacts are destroyed.
-	if (true)
 	{
 		/** @type {box2d.b2Timer} */ var timer = new box2d.b2Timer();
 		this.m_contactManager.Collide();
@@ -1433,12 +1419,12 @@ box2d.b2World.prototype.Step = function (dt, velocityIterations, positionIterati
 		this.m_inv_dt0 = step.inv_dt;
 	}
 
-	if (this.m_flags & box2d.b2WorldFlag.e_clearForces)
+	if (this.m_flag_clearForces)
 	{
 		this.ClearForces();
 	}
 
-	this.m_flags &= ~box2d.b2WorldFlag.e_locked;
+	this.m_flag_locked = false;
 
 	this.m_profile.step = stepTimer.GetMilliseconds();
 }
@@ -1846,7 +1832,7 @@ box2d.b2World.prototype.DrawDebugData = function ()
 
 			for (/** @type {box2d.b2Fixture} */ var f = b.GetFixtureList(); f; f = f.m_next)
 			{
-				if (b.IsActive() === false)
+				if (!b.IsActive())
 				{
 					color.SetRGB(0.5, 0.5, 0.3);
 					this.DrawShape(f, color);
@@ -1861,7 +1847,7 @@ box2d.b2World.prototype.DrawDebugData = function ()
 					color.SetRGB(0.5, 0.5, 0.9);
 					this.DrawShape(f, color);
 				}
-				else if (b.IsAwake() === false)
+				else if (!b.IsAwake())
 				{
 					color.SetRGB(0.6, 0.6, 0.6);
 					this.DrawShape(f, color);
@@ -1910,7 +1896,7 @@ box2d.b2World.prototype.DrawDebugData = function ()
 
 		for (/* type {box2d.b2Body} */ var b = this.m_bodyList; b; b = b.m_next)
 		{
-			if (b.IsActive() === false)
+			if (!b.IsActive())
 			{
 				continue;
 			}
@@ -2027,7 +2013,7 @@ box2d.b2World.prototype.GetTreeQuality = function ()
  */
 box2d.b2World.prototype.ShiftOrigin = function (newOrigin)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.IsLocked() === false); }
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(!this.IsLocked()); }
 	if (this.IsLocked())
 	{
 		return;
@@ -2058,7 +2044,7 @@ box2d.b2World.prototype.Dump = function ()
 {
 	if (box2d.DEBUG)
 	{
-		if ((this.m_flags & box2d.b2WorldFlag.e_locked) === box2d.b2WorldFlag.e_locked)
+		if (this.m_flag_locked)
 		{
 			return;
 		}
@@ -2091,7 +2077,6 @@ box2d.b2World.prototype.Dump = function ()
 				continue;
 			}
 	
-			box2d.b2Log("if (true)\n");
 			box2d.b2Log("{\n");
 			j.Dump();
 			box2d.b2Log("}\n");
@@ -2105,7 +2090,6 @@ box2d.b2World.prototype.Dump = function ()
 				continue;
 			}
 	
-			box2d.b2Log("if (true)\n");
 			box2d.b2Log("{\n");
 			j.Dump();
 			box2d.b2Log("}\n");

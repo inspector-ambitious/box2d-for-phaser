@@ -599,7 +599,6 @@ box2d.b2WheelJoint.prototype.SolveVelocityConstraints = function (data)
 	/*float32*/ var wB = data.velocities[this.m_indexB].w;
 
 	// Solve spring constraint
-	if (true)
 	{
 		/*float32*/ var Cdot = box2d.b2Dot_V2_V2(this.m_ax, box2d.b2Sub_V2_V2(vB, vA, box2d.b2Vec2.s_t0)) + this.m_sBx * wB - this.m_sAx * wA;
 		/*float32*/ var impulse = -this.m_springMass * (Cdot + this.m_bias + this.m_gamma * this.m_springImpulse);
@@ -620,7 +619,6 @@ box2d.b2WheelJoint.prototype.SolveVelocityConstraints = function (data)
 	}
 
 	// Solve rotational motor constraint
-	if (true)
 	{
 		/*float32*/ var Cdot = wB - wA - this.m_motorSpeed;
 		/*float32*/ var impulse = -this.m_motorMass * Cdot;
@@ -635,7 +633,6 @@ box2d.b2WheelJoint.prototype.SolveVelocityConstraints = function (data)
 	}
 
 	// Solve point to line constraint
-	if (true)
 	{
 		/*float32*/ var Cdot = box2d.b2Dot_V2_V2(this.m_ay, box2d.b2Sub_V2_V2(vB, vA, box2d.b2Vec2.s_t0)) + this.m_sBy * wB - this.m_sAy * wA;
 		/*float32*/ var impulse = -this.m_mass * Cdot;

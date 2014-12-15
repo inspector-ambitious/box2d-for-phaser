@@ -35,7 +35,6 @@ box2d.Testbed.Pinball = function (canvas, settings)
 
 	// Ground body
 	/*box2d.b2Body*/ var ground = null;
-	if (true)
 	{
 		/*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
 		ground = this.m_world.CreateBody(bd);
@@ -56,7 +55,6 @@ box2d.Testbed.Pinball = function (canvas, settings)
 	}
 
 	// Flippers
-	if (true)
 	{
 		/*box2d.b2Vec2*/ var p1 = new box2d.b2Vec2(-2.0, 0.0), p2 = new box2d.b2Vec2(2.0, 0.0);
 
@@ -102,7 +100,6 @@ box2d.Testbed.Pinball = function (canvas, settings)
 	}
 
 	// Circle character
-	if (true)
 	{
 		/*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
 		bd.position.Set(1.0, 15.0);

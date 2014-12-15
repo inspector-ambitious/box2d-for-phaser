@@ -37,7 +37,6 @@ box2d.Testbed.Car = function (canvas, settings)
 	this.m_speed = 50.0;
 
 	/*box2d.b2Body*/ var ground = null;
-	if (true)
 	{
 		/*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
 		ground = this.m_world.CreateBody(bd);
@@ -95,7 +94,6 @@ box2d.Testbed.Car = function (canvas, settings)
 	}
 
 	// Teeter
-	if (true)
 	{
 		/*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
 		bd.position.Set(140.0, 1.0);
@@ -117,7 +115,6 @@ box2d.Testbed.Car = function (canvas, settings)
 	}
 
 	// Bridge
-	if (true)
 	{
 		/*int32*/ var N = 20;
 		/*box2d.b2PolygonShape*/ var shape = new box2d.b2PolygonShape();
@@ -152,7 +149,6 @@ box2d.Testbed.Car = function (canvas, settings)
 	}
 
 	// Boxes
-	if (true)
 	{
 		/*box2d.b2PolygonShape*/ var box = new box2d.b2PolygonShape();
 		box.SetAsBox(0.5, 0.5);
@@ -183,7 +179,6 @@ box2d.Testbed.Car = function (canvas, settings)
 	}
 
 	// Car
-	if (true)
 	{
 		/*box2d.b2PolygonShape*/ var chassis = new box2d.b2PolygonShape();
 		/*box2d.b2Vec2[]*/ var vertices = box2d.b2Vec2.MakeArray(8);

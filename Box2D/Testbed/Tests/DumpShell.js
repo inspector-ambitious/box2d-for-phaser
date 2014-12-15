@@ -36,7 +36,6 @@ box2d.Testbed.DumpShell = function (canvas, settings)
 this.m_world.SetGravity(g);
 /*box2d.b2Body*/ var bodies = new Array(4);
 /*box2d.b2Joint*/ var joints = new Array(2);
-if (true)
 {
   /*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
   bd.type = box2d.b2BodyType.b2_staticBody;
@@ -55,7 +54,6 @@ if (true)
 
   bodies[0] = this.m_world.CreateBody(bd);
 
-  if (true)
   {
     /*box2d.b2FixtureDef*/ var fd = new box2d.b2FixtureDef();
     fd.friction = 10.000000000000000;
@@ -78,7 +76,6 @@ if (true)
 
     bodies[0].CreateFixture(fd);
   }
-  if (true)
   {
     /*box2d.b2FixtureDef*/ var fd = new box2d.b2FixtureDef();
     fd.friction = 10.000000000000000;
@@ -101,7 +98,6 @@ if (true)
 
     bodies[0].CreateFixture(fd);
   }
-  if (true)
   {
     /*box2d.b2FixtureDef*/ var fd = new box2d.b2FixtureDef();
     fd.friction = 10.000000000000000;
@@ -124,7 +120,6 @@ if (true)
 
     bodies[0].CreateFixture(fd);
   }
-  if (true)
   {
     /*box2d.b2FixtureDef*/ var fd = new box2d.b2FixtureDef();
     fd.friction = 10.000000000000000;
@@ -148,7 +143,6 @@ if (true)
     bodies[0].CreateFixture(fd);
   }
 }
-if (true)
 {
   /*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
   bd.type = box2d.b2BodyType.b2_dynamicBody;
@@ -167,7 +161,6 @@ if (true)
 
   bodies[1] = this.m_world.CreateBody(bd);
 
-  if (true)
   {
     /*box2d.b2FixtureDef*/ var fd = new box2d.b2FixtureDef();
     fd.friction = 1.000000000000000;
@@ -190,7 +183,6 @@ if (true)
     bodies[1].CreateFixture(fd);
   }
 }
-if (true)
 {
   /*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
   bd.type = box2d.b2BodyType.b2_dynamicBody;
@@ -209,7 +201,6 @@ if (true)
 
   bodies[2] = this.m_world.CreateBody(bd);
 
-  if (true)
   {
     /*box2d.b2FixtureDef*/ var fd = new box2d.b2FixtureDef();
     fd.friction = 1.000000000000000;
@@ -232,7 +223,6 @@ if (true)
     bodies[2].CreateFixture(fd);
   }
 }
-if (true)
 {
   /*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
   bd.type = box2d.b2BodyType.b2_staticBody;
@@ -252,7 +242,6 @@ if (true)
   bodies[3] = this.m_world.CreateBody(bd);
 
 }
-if (true)
 {
   /*box2d.b2RevoluteJointDef*/ var jd = new box2d.b2RevoluteJointDef();
   jd.bodyA = bodies[1];
@@ -269,7 +258,6 @@ if (true)
   jd.maxMotorTorque = 0.000000000000000;
   joints[0] = this.m_world.CreateJoint(jd);
 }
-if (true)
 {
   /*box2d.b2PrismaticJointDef*/ var jd = new box2d.b2PrismaticJointDef();
   jd.bodyA = bodies[1];

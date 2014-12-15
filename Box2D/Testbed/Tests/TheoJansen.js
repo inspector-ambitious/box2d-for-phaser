@@ -183,7 +183,6 @@ box2d.Testbed.TheoJansen.prototype.Construct = function ()
 	var pivot = new box2d.b2Vec2(0.0, 0.8);
 
 	// Ground
-	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
 		var ground = this.m_world.CreateBody(bd);
@@ -214,7 +213,6 @@ box2d.Testbed.TheoJansen.prototype.Construct = function ()
 	}
 
 	// Chassis
-	if (true)
 	{
 		var shape = new box2d.b2PolygonShape();
 		shape.SetAsBox(2.5, 1.0);
@@ -230,7 +228,6 @@ box2d.Testbed.TheoJansen.prototype.Construct = function ()
 		this.m_chassis.CreateFixture(sd);
 	}
 
-	if (true)
 	{
 		var shape = new box2d.b2CircleShape();
 		shape.m_radius = 1.6;
@@ -246,7 +243,6 @@ box2d.Testbed.TheoJansen.prototype.Construct = function ()
 		this.m_wheel.CreateFixture(sd);
 	}
 
-	if (true)
 	{
 		var jd = new box2d.b2RevoluteJointDef();
 		jd.Initialize(this.m_wheel, this.m_chassis, box2d.b2Add_V2_V2(pivot, this.m_offset, new box2d.b2Vec2()));

@@ -41,7 +41,6 @@ box2d.Testbed.SensorTest = function (canvas, settings)
 	var bd = new box2d.b2BodyDef();
 	var ground = this.m_world.CreateBody(bd);
 
-	if (true)
 	{
 		var shape = new box2d.b2EdgeShape();
 		shape.SetAsEdge(new box2d.b2Vec2(-40.0, 0.0), new box2d.b2Vec2(40.0, 0.0));
@@ -49,7 +48,6 @@ box2d.Testbed.SensorTest = function (canvas, settings)
 	}
 
 	/*
-	if (false)
 	{
 		var sd = new box2d.b2FixtureDef();
 		sd.SetAsOrientedBox(10.0, 2.0, new box2d.b2Vec2(0.0, 20.0), 0.0);
@@ -57,7 +55,6 @@ box2d.Testbed.SensorTest = function (canvas, settings)
 		this.m_sensor = ground.CreateFixture(sd);
 	}
 	*/
-	if (true)
 	{
 		var shape = new box2d.b2CircleShape();
 		shape.m_radius = 5.0;
@@ -69,7 +66,6 @@ box2d.Testbed.SensorTest = function (canvas, settings)
 		this.m_sensor = ground.CreateFixture(fd);
 	}
 
-	if (true)
 	{
 		var shape = new box2d.b2CircleShape();
 		shape.m_radius = 1.0;
@@ -191,7 +187,7 @@ box2d.Testbed.SensorTest.prototype.Step = function (settings)
 	// that overlap the sensor.
 	for (var i = 0; i < box2d.Testbed.SensorTest.e_count; ++i)
 	{
-		if (this.m_touching[i][0] === false)
+		if (!this.m_touching[i][0])
 		{
 			continue;
 		}

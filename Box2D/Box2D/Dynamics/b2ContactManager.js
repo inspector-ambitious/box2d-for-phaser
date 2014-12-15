@@ -163,10 +163,10 @@ box2d.b2ContactManager.prototype.Collide = function ()
 		var bodyB = fixtureB.GetBody();
 
 		// Is this contact flagged for filtering?
-		if (c.m_flags & box2d.b2ContactFlag.e_filterFlag)
+		if (c.m_flag_filterFlag)
 		{
 			// Should these bodies collide?
-			if (bodyB.ShouldCollide(bodyA) === false)
+			if (!bodyB.ShouldCollide(bodyA))
 			{
 				var cNuke = c;
 				c = cNuke.m_next;
@@ -175,7 +175,7 @@ box2d.b2ContactManager.prototype.Collide = function ()
 			}
 
 			// Check user filtering.
-			if (this.m_contactFilter && this.m_contactFilter.ShouldCollide(fixtureA, fixtureB) === false)
+			if (this.m_contactFilter && !this.m_contactFilter.ShouldCollide(fixtureA, fixtureB))
 			{
 				cNuke = c;
 				c = cNuke.m_next;
@@ -184,14 +184,14 @@ box2d.b2ContactManager.prototype.Collide = function ()
 			}
 
 			// Clear the filtering flag.
-			c.m_flags &= ~box2d.b2ContactFlag.e_filterFlag;
+			c.m_flag_filterFlag = false;
 		}
 
 		var activeA = bodyA.IsAwake() && bodyA.m_type !== box2d.b2BodyType.b2_staticBody;
 		var activeB = bodyB.IsAwake() && bodyB.m_type !== box2d.b2BodyType.b2_staticBody;
 
 		// At least one body must be awake and it must be dynamic or kinematic.
-		if (activeA === false && activeB === false)
+		if (!activeA && !activeB)
 		{
 			c = c.m_next;
 			continue;
@@ -202,7 +202,7 @@ box2d.b2ContactManager.prototype.Collide = function ()
 		var overlap = this.m_broadPhase.TestOverlap(proxyA, proxyB);
 
 		// Here we destroy contacts that cease to overlap in the broad-phase.
-		if (overlap === false)
+		if (!overlap)
 		{
 			cNuke = c;
 			c = cNuke.m_next;
@@ -284,13 +284,13 @@ box2d.b2ContactManager.prototype.AddPair = function (proxyUserDataA, proxyUserDa
 	}
 
 	// Does a joint override collision? Is at least one body dynamic?
-	if (bodyB.ShouldCollide(bodyA) === false)
+	if (!bodyB.ShouldCollide(bodyA))
 	{
 		return;
 	}
 
 	// Check user filtering.
-	if (this.m_contactFilter && this.m_contactFilter.ShouldCollide(fixtureA, fixtureB) === false)
+	if (this.m_contactFilter && !this.m_contactFilter.ShouldCollide(fixtureA, fixtureB))
 	{
 		return;
 	}
@@ -346,7 +346,7 @@ box2d.b2ContactManager.prototype.AddPair = function (proxyUserDataA, proxyUserDa
 	bodyB.m_contactList = c.m_nodeB;
 
 	// Wake up the bodies
-	if (fixtureA.IsSensor() === false && fixtureB.IsSensor() === false)
+	if (!fixtureA.IsSensor() && !fixtureB.IsSensor())
 	{
 		bodyA.SetAwake(true);
 		bodyB.SetAwake(true);

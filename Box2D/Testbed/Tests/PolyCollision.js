@@ -37,13 +37,11 @@ box2d.Testbed.PolyCollision = function (canvas, settings)
 	this.m_transformB = new box2d.b2Transform();
 	this.m_positionB = new box2d.b2Vec2();
 
-	if (true)
 	{
 		this.m_polygonA.SetAsBox(0.2, 0.4);
 		this.m_transformA.SetPositionRotationAngle(new box2d.b2Vec2(0.0, 0.0), 0.0);
 	}
 
-	if (true)
 	{
 		this.m_polygonB.SetAsBox(0.5, 0.5);
 		this.m_positionB.Set(19.345284, 1.5632932);
@@ -101,7 +99,6 @@ box2d.Testbed.PolyCollision.prototype.Step = function (settings)
 	this.m_debugDraw.DrawString(5, this.m_textLine, "point count = %d", manifold.pointCount);
 	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 
-	if (true)
 	{
 		var color = new box2d.b2Color(0.9, 0.9, 0.9);
 		var v = new Array(box2d.b2_maxPolygonVertices);

@@ -32,7 +32,6 @@ box2d.Testbed.Dominos = function (canvas, settings)
 	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	var b1 = null;
-	if (true)
 	{
 		var shape = new box2d.b2EdgeShape();
 		shape.SetAsEdge(new box2d.b2Vec2(-40.0, 0.0), new box2d.b2Vec2(40.0, 0.0));
@@ -42,7 +41,6 @@ box2d.Testbed.Dominos = function (canvas, settings)
 		b1.CreateFixture(shape, 0.0);
 	}
 
-	if (true)
 	{
 		var shape = new box2d.b2PolygonShape();
 		shape.SetAsBox(6.0, 0.25);
@@ -53,7 +51,6 @@ box2d.Testbed.Dominos = function (canvas, settings)
 		ground.CreateFixture(shape, 0.0);
 	}
 
-	if (true)
 	{
 		var shape = new box2d.b2PolygonShape();
 		shape.SetAsBox(0.1, 1.0);
@@ -73,7 +70,6 @@ box2d.Testbed.Dominos = function (canvas, settings)
 		}
 	}
 
-	if (true)
 	{
 		var shape = new box2d.b2PolygonShape();
 		shape.SetAsOrientedBox(7.0, 0.25, box2d.b2Vec2_zero, 0.3);
@@ -85,7 +81,6 @@ box2d.Testbed.Dominos = function (canvas, settings)
 	}
 
 	var b2 = null;
-	if (true)
 	{
 		var shape = new box2d.b2PolygonShape();
 		shape.SetAsBox(0.25, 1.5);
@@ -97,7 +92,6 @@ box2d.Testbed.Dominos = function (canvas, settings)
 	}
 
 	var b3 = null;
-	if (true)
 	{
 		var shape = new box2d.b2PolygonShape();
 		shape.SetAsBox(6.0, 0.125);
@@ -120,7 +114,6 @@ box2d.Testbed.Dominos = function (canvas, settings)
 	this.m_world.CreateJoint(jd);
 
 	var b4 = null;
-	if (true)
 	{
 		var shape = new box2d.b2PolygonShape();
 		shape.SetAsBox(0.25, 0.25);
@@ -137,7 +130,6 @@ box2d.Testbed.Dominos = function (canvas, settings)
 	this.m_world.CreateJoint(jd);
 
 	var b5 = null;
-	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
@@ -166,7 +158,6 @@ box2d.Testbed.Dominos = function (canvas, settings)
 	this.m_world.CreateJoint(jd);
 
 	var b6 = null;
-	if (true)
 	{
 		var shape = new box2d.b2PolygonShape();
 		shape.SetAsBox(1.0, 0.1);
@@ -183,7 +174,6 @@ box2d.Testbed.Dominos = function (canvas, settings)
 	this.m_world.CreateJoint(jd);
 
 	var b7 = null;
-	if (true)
 	{
 		var shape = new box2d.b2PolygonShape();
 		shape.SetAsBox(0.1, 1.0);
@@ -205,7 +195,6 @@ box2d.Testbed.Dominos = function (canvas, settings)
 	djd.length = d.Length();
 	this.m_world.CreateJoint(djd);
 
-	if (true)
 	{
 		var radius = 0.2;
 

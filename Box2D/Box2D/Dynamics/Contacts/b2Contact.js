@@ -85,28 +85,6 @@ box2d.b2ContactEdge.prototype.prev = null; ///< the previous contact edge in the
 box2d.b2ContactEdge.prototype.next = null; ///< the next contact edge in the body's contact list
 
 /**
- * Flags stored in m_flags
- * @enum
- */
-box2d.b2ContactFlag = 
-{
-	e_none			: 0,
-	e_islandFlag	: 0x0001, /// Used when crawling contact graph when forming islands.
-	e_touchingFlag	: 0x0002, /// Set when the shapes are touching.
-	e_enabledFlag	: 0x0004, /// This contact can be disabled (by user)
-	e_filterFlag	: 0x0008, /// This contact needs filtering because a fixture filter was changed.
-	e_bulletHitFlag	: 0x0010, /// This bullet contact had a TOI event
-	e_toiFlag		: 0x0020  /// This contact has a valid TOI in m_toi
-};
-goog.exportProperty(box2d.b2ContactFlag, 'e_none'         , box2d.b2ContactFlag.e_none         );
-goog.exportProperty(box2d.b2ContactFlag, 'e_islandFlag'   , box2d.b2ContactFlag.e_islandFlag   );
-goog.exportProperty(box2d.b2ContactFlag, 'e_touchingFlag' , box2d.b2ContactFlag.e_touchingFlag );
-goog.exportProperty(box2d.b2ContactFlag, 'e_enabledFlag'  , box2d.b2ContactFlag.e_enabledFlag  );
-goog.exportProperty(box2d.b2ContactFlag, 'e_filterFlag'   , box2d.b2ContactFlag.e_filterFlag   );
-goog.exportProperty(box2d.b2ContactFlag, 'e_bulletHitFlag', box2d.b2ContactFlag.e_bulletHitFlag);
-goog.exportProperty(box2d.b2ContactFlag, 'e_toiFlag'      , box2d.b2ContactFlag.e_toiFlag      );
-
-/**
  * The class manages contact between two shapes. A contact
  * exists for each overlapping AABB in the broad-phase (except
  * if filtered). Therefore a contact object may exist that has
@@ -124,9 +102,34 @@ box2d.b2Contact = function ()
 
 /**
  * @export
- * @type {box2d.b2ContactFlag}
+ * @type {boolean}
  */
-box2d.b2Contact.prototype.m_flags = box2d.b2ContactFlag.e_none;
+box2d.b2Contact.prototype.m_flag_islandFlag = false;		/// Used when crawling contact graph when forming islands.
+/**
+ * @export
+ * @type {boolean}
+ */
+box2d.b2Contact.prototype.m_flag_touchingFlag = false;	/// Set when the shapes are touching.
+/**
+ * @export
+ * @type {boolean}
+ */
+box2d.b2Contact.prototype.m_flag_enabledFlag = false;	/// This contact can be disabled (by user)
+/**
+ * @export
+ * @type {boolean}
+ */
+box2d.b2Contact.prototype.m_flag_filterFlag = false;		/// This contact needs filtering because a fixture filter was changed.
+/**
+ * @export
+ * @type {boolean}
+ */
+box2d.b2Contact.prototype.m_flag_bulletHitFlag = false;	/// This bullet contact had a TOI event
+/**
+ * @export
+ * @type {boolean}
+ */
+box2d.b2Contact.prototype.m_flag_toiFlag = false;		/// This contact has a valid TOI in m_toi
 
 /**
  * World pool and list pointers.
@@ -247,7 +250,7 @@ box2d.b2Contact.prototype.GetWorldManifold = function (worldManifold)
  */
 box2d.b2Contact.prototype.IsTouching = function ()
 {
-	return (this.m_flags & box2d.b2ContactFlag.e_touchingFlag) === box2d.b2ContactFlag.e_touchingFlag;
+	return this.m_flag_touchingFlag;
 }
 
 /**
@@ -260,14 +263,7 @@ box2d.b2Contact.prototype.IsTouching = function ()
  */
 box2d.b2Contact.prototype.SetEnabled = function (flag)
 {
-	if (flag)
-	{
-		this.m_flags |= box2d.b2ContactFlag.e_enabledFlag;
-	}
-	else
-	{
-		this.m_flags &= ~box2d.b2ContactFlag.e_enabledFlag;
-	}
+	this.m_flag_enabledFlag = flag;
 }
 
 /**
@@ -277,7 +273,7 @@ box2d.b2Contact.prototype.SetEnabled = function (flag)
  */
 box2d.b2Contact.prototype.IsEnabled = function ()
 {
-	return (this.m_flags & box2d.b2ContactFlag.e_enabledFlag) === box2d.b2ContactFlag.e_enabledFlag;
+	return this.m_flag_enabledFlag;
 }
 
 /**
@@ -348,7 +344,7 @@ box2d.b2Contact.prototype.Evaluate = function (manifold, xfA, xfB)
  */
 box2d.b2Contact.prototype.FlagForFiltering = function ()
 {
-	this.m_flags |= box2d.b2ContactFlag.e_filterFlag;
+	this.m_flag_filterFlag = true;
 }
 
 /**
@@ -447,7 +443,7 @@ box2d.b2Contact.prototype.GetTangentSpeed = function ()
  */
 box2d.b2Contact.prototype.Reset = function (fixtureA, indexA, fixtureB, indexB)
 {
-	this.m_flags = box2d.b2ContactFlag.e_enabledFlag;
+	this.m_flag_enabledFlag = true;
 
 	this.m_fixtureA = fixtureA;
 	this.m_fixtureB = fixtureB;
@@ -491,10 +487,10 @@ box2d.b2Contact.prototype.Update = function (listener)
 	this.m_manifold = tManifold;
 
 	// Re-enable this contact.
-	this.m_flags |= box2d.b2ContactFlag.e_enabledFlag;
+	this.m_flag_enabledFlag = true;
 
 	var touching = false;
-	var wasTouching = (this.m_flags & box2d.b2ContactFlag.e_touchingFlag) === box2d.b2ContactFlag.e_touchingFlag;
+	var wasTouching = this.m_flag_touchingFlag;
 
 	var sensorA = this.m_fixtureA.IsSensor();
 	var sensorB = this.m_fixtureB.IsSensor();
@@ -561,26 +557,19 @@ box2d.b2Contact.prototype.Update = function (listener)
 		}
 	}
 
-	if (touching)
-	{
-		this.m_flags |= box2d.b2ContactFlag.e_touchingFlag;
-	}
-	else
-	{
-		this.m_flags &= ~box2d.b2ContactFlag.e_touchingFlag;
-	}
+	this.m_flag_touchingFlag = touching;
 
-	if (wasTouching === false && touching === true && listener)
+	if (!wasTouching && touching && listener)
 	{
 		listener.BeginContact(this);
 	}
 
-	if (wasTouching === true && touching === false && listener)
+	if (wasTouching && !touching && listener)
 	{
 		listener.EndContact(this);
 	}
 
-	if (sensor === false && touching && listener)
+	if (!sensor && touching && listener)
 	{
 		listener.PreSolve(this, this.m_oldManifold);
 	}

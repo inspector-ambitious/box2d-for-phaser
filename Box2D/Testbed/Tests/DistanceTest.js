@@ -37,14 +37,12 @@ box2d.Testbed.DistanceTest = function (canvas, settings)
 	this.m_polygonA = new box2d.b2PolygonShape();
 	this.m_polygonB = new box2d.b2PolygonShape();
 
-	if (true)
 	{
 		this.m_transformA.SetIdentity();
 		this.m_transformA.p.Set(0.0, -0.2);
 		this.m_polygonA.SetAsBox(10.0, 0.2);
 	}
 
-	if (true)
 	{
 		this.m_positionB.Set(12.017401, 0.13678508);
 		this.m_angleB = -0.0109265;

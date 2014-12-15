@@ -39,7 +39,6 @@ box2d.Testbed.ApplyForce = function (canvas, settings)
 	/*float32*/ var k_restitution = 0.4;
 
 	/*box2d.b2Body*/ var ground = null;
-	if (true)
 	{
 		/*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
 		bd.position.Set(0.0, 20.0);
@@ -69,7 +68,6 @@ box2d.Testbed.ApplyForce = function (canvas, settings)
 		ground.CreateFixture(sd);
 	}
 
-	if (true)
 	{
 		/*box2d.b2Transform*/ var xf1 = new box2d.b2Transform();
 		xf1.q.SetAngle(0.3524 * box2d.b2_pi);
@@ -115,7 +113,6 @@ box2d.Testbed.ApplyForce = function (canvas, settings)
 		this.m_body.CreateFixture(sd2);
 	}
 
-	if (true)
 	{
 		/*box2d.b2PolygonShape*/ var shape = new box2d.b2PolygonShape();
 		shape.SetAsBox(0.5, 0.5);

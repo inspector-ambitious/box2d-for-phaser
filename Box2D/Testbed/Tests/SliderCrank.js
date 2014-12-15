@@ -34,7 +34,6 @@ box2d.Testbed.SliderCrank = function (canvas, settings)
 	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	var ground = null;
-	if (true)
 	{
 		var bd = new box2d.b2BodyDef();
 		ground = this.m_world.CreateBody(bd);
@@ -44,12 +43,10 @@ box2d.Testbed.SliderCrank = function (canvas, settings)
 		ground.CreateFixture(shape, 0.0);
 	}
 
-	if (true)
 	{
 		var prevBody = ground;
 
 		// Define crank.
-		if (true)
 		{
 			var shape = new box2d.b2PolygonShape();
 			shape.SetAsBox(0.5, 2.0);
@@ -71,7 +68,6 @@ box2d.Testbed.SliderCrank = function (canvas, settings)
 		}
 
 		// Define follower.
-		if (true)
 		{
 			var shape = new box2d.b2PolygonShape();
 			shape.SetAsBox(0.5, 4.0);
@@ -91,7 +87,6 @@ box2d.Testbed.SliderCrank = function (canvas, settings)
 		}
 
 		// Define piston
-		if (true)
 		{
 			var shape = new box2d.b2PolygonShape();
 			shape.SetAsBox(1.5, 1.5);
@@ -117,7 +112,6 @@ box2d.Testbed.SliderCrank = function (canvas, settings)
 		}
 
 		// Create a payload
-		if (true)
 		{
 			var shape = new box2d.b2PolygonShape();
 			shape.SetAsBox(1.5, 1.5);

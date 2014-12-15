@@ -527,7 +527,7 @@ box2d.b2Island.prototype.Solve = function (profile, step, gravity, allowSleep)
 				continue;
 			}
 
-			if ((b.m_flags & box2d.b2BodyFlag.e_autoSleepFlag) === 0 || 
+			if (!b.m_flag_autoSleepFlag || 
 				b.m_angularVelocity * b.m_angularVelocity > angTolSqr || 
 				box2d.b2Dot_V2_V2(b.m_linearVelocity, b.m_linearVelocity) > linTolSqr)
 			{

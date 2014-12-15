@@ -32,7 +32,6 @@ box2d.Testbed.AddPair = function (canvas, settings)
 	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
 	this.m_world.SetGravity(new box2d.b2Vec2(0.0,0.0));
-	if (true)
 	{
 		/*float32*/ var a = 0.1;
 
@@ -55,7 +54,6 @@ box2d.Testbed.AddPair = function (canvas, settings)
 		}
 	}
 
-	if (true)
 	{
 		/*box2d.b2PolygonShape*/ var shape = new box2d.b2PolygonShape();
 		shape.SetAsBox(1.5, 1.5);

@@ -31,7 +31,6 @@ box2d.Testbed.BulletTest = function (canvas, settings)
 {
 	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
-	if (true)
 	{
 		/*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
 		bd.position.Set(0.0, 0.0);
@@ -47,7 +46,6 @@ box2d.Testbed.BulletTest = function (canvas, settings)
 		body.CreateFixture(shape, 0.0);
 	}
 
-	if (true)
 	{
 		/*box2d.b2BodyDef*/ var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
