@@ -27,12 +27,12 @@ goog.require('box2d.Testbed.DestructionListener');
  * @const 
  * @type {number} 
  */
-var DEGTORAD = 0.0174532925199432957
+var DEGTORAD = 0.0174532925199432957;
 /**
  * @const 
  * @type {number} 
  */
-var RADTODEG = 57.295779513082320876
+var RADTODEG = 57.295779513082320876;
 
 var TDC_LEFT	= 0x1;
 var TDC_RIGHT	= 0x2;
