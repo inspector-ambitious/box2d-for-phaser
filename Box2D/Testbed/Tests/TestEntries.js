@@ -59,7 +59,6 @@ goog.require('box2d.Testbed.Pulleys');
 goog.require('box2d.Testbed.Pyramid');
 goog.require('box2d.Testbed.RayCast');
 goog.require('box2d.Testbed.Revolute');
-goog.require('box2d.Testbed.Rope');
 goog.require('box2d.Testbed.RopeJoint');
 goog.require('box2d.Testbed.SensorTest');
 goog.require('box2d.Testbed.ShapeEditing');
@@ -74,6 +73,9 @@ goog.require('box2d.Testbed.VaryingRestitution');
 goog.require('box2d.Testbed.VerticalStack');
 goog.require('box2d.Testbed.Web');
 
+// #if B2_ENABLE_ROPE
+goog.require('box2d.Testbed.Rope');
+// #endif // B2_ENABLE_ROPE
 goog.require('box2d.Testbed.BlobTest');
 // #if B2_ENABLE_CONTROLLER
 goog.require('box2d.Testbed.BuoyancyTest');
@@ -150,7 +152,9 @@ box2d.Testbed.GetTestEntries = function (entries)
 	entries.push(new box2d.Testbed.TestEntry("Varying Friction", box2d.Testbed.VaryingFriction.Create));
 	entries.push(new box2d.Testbed.TestEntry("Add Pair Stress Test", box2d.Testbed.AddPair.Create));
 	
+// #if B2_ENABLE_ROPE
 	entries.push(new box2d.Testbed.TestEntry("Rope", box2d.Testbed.Rope.Create));
+// #endif // B2_ENABLE_ROPE
 	entries.push(new box2d.Testbed.TestEntry("Blob Test", box2d.Testbed.BlobTest.Create));
 // #if B2_ENABLE_CONTROLLER
 	entries.push(new box2d.Testbed.TestEntry("Buoyancy Test", box2d.Testbed.BuoyancyTest.Create));

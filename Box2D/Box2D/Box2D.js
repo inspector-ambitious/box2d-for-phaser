@@ -65,7 +65,9 @@ goog.require('box2d.b2RopeJoint');
 goog.require('box2d.b2WeldJoint');
 goog.require('box2d.b2WheelJoint');
 
+// #if B2_ENABLE_ROPE
 goog.require('box2d.b2Rope');
+// #endif // B2_ENABLE_ROPE
 
 // #if B2_ENABLE_CONTROLLER
 goog.require('box2d.b2BuoyancyController');

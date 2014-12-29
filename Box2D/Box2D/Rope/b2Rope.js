@@ -16,6 +16,8 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
+// #if B2_ENABLE_ROPE
+
 goog.provide('box2d.b2Rope');
 
 goog.require('box2d.b2Math');
@@ -352,4 +354,6 @@ box2d.b2Rope.prototype.Draw = function (draw)
 		draw.DrawSegment(this.m_ps[i], this.m_ps[i+1], c);
 	}
 }
+
+// #endif // B2_ENABLE_ROPE
 
