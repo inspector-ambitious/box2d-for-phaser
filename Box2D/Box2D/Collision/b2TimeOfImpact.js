@@ -235,6 +235,7 @@ box2d.b2SeparationFunction.prototype.Initialize = function (cache, proxyA, sweep
 		/** @type {box2d.b2Vec2} */ var pointB = box2d.b2Mul_X_V2(xfB, localPointB, box2d.b2TimeOfImpact.s_pointB);
 		box2d.b2Sub_V2_V2(pointB, pointA, this.m_axis);
 		/** @type {number} */ var s = this.m_axis.Normalize();
+		this.m_localPoint.SetZero();
 		return s;
 	}
 	else if (cache.indexA[0] === cache.indexA[1])
