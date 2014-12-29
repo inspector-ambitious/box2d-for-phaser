@@ -305,8 +305,8 @@ box2d.b2ContactManager.prototype.AddPair = function (proxyUserDataA, proxyUserDa
 	// Contact creation may swap fixtures.
 	fixtureA = c.GetFixtureA();
 	fixtureB = c.GetFixtureB();
-	indexA = c.GetChildIndexA();
-	indexB = c.GetChildIndexB();
+	//indexA = c.GetChildIndexA();
+	//indexB = c.GetChildIndexB();
 	bodyA = fixtureA.m_body;
 	bodyB = fixtureB.m_body;
 
