@@ -16,6 +16,8 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
+// #if B2_ENABLE_CONTROLLER
+
 goog.provide('box2d.b2GravityController');
 
 goog.require('box2d.b2Settings');
@@ -110,4 +112,6 @@ box2d.b2GravityController.prototype.Step = function (step)
 	}
 }
 box2d.b2GravityController.prototype.Step.s_f = new box2d.b2Vec2();
+
+// #endif // B2_ENABLE_CONTROLLER
 

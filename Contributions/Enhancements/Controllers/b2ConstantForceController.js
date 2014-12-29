@@ -16,6 +16,8 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
+// #if B2_ENABLE_CONTROLLER
+
 goog.provide('box2d.b2ConstantForceController');
 
 goog.require('box2d.b2Settings');
@@ -60,4 +62,6 @@ box2d.b2ConstantForceController.prototype.Step = function (step)
 		body.ApplyForce(this.F, body.GetWorldCenter());
 	}
 }
+
+// #endif // B2_ENABLE_CONTROLLER
 

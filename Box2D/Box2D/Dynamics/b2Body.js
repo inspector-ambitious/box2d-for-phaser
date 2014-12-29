@@ -265,8 +265,10 @@ box2d.b2Body = function (bd, world)
 	this.m_fixtureList = null;
 	this.m_fixtureCount = 0;
 
+// #if B2_ENABLE_CONTROLLER
 	this.m_controllerList = null;
 	this.m_controllerCount = 0;
+// #endif // B2_ENABLE_CONTROLLER
 }
 
 /**
@@ -439,17 +441,23 @@ box2d.b2Body.prototype.m_fixtureList = null;
  * @type {number}
  */
 box2d.b2Body.prototype.m_fixtureCount = 0;
+
+// #if B2_ENABLE_CONTROLLER
+
 /** 
  * @see box2d.b2Controller list 
  * @export 
  * @type {box2d.b2ControllerEdge}
  */
 box2d.b2Body.prototype.m_controllerList = null;
+
 /**
  * @export 
  * @type {number}
  */
 box2d.b2Body.prototype.m_controllerCount = 0;
+
+// #endif // B2_ENABLE_CONTROLLER
 
 /** 
  * @export 
@@ -1851,6 +1859,8 @@ box2d.b2Body.prototype.Dump = function ()
 	}
 }
 
+// #if B2_ENABLE_CONTROLLER
+
 /** 
  * @see box2d.b2Controller list 
  * @export 
@@ -1870,4 +1880,6 @@ box2d.b2Body.prototype.GetControllerCount = function ()
 {
 	return this.m_controllerCount;
 }
+
+// #endif // B2_ENABLE_CONTROLLER
 

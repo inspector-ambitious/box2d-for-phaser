@@ -134,7 +134,9 @@ box2d.b2DrawFlags =
 	e_aabbBit			: 0x0004, ///< draw axis aligned bounding boxes
 	e_pairBit			: 0x0008, ///< draw broad-phase pairs
 	e_centerOfMassBit	: 0x0010, ///< draw center of mass frame
+// #if B2_ENABLE_CONTROLLER
 	e_controllerBit		: 0x0020, /// @see box2d.b2Controller list
+// #endif // B2_ENABLE_CONTROLLER
 	e_all				: 0x003f
 };
 goog.exportProperty(box2d.b2DrawFlags, 'e_none'           , box2d.b2DrawFlags.e_none           );
@@ -143,7 +145,9 @@ goog.exportProperty(box2d.b2DrawFlags, 'e_jointBit'       , box2d.b2DrawFlags.e_
 goog.exportProperty(box2d.b2DrawFlags, 'e_aabbBit'        , box2d.b2DrawFlags.e_aabbBit        );
 goog.exportProperty(box2d.b2DrawFlags, 'e_pairBit'        , box2d.b2DrawFlags.e_pairBit        );
 goog.exportProperty(box2d.b2DrawFlags, 'e_centerOfMassBit', box2d.b2DrawFlags.e_centerOfMassBit);
+// #if B2_ENABLE_CONTROLLER
 goog.exportProperty(box2d.b2DrawFlags, 'e_controllerBit'  , box2d.b2DrawFlags.e_controllerBit  );
+// #endif // B2_ENABLE_CONTROLLER
 goog.exportProperty(box2d.b2DrawFlags, 'e_all'            , box2d.b2DrawFlags.e_all            );
 
 /** 

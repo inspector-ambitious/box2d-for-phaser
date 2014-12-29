@@ -75,7 +75,9 @@ goog.require('box2d.Testbed.VerticalStack');
 goog.require('box2d.Testbed.Web');
 
 goog.require('box2d.Testbed.BlobTest');
+// #if B2_ENABLE_CONTROLLER
 goog.require('box2d.Testbed.BuoyancyTest');
+// #endif // B2_ENABLE_CONTROLLER
 
 goog.require('box2d.Testbed.TestCCD');
 goog.require('box2d.Testbed.TestRagdoll');
@@ -150,7 +152,9 @@ box2d.Testbed.GetTestEntries = function (entries)
 	
 	entries.push(new box2d.Testbed.TestEntry("Rope", box2d.Testbed.Rope.Create));
 	entries.push(new box2d.Testbed.TestEntry("Blob Test", box2d.Testbed.BlobTest.Create));
+// #if B2_ENABLE_CONTROLLER
 	entries.push(new box2d.Testbed.TestEntry("Buoyancy Test", box2d.Testbed.BuoyancyTest.Create));
+// #endif // B2_ENABLE_CONTROLLER
 	
 	entries.push(new box2d.Testbed.TestEntry("Continuous Collision", box2d.Testbed.TestCCD.Create));
 	entries.push(new box2d.Testbed.TestEntry("Stacked Boxes", box2d.Testbed.TestStack.Create));

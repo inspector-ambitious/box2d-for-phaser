@@ -16,6 +16,8 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
+// #if B2_ENABLE_CONTROLLER
+
 goog.provide('box2d.b2BuoyancyController');
 
 goog.require('box2d.b2Settings');
@@ -187,4 +189,6 @@ box2d.b2BuoyancyController.prototype.Draw = function (debugDraw)
 
 	debugDraw.DrawSegment(p1, p2, color);
 }
+
+// #endif // B2_ENABLE_CONTROLLER
 

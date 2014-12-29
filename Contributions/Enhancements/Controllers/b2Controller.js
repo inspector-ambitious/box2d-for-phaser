@@ -16,6 +16,8 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
+// #if B2_ENABLE_CONTROLLER
+
 goog.provide('box2d.b2Controller');
 
 goog.require('box2d.b2Settings');
@@ -240,4 +242,6 @@ box2d.b2Controller.prototype.Clear = function ()
 
 	this.m_bodyCount = 0;
 }
+
+// #endif // B2_ENABLE_CONTROLLER
 
