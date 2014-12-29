@@ -358,7 +358,7 @@ goog.inherits(MyDestructionListener, box2d.Testbed.DestructionListener);
  * @return {void} 
  * @param {box2d.b2Fixture} fixture 
  */
-MyDestructionListener.SayGoodbyeFixture = function (fixture)
+MyDestructionListener.prototype.SayGoodbyeFixture = function (fixture)
 {
 ///	if ( FixtureUserData* fud = (FixtureUserData*)fixture.GetUserData() )
 ///		delete fud;
@@ -370,7 +370,7 @@ MyDestructionListener.SayGoodbyeFixture = function (fixture)
  * @return {void} 
  * @param {box2d.b2Joint} joint 
  */
-MyDestructionListener.SayGoodbyeJoint = function (joint)
+MyDestructionListener.prototype.SayGoodbyeJoint = function (joint)
 {
 	box2d.Testbed.DestructionListener.prototype.SayGoodbyeJoint.call(this, joint);
 }
