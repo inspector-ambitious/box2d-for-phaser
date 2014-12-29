@@ -749,11 +749,11 @@ box2d.Testbed.Test.prototype.Step = function (settings)
 	}
 
 	var flags = box2d.b2DrawFlags.e_none;
-	if (settings.drawShapes) { flags |= box2d.b2DrawFlags.e_shapeBit;        }
-	if (settings.drawJoints) { flags |= box2d.b2DrawFlags.e_jointBit;        }
-	if (settings.drawAABBs ) { flags |= box2d.b2DrawFlags.e_aabbBit;         }
-	if (settings.drawCOMs  ) { flags |= box2d.b2DrawFlags.e_centerOfMassBit; }
-	if (settings.drawControllers  ) { flags |= box2d.b2DrawFlags.e_controllerBit; }
+	if (settings.drawShapes)      { flags |= box2d.b2DrawFlags.e_shapeBit;        }
+	if (settings.drawJoints)      { flags |= box2d.b2DrawFlags.e_jointBit;        }
+	if (settings.drawAABBs )      { flags |= box2d.b2DrawFlags.e_aabbBit;         }
+	if (settings.drawCOMs  )      { flags |= box2d.b2DrawFlags.e_centerOfMassBit; }
+	if (settings.drawControllers) { flags |= box2d.b2DrawFlags.e_controllerBit;   }
 	this.m_debugDraw.SetFlags(flags);
 
 	this.m_world.SetAllowSleeping(settings.enableSleep);
