@@ -296,18 +296,14 @@ box2d.b2ChainShape.prototype.RayCast = function (output, input, xf, childIndex)
 {
 	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(childIndex < this.m_count); }
 
-	/** @type {box2d.b2EdgeShape} */ var edgeShape = box2d.b2ChainShape.s_edgeShape;
+	/** @type {box2d.b2EdgeShape} */ var edgeShape = box2d.b2ChainShape.prototype.RayCast.s_edgeShape;
 
 	edgeShape.m_vertex1.Copy(this.m_vertices[childIndex]);
 	edgeShape.m_vertex2.Copy(this.m_vertices[(childIndex + 1) % this.m_count]);
 
 	return edgeShape.RayCast(output, input, xf, 0);
 }
-/**
- * @export 
- * @type {box2d.b2EdgeShape}
- */
-box2d.b2ChainShape.s_edgeShape = new box2d.b2EdgeShape();
+box2d.b2ChainShape.prototype.RayCast.s_edgeShape = new box2d.b2EdgeShape();
 
 /** 
  * @see box2d.b2Shape::ComputeAABB 
