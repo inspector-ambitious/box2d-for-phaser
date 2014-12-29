@@ -16,7 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-// #if B2_ENABLE_ROPE
+//#if B2_ENABLE_ROPE
 
 goog.provide('box2d.Testbed.Rope');
 
@@ -133,5 +133,5 @@ box2d.Testbed.Rope.Create = function (canvas, settings)
 	return new box2d.Testbed.Rope(canvas, settings);
 }
 
-// #endif // B2_ENABLE_ROPE
+//#endif
 

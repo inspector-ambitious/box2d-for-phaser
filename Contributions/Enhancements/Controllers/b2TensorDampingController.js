@@ -16,7 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-// #if B2_ENABLE_CONTROLLER
+//#if B2_ENABLE_CONTROLLER
 
 goog.provide('box2d.b2TensorDampingController');
 
@@ -127,5 +127,5 @@ box2d.b2TensorDampingController.prototype.SetAxisAligned = function (xDamping, y
 	}
 }
 
-// #endif // B2_ENABLE_CONTROLLER
+//#endif
 

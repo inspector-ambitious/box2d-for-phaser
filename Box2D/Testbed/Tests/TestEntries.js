@@ -73,13 +73,13 @@ goog.require('box2d.Testbed.VaryingRestitution');
 goog.require('box2d.Testbed.VerticalStack');
 goog.require('box2d.Testbed.Web');
 
-// #if B2_ENABLE_ROPE
+//#if B2_ENABLE_ROPE
 goog.require('box2d.Testbed.Rope');
-// #endif // B2_ENABLE_ROPE
+//#endif
 goog.require('box2d.Testbed.BlobTest');
-// #if B2_ENABLE_CONTROLLER
+//#if B2_ENABLE_CONTROLLER
 goog.require('box2d.Testbed.BuoyancyTest');
-// #endif // B2_ENABLE_CONTROLLER
+//#endif
 
 goog.require('box2d.Testbed.TestCCD');
 goog.require('box2d.Testbed.TestRagdoll');
@@ -152,13 +152,13 @@ box2d.Testbed.GetTestEntries = function (entries)
 	entries.push(new box2d.Testbed.TestEntry("Varying Friction", box2d.Testbed.VaryingFriction.Create));
 	entries.push(new box2d.Testbed.TestEntry("Add Pair Stress Test", box2d.Testbed.AddPair.Create));
 	
-// #if B2_ENABLE_ROPE
+//#if B2_ENABLE_ROPE
 	entries.push(new box2d.Testbed.TestEntry("Rope", box2d.Testbed.Rope.Create));
-// #endif // B2_ENABLE_ROPE
+//#endif
 	entries.push(new box2d.Testbed.TestEntry("Blob Test", box2d.Testbed.BlobTest.Create));
-// #if B2_ENABLE_CONTROLLER
+//#if B2_ENABLE_CONTROLLER
 	entries.push(new box2d.Testbed.TestEntry("Buoyancy Test", box2d.Testbed.BuoyancyTest.Create));
-// #endif // B2_ENABLE_CONTROLLER
+//#endif
 	
 	entries.push(new box2d.Testbed.TestEntry("Continuous Collision", box2d.Testbed.TestCCD.Create));
 	entries.push(new box2d.Testbed.TestEntry("Stacked Boxes", box2d.Testbed.TestStack.Create));

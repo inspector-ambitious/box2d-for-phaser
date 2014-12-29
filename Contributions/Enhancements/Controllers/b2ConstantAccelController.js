@@ -16,7 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-// #if B2_ENABLE_CONTROLLER
+//#if B2_ENABLE_CONTROLLER
 
 goog.provide('box2d.b2ConstantAccelController');
 
@@ -65,5 +65,5 @@ box2d.b2ConstantAccelController.prototype.Step = function (step)
 }
 box2d.b2ConstantAccelController.prototype.Step.s_dtA = new box2d.b2Vec2();
 
-// #endif // B2_ENABLE_CONTROLLER
+//#endif
 

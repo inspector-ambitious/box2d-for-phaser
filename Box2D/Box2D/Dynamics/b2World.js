@@ -191,7 +191,7 @@ box2d.b2World.prototype.m_island = null;
  */
 box2d.b2World.prototype.s_stack = null;
 
-// #if B2_ENABLE_CONTROLLER
+//#if B2_ENABLE_CONTROLLER
 
 /** 
  * @see box2d.b2Controller list 
@@ -206,7 +206,7 @@ box2d.b2World.prototype.m_controllerList = null;
  */
 box2d.b2World.prototype.m_controllerCount = 0;
 
-// #endif // B2_ENABLE_CONTROLLER
+//#endif
 
 /** 
  * Enable/disable sleep. 
@@ -582,7 +582,7 @@ box2d.b2World.prototype.DestroyBody = function (b)
 	}
 	b.m_jointList = null;
 
-// #if B2_ENABLE_CONTROLLER
+//#if B2_ENABLE_CONTROLLER
 
 	/// @see box2d.b2Controller list
 	/** @type {box2d.b2ControllerEdge} */ var coe = b.m_controllerList;
@@ -593,7 +593,7 @@ box2d.b2World.prototype.DestroyBody = function (b)
 		coe0.controller.RemoveBody(b);
 	}
 
-// #endif // B2_ENABLE_CONTROLLER
+//#endif
 
 	// Delete the attached contacts.
 	/** @type {box2d.b2ContactEdge} */ var ce = b.m_contactList;
@@ -827,13 +827,13 @@ box2d.b2World.prototype.DestroyJoint = function (j)
  */
 box2d.b2World.prototype.Solve = function (step)
 {
-// #if B2_ENABLE_CONTROLLER
+//#if B2_ENABLE_CONTROLLER
 	/// @see box2d.b2Controller list
 	for (/** @type {box2d.b2Controller} */ var controller = this.m_controllerList; controller; controller = controller.m_next)
 	{
 		controller.Step(step);
 	}
-// #endif // B2_ENABLE_CONTROLLER
+//#endif
 
 	this.m_profile.solveInit = 0;
 	this.m_profile.solveVelocity = 0;
@@ -1941,7 +1941,7 @@ box2d.b2World.prototype.DrawDebugData = function ()
 		}
 	}
 
-// #if B2_ENABLE_CONTROLLER
+//#if B2_ENABLE_CONTROLLER
 	/// @see box2d.b2Controller list
 	if (flags & box2d.b2DrawFlags.e_controllerBit)
 	{
@@ -1950,7 +1950,7 @@ box2d.b2World.prototype.DrawDebugData = function ()
 			c.Draw(this.m_debugDraw);
 		}
 	}
-// #endif // B2_ENABLE_CONTROLLER
+//#endif
 }
 box2d.b2World.prototype.DrawDebugData.s_color = new box2d.b2Color(0, 0, 0);
 box2d.b2World.prototype.DrawDebugData.s_vs = box2d.b2Vec2.MakeArray(4);
@@ -2110,7 +2110,7 @@ box2d.b2World.prototype.Dump = function ()
 	}
 }
 
-// #if B2_ENABLE_CONTROLLER
+//#if B2_ENABLE_CONTROLLER
 
 /**
  * @see box2d.b2Controller list 
@@ -2152,5 +2152,5 @@ box2d.b2World.prototype.RemoveController = function (controller)
 	controller.m_world = null;
 }
 
-// #endif // B2_ENABLE_CONTROLLER
+//#endif
 

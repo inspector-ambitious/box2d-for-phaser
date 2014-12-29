@@ -65,15 +65,15 @@ goog.require('box2d.b2RopeJoint');
 goog.require('box2d.b2WeldJoint');
 goog.require('box2d.b2WheelJoint');
 
-// #if B2_ENABLE_ROPE
+//#if B2_ENABLE_ROPE
 goog.require('box2d.b2Rope');
-// #endif // B2_ENABLE_ROPE
+//#endif
 
-// #if B2_ENABLE_CONTROLLER
+//#if B2_ENABLE_CONTROLLER
 goog.require('box2d.b2BuoyancyController');
 goog.require('box2d.b2ConstantAccelController');
 goog.require('box2d.b2ConstantForceController');
 goog.require('box2d.b2GravityController');
 goog.require('box2d.b2TensorDampingController');
-// #endif // B2_ENABLE_CONTROLLER
+//#endif
 

@@ -16,7 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-// #if B2_ENABLE_CONTROLLER
+//#if B2_ENABLE_CONTROLLER
 
 goog.provide('box2d.Testbed.BuoyancyTest');
 
@@ -261,5 +261,5 @@ box2d.Testbed.BuoyancyTest.Create = function (canvas, settings)
 	return new box2d.Testbed.BuoyancyTest(canvas, settings);
 }
 
-// #endif // B2_ENABLE_CONTROLLER
+//#endif
 

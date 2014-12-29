@@ -16,7 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-// #if B2_ENABLE_ROPE
+//#if B2_ENABLE_ROPE
 
 goog.provide('box2d.b2Rope');
 
@@ -355,5 +355,5 @@ box2d.b2Rope.prototype.Draw = function (draw)
 	}
 }
 
-// #endif // B2_ENABLE_ROPE
+//#endif
 
