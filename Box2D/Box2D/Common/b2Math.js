@@ -82,6 +82,53 @@ box2d.b2Clamp = function (a, lo, hi)
 
 /**
  * @export 
+ * @return {number}
+ * @param {number} num
+ * @param {number} min
+ * @param {number} max
+ */
+box2d.b2Wrap = function (num, min, max)
+{
+	if (min < max)
+	{
+		if (num < min)
+		{
+			return max - ((min - num) % (max - min));
+		}
+		else
+		{
+			return min + ((num - min) % (max - min));
+		}
+	}
+	else if (min === max)
+	{
+		return min;
+	}
+	else // (min > max)
+	{
+		return num;
+	}
+}
+
+/**
+ * @export 
+ * @return {number}
+ * @param {number} rad
+ */
+box2d.b2WrapAngle = function (rad)
+{
+	if (rad < 0)
+	{
+		return ((rad - box2d.b2_pi) % box2d.b2_two_pi) + box2d.b2_pi;
+	}
+	else
+	{
+		return ((rad + box2d.b2_pi) % box2d.b2_two_pi) - box2d.b2_pi;
+	}
+}
+
+/**
+ * @export 
  * @return {void} 
  * @param {Array.<number>} a
  * @param {Array.<number>} b
@@ -310,21 +357,25 @@ box2d.b2Vec2.prototype.y = 0.0;
 
 /**
  * @export 
+ * @const
  * @type {box2d.b2Vec2} 
  */
 box2d.b2Vec2_zero = new box2d.b2Vec2();
 /**
  * @export 
+ * @const
  * @type {box2d.b2Vec2} 
  */
 box2d.b2Vec2.ZERO = new box2d.b2Vec2();
 /**
  * @export 
+ * @const
  * @type {box2d.b2Vec2} 
  */
 box2d.b2Vec2.UNITX = new box2d.b2Vec2(1.0, 0.0);
 /**
  * @export 
+ * @const
  * @type {box2d.b2Vec2} 
  */
 box2d.b2Vec2.UNITY = new box2d.b2Vec2(0.0, 1.0);
@@ -942,6 +993,7 @@ box2d.b2Vec3.prototype.z = 0.0;
 
 /**
  * @export 
+ * @const 
  * @type {box2d.b2Vec3}
  */
 box2d.b2Vec3.ZERO = new box2d.b2Vec3();
@@ -1238,6 +1290,7 @@ box2d.b2Mat22.prototype.ey = null;
 
 /**
  * @export 
+ * @const 
  * @type {box2d.b2Mat22} 
  */
 box2d.b2Mat22.IDENTITY = new box2d.b2Mat22();
@@ -1547,6 +1600,7 @@ box2d.b2Mat33.prototype.ez = null;
 
 /**
  * @export 
+ * @const 
  * @type {box2d.b2Mat33} 
  */
 box2d.b2Mat33.IDENTITY = new box2d.b2Mat33();
@@ -1813,6 +1867,7 @@ box2d.b2Rot.prototype.c = 1.0;
 
 /**
  * @export 
+ * @const 
  * @type {box2d.b2Rot} 
  */
 box2d.b2Rot.IDENTITY = new box2d.b2Rot();
@@ -1932,9 +1987,7 @@ box2d.b2Mul_R_R = function (q, r, out)
 	var r_c = r.c, r_s = r.s;
 	out.s = q_s * r_c + q_c * r_s;
 	out.c = q_c * r_c - q_s * r_s;
-	out.angle = q.angle + r.angle;
-	while (out.angle < -box2d.b2_pi) { out.angle += box2d.b2_two_pi; }
-	while (out.angle >= box2d.b2_pi) { out.angle -= box2d.b2_two_pi; }
+	out.angle = box2d.b2WrapAngle(q.angle + r.angle);
 	return out;
 }
 
@@ -1956,9 +2009,7 @@ box2d.b2MulT_R_R = function (q, r, out)
 	var r_c = r.c, r_s = r.s;
 	out.s = q_c * r_s - q_s * r_c;
 	out.c = q_c * r_c + q_s * r_s;
-	out.angle = q.angle - r.angle;
-	while (out.angle < -box2d.b2_pi) { out.angle += box2d.b2_two_pi; }
-	while (out.angle >= box2d.b2_pi) { out.angle -= box2d.b2_two_pi; }
+	out.angle = box2d.b2WrapAngle(q.angle - r.angle);
 	return out;
 }
 
@@ -2021,6 +2072,7 @@ box2d.b2Transform.prototype.q = null;
 
 /**
  * @export 
+ * @const 
  * @type {box2d.b2Transform} 
  */
 box2d.b2Transform.IDENTITY = new box2d.b2Transform();
@@ -2355,15 +2407,13 @@ box2d.b2Sweep.prototype.Advance = function (alpha)
 
 /** 
  * Normalize an angle in radians to be between -pi and pi 
- * (actually 0 and 2*pi) 
  * @export 
  * @return {void} 
  */
 box2d.b2Sweep.prototype.Normalize = function ()
 {
-	var d = box2d.b2_two_pi * Math.floor(this.a0 / box2d.b2_two_pi);
-	this.a0 -= d;
-	this.a -= d;
+	this.a0 = box2d.b2WrapAngle(this.a0);
+	this.a = box2d.b2WrapAngle(this.a);
 }
 
 /** 
