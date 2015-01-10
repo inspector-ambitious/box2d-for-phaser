@@ -29,7 +29,7 @@ goog.require('box2d.b2Settings');
  */
 box2d.b2DestructionListener = function ()
 {
-};
+}
 
 /** 
  * Called when any joint is about to be destroyed due to the 
@@ -62,7 +62,7 @@ box2d.b2DestructionListener.prototype.SayGoodbyeFixture = function (fixture)
  */
 box2d.b2ContactFilter = function ()
 {
-};
+}
 
 /** 
  * Return true if contact calculations should be performed 
@@ -102,10 +102,24 @@ box2d.b2ContactImpulse = function ()
 {
 	this.normalImpulses = box2d.b2MakeNumberArray(box2d.b2_maxManifoldPoints);
 	this.tangentImpulses = box2d.b2MakeNumberArray(box2d.b2_maxManifoldPoints);
-};
+}
 
+/**
+ * @export
+ * @type {Array.<number>}
+ */
 box2d.b2ContactImpulse.prototype.normalImpulses = null;
+
+/**
+ * @export
+ * @type {Array.<number>}
+ */
 box2d.b2ContactImpulse.prototype.tangentImpulses = null;
+
+/**
+ * @export
+ * @type {number}
+ */
 box2d.b2ContactImpulse.prototype.count = 0;
 
 /** 
@@ -125,7 +139,7 @@ box2d.b2ContactImpulse.prototype.count = 0;
  */
 box2d.b2ContactListener = function ()
 {
-};
+}
 
 /** 
  * Called when two fixtures begin to touch. 
@@ -208,6 +222,7 @@ box2d.b2QueryCallback = function ()
  * Called for each fixture found in the query AABB. 
  * @export 
  * @return {boolean} false to terminate the query.
+ * @param {box2d.b2Fixture} fixture 
  */
 box2d.b2QueryCallback.prototype.ReportFixture = function (fixture)
 {
