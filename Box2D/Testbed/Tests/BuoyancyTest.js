@@ -198,12 +198,12 @@ box2d.Testbed.BuoyancyTest = function (canvas, settings)
 
 	if (box2d.DEBUG)
 	{
-		for (var body_i in this.m_bodies)
+		for (var body_i = 0; i < this.m_bodies.length; ++i)
 			this.m_controller.AddBody(this.m_bodies[body_i]);
-		for (var body_i in this.m_bodies)
+		for (var body_i = 0; i < this.m_bodies.length; ++i)
 			this.m_controller.RemoveBody(this.m_bodies[body_i]);
 	}
-	for (var body_i in this.m_bodies)
+	for (var body_i = 0; i < this.m_bodies.length; ++i)
 		this.m_controller.AddBody(this.m_bodies[body_i]);
 	if (box2d.DEBUG)
 	{
