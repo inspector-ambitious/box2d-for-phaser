@@ -87,11 +87,11 @@ box2d.Testbed.CharacterCollision = function (canvas, settings)
 		var ground = this.m_world.CreateBody(bd);
 
 		var shape = new box2d.b2PolygonShape();
-		shape.SetAsOrientedBox(1.0, 1.0, new box2d.b2Vec2(4.0, 3.0), 0.0);
+		shape.SetAsBox(1.0, 1.0, new box2d.b2Vec2(4.0, 3.0), 0.0);
 		ground.CreateFixture(shape, 0.0);
-		shape.SetAsOrientedBox(1.0, 1.0, new box2d.b2Vec2(6.0, 3.0), 0.0);
+		shape.SetAsBox(1.0, 1.0, new box2d.b2Vec2(6.0, 3.0), 0.0);
 		ground.CreateFixture(shape, 0.0);
-		shape.SetAsOrientedBox(1.0, 1.0, new box2d.b2Vec2(8.0, 3.0), 0.0);
+		shape.SetAsBox(1.0, 1.0, new box2d.b2Vec2(8.0, 3.0), 0.0);
 		ground.CreateFixture(shape, 0.0);
 	}
 

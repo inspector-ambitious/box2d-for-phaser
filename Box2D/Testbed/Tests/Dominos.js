@@ -72,7 +72,7 @@ box2d.Testbed.Dominos = function (canvas, settings)
 
 	{
 		var shape = new box2d.b2PolygonShape();
-		shape.SetAsOrientedBox(7.0, 0.25, box2d.b2Vec2_zero, 0.3);
+		shape.SetAsBox(7.0, 0.25, box2d.b2Vec2_zero, 0.3);
 
 		var bd = new box2d.b2BodyDef();
 		bd.position.Set(1.0, 6.0);
@@ -143,13 +143,13 @@ box2d.Testbed.Dominos = function (canvas, settings)
 		fd.density = 10.0;
 		fd.friction = 0.1;
 
-		shape.SetAsOrientedBox(1.0, 0.1, new box2d.b2Vec2(0.0, -0.9), 0.0);
+		shape.SetAsBox(1.0, 0.1, new box2d.b2Vec2(0.0, -0.9), 0.0);
 		b5.CreateFixture(fd);
 
-		shape.SetAsOrientedBox(0.1, 1.0, new box2d.b2Vec2(-0.9, 0.0), 0.0);
+		shape.SetAsBox(0.1, 1.0, new box2d.b2Vec2(-0.9, 0.0), 0.0);
 		b5.CreateFixture(fd);
 
-		shape.SetAsOrientedBox(0.1, 1.0, new box2d.b2Vec2(0.9, 0.0), 0.0);
+		shape.SetAsBox(0.1, 1.0, new box2d.b2Vec2(0.9, 0.0), 0.0);
 		b5.CreateFixture(fd);
 	}
 

@@ -45,13 +45,13 @@ box2d.Testbed.Tumbler = function (canvas, settings)
 		/*b2Body*/ var body = this.m_world.CreateBody(bd);
 
 		/*b2PolygonShape*/ var shape = new box2d.b2PolygonShape();
-		shape.SetAsOrientedBox(0.5, 10.0, new box2d.b2Vec2( 10.0, 0.0), 0.0);
+		shape.SetAsBox(0.5, 10.0, new box2d.b2Vec2( 10.0, 0.0), 0.0);
 		body.CreateFixture(shape, 5.0);
-		shape.SetAsOrientedBox(0.5, 10.0, new box2d.b2Vec2(-10.0, 0.0), 0.0);
+		shape.SetAsBox(0.5, 10.0, new box2d.b2Vec2(-10.0, 0.0), 0.0);
 		body.CreateFixture(shape, 5.0);
-		shape.SetAsOrientedBox(10.0, 0.5, new box2d.b2Vec2(0.0, 10.0), 0.0);
+		shape.SetAsBox(10.0, 0.5, new box2d.b2Vec2(0.0, 10.0), 0.0);
 		body.CreateFixture(shape, 5.0);
-		shape.SetAsOrientedBox(10.0, 0.5, new box2d.b2Vec2(0.0, -10.0), 0.0);
+		shape.SetAsBox(10.0, 0.5, new box2d.b2Vec2(0.0, -10.0), 0.0);
 		body.CreateFixture(shape, 5.0);
 
 		/*b2RevoluteJointDef*/ var jd = new box2d.b2RevoluteJointDef();

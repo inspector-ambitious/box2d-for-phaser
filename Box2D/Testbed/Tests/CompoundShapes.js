@@ -68,7 +68,7 @@ box2d.Testbed.CompoundShapes = function (canvas, settings)
 		polygon1.SetAsBox(0.25, 0.5);
 
 		var polygon2 = new box2d.b2PolygonShape();
-		polygon2.SetAsOrientedBox(0.25, 0.5, new box2d.b2Vec2(0.0, -0.5), 0.5 * box2d.b2_pi);
+		polygon2.SetAsBox(0.25, 0.5, new box2d.b2Vec2(0.0, -0.5), 0.5 * box2d.b2_pi);
 
 		for (var i = 0; i < 10; ++i)
 		{
@@ -124,10 +124,10 @@ box2d.Testbed.CompoundShapes = function (canvas, settings)
 		bottom.SetAsBox( 1.5, 0.15 );
 
 		var left = new box2d.b2PolygonShape();
-		left.SetAsOrientedBox(0.15, 2.7, new box2d.b2Vec2(-1.45, 2.35), 0.2);
+		left.SetAsBox(0.15, 2.7, new box2d.b2Vec2(-1.45, 2.35), 0.2);
 
 		var right = new box2d.b2PolygonShape();
-		right.SetAsOrientedBox(0.15, 2.7, new box2d.b2Vec2(1.45, 2.35), -0.2);
+		right.SetAsBox(0.15, 2.7, new box2d.b2Vec2(1.45, 2.35), -0.2);
 
 		var bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;

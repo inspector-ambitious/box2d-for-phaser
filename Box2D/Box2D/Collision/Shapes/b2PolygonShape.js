@@ -100,8 +100,10 @@ box2d.b2PolygonShape.prototype.Copy = function (other)
  * @return {box2d.b2PolygonShape} 
  * @param {number} hx the half-width.
  * @param {number} hy the half-height.
+ * @param {box2d.b2Vec2=} center the center of the box in local coordinates.
+ * @param {number=} angle the rotation of the box in local coordinates.
  */
-box2d.b2PolygonShape.prototype.SetAsBox = function (hx, hy)
+box2d.b2PolygonShape.prototype.SetAsBox = function (hx, hy, center, angle)
 {
 	this.m_count = 4;
 	this.m_vertices[0].Set((-hx), (-hy));
@@ -113,40 +115,23 @@ box2d.b2PolygonShape.prototype.SetAsBox = function (hx, hy)
 	this.m_normals[2].Set(0, 1);
 	this.m_normals[3].Set((-1), 0);
 	this.m_centroid.SetZero();
-	return this;
-}
 
-/** 
- * Build vertices to represent an oriented box. 
- * @export 
- * @return {box2d.b2PolygonShape} 
- * @param {number} hx the half-width.
- * @param {number} hy the half-height.
- * @param {box2d.b2Vec2} center the center of the box in local coordinates.
- * @param {number} angle the rotation of the box in local coordinates.
- */
-box2d.b2PolygonShape.prototype.SetAsOrientedBox = function (hx, hy, center, angle)
-{
-	this.m_count = 4;
-	this.m_vertices[0].Set((-hx), (-hy));
-	this.m_vertices[1].Set(hx, (-hy));
-	this.m_vertices[2].Set(hx, hy);
-	this.m_vertices[3].Set((-hx), hy);
-	this.m_normals[0].Set(0, (-1));
-	this.m_normals[1].Set(1, 0);
-	this.m_normals[2].Set(0, 1);
-	this.m_normals[3].Set((-1), 0);
-	this.m_centroid.Copy(center);
-
-	var xf = new box2d.b2Transform();
-	xf.SetPosition(center);
-	xf.SetRotationAngle(angle);
-
-	// Transform vertices and normals.
-	for (var i = 0, ict = this.m_count; i < ict; ++i)
+	if (center instanceof box2d.b2Vec2)
 	{
-		box2d.b2Mul_X_V2(xf, this.m_vertices[i], this.m_vertices[i]);
-		box2d.b2Mul_R_V2(xf.q, this.m_normals[i], this.m_normals[i]);
+		angle = (typeof(angle) === 'number')?(angle):(0);
+
+		this.m_centroid.Copy(center);
+
+		var xf = new box2d.b2Transform();
+		xf.SetPosition(center);
+		xf.SetRotationAngle(angle);
+
+		// Transform vertices and normals.
+		for (var i = 0, ict = this.m_count; i < ict; ++i)
+		{
+			box2d.b2Mul_X_V2(xf, this.m_vertices[i], this.m_vertices[i]);
+			box2d.b2Mul_R_V2(xf.q, this.m_normals[i], this.m_normals[i]);
+		}
 	}
 
 	return this;

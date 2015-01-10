@@ -46,7 +46,7 @@ box2d.Testbed.ShapeEditing = function (canvas, settings)
 	this.m_body = this.m_world.CreateBody(bd);
 
 	var shape = new box2d.b2PolygonShape();
-	shape.SetAsOrientedBox(4.0, 4.0, new box2d.b2Vec2(0.0, 0.0), 0.0);
+	shape.SetAsBox(4.0, 4.0, new box2d.b2Vec2(0.0, 0.0), 0.0);
 	this.m_fixture1 = this.m_body.CreateFixture(shape, 10.0);
 
 	this.m_fixture2 = null;

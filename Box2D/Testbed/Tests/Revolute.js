@@ -92,7 +92,7 @@ box2d.Testbed.Revolute = function (canvas, settings)
 		this.m_ball.CreateFixture(fd);
 
 		/*box2d.b2PolygonShape*/ var polygon_shape = new box2d.b2PolygonShape();
-		polygon_shape.SetAsOrientedBox(10.0, 0.2, new box2d.b2Vec2(-10.0, 0.0), 0.0);
+		polygon_shape.SetAsBox(10.0, 0.2, new box2d.b2Vec2(-10.0, 0.0), 0.0);
 
 		var polygon_bd = new box2d.b2BodyDef();
 		polygon_bd.position.Set(20.0, 10.0);

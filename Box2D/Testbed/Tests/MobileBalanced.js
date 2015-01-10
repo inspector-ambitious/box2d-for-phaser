@@ -92,7 +92,7 @@ box2d.Testbed.MobileBalanced.prototype.AddNode = function (parent, localAnchor, 
 		return body;
 	}
 
-	shape.SetAsOrientedBox(offset, 0.25 * a, new box2d.b2Vec2(0, -a), 0.0);
+	shape.SetAsBox(offset, 0.25 * a, new box2d.b2Vec2(0, -a), 0.0);
 	body.CreateFixture(shape, density);
 
 	var /*b2Vec2*/ a1 = new box2d.b2Vec2(offset, -a);

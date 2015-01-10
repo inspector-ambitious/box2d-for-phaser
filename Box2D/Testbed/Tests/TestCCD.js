@@ -70,12 +70,12 @@ box2d.Testbed.TestCCD = function (canvas, settings)
 		body.CreateFixture(fd);
 
 		var sd_left = new box2d.b2PolygonShape();
-		sd_left.SetAsOrientedBox(0.45, 8.1, new box2d.b2Vec2(-4.35, 7.05), 0.2);
+		sd_left.SetAsBox(0.45, 8.1, new box2d.b2Vec2(-4.35, 7.05), 0.2);
 		fd.shape = sd_left;
 		body.CreateFixture(fd);
 
 		var sd_right = new box2d.b2PolygonShape();
-		sd_right.SetAsOrientedBox(0.45, 8.1, new box2d.b2Vec2(4.35, 7.05), -0.2);
+		sd_right.SetAsBox(0.45, 8.1, new box2d.b2Vec2(4.35, 7.05), -0.2);
 		fd.shape = sd_right;
 		body.CreateFixture(fd);
 	}

@@ -65,7 +65,7 @@ box2d.Testbed.BodyTypes = function (canvas, settings)
 		this.m_platform = this.m_world.CreateBody(bd);
 
 		/*box2d.b2PolygonShape*/ var shape = new box2d.b2PolygonShape();
-		shape.SetAsOrientedBox(0.5, 4.0, new box2d.b2Vec2(4.0, 0.0), 0.5 * box2d.b2_pi);
+		shape.SetAsBox(0.5, 4.0, new box2d.b2Vec2(4.0, 0.0), 0.5 * box2d.b2_pi);
 
 		/*box2d.b2FixtureDef*/ var fd = new box2d.b2FixtureDef();
 		fd.shape = shape;

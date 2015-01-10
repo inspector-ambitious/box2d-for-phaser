@@ -54,11 +54,11 @@ box2d.Testbed.Breakable = function (canvas, settings)
 		this.m_body1 = this.m_world.CreateBody(bd);
 
 		this.m_shape1 = new box2d.b2PolygonShape();
-		this.m_shape1.SetAsOrientedBox(0.5, 0.5, new box2d.b2Vec2(-0.5, 0.0), 0.0);
+		this.m_shape1.SetAsBox(0.5, 0.5, new box2d.b2Vec2(-0.5, 0.0), 0.0);
 		this.m_piece1 = this.m_body1.CreateFixture(this.m_shape1, 1.0);
 
 		this.m_shape2 = new box2d.b2PolygonShape();
-		this.m_shape2.SetAsOrientedBox(0.5, 0.5, new box2d.b2Vec2(0.5, 0.0), 0.0);
+		this.m_shape2.SetAsBox(0.5, 0.5, new box2d.b2Vec2(0.5, 0.0), 0.0);
 		this.m_piece2 = this.m_body1.CreateFixture(this.m_shape2, 1.0);
 	}
 }

@@ -406,11 +406,11 @@ box2d.Testbed.TopdownCar = function (canvas, settings)
 		fixtureDef.shape = polygonShape;
 		fixtureDef.isSensor = true;
 
-		polygonShape.SetAsOrientedBox( 9, 7, new box2d.b2Vec2(-10,15), 20*DEGTORAD );
+		polygonShape.SetAsBox( 9, 7, new box2d.b2Vec2(-10,15), 20*DEGTORAD );
 		var groundAreaFixture = this.m_groundBody.CreateFixture(fixtureDef);
 		groundAreaFixture.SetUserData( new GroundAreaFUD( 0.5, false ) );
 
-		polygonShape.SetAsOrientedBox( 9, 5, new box2d.b2Vec2(5,20), -40*DEGTORAD );
+		polygonShape.SetAsBox( 9, 5, new box2d.b2Vec2(5,20), -40*DEGTORAD );
 		groundAreaFixture = this.m_groundBody.CreateFixture(fixtureDef);
 		groundAreaFixture.SetUserData( new GroundAreaFUD( 0.2, false ) );
 	}

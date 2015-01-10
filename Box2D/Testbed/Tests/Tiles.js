@@ -57,7 +57,7 @@ box2d.Testbed.Tiles = function (canvas, settings)
 				for (/*int32*/ var i = 0; i < N; ++i)
 				{
 					/*box2d.b2PolygonShape*/ var shape = new box2d.b2PolygonShape();
-					shape.SetAsOrientedBox(a, a, position, 0.0);
+					shape.SetAsBox(a, a, position, 0.0);
 					ground.CreateFixture(shape, 0.0);
 					++this.m_fixtureCount;
 					position.x += 2.0 * a;
@@ -77,7 +77,7 @@ box2d.Testbed.Tiles = function (canvas, settings)
 //				for (/*int32*/ var j = 0; j < M; ++j)
 //				{
 //					/*box2d.b2PolygonShape*/ var shape = new box2d.b2PolygonShape();
-//					shape.SetAsOrientedBox(a, a, position, 0.0);
+//					shape.SetAsBox(a, a, position, 0.0);
 //					ground.CreateFixture(shape, 0.0);
 //					position.y -= 2.0 * a;
 //				}

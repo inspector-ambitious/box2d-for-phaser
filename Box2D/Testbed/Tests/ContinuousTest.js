@@ -42,7 +42,7 @@ box2d.Testbed.ContinuousTest = function (canvas, settings)
 		body.CreateFixture(edge, 0.0);
 
 		var shape = new box2d.b2PolygonShape();
-		shape.SetAsOrientedBox(0.2, 1.0, new box2d.b2Vec2(0.5, 1.0), 0.0);
+		shape.SetAsBox(0.2, 1.0, new box2d.b2Vec2(0.5, 1.0), 0.0);
 		body.CreateFixture(shape, 0.0);
 	}
 
