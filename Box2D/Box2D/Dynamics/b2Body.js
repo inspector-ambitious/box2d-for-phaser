@@ -550,7 +550,7 @@ box2d.b2Body.prototype.CreateFixture_Shape_Density = function (shape, density)
 	var def = box2d.b2Body.prototype.CreateFixture_Shape_Density.s_def;
 	def.shape = shape;
 	def.density = density;
-	return this.CreateFixture(def);
+	return this.CreateFixture_Def(def);
 }
 box2d.b2Body.prototype.CreateFixture_Shape_Density.s_def = new box2d.b2FixtureDef();
 

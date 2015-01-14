@@ -1469,8 +1469,9 @@ box2d.b2World.prototype.ClearForces = function ()
  * provided AABB. 
  * @export 
  * @return {void} 
- * @param {box2d.b2QueryCallback | function(box2d.b2Fixture): 
- *  	  boolean} callback a user implemented callback class.
+ * @param 
+ *  	  {box2d.b2QueryCallback|function(box2d.b2Fixture):boolean}
+ *  	  callback a user implemented callback class.
  * @param {box2d.b2AABB} aabb the query box.
  */
 box2d.b2World.prototype.QueryAABB = function (callback, aabb)
@@ -1481,11 +1482,11 @@ box2d.b2World.prototype.QueryAABB = function (callback, aabb)
 	 * @return {boolean} 
 	 * @param {box2d.b2TreeNode} proxy 
 	 */
-	var WorldQueryWrapper = function (proxy)
+	var WorldQueryAABBWrapper = function (proxy)
 	{
 		/* type {box2d.b2FixtureProxy} */ var fixture_proxy = broadPhase.GetUserData(proxy);
 		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(fixture_proxy instanceof box2d.b2FixtureProxy); }
-		/* type {box2d.b2Fixture} */ var fixture = fixture_proxy.fixture;
+		/** @type {box2d.b2Fixture} */ var fixture = fixture_proxy.fixture;
 		if (callback instanceof box2d.b2QueryCallback)
 		{
 			return callback.ReportFixture(fixture);
@@ -1496,18 +1497,20 @@ box2d.b2World.prototype.QueryAABB = function (callback, aabb)
 		}
 	};
 
-	broadPhase.Query(WorldQueryWrapper, aabb);
+	broadPhase.Query(WorldQueryAABBWrapper, aabb);
 }
 
 /** 
  * @export 
  * @return {void} 
- * @param {box2d.b2QueryCallback | function(box2d.b2Fixture): 
- *  	  boolean} callback
+ * @param 
+ *  	  {box2d.b2QueryCallback|function(box2d.b2Fixture):boolean}
+ *  	  callback
  * @param {box2d.b2Shape} shape
  * @param {box2d.b2Transform} transform
+ * @param {number=} childIndex 
  */
-box2d.b2World.prototype.QueryShape = function (callback, shape, transform)
+box2d.b2World.prototype.QueryShape = function (callback, shape, transform, childIndex)
 {
 	/** @type {box2d.b2BroadPhase} */ var broadPhase = this.m_contactManager.m_broadPhase;
 
@@ -1515,7 +1518,7 @@ box2d.b2World.prototype.QueryShape = function (callback, shape, transform)
 	 * @return {boolean} 
 	 * @param {box2d.b2TreeNode} proxy 
 	 */
-	var WorldQueryWrapper = function (proxy)
+	var WorldQueryShapeWrapper = function (proxy)
 	{
 		/* type {box2d.b2FixtureProxy} */ var fixture_proxy = broadPhase.GetUserData(proxy);
 		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(fixture_proxy instanceof box2d.b2FixtureProxy); }
@@ -1534,20 +1537,23 @@ box2d.b2World.prototype.QueryShape = function (callback, shape, transform)
 		return true;
 	};
 
+	childIndex = childIndex || 0;
 	/** @type {box2d.b2AABB} */ var aabb = box2d.b2World.prototype.QueryShape.s_aabb;
-	shape.ComputeAABB(aabb, transform, 0); // TODO
-	broadPhase.Query(WorldQueryWrapper, aabb);
+	shape.ComputeAABB(aabb, transform, childIndex);
+	broadPhase.Query(WorldQueryShapeWrapper, aabb);
 }
 box2d.b2World.prototype.QueryShape.s_aabb = new box2d.b2AABB();
 
 /** 
  * @export 
  * @return {void} 
- * @param {box2d.b2QueryCallback | function(box2d.b2Fixture): 
- *  	  boolean} callback
+ * @param 
+ *  	  {box2d.b2QueryCallback|function(box2d.b2Fixture):boolean}
+ *  	  callback
  * @param {box2d.b2Vec2} point
+ * @param {number=} slop 
  */
-box2d.b2World.prototype.QueryPoint = function (callback, point)
+box2d.b2World.prototype.QueryPoint = function (callback, point, slop)
 {
 	/** @type {box2d.b2BroadPhase} */ var broadPhase = this.m_contactManager.m_broadPhase;
 
@@ -1574,9 +1580,10 @@ box2d.b2World.prototype.QueryPoint = function (callback, point)
 		return true;
 	};
 
+	slop = (typeof(slop) === 'number')?(slop):(box2d.b2_linearSlop);
 	/** @type {box2d.b2AABB} */ var aabb = box2d.b2World.prototype.QueryPoint.s_aabb;
-	aabb.lowerBound.Set(point.x - box2d.b2_linearSlop, point.y - box2d.b2_linearSlop);
-	aabb.upperBound.Set(point.x + box2d.b2_linearSlop, point.y + box2d.b2_linearSlop);
+	aabb.lowerBound.Set(point.x - slop, point.y - slop);
+	aabb.upperBound.Set(point.x + slop, point.y + slop);
 	broadPhase.Query(WorldQueryWrapper, aabb);
 }
 box2d.b2World.prototype.QueryPoint.s_aabb = new box2d.b2AABB();
@@ -1588,9 +1595,9 @@ box2d.b2World.prototype.QueryPoint.s_aabb = new box2d.b2AABB();
  * the starting point. 
  * @export 
  * @return {void} 
- * @param {box2d.b2RayCastCallback | function(box2d.b2Fixture, 
- *  	  box2d.b2Vec2, box2d.b2Vec2, number)} callback a user
- *  	  implemented callback class.
+ * @param 
+ *  	  {box2d.b2RayCastCallback|function(box2d.b2Fixture,box2d.b2Vec2,box2d.b2Vec2,number):number}
+ *  	  callback a user implemented callback class.
  * @param {box2d.b2Vec2} point1 the ray starting point
  * @param {box2d.b2Vec2} point2 the ray ending point
  */

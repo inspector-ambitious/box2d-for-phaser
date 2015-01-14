@@ -763,6 +763,15 @@ box2d.b2AABB.prototype.m_out_extent = null; // access using GetExtents()
 /**
  * @export 
  * @return {box2d.b2AABB} 
+ */
+box2d.b2AABB.prototype.Clone = function ()
+{
+	return new box2d.b2AABB().Copy(this);
+}
+
+/**
+ * @export 
+ * @return {box2d.b2AABB} 
  * @param {box2d.b2AABB} o 
  */
 box2d.b2AABB.prototype.Copy = function (o)
@@ -816,6 +825,21 @@ box2d.b2AABB.prototype.GetPerimeter = function ()
 	var wx = this.upperBound.x - this.lowerBound.x;
 	var wy = this.upperBound.y - this.lowerBound.y;
 	return 2 * (wx + wy);
+}
+
+/** 
+ * @return {box2d.b2AABB} 
+ * @param {box2d.b2AABB} a0 
+ * @param {box2d.b2AABB=} a1 
+ */
+box2d.b2AABB.prototype.Combine = function (a0, a1)
+{
+	switch (arguments.length)
+	{
+	case 1: return this.Combine1(a0);
+	case 2: return this.Combine2(a0, a1 || new box2d.b2AABB());
+	default: throw new Error();
+	}
 }
 
 /** 

@@ -347,7 +347,7 @@ box2d.b2BroadPhase.prototype.UpdatePairs = function (contactManager)
  * called for each proxy that overlaps the supplied AABB. 
  * @export 
  * @return {void} 
- * @param callback 
+ * @param {function(box2d.b2TreeNode):boolean} callback 
  * @param {box2d.b2AABB} aabb 
  */
 box2d.b2BroadPhase.prototype.Query = function (callback, aabb)
@@ -364,8 +364,13 @@ box2d.b2BroadPhase.prototype.Query = function (callback, aabb)
  * number of proxies in the tree.
  * @export 
  * @return {void} 
- * @param callback a callback class that is called for each proxy that is hit by the ray.
- * @param {box2d.b2RayCastInput} input the ray-cast input data. The ray extends from p1 to p1 + maxFraction * (p2 - p1).
+ * @param 
+ *  	  {function(box2d.b2RayCastInput,box2d.b2TreeNode):number}
+ *  	  callback a callback class that is called for each
+ *  	  proxy that is hit by the ray.
+ * @param {box2d.b2RayCastInput} input the ray-cast input data. 
+ *  	  The ray extends from p1 to p1 + maxFraction * (p2 -
+ *  	  p1).
  */
 box2d.b2BroadPhase.prototype.RayCast = function (callback, input)
 {
