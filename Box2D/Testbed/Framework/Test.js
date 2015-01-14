@@ -29,6 +29,21 @@ goog.require('box2d.Testbed.DebugDraw');
 box2d.Testbed.DRAW_STRING_NEW_LINE = 25;
 
 /** 
+ * Random floating point number in range [lo, hi] 
+ * @return {number}
+ * @param {number=} lo 
+ * @param {number=} hi 
+ */
+box2d.Testbed.RandomFloat = function (lo, hi)
+{
+	lo = (typeof(lo) === 'number')?(lo):(-1);
+	hi = (typeof(hi) === 'number')?(hi):(1);
+	var r = Math.random();
+	r = (hi - lo) * r + lo;
+	return r;
+}
+
+/** 
  * Test settings. Some can be controlled in the GUI. 
  * @export 
  * @constructor
