@@ -287,6 +287,104 @@ box2d.b2_toiBaumgarte = 0.75;
 
 
 
+//#if B2_ENABLE_PARTICLE
+
+// Particle
+
+/** 
+ * A symbolic constant that stands for particle allocation 
+ * error. 
+ *  
+ * @export 
+ * @const 
+ * @type {number} 
+ */
+box2d.b2_invalidParticleIndex = -1;
+
+/**
+ * @export 
+ * @const 
+ * @type {number} 
+ */
+box2d.b2_maxParticleIndex = 0x7FFFFFFF;
+
+/** 
+ * The default distance between particles, multiplied by the 
+ * particle diameter. 
+ *  
+ * @export 
+ * @const 
+ * @type {number} 
+ */
+box2d.b2_particleStride = 0.75;
+
+/** 
+ * The minimum particle weight that produces pressure. 
+ *  
+ * @export 
+ * @const 
+ * @type {number} 
+ */
+box2d.b2_minParticleWeight = 1.0;
+
+/** 
+ * The upper limit for particle pressure. 
+ *  
+ * @export 
+ * @const 
+ * @type {number} 
+ */
+box2d.b2_maxParticlePressure = 0.25;
+
+/** 
+ * The upper limit for force between particles. 
+ *  
+ * @export 
+ * @const 
+ * @type {number} 
+ */
+box2d.b2_maxParticleForce = 0.5;
+
+/** 
+ * The maximum distance between particles in a triad, multiplied 
+ * by the particle diameter. 
+ *  
+ * @export 
+ * @const 
+ * @type {number} 
+ */
+box2d.b2_maxTriadDistance = 2.0;
+
+/**
+ * @export 
+ * @const 
+ * @type {number} 
+ */
+box2d.b2_maxTriadDistanceSquared = (box2d.b2_maxTriadDistance * box2d.b2_maxTriadDistance);
+
+/** 
+ * The initial size of particle data buffers. 
+ *  
+ * @export 
+ * @const 
+ * @type {number} 
+ */
+box2d.b2_minParticleSystemBufferCapacity = 256;
+
+/** 
+ * The time into the future that collisions against barrier 
+ * particles will be detected. 
+ *  
+ * @export 
+ * @const 
+ * @type {number} 
+ */
+box2d.b2_barrierCollisionTime = 2.5;
+
+//#endif
+
+
+
 // Sleep
 
 /** 

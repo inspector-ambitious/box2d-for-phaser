@@ -161,6 +161,27 @@ box2d.b2Shape.prototype.TestPoint = function (xf, p)
 	return false;
 }
 
+//#if B2_ENABLE_PARTICLE
+
+/** 
+ * Compute the distance from the current shape to the specified 
+ * point. This only works for convex shapes. 
+ * @export 
+ * @return {number} returns the distance from the current shape.
+ * @param {box2d.b2Transform} xf the shape world transform.
+ * @param {box2d.b2Vec2} p a point in world coordinates.
+ * @param {box2d.b2Vec2} normal returns the direction in which 
+ *  	  the distance increases.
+ * @param {number} childIndex 
+ */
+box2d.b2Shape.prototype.ComputeDistance = function (xf, p, normal, childIndex)
+{
+	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false, "pure virtual"); }
+	return 0;
+}
+
+//#endif
+
 /** 
  * Cast a ray against a child shape. 
  * @export 

@@ -283,6 +283,27 @@ box2d.b2ChainShape.prototype.TestPoint = function (xf, p)
 	return false;
 }
 
+//#if B2_ENABLE_PARTICLE
+
+/** 
+ * @see b2Shape::ComputeDistance 
+ * @export 
+ * @return {number} 
+ * @param {box2d.b2Transform} xf 
+ * @param {box2d.b2Vec2} p 
+ * @param {box2d.b2Vec2} normal 
+ * @param {number} childIndex 
+ */
+box2d.b2ChainShape.prototype.ComputeDistance = function (xf, p, normal, childIndex)
+{
+	/** @type {box2d.b2EdgeShape} */ var edge = box2d.b2ChainShape.prototype.ComputeDistance.s_edgeShape;
+	this.GetChildEdge(edge, childIndex);
+	return edge.ComputeDistance(xf, p, normal, 0);
+}
+box2d.b2ChainShape.prototype.ComputeDistance.s_edgeShape = new box2d.b2EdgeShape();
+
+//#endif
+
 /** 
  * Implement box2d.b2Shape. 
  * @export 

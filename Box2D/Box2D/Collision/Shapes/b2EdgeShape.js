@@ -147,6 +147,47 @@ box2d.b2EdgeShape.prototype.TestPoint = function (xf, p)
 	return false;
 }
 
+//#if B2_ENABLE_PARTICLE
+
+/** 
+ * @see b2Shape::ComputeDistance 
+ * @export 
+ * @return {number} 
+ * @param {box2d.b2Transform} xf 
+ * @param {box2d.b2Vec2} p 
+ * @param {box2d.b2Vec2} normal 
+ * @param {number} childIndex 
+ */
+box2d.b2EdgeShape.prototype.ComputeDistance = function (xf, p, normal, childIndex)
+{
+	var v1 = box2d.b2Mul_X_V2(xf, this.m_vertex1, box2d.b2EdgeShape.prototype.ComputeDistance.s_v1);
+	var v2 = box2d.b2Mul_X_V2(xf, this.m_vertex2, box2d.b2EdgeShape.prototype.ComputeDistance.s_v2);
+
+	var d = box2d.b2Sub_V2_V2(p, v1, box2d.b2EdgeShape.prototype.ComputeDistance.s_d);
+	var s = box2d.b2Sub_V2_V2(v2, v1, box2d.b2EdgeShape.prototype.ComputeDistance.s_s);
+	var ds = box2d.b2Dot_V2_V2(d, s);
+	if (ds > 0)
+	{
+		var s2 = box2d.b2Dot_V2_V2(s, s);
+		if (ds > s2)
+		{
+			box2d.b2Sub_V2_V2(p, v2, d);
+		}
+		else
+		{
+			d.SelfMulSub(ds / s2, s);
+		}
+	}
+	normal.Copy(d);
+	return normal.Normalize();
+}
+box2d.b2EdgeShape.prototype.ComputeDistance.s_v1 = new box2d.b2Vec2();
+box2d.b2EdgeShape.prototype.ComputeDistance.s_v2 = new box2d.b2Vec2();
+box2d.b2EdgeShape.prototype.ComputeDistance.s_d = new box2d.b2Vec2();
+box2d.b2EdgeShape.prototype.ComputeDistance.s_s = new box2d.b2Vec2();
+
+//#endif
+
 /** 
  * Implement box2d.b2Shape.
  * p = p1 + t * d

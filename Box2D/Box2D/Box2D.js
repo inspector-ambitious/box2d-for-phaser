@@ -77,3 +77,10 @@ goog.require('box2d.b2GravityController');
 goog.require('box2d.b2TensorDampingController');
 //#endif
 
+//#if B2_ENABLE_PARTICLE
+goog.require('box2d.b2Particle');
+goog.require('box2d.b2ParticleGroup');
+goog.require('box2d.b2ParticleSystem');
+goog.require('box2d.b2StackQueue');
+goog.require('box2d.b2VoronoiDiagram');
+//#endif

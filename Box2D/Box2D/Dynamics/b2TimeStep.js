@@ -121,6 +121,13 @@ box2d.b2TimeStep.prototype.velocityIterations = 0;
  * @type {number}
  */
 box2d.b2TimeStep.prototype.positionIterations = 0;
+//#if B2_ENABLE_PARTICLE
+/**
+ * @export 
+ * @type {number}
+ */
+box2d.b2TimeStep.prototype.particleIterations = 0;
+//#endif
 /**
  * @export 
  * @type {boolean}
@@ -139,6 +146,9 @@ box2d.b2TimeStep.prototype.Copy = function (step)
 	this.dtRatio = step.dtRatio;	// dt * inv_dt0
 	this.positionIterations = step.positionIterations;
 	this.velocityIterations = step.velocityIterations;
+//#if B2_ENABLE_PARTICLE
+	this.particleIterations = step.particleIterations;
+//#endif
 	this.warmStarting = step.warmStarting;
 	return this;
 }

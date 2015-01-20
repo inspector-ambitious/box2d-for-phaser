@@ -185,6 +185,9 @@ box2d.b2Body = function (bd, world)
 {
 	this.m_xf = new box2d.b2Transform();
 	this.m_out_xf = new box2d.b2Transform();
+//#if B2_ENABLE_PARTICLE
+	this.m_xf0 = new box2d.b2Transform();
+//#endif
 	this.m_sweep = new box2d.b2Sweep();
 	this.m_out_sweep = new box2d.b2Sweep();
 	this.m_linearVelocity = new box2d.b2Vec2();
@@ -224,6 +227,9 @@ box2d.b2Body = function (bd, world)
 
 	this.m_xf.p.Copy(bd.position);
 	this.m_xf.q.SetAngle(bd.angle);
+//#if B2_ENABLE_PARTICLE
+	this.m_xf0.Copy(this.m_xf);
+//#endif
 
 	this.m_sweep.localCenter.SetZero();
 	this.m_sweep.c0.Copy(this.m_xf.p);
@@ -326,6 +332,13 @@ box2d.b2Body.prototype.m_xf = null; // the body origin transform
  * @type {box2d.b2Transform}
  */
 box2d.b2Body.prototype.m_out_xf = null;
+//#if B2_ENABLE_PARTICLE
+/**
+ * @export 
+ * @type {box2d.b2Transform}
+ */
+box2d.b2Body.prototype.m_xf0 = null;
+//#endif
 /**
  * @export 
  * @type {box2d.b2Sweep}
@@ -700,6 +713,9 @@ box2d.b2Body.prototype.SetTransform_X_Y_A = function (x, y, angle)
 
 	this.m_xf.q.SetAngle(angle);
 	this.m_xf.p.Set(x, y);
+//#if B2_ENABLE_PARTICLE
+	this.m_xf0.Copy(this.m_xf);
+//#endif
 
 	box2d.b2Mul_X_V2(this.m_xf, this.m_sweep.localCenter, this.m_sweep.c);
 	this.m_sweep.a = angle;

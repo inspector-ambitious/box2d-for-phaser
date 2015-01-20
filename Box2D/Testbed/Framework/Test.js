@@ -22,6 +22,10 @@ goog.provide('box2d.Testbed.DestructionListener');
 goog.require('box2d');
 goog.require('box2d.Testbed.DebugDraw');
 
+//#if B2_ENABLE_PARTICLE
+goog.require('box2d.Testbed.ParticleParameter');
+//#endif
+
 /** 
  * @export 
  * @define {number}
@@ -52,6 +56,13 @@ box2d.Testbed.Settings = function ()
 {
 	this.viewCenter = new box2d.b2Vec2(0, 20);
 	this.viewRotation = new box2d.b2Rot(box2d.b2DegToRad(0));
+
+//#if B2_ENABLE_PARTICLE
+	// Particle iterations are needed for numerical stability in particle
+	// simulations with small particles and relatively high gravity.
+	// b2CalculateParticleIterations helps to determine the number.
+	this.particleIterations = box2d.b2CalculateParticleIterations(10, 0.04, 1 / this.hz);
+//#endif
 }
 
 /**
@@ -89,11 +100,25 @@ box2d.Testbed.Settings.prototype.velocityIterations = 8;
  * @type {number} 
  */
 box2d.Testbed.Settings.prototype.positionIterations = 3;
+//#if B2_ENABLE_PARTICLE
+/**
+ * @export
+ * @type {number} 
+ */
+box2d.Testbed.Settings.prototype.particleIterations = 1;
+//#endif
 /**
  * @export
  * @type {boolean} 
  */
 box2d.Testbed.Settings.prototype.drawShapes = true;
+//#if B2_ENABLE_PARTICLE
+/**
+ * @export
+ * @type {boolean} 
+ */
+box2d.Testbed.Settings.prototype.drawParticles = true;
+//#endif
 /**
  * @export
  * @type {boolean} 
@@ -174,6 +199,13 @@ box2d.Testbed.Settings.prototype.pause = false;
  * @type {boolean} 
  */
 box2d.Testbed.Settings.prototype.singleStep = false;
+//#if B2_ENABLE_PARTICLE
+/**
+ * @export
+ * @type {boolean} 
+ */
+box2d.Testbed.Settings.prototype.strictContacts = false;
+//#endif
 
 /**
  * @export 
@@ -250,6 +282,20 @@ box2d.Testbed.DestructionListener.prototype.SayGoodbyeFixture = function (fixtur
 {
 }
 
+//#if B2_ENABLE_PARTICLE
+
+/**
+ * @export 
+ * @return {void} 
+ * @param {box2d.b2ParticleGroup} group 
+ */
+box2d.Testbed.DestructionListener.prototype.SayGoodbyeParticleGroup = function (group)
+{
+	this.test.ParticleGroupDestroyed(group);
+}
+
+//#endif
+
 /**
  * @export 
  * @constructor
@@ -312,8 +358,14 @@ box2d.Testbed.Test = function (canvas, settings)
 {
 	box2d.b2ContactListener.call(this); // base class constructor
 
+//#if B2_ENABLE_PARTICLE
+	var particleSystemDef = new box2d.b2ParticleSystemDef();
+//#endif
 	var gravity = new box2d.b2Vec2(0, -10);
 	this.m_world = new box2d.b2World(gravity);
+//#if B2_ENABLE_PARTICLE
+	this.m_particleSystem = this.m_world.CreateParticleSystem(particleSystemDef);
+//#endif
 	this.m_bomb = null;
 	this.m_textLine = 30;
 	this.m_mouseJoint = null;
@@ -330,9 +382,19 @@ box2d.Testbed.Test = function (canvas, settings)
 	this.m_debugDraw = new box2d.Testbed.DebugDraw(canvas, settings);
 	this.m_world.SetDebugDraw(this.m_debugDraw);
 
+//#if B2_ENABLE_PARTICLE
+	this.m_particleSystem.SetGravityScale(0.4);
+	this.m_particleSystem.SetDensity(1.2);
+//#endif
+
 	this.m_bombSpawnPoint = new box2d.b2Vec2();
 	this.m_bombSpawning = false;
 	this.m_mouseWorld = new box2d.b2Vec2();
+//#if B2_ENABLE_PARTICLE
+	this.m_mouseTracing = false;
+	this.m_mouseTracerPosition = new box2d.b2Vec2();
+	this.m_mouseTracerVelocity = new box2d.b2Vec2();
+//#endif
 
 	this.m_stepCount = 0;
 
@@ -357,6 +419,13 @@ box2d.Testbed.Test.k_maxContactPoints = 2048;
  * @type {box2d.b2World} 
  */
 box2d.Testbed.Test.prototype.m_world = null;
+//#if B2_ENABLE_PARTICLE
+/**
+ * @export 
+ * @type {box2d.b2ParticleSystem} 
+ */
+box2d.Testbed.Test.prototype.m_particleSystem = null;
+//#endif
 /**
  * @export 
  * @type {box2d.b2Body} 
@@ -407,6 +476,29 @@ box2d.Testbed.Test.prototype.m_bombSpawning = false;
  * @type {box2d.b2Vec2} 
  */
 box2d.Testbed.Test.prototype.m_mouseWorld = null;
+
+//#if B2_ENABLE_PARTICLE
+
+/**
+ * @export 
+ * @type {boolean} 
+ */
+box2d.Testbed.Test.prototype.m_mouseTracing = false;
+
+/**
+ * @export 
+ * @type {box2d.b2Vec2} 
+ */
+box2d.Testbed.Test.prototype.m_mouseTracerPosition = null;
+
+/**
+ * @export 
+ * @type {box2d.b2Vec2} 
+ */
+box2d.Testbed.Test.prototype.m_mouseTracerVelocity = null;
+
+//#endif
+
 /**
  * @export 
  * @type {number} 
@@ -428,6 +520,22 @@ box2d.Testbed.Test.prototype.m_totalProfile = null;
  */
 box2d.Testbed.Test.prototype.m_groundBody = null;
 
+//#if B2_ENABLE_PARTICLE
+
+/** 
+ * Valid particle parameters for this test. 
+ * @export 
+ * @type {Array.<box2d.Testbed.ParticleParameter.Value>}
+ */
+box2d.Testbed.Test.prototype.m_particleParameters = null;
+/** 
+ * @export 
+ * @type {box2d.Testbed.ParticleParameter.Definition}
+ */
+box2d.Testbed.Test.prototype.m_particleParameterDef = null;
+
+//#endif
+
 /** 
  * Let derived tests know that a joint was destroyed. 
  * @export 
@@ -437,6 +545,20 @@ box2d.Testbed.Test.prototype.m_groundBody = null;
 box2d.Testbed.Test.prototype.JointDestroyed = function (joint)
 {
 }
+
+//#if B2_ENABLE_PARTICLE
+
+/** 
+ * Let derived tests know that a particle group was destroyed. 
+ * @export 
+ * @return {void} 
+ * @param {box2d.b2ParticleGroup} group 
+ */
+box2d.Testbed.Test.prototype.ParticleGroupDestroyed = function (group)
+{
+}
+
+//#endif
 
 /** 
  * Callbacks for derived classes. 
@@ -594,6 +716,70 @@ box2d.Testbed.Test.QueryCallback.prototype.ReportFixture = function (fixture)
 	return true;
 }
 
+//#if B2_ENABLE_PARTICLE
+
+/**
+ * @constructor 
+ * @extends {box2d.b2QueryCallback} 
+ */
+box2d.Testbed.Test.QueryCallback2 = function (particleSystem, shape, velocity)
+{
+	this.m_particleSystem = particleSystem;
+	this.m_shape = shape;
+	this.m_velocity = velocity;
+}
+
+goog.inherits(box2d.Testbed.Test.QueryCallback2, box2d.b2QueryCallback);
+
+/**
+ * @type {box2d.b2ParticleSystem}
+ */
+box2d.Testbed.Test.QueryCallback2.prototype.m_particleSystem = null;
+
+/**
+ * @type {box2d.b2Shape}
+ */
+box2d.Testbed.Test.QueryCallback2.prototype.m_shape = null;
+
+/**
+ * @type {box2d.b2Vec2}
+ */
+box2d.Testbed.Test.QueryCallback2.prototype.m_velocity = null;
+
+/** 
+ * @return {boolean}
+ * @param {box2d.b2Fixture} fixture 
+ */
+box2d.Testbed.Test.QueryCallback2.prototype.ReportFixture = function (fixture)
+{
+	return false;
+}
+
+/**
+ * @return {boolean} 
+ * @param {box2d.b2ParticleSystem} particleSystem 
+ * @param {number} index 
+ */
+box2d.Testbed.Test.QueryCallback2.prototype.ReportParticle = function (particleSystem, index)
+{
+	if (particleSystem !== this.m_particleSystem)
+		return false;
+
+	///	b2Transform xf;
+	///	xf.SetIdentity();
+	var xf = box2d.b2Transform.IDENTITY;
+	var p = this.m_particleSystem.GetPositionBuffer()[index];
+	if (this.m_shape.TestPoint(xf, p))
+	{
+		var v = this.m_particleSystem.GetVelocityBuffer()[index];
+		///	v = m_velocity;
+		v.Copy(this.m_velocity);
+	}
+	return true;
+}
+
+//#endif
+
 /**
  * @export 
  * @return {void} 
@@ -602,6 +788,11 @@ box2d.Testbed.Test.QueryCallback.prototype.ReportFixture = function (fixture)
 box2d.Testbed.Test.prototype.MouseDown = function (p)
 {
 	this.m_mouseWorld.Copy(p);
+//#if B2_ENABLE_PARTICLE
+	this.m_mouseTracing = true;
+	this.m_mouseTracerPosition.Copy(p);
+	this.m_mouseTracerVelocity.SetZero();
+//#endif
 
 	if (this.m_mouseJoint !== null)
 	{
@@ -686,6 +877,10 @@ box2d.Testbed.Test.prototype.ShiftMouseDown = function (p)
  */
 box2d.Testbed.Test.prototype.MouseUp = function (p)
 {
+//#if B2_ENABLE_PARTICLE
+	this.m_mouseTracing = false;
+//#endif
+
 	if (this.m_mouseJoint)
 	{
 		this.m_world.DestroyJoint(this.m_mouseJoint);
@@ -789,6 +984,9 @@ box2d.Testbed.Test.prototype.Step = function (settings)
 
 	var flags = box2d.b2DrawFlags.e_none;
 	if (settings.drawShapes)      { flags |= box2d.b2DrawFlags.e_shapeBit;        }
+//#if B2_ENABLE_PARTICLE
+	if (settings.drawParticles)   { flags |= box2d.b2DrawFlags.e_particleBit;     }
+//#endif
 	if (settings.drawJoints)      { flags |= box2d.b2DrawFlags.e_jointBit;        }
 	if (settings.drawAABBs )      { flags |= box2d.b2DrawFlags.e_aabbBit;         }
 	if (settings.drawCOMs  )      { flags |= box2d.b2DrawFlags.e_centerOfMassBit; }
@@ -799,10 +997,17 @@ box2d.Testbed.Test.prototype.Step = function (settings)
 	this.m_world.SetWarmStarting(settings.enableWarmStarting);
 	this.m_world.SetContinuousPhysics(settings.enableContinuous);
 	this.m_world.SetSubStepping(settings.enableSubStepping);
+//#if B2_ENABLE_PARTICLE
+	this.m_particleSystem.SetStrictContactCheck(settings.strictContacts);
+//#endif
 
 	this.m_pointCount = 0;
 
-	this.m_world.Step(timeStep, settings.velocityIterations, settings.positionIterations);
+//#if B2_ENABLE_PARTICLE
+	this.m_world.Step(timeStep, settings.velocityIterations, settings.positionIterations, settings.particleIterations);
+// #else
+//	this.m_world.Step(timeStep, settings.velocityIterations, settings.positionIterations);
+//#endif
 
 	this.m_world.DrawDebugData();
 
@@ -818,6 +1023,15 @@ box2d.Testbed.Test.prototype.Step = function (settings)
 		var jointCount = this.m_world.GetJointCount();
 		this.m_debugDraw.DrawString(5, this.m_textLine, "bodies/contacts/joints = %d/%d/%d", bodyCount, contactCount, jointCount);
 		this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
+
+//#if B2_ENABLE_PARTICLE
+		var particleCount = this.m_particleSystem.GetParticleCount();
+		var groupCount = this.m_particleSystem.GetParticleGroupCount();
+		var pairCount = this.m_particleSystem.GetPairCount();
+		var triadCount = this.m_particleSystem.GetTriadCount();
+		this.m_debugDraw.DrawString(5, this.m_textLine, "particles/groups/pairs/triads = %d/%d/%d/%d", particleCount, groupCount, pairCount, triadCount);
+		this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
+//#endif
 
 		var proxyCount = this.m_world.GetProxyCount();
 		var height = this.m_world.GetTreeHeight();
@@ -884,6 +1098,33 @@ box2d.Testbed.Test.prototype.Step = function (settings)
 		this.m_debugDraw.DrawString(5, this.m_textLine, "broad-phase [ave] (max) = %5.2f [%6.2f] (%6.2f)", p.broadphase, aveProfile.broadphase, this.m_maxProfile.broadphase);
 		this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 	}
+
+//#if B2_ENABLE_PARTICLE
+
+	if (this.m_mouseTracing && !this.m_mouseJoint)
+	{
+		var delay = 0.1;
+		///	b2Vec2 acceleration = 2 / delay * (1 / delay * (m_mouseWorld - m_mouseTracerPosition) - m_mouseTracerVelocity);
+		var acceleration = new box2d.b2Vec2();
+		acceleration.x = 2 / delay * (1 / delay * (this.m_mouseWorld.x - this.m_mouseTracerPosition.x) - this.m_mouseTracerVelocity.x);
+		acceleration.y = 2 / delay * (1 / delay * (this.m_mouseWorld.y - this.m_mouseTracerPosition.y) - this.m_mouseTracerVelocity.y);
+		///	m_mouseTracerVelocity += timeStep * acceleration;
+		this.m_mouseTracerVelocity.SelfMulAdd(timeStep, acceleration);
+		///	m_mouseTracerPosition += timeStep * m_mouseTracerVelocity;
+		this.m_mouseTracerPosition.SelfMulAdd(timeStep, this.m_mouseTracerVelocity);
+		var shape = new box2d.b2CircleShape();
+		shape.m_p.Copy(this.m_mouseTracerPosition);
+		shape.m_radius = 2 * this.GetDefaultViewZoom();
+		///	QueryCallback2 callback(m_particleSystem, &shape, m_mouseTracerVelocity);
+		var callback = new box2d.Testbed.Test.QueryCallback2(this.m_particleSystem, shape, this.m_mouseTracerVelocity);
+		var aabb = new box2d.b2AABB();
+		var xf = new box2d.b2Transform();
+		xf.SetIdentity();
+		shape.ComputeAABB(aabb, xf, 0);
+		this.m_world.QueryAABB(callback, aabb);
+	}
+
+//#endif
 
 	if (this.m_mouseJoint)
 	{
@@ -969,4 +1210,113 @@ box2d.Testbed.Test.prototype.GetDefaultViewZoom = function ()
 {
 	return 1.0;
 }
+
+//#if B2_ENABLE_PARTICLE
+
+/**
+ * @type {Array.<box2d.b2ParticleColor>}
+ */
+box2d.Testbed.Test.k_ParticleColors = [
+	new box2d.b2ParticleColor(0xff, 0x00, 0x00, 0xff), // red
+	new box2d.b2ParticleColor(0x00, 0xff, 0x00, 0xff), // green
+	new box2d.b2ParticleColor(0x00, 0x00, 0xff, 0xff), // blue
+	new box2d.b2ParticleColor(0xff, 0x8c, 0x00, 0xff), // orange
+	new box2d.b2ParticleColor(0x00, 0xce, 0xd1, 0xff), // turquoise
+	new box2d.b2ParticleColor(0xff, 0x00, 0xff, 0xff), // magenta
+	new box2d.b2ParticleColor(0xff, 0xd7, 0x00, 0xff), // gold
+	new box2d.b2ParticleColor(0x00, 0xff, 0xff, 0xff), // cyan
+];
+
+/**
+ * @const 
+ * @type {number} 
+ */
+box2d.Testbed.Test.k_ParticleColorsCount = box2d.Testbed.Test.k_ParticleColors.length;
+
+/** 
+ * Apply a preset range of colors to a particle group. 
+ *  
+ * A different color out of k_ParticleColors is applied to each 
+ * particlesPerColor particles in the specified group. 
+ *  
+ * If particlesPerColor is 0, the particles in the group are 
+ * divided into k_ParticleColorsCount equal sets of colored 
+ * particles. 
+ *  
+ * @export 
+ * @return {void} 
+ * @param {box2d.b2ParticleGroup} group 
+ * @param {number} particlesPerColor 
+ */
+box2d.Testbed.Test.prototype.ColorParticleGroup = function (group, particlesPerColor)
+{
+	box2d.b2Assert(group !== null);
+	var colorBuffer = this.m_particleSystem.GetColorBuffer();
+	var particleCount = group.GetParticleCount();
+	var groupStart = group.GetBufferIndex();
+	var groupEnd = particleCount + groupStart;
+	var colorCount = box2d.Testbed.Test.k_ParticleColors.length;
+	if (!particlesPerColor)
+	{
+		particlesPerColor = Math.floor(particleCount / colorCount);
+		if (!particlesPerColor)
+		{
+			particlesPerColor = 1;
+		}
+	}
+	for (var i = groupStart; i < groupEnd; i++)
+	{
+		///	colorBuffer[i].Copy(box2d.Testbed.Test.k_ParticleColors[Math.floor(i / particlesPerColor) % colorCount]);
+		colorBuffer[i] = box2d.Testbed.Test.k_ParticleColors[Math.floor(i / particlesPerColor) % colorCount].Clone();
+	}
+}
+
+/** 
+ * Remove particle parameters matching "filterMask" from the set 
+ * of particle parameters available for this test. 
+ * @export 
+ * @return {void} 
+ * @param {number} filterMask 
+ */
+box2d.Testbed.Test.prototype.InitializeParticleParameters = function (filterMask)
+{
+	var defaultNumValues = box2d.Testbed.ParticleParameter.k_defaultDefinition[0].numValues;
+	var defaultValues = box2d.Testbed.ParticleParameter.k_defaultDefinition[0].values;
+	///	m_particleParameters = new ParticleParameter::Value[defaultNumValues];
+	this.m_particleParameters = [];
+
+	// Disable selection of wall and barrier particle types.
+	var numValues = 0;
+	for (var i = 0; i < defaultNumValues; i++)
+	{
+		if (defaultValues[i].value & filterMask)
+		{
+			continue;
+		}
+		///	memcpy(&m_particleParameters[numValues], &defaultValues[i], sizeof(defaultValues[0]));
+		this.m_particleParameters[numValues] = defaultValues[i]; // TODO: clone?
+		numValues++;
+	}
+	this.m_particleParameterDef = new box2d.Testbed.ParticleParameter.Definition(this.m_particleParameters, numValues);
+	///	m_particleParameterDef.values = m_particleParameters;
+	///	m_particleParameterDef.numValues = numValues;
+	box2d.Testbed.TestMain.SetParticleParameters([ this.m_particleParameterDef ], 1);
+}
+
+/** 
+ * Restore default particle parameters. 
+ * @export 
+ * @return void
+ */
+box2d.Testbed.Test.prototype.RestoreParticleParameters = function ()
+{
+	if (this.m_particleParameters)
+	{
+		box2d.Testbed.TestMain.SetParticleParameters(box2d.Testbed.ParticleParameter.k_defaultDefinition, 1);
+		///	delete [] m_particleParameters;
+		this.m_particleParameters = null;
+	}
+}
+
+//#endif
 

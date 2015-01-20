@@ -93,6 +93,27 @@ box2d.b2CircleShape.prototype.TestPoint = function (transform, p)
 box2d.b2CircleShape.prototype.TestPoint.s_center = new box2d.b2Vec2();
 box2d.b2CircleShape.prototype.TestPoint.s_d = new box2d.b2Vec2();
 
+//#if B2_ENABLE_PARTICLE
+
+/** 
+ * @see b2Shape::ComputeDistance 
+ * @export 
+ * @return {number} 
+ * @param {box2d.b2Transform} xf 
+ * @param {box2d.b2Vec2} p 
+ * @param {box2d.b2Vec2} normal 
+ * @param {number} childIndex 
+ */
+box2d.b2CircleShape.prototype.ComputeDistance = function (xf, p, normal, childIndex)
+{
+	var center = box2d.b2Mul_X_V2(xf, this.m_p, box2d.b2CircleShape.prototype.ComputeDistance.s_center);
+	var d = box2d.b2Sub_V2_V2(p, center, normal);
+	return normal.Normalize() - this.m_radius;
+}
+box2d.b2CircleShape.prototype.ComputeDistance.s_center = new box2d.b2Vec2();
+
+//#endif
+
 /** 
  * Implement box2d.b2Shape. 
  * Collision Detection in Interactive 3D Environments by Gino 

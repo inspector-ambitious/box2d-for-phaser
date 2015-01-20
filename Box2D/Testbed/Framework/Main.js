@@ -18,11 +18,27 @@
 
 goog.provide('box2d.Testbed.Main');
 
+//#if B2_ENABLE_PARTICLE
+goog.provide('box2d.Testbed.TestMain');
+//@endif
+
 goog.require('box2d.Testbed.Test');
 goog.require('box2d.Testbed.TestEntries');
 
 goog.require('goog.events.BrowserEvent'); // fix compile warning
 goog.require('goog.events.KeyCodes');
+
+//#if B2_ENABLE_PARTICLE
+
+goog.require('box2d.Testbed.FullScreenUI');
+goog.require('box2d.Testbed.ParticleParameter');
+
+// Fullscreen UI object.
+box2d.Testbed.TestMain.fullscreenUI = new box2d.Testbed.FullScreenUI();
+// Used to control the behavior of particle tests.
+box2d.Testbed.TestMain.particleParameter = new box2d.Testbed.ParticleParameter();
+
+//@endif
 
 /**
  * @export 
@@ -164,6 +180,9 @@ box2d.Testbed.Main = function ()
 	var number_input;
 	number_input = connect_number_input(number_input_table, "Vel Iters", 'velocityIterations', 1, 20, 1);
 	number_input = connect_number_input(number_input_table, "Pos Iters", 'positionIterations', 1, 20, 1);
+//#if B2_ENABLE_PARTICLE
+	number_input = connect_number_input(number_input_table, "Pcl Iters", 'particleIterations', 1, 100, 1);
+//#endif
 	number_input = connect_number_input(number_input_table, "Hertz", 'hz', 10, 120, 1);
 
 	// simulation checkbox inputs
@@ -184,12 +203,18 @@ box2d.Testbed.Main = function ()
 	checkbox_input = connect_checkbox_input(controls_div, "Warm Starting", 'enableWarmStarting');
 	checkbox_input = connect_checkbox_input(controls_div, "Time of Impact", 'enableContinuous');
 	checkbox_input = connect_checkbox_input(controls_div, "Sub-Stepping", 'enableSubStepping');
+//#if B2_ENABLE_PARTICLE
+	checkbox_input = connect_checkbox_input(controls_div, "Strict Particle/Body Contacts", 'strictContacts');
+//#endif
 
 	// draw checkbox inputs
 	var draw_fieldset = controls_div.appendChild(document.createElement('fieldset'));
 	var draw_legend = draw_fieldset.appendChild(document.createElement('legend'));
 	draw_legend.appendChild(document.createTextNode("Draw"));
 	checkbox_input = connect_checkbox_input(draw_fieldset, "Shapes", 'drawShapes');
+//#if B2_ENABLE_PARTICLE
+	checkbox_input = connect_checkbox_input(draw_fieldset, "Particles", 'drawParticles');
+//#endif
 	checkbox_input = connect_checkbox_input(draw_fieldset, "Joints", 'drawJoints');
 	checkbox_input = connect_checkbox_input(draw_fieldset, "AABBs", 'drawAABBs');
 	checkbox_input = connect_checkbox_input(draw_fieldset, "Contact Points", 'drawContactPoints');
@@ -751,6 +776,22 @@ box2d.Testbed.Main.prototype.HandleKeyDown = function (e)
 	case goog.events.KeyCodes.CLOSE_SQUARE_BRACKET:
 		this.IncrementTest();
 		break;
+//#if B2_ENABLE_PARTICLE
+	case goog.events.KeyCodes.COMMA:
+		if (this.m_shift)
+		{
+			// Press < to select the previous particle parameter setting.
+			box2d.Testbed.TestMain.particleParameter.Decrement();
+		}
+		break;
+	case goog.events.KeyCodes.PERIOD:
+		if (this.m_shift)
+		{
+			// Press > to select the next particle parameter setting.
+			box2d.Testbed.TestMain.particleParameter.Increment();
+		}
+		break;
+//#endif
 	case goog.events.KeyCodes.SLASH:
 		this.SingleStep();
 		break;
@@ -853,7 +894,18 @@ box2d.Testbed.Main.prototype.IncrementTest = function ()
  */
 box2d.Testbed.Main.prototype.LoadTest = function (restartTest)
 {
+//#if B2_ENABLE_PARTICLE
+	box2d.Testbed.TestMain.fullscreenUI.Reset();
+	if (!restartTest) box2d.Testbed.TestMain.particleParameter.Reset();
+//#endif
+
 	this.m_demo_time = 0;
+//#if B2_ENABLE_PARTICLE
+	if (this.m_test)
+	{
+		this.m_test.RestoreParticleParameters();
+	}
+//#endif
 	this.m_test = this.m_test_entries[this.m_test_index].createFcn(this.m_canvas, this.m_settings);
 	if (!restartTest)
 	{
@@ -940,13 +992,92 @@ box2d.Testbed.Main.prototype.SimulationLoop = function ()
 			ctx.translate(-this.m_settings.viewCenter.x, -this.m_settings.viewCenter.y);
 
 			this.m_test.Step(this.m_settings);
+
+//#if B2_ENABLE_PARTICLE
+			// Update the state of the particle parameter.
+			var restartTest = [ false ];
+			var changed = box2d.Testbed.TestMain.particleParameter.Changed(restartTest);
+//#endif
 		
 			var msg = this.m_test_entries[this.m_test_index].name;
+//#if B2_ENABLE_PARTICLE
+			if (box2d.Testbed.TestMain.fullscreenUI.GetParticleParameterSelectionEnabled())
+			{
+				msg += " : ";
+				msg += box2d.Testbed.TestMain.particleParameter.GetName();
+			}
+//#endif
 			this.m_test.DrawTitle(msg);
 
 		ctx.restore();
 
+//#if B2_ENABLE_PARTICLE
+		if (restartTest[0])
+		{
+			this.LoadTest(true);
+		}
+//#endif
+
 		this.UpdateTest(time_elapsed);
 	}
 }
+
+//#if B2_ENABLE_PARTICLE
+
+/** 
+ * Set whether to restart the test on particle parameter 
+ * changes. This parameter is re-enabled when the test changes.
+ * @export 
+ * @return {void} 
+ * @param {boolean} enable 
+ */
+box2d.Testbed.TestMain.SetRestartOnParticleParameterChange = function (enable)
+{
+	box2d.Testbed.TestMain.particleParameter.SetRestartOnChange(enable);
+}
+
+/** 
+ * Set the currently selected particle parameter value.  This 
+ * value must match one of the values in 
+ * TestMain::k_particleTypes or one of the values referenced by 
+ * particleParameterDef passed to SetParticleParameters(). 
+ * @export 
+ * @return {number} 
+ * @param {number} value 
+ */
+box2d.Testbed.TestMain.SetParticleParameterValue = function (value)
+{
+	var index = box2d.Testbed.TestMain.particleParameter.FindIndexByValue(value);
+	// If the particle type isn't found, so fallback to the first entry in the
+	// parameter.
+	box2d.Testbed.TestMain.particleParameter.Set(index >= 0 ? index : 0);
+	return box2d.Testbed.TestMain.particleParameter.GetValue();
+}
+
+/** 
+ * Get the currently selected particle parameter value and 
+ * enable particle parameter selection arrows on Android.
+ * @export 
+ * @return {number} 
+ */
+box2d.Testbed.TestMain.GetParticleParameterValue = function ()
+{
+	// Enable display of particle type selection arrows.
+	box2d.Testbed.TestMain.fullscreenUI.SetParticleParameterSelectionEnabled(true);
+	return box2d.Testbed.TestMain.particleParameter.GetValue();
+}
+
+/** 
+ * Override the default particle parameters for the test. 
+ * @export 
+ * @return {void} 
+ * @param {Array.<?>} particleParameterDef 
+ * @param {number=} particleParameterDefCount 
+ */
+box2d.Testbed.TestMain.SetParticleParameters = function (particleParameterDef, particleParameterDefCount)
+{
+	box2d.Testbed.TestMain.particleParameter.SetDefinition(particleParameterDef, particleParameterDefCount);
+}
+
+//#endif
 

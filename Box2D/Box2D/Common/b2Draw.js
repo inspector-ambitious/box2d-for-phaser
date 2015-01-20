@@ -137,6 +137,9 @@ box2d.b2DrawFlags =
 //#if B2_ENABLE_CONTROLLER
 	e_controllerBit		: 0x0020, /// @see box2d.b2Controller list
 //#endif
+//#if B2_ENABLE_PARTICLE
+	e_particleBit		: 0x0040, ///< draw particles
+//#endif
 	e_all				: 0xffff
 };
 goog.exportProperty(box2d.b2DrawFlags, 'e_none'           , box2d.b2DrawFlags.e_none           );
@@ -147,6 +150,9 @@ goog.exportProperty(box2d.b2DrawFlags, 'e_pairBit'        , box2d.b2DrawFlags.e_
 goog.exportProperty(box2d.b2DrawFlags, 'e_centerOfMassBit', box2d.b2DrawFlags.e_centerOfMassBit);
 //#if B2_ENABLE_CONTROLLER
 goog.exportProperty(box2d.b2DrawFlags, 'e_controllerBit'  , box2d.b2DrawFlags.e_controllerBit  );
+//#endif
+//#if B2_ENABLE_PARTICLE
+goog.exportProperty(box2d.b2DrawFlags, 'e_particleBit'    , box2d.b2DrawFlags.e_particleBit    );
 //#endif
 goog.exportProperty(box2d.b2DrawFlags, 'e_all'            , box2d.b2DrawFlags.e_all            );
 
@@ -275,6 +281,23 @@ box2d.b2Draw.prototype.DrawCircle = function (center, radius, color)
 box2d.b2Draw.prototype.DrawSolidCircle = function (center, radius, axis, color)
 {
 }
+
+//#if B2_ENABLE_PARTICLE
+
+/** 
+ * Draw a particle array
+ * @export 
+ * @return {void} 
+ * @param {Array.<box2d.b2Vec2>} centers
+ * @param {number} radius
+ * @param {Array.<box2d.b2ParticleColor>} colors 
+ * @param {number} count
+ */
+box2d.b2Draw.prototype.DrawParticles = function (centers, radius, colors, count)
+{
+}
+
+//@endif
 
 /** 
  * Draw a line segment. 

@@ -53,6 +53,33 @@ box2d.b2DestructionListener.prototype.SayGoodbyeFixture = function (fixture)
 {
 }
 
+//#if B2_ENABLE_PARTICLE
+
+/** 
+ * Called when any particle group is about to be destroyed. 
+ * @return {void} 
+ * @param {box2d.b2ParticleGroup} particleGroup 
+ */
+box2d.b2DestructionListener.prototype.SayGoodbyeParticleGroup = function (particleGroup)
+{
+}
+
+/** 
+ * Called when a particle is about to be destroyed. 
+ * The index can be used in conjunction with 
+ * b2ParticleSystem::GetUserDataBuffer() or 
+ * b2ParticleSystem::GetParticleHandleFromIndex() to determine 
+ * which particle has been destroyed. 
+ * @return {void} 
+ * @param {box2d.b2ParticleSystem} particleSystem 
+ * @param {number} particleIndex 
+ */
+box2d.b2DestructionListener.prototype.SayGoodbyeParticle = function (particleSystem, particleIndex)
+{
+}
+
+//#endif
+
 /** 
  * Implement this class to provide collision filtering. In other 
  * words, you can implement this class if you want finer control 
@@ -88,6 +115,46 @@ box2d.b2ContactFilter.prototype.ShouldCollide = function (fixtureA, fixtureB)
 	return collide;
 }
 
+//#if B2_ENABLE_PARTICLE
+
+/** 
+ * Return true if contact calculations should be performed 
+ * between a fixture and particle.  This is only called if the 
+ * b2_fixtureContactListenerParticle flag is set on the 
+ * particle. 
+ * @export 
+ * @return {boolean}
+ * @param {box2d.b2Fixture} fixture 
+ * @param {box2d.b2ParticleSystem} particleSystem 
+ * @param {number} particleIndex 
+ */
+box2d.b2ContactFilter.prototype.ShouldCollideFixtureParticle = function (fixture, particleSystem, particleIndex)
+{
+	return true;
+}
+
+/** 
+ * Return true if contact calculations should be performed 
+ * between two particles.  This is only called if the 
+ * b2_particleContactListenerParticle flag is set on the 
+ * particle. 
+ * @export 
+ * @return {boolean}
+ * @param {box2d.b2ParticleSystem} particleSystem 
+ * @param {number} particleIndexA 
+ * @param {number} particleIndexB 
+ */
+box2d.b2ContactFilter.prototype.ShouldCollideParticleParticle = function (particleSystem, particleIndexA, particleIndexB)
+{
+	return true;
+}
+
+//#endif
+
+/**
+ * @const
+ * @type {box2d.b2ContactFilter}
+ */
 box2d.b2ContactFilter.b2_defaultFilter = new box2d.b2ContactFilter();
 
 /** 
@@ -161,6 +228,62 @@ box2d.b2ContactListener.prototype.EndContact = function (contact)
 {
 }
 
+//#if B2_ENABLE_PARTICLE
+
+/** 
+ * Called when a fixture and particle start touching if the 
+ * b2_fixtureContactFilterParticle flag is set on the particle. 
+ * @export 
+ * @return {void} 
+ * @param {box2d.b2ParticleSystem} particleSystem 
+ * @param {box2d.b2ParticleBodyContact} particleBodyContact 
+ */
+box2d.b2ContactListener.prototype.BeginContactFixtureParticle = function (particleSystem, particleBodyContact)
+{
+}
+
+/** 
+ * Called when a fixture and particle stop touching if the 
+ * b2_fixtureContactFilterParticle flag is set on the particle. 
+ * @export 
+ * @return {void} 
+ * @param {box2d.b2Fixture} fixture 
+ * @param {box2d.b2ParticleSystem} particleSystem 
+ * @param {number} particleIndex 
+ */
+box2d.b2ContactListener.prototype.EndContactFixtureParticle = function (fixture, particleSystem, particleIndex)
+{
+}
+
+/** 
+ * Called when two particles start touching if 
+ * b2_particleContactFilterParticle flag is set on either 
+ * particle. 
+ * @export 
+ * @return {void} 
+ * @param {box2d.b2ParticleSystem} particleSystem 
+ * @param {box2d.b2ParticleContact} particleContact 
+ */
+box2d.b2ContactListener.prototype.BeginContactParticleParticle = function (particleSystem, particleContact)
+{
+}
+
+/** 
+ * Called when two particles start touching if 
+ * b2_particleContactFilterParticle flag is set on either 
+ * particle. 
+ * @export 
+ * @return {void} 
+ * @param {box2d.b2ParticleSystem} particleSystem 
+ * @param {number} particleIndexA 
+ * @param {number} particleIndexB 
+ */
+box2d.b2ContactListener.prototype.EndContactParticleParticle = function (particleSystem, particleIndexA, particleIndexB)
+{
+}
+
+//#endif
+
 /** 
  * This is called after a contact is updated. This allows you to 
  * inspect a contact before it goes to the solver. If you are 
@@ -229,6 +352,36 @@ box2d.b2QueryCallback.prototype.ReportFixture = function (fixture)
 	return true;
 }
 
+//#if B2_ENABLE_PARTICLE
+
+/** 
+ * Called for each particle found in the query AABB. 
+ * @export 
+ * @return {boolean} false to terminate the query.
+ * @param {box2d.b2ParticleSystem} particleSystem 
+ * @param {number} particleIndex 
+ */
+box2d.b2QueryCallback.prototype.ReportParticle = function (particleSystem, particleIndex)
+{
+	return false;
+}
+
+/** 
+ * Cull an entire particle system from b2World::QueryAABB. 
+ * Ignored for b2ParticleSystem::QueryAABB. 
+ * @export 
+ * @return {boolean} true if you want to include particleSystem 
+ *  	   in the AABB query, or false to cull particleSystem
+ *  	   from the AABB query.
+ * @param {box2d.b2ParticleSystem} particleSystem 
+ */
+box2d.b2QueryCallback.prototype.ShouldQueryParticleSystem = function (particleSystem)
+{
+	return true;
+}
+
+//#endif
+
 /** 
  * Callback class for ray casts. 
  * See b2World::RayCast 
@@ -258,4 +411,50 @@ box2d.b2RayCastCallback.prototype.ReportFixture = function (fixture, point, norm
 {
 	return fraction;
 }
+
+//#if B2_ENABLE_PARTICLE
+
+/** 
+ * Called for each particle found in the query. You control how 
+ * the ray cast proceeds by returning a float: 
+ * return <=0: ignore the remaining particles in this particle 
+ * system 
+ * return fraction: ignore particles that are 'fraction' percent 
+ * farther along the line from 'point1' to 'point2'. Note that 
+ * 'point1' and 'point2' are parameters to b2World::RayCast. 
+ * @export 
+ * @return {number} <=0 to ignore rest of particle system, 
+ *  	   fraction to ignore particles that are farther away.
+ * @param {box2d.b2ParticleSystem} particleSystem the particle 
+ *  	  system containing the particle
+ * @param {number} particleIndex the index of the particle in 
+ *  	  particleSystem
+ * @param {box2d.b2Vec2} point the point of intersection bt the 
+ *  	  ray and the particle
+ * @param {box2d.b2Vec2} normal the normal vector at the point 
+ *  	  of intersection
+ * @param {number} fraction percent (0.0~1.0) from 'point0' to 
+ *  	  'point1' along the ray. Note that 'point1' and
+ *  	  'point2' are parameters to b2World::RayCast.
+ */
+box2d.b2RayCastCallback.prototype.ReportParticle = function (particleSystem, particleIndex, point, normal, fraction)
+{
+	return 0;
+}
+
+/** 
+ * Cull an entire particle system from b2World::RayCast. Ignored 
+ * in b2ParticleSystem::RayCast. 
+ * @export 
+ * @return {boolean} true if you want to include particleSystem 
+ *  	   in the RayCast, or false to cull particleSystem from
+ *  	   the RayCast.
+ * @param {box2d.b2ParticleSystem} particleSystem 
+ */
+box2d.b2RayCastCallback.prototype.ShouldQueryParticleSystem = function (particleSystem)
+{
+	return true;
+}
+
+//#endif
 

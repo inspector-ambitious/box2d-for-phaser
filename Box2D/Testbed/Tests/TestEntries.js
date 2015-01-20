@@ -21,6 +21,7 @@ goog.provide('box2d.Testbed.TestEntries');
 goog.require('box2d.Testbed.Test');
 
 goog.require('box2d.Testbed.AddPair');
+goog.require('box2d.Testbed.AntiPointy');
 goog.require('box2d.Testbed.ApplyForce');
 goog.require('box2d.Testbed.BasicSliderCrank');
 goog.require('box2d.Testbed.BlobTest');
@@ -40,34 +41,54 @@ goog.require('box2d.Testbed.Confined');
 goog.require('box2d.Testbed.ContinuousTest');
 goog.require('box2d.Testbed.ConvexHull');
 goog.require('box2d.Testbed.ConveyorBelt');
+goog.require('box2d.Testbed.CornerCase');
+goog.require('box2d.Testbed.DamBreak');
 goog.require('box2d.Testbed.DistanceTest');
 goog.require('box2d.Testbed.Dominos');
 goog.require('box2d.Testbed.DominoTower');
+goog.require('box2d.Testbed.DrawingParticles');
 goog.require('box2d.Testbed.DumpShell');
 goog.require('box2d.Testbed.DynamicTreeTest');
 goog.require('box2d.Testbed.EdgeShapes');
 goog.require('box2d.Testbed.EdgeTest');
+goog.require('box2d.Testbed.ElasticParticles');
+goog.require('box2d.Testbed.Empty');
+goog.require('box2d.Testbed.Faucet');
+goog.require('box2d.Testbed.Fracker');
 goog.require('box2d.Testbed.Gears');
 goog.require('box2d.Testbed.HeavyOnLight');
 goog.require('box2d.Testbed.HeavyOnLightTwo');
+goog.require('box2d.Testbed.Impulse');
+goog.require('box2d.Testbed.LiquidTimer');
+goog.require('box2d.Testbed.Maxwell');
 goog.require('box2d.Testbed.Mobile');
 goog.require('box2d.Testbed.MobileBalanced');
 goog.require('box2d.Testbed.MotorJoint');
+goog.require('box2d.Testbed.MultipleParticleSystems');
 goog.require('box2d.Testbed.OneSidedPlatform');
+goog.require('box2d.Testbed.Particles');
+goog.require('box2d.Testbed.ParticlesSurfaceTension');
 goog.require('box2d.Testbed.Pinball');
+goog.require('box2d.Testbed.Pointy');
 goog.require('box2d.Testbed.PolyCollision');
 goog.require('box2d.Testbed.PolyShapes');
 goog.require('box2d.Testbed.Prismatic');
 goog.require('box2d.Testbed.Pulleys');
 goog.require('box2d.Testbed.Pyramid');
 goog.require('box2d.Testbed.PyramidTopple');
+goog.require('box2d.Testbed.Ramp');
 goog.require('box2d.Testbed.RayCast');
 goog.require('box2d.Testbed.Revolute');
+goog.require('box2d.Testbed.RigidParticles');
 goog.require('box2d.Testbed.Rope');
 goog.require('box2d.Testbed.RopeJoint');
+goog.require('box2d.Testbed.Sandbox');
 goog.require('box2d.Testbed.SensorTest');
 goog.require('box2d.Testbed.ShapeEditing');
 goog.require('box2d.Testbed.SliderCrank');
+goog.require('box2d.Testbed.Soup');
+goog.require('box2d.Testbed.SoupStirrer');
+goog.require('box2d.Testbed.Sparky');
 goog.require('box2d.Testbed.SphereStack');
 goog.require('box2d.Testbed.TestCCD');
 goog.require('box2d.Testbed.TestRagdoll');
@@ -80,6 +101,7 @@ goog.require('box2d.Testbed.Tumbler');
 goog.require('box2d.Testbed.VaryingFriction');
 goog.require('box2d.Testbed.VaryingRestitution');
 goog.require('box2d.Testbed.VerticalStack');
+goog.require('box2d.Testbed.WaveMachine');
 goog.require('box2d.Testbed.Web');
 
 /** 
@@ -158,6 +180,32 @@ box2d.Testbed.GetTestEntries = function (entries)
 	entries.push(new box2d.Testbed.TestEntry("Domino Tower", box2d.Testbed.DominoTower.Create));
 	entries.push(new box2d.Testbed.TestEntry("Pyramid Topple", box2d.Testbed.PyramidTopple.Create));
 	
+//#if B2_ENABLE_PARTICLE
+	entries.push(new box2d.Testbed.TestEntry("Sandbox", box2d.Testbed.Sandbox.Create));
+	entries.push(new box2d.Testbed.TestEntry("Sparky", box2d.Testbed.Sparky.Create));
+	entries.push(new box2d.Testbed.TestEntry("Dam Break", box2d.Testbed.DamBreak.Create));
+	entries.push(new box2d.Testbed.TestEntry("Liquid Timer", box2d.Testbed.LiquidTimer.Create));
+	entries.push(new box2d.Testbed.TestEntry("Wave Machine", box2d.Testbed.WaveMachine.Create));
+	entries.push(new box2d.Testbed.TestEntry("Particles", box2d.Testbed.Particles.Create));
+	entries.push(new box2d.Testbed.TestEntry("Faucet", box2d.Testbed.Faucet.Create));
+	entries.push(new box2d.Testbed.TestEntry("Particle Drawing", box2d.Testbed.DrawingParticles.Create));
+	entries.push(new box2d.Testbed.TestEntry("Soup", box2d.Testbed.Soup.Create));
+	entries.push(new box2d.Testbed.TestEntry("Surface Tension", box2d.Testbed.ParticlesSurfaceTension.Create));
+	entries.push(new box2d.Testbed.TestEntry("Elastic Particles", box2d.Testbed.ElasticParticles.Create));
+	entries.push(new box2d.Testbed.TestEntry("Rigid Particles", box2d.Testbed.RigidParticles.Create));
+	entries.push(new box2d.Testbed.TestEntry("Multiple Systems", box2d.Testbed.MultipleParticleSystems.Create));
+	entries.push(new box2d.Testbed.TestEntry("Impulse", box2d.Testbed.Impulse.Create));
+	entries.push(new box2d.Testbed.TestEntry("Soup Stirrer", box2d.Testbed.SoupStirrer.Create));
+	entries.push(new box2d.Testbed.TestEntry("Fracker", box2d.Testbed.Fracker.Create));
+	entries.push(new box2d.Testbed.TestEntry("Maxwell", box2d.Testbed.Maxwell.Create));
+	entries.push(new box2d.Testbed.TestEntry("Ramp", box2d.Testbed.Ramp.Create));
+	entries.push(new box2d.Testbed.TestEntry("Pointy", box2d.Testbed.Pointy.Create));
+	entries.push(new box2d.Testbed.TestEntry("AntiPointy", box2d.Testbed.AntiPointy.Create));
+	entries.push(new box2d.Testbed.TestEntry("Corner Case", box2d.Testbed.CornerCase.Create));
+//#endif
+
+	entries.push(new box2d.Testbed.TestEntry("Empty", box2d.Testbed.Empty.Create));
+
 	return entries;
 }
 

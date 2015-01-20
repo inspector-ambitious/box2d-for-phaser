@@ -846,11 +846,47 @@ box2d.b2Sub_V2_V2 = function (a, b, out) { out.x = a.x - b.x; out.y = a.y - b.y;
 /**
  * @export 
  * @return {box2d.b2Vec2}
+ * @param {box2d.b2Vec2} v
+ * @param {number} s
+ * @param {box2d.b2Vec2} out
+ */
+box2d.b2Add_V2_S = function (v, s, out) { out.x = v.x + s; out.y = v.y + s; return out; }
+
+/**
+ * @export 
+ * @return {box2d.b2Vec2}
+ * @param {box2d.b2Vec2} v
+ * @param {number} s
+ * @param {box2d.b2Vec2} out
+ */
+box2d.b2Sub_V2_S = function (v, s, out) { out.x = v.x - s; out.y = v.y - s; return out; }
+
+/**
+ * @export 
+ * @return {box2d.b2Vec2}
  * @param {number} s
  * @param {box2d.b2Vec2} v
  * @param {box2d.b2Vec2} out
  */
 box2d.b2Mul_S_V2 = function (s, v, out) { out.x = v.x * s; out.y = v.y * s; return out; }
+
+/**
+ * @export 
+ * @return {box2d.b2Vec2}
+ * @param {box2d.b2Vec2} v
+ * @param {number} s
+ * @param {box2d.b2Vec2} out
+ */
+box2d.b2Mul_V2_S = function (v, s, out) { out.x = v.x * s; out.y = v.y * s; return out; }
+
+/**
+ * @export 
+ * @return {box2d.b2Vec2}
+ * @param {box2d.b2Vec2} v
+ * @param {number} s
+ * @param {box2d.b2Vec2} out
+ */
+box2d.b2Div_V2_S = function (v, s, out) { out.x = v.x / s; out.y = v.y / s; return out; }
 
 /** 
  * out = a + (s * b)
@@ -1196,6 +1232,57 @@ box2d.b2Vec3.prototype.SelfMulScalar = function (s)
 }
 
 /** 
+ * Get the length of this vector (the norm). 
+ * @export 
+ * @return {number}
+ */
+box2d.b2Vec3.prototype.Length = function ()
+{
+	var x = this.x, y = this.y, z = this.z;
+	return Math.sqrt(x * x + y * y + z * z);
+}
+
+/** 
+ * Get the length squared. For performance, use this instead of 
+ * b2Vec3::Length (if possible). 
+ * @export 
+ * @return {number}
+ */
+box2d.b2Vec3.prototype.LengthSquared = function ()
+{
+	var x = this.x, y = this.y, z = this.z;
+	return (x * x + y * y + z * z);
+}
+
+/** 
+ * Convert this vector into a unit vector. Returns the length. 
+ * @export 
+ * @return {number}
+ */
+box2d.b2Vec3.prototype.Normalize = function ()
+{
+	var length = this.Length();
+	if (length >= box2d.b2_epsilon)
+	{
+		var inv_length = 1.0 / length;
+		this.x *= inv_length;
+		this.y *= inv_length;
+		this.z *= inv_length;
+	}
+	return length;
+}
+
+/**
+ * @export 
+ * @return {box2d.b2Vec3}
+ */
+box2d.b2Vec3.prototype.SelfNormalize = function ()
+{
+	this.Normalize();
+	return this;
+}
+
+/** 
  * Add two vectors component-wise.
  * @export 
  * @return {box2d.b2Vec3}
@@ -1255,6 +1342,191 @@ box2d.b2Cross_V3_V3 = function (a, b, out)
 	out.y = a_z * b_x - a_x * b_z;
 	out.z = a_x * b_y - a_y * b_x;
 	return out;
+}
+
+/** 
+ * @export 
+ * @constructor 
+ * @param {number|Float32Array|Array.<number>=} a0
+ * @param {number=} a1
+ * @param {number=} a2
+ * @param {number=} a3
+ */
+box2d.b2Vec4 = function (a0, a1, a2, a3)
+{
+	if (arguments.length === 0)
+	{
+		this._array_ = new Float32Array(4);
+	}
+	else if (a0 instanceof Float32Array)
+	{
+		//box2d.b2Assert(a0.length === 4);
+		this._array_ = a0;
+	}
+	else if (a0 instanceof Array)
+	{
+		//box2d.b2Assert(a0.length === 4);
+		this._array_ = new Float32Array(a0);
+	}
+	else if (arguments.length === 4)
+	{
+		//box2d.b2Assert(typeof(a0) === 'number');
+		//box2d.b2Assert(typeof(a1) === 'number');
+		//box2d.b2Assert(typeof(a2) === 'number');
+		//box2d.b2Assert(typeof(a3) === 'number');
+		this._array_ = new Float32Array(4);
+		this._array_[0] = a0;
+		this._array_[1] = a1;
+		this._array_[2] = a2;
+		this._array_[3] = a3;
+	}
+	else
+	{
+		throw new Error();
+	}
+}
+
+/**
+ * @type {Float32Array} 
+ */
+box2d.b2Vec4.prototype._array_;
+
+Object.defineProperty(box2d.b2Vec4.prototype, 'array',
+{
+	/**
+	 * @this {box2d.b2Vec4} 
+	 * @return {Float32Array} 
+	 */
+	get: function () { return this._array_; },
+});
+
+Object.defineProperty(box2d.b2Vec4.prototype, 'x',
+{
+	/**
+	 * @this {box2d.b2Vec4} 
+	 * @return {number} 
+	 */
+	get: function () { return this._array_[0]; },
+	/**
+	 * @this {box2d.b2Vec4} 
+	 * @return {void} 
+	 * @param {number} n
+	 */
+	set: function (n) { this._array_[0] = n; }
+});
+
+Object.defineProperty(box2d.b2Vec4.prototype, 'y',
+{
+	/**
+	 * @this {box2d.b2Vec4} 
+	 * @return {number} 
+	 */
+	get: function () { return this._array_[1]; },
+	/**
+	 * @this {box2d.b2Vec4} 
+	 * @return {void} 
+	 * @param {number} n
+	 */
+	set: function (n) { this._array_[1] = n; }
+});
+
+Object.defineProperty(box2d.b2Vec4.prototype, 'z',
+{
+	/**
+	 * @this {box2d.b2Vec4} 
+	 * @return {number} 
+	 */
+	get: function () { return this._array_[2]; },
+	/**
+	 * @this {box2d.b2Vec4} 
+	 * @return {void} 
+	 * @param {number} n
+	 */
+	set: function (n) { this._array_[2] = n; }
+});
+
+Object.defineProperty(box2d.b2Vec4.prototype, 'w',
+{
+	/**
+	 * @this {box2d.b2Vec4} 
+	 * @return {number} 
+	 */
+	get: function () { return this._array_[3]; },
+	/**
+	 * @this {box2d.b2Vec4} 
+	 * @return {void} 
+	 * @param {number} n
+	 */
+	set: function (n) { this._array_[3] = n; }
+});
+
+/**
+ * @export 
+ * @const 
+ * @type {box2d.b2Vec4}
+ */
+box2d.b2Vec4.ZERO = new box2d.b2Vec4([ 0.0, 0.0, 0.0, 0.0 ]);
+/**
+ * @export 
+ * @type {box2d.b2Vec4}
+ */
+box2d.b2Vec4.s_t0 = new box2d.b2Vec4();
+
+/**
+ * @export 
+ * @return {box2d.b2Vec4}
+ */
+box2d.b2Vec4.prototype.Clone = function ()
+{
+	//return new box2d.b2Vec4(this.x, this.y, this.z, this.w);
+	return new box2d.b2Vec4(new Float32Array(this._array_));
+}
+
+/**
+ * @export 
+ * @return {box2d.b2Vec4}
+ */
+box2d.b2Vec4.prototype.SetZero = function ()
+{
+	//this.x = 0.0;
+	//this.y = 0.0;
+	//this.z = 0.0;
+	//this.w = 0.0;
+	this._array_.set(box2d.b2Vec4.ZERO._array_);
+	return this;
+}
+
+/**
+ * @export 
+ * @return {box2d.b2Vec4}
+ * @param {number} x
+ * @param {number} y
+ * @param {number} z
+ * @param {number} w
+ */
+box2d.b2Vec4.prototype.Set = function (x, y, z, w)
+{
+	this.x = x;
+	this.y = y;
+	this.z = z;
+	this.w = w;
+	return this;
+}
+
+/**
+ * @export 
+ * @return {box2d.b2Vec4}
+ * @param {box2d.b2Vec4} other
+ */
+box2d.b2Vec4.prototype.Copy = function (other)
+{
+	//if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this !== other); }
+	//this.x = other.x;
+	//this.y = other.y;
+	//this.z = other.z;
+	//this.w = other.w;
+	this._array_.set(other._array_);
+	return this;
 }
 
 /** 

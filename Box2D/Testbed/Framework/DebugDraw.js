@@ -177,6 +177,53 @@ box2d.Testbed.DebugDraw.prototype.DrawSolidCircle = function (center, radius, ax
 	ctx.stroke();
 };
 
+//#if B2_ENABLE_PARTICLE
+
+/** 
+ * Draw a particle array
+ * @export 
+ * @return {void} 
+ * @param {Array.<box2d.b2Vec2>} centers
+ * @param {number} radius
+ * @param {Array.<box2d.b2ParticleColor>} colors 
+ * @param {number} count
+ */
+box2d.Testbed.DebugDraw.prototype.DrawParticles = function (centers, radius, colors, count)
+{
+	var ctx = this.m_ctx;
+
+	var diameter = 2 * radius;
+	if (colors !== null)
+	{
+		for (var i = 0; i < count; ++i)
+		{
+			var center = centers[i];
+			var color = colors[i];
+			ctx.fillStyle = 'rgba(' + color.r + ',' + color.g + ',' + color.b + ',' + (color.a/255.0) + ')';
+			ctx.fillRect(center.x - radius, center.y - radius, diameter, diameter);
+			//ctx.beginPath();
+			//ctx.arc(center.x, center.y, radius, 0, box2d.b2_pi * 2, true);
+			//ctx.fill();
+		}
+	}
+	else
+	{
+		ctx.fillStyle = 'rgba(255,255,255,0.5)';
+		ctx.beginPath();
+		for (var i = 0; i < count; ++i)
+		{
+			var center = centers[i];
+			ctx.rect(center.x - radius, center.y - radius, diameter, diameter);
+			//ctx.beginPath();
+			//ctx.arc(center.x, center.y, radius, 0, box2d.b2_pi * 2, true);
+			//ctx.fill();
+		}
+		ctx.fill();
+	}
+}
+
+//#endif
+
 /**
  * @export 
  * @return {void} 

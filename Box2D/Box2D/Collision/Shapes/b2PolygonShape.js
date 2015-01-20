@@ -320,6 +320,65 @@ box2d.b2PolygonShape.prototype.TestPoint = function (xf, p)
 }
 box2d.b2PolygonShape.prototype.TestPoint.s_pLocal = new box2d.b2Vec2();
 
+//#if B2_ENABLE_PARTICLE
+
+/** 
+ * @see b2Shape::ComputeDistance 
+ * @export 
+ * @return {number} 
+ * @param {box2d.b2Transform} xf 
+ * @param {box2d.b2Vec2} p 
+ * @param {box2d.b2Vec2} normal 
+ * @param {number} childIndex 
+ */
+box2d.b2PolygonShape.prototype.ComputeDistance = function (xf, p, normal, childIndex)
+{
+	var pLocal = box2d.b2MulT_X_V2(xf, p, box2d.b2PolygonShape.prototype.ComputeDistance.s_pLocal);
+	var maxDistance = -box2d.b2_maxFloat;
+	var normalForMaxDistance = box2d.b2PolygonShape.prototype.ComputeDistance.s_normalForMaxDistance.Copy(pLocal);
+
+	for (var i = 0; i < this.m_count; ++i)
+	{
+		var dot = box2d.b2Dot_V2_V2(this.m_normals[i], box2d.b2Sub_V2_V2(pLocal, this.m_vertices[i], box2d.b2Vec2.s_t0));
+		if (dot > maxDistance)
+		{
+			maxDistance = dot;
+			normalForMaxDistance.Copy(this.m_normals[i]);
+		}
+	}
+
+	if (maxDistance > 0)
+	{
+		var minDistance = box2d.b2PolygonShape.prototype.ComputeDistance.s_minDistance.Copy(normalForMaxDistance);
+		var minDistance2 = maxDistance * maxDistance;
+		for (var i = 0; i < this.m_count; ++i)
+		{
+			var distance = box2d.b2Sub_V2_V2(pLocal, this.m_vertices[i], box2d.b2PolygonShape.prototype.ComputeDistance.s_distance);
+			var distance2 = distance.LengthSquared();
+			if (minDistance2 > distance2)
+			{
+				minDistance.Copy(distance);
+				minDistance2 = distance2;
+			}
+		}
+
+		box2d.b2Mul_R_V2(xf.q, minDistance, normal);
+		normal.Normalize();
+		return Math.sqrt(minDistance2);
+	}
+	else
+	{
+		box2d.b2Mul_R_V2(xf.q, normalForMaxDistance, normal);
+		return maxDistance;
+	}
+}
+box2d.b2PolygonShape.prototype.ComputeDistance.s_pLocal = new box2d.b2Vec2();
+box2d.b2PolygonShape.prototype.ComputeDistance.s_normalForMaxDistance = new box2d.b2Vec2();
+box2d.b2PolygonShape.prototype.ComputeDistance.s_minDistance = new box2d.b2Vec2();
+box2d.b2PolygonShape.prototype.ComputeDistance.s_distance = new box2d.b2Vec2();
+
+//#endif
+
 /** 
  * Implement box2d.b2Shape. 
  * @export 
