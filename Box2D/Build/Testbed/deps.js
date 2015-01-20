@@ -52,7 +52,7 @@ goog.addDependency('../../../../Testbed/../../../Box2D/Box2D/Dynamics/b2Island.j
 goog.addDependency('../../../../Testbed/../../../Box2D/Box2D/Dynamics/b2TimeStep.js', ['box2d.b2TimeStep'], ['box2d.b2Settings'], false);
 goog.addDependency('../../../../Testbed/../../../Box2D/Box2D/Dynamics/b2World.js', ['box2d.b2World'], ['box2d.b2Body', 'box2d.b2Collision', 'box2d.b2ContactManager', 'box2d.b2ContactSolver', 'box2d.b2Draw', 'box2d.b2Island', 'box2d.b2JointFactory', 'box2d.b2Math', 'box2d.b2Settings', 'box2d.b2TimeStep', 'box2d.b2WorldCallbacks'], false);
 goog.addDependency('../../../../Testbed/../../../Box2D/Box2D/Dynamics/b2WorldCallbacks.js', ['box2d.b2WorldCallbacks'], ['box2d.b2Settings'], false);
-goog.addDependency('../../../../Testbed/../../../Box2D/Box2D/Particle/b2Particle.js', ['box2d.b2Particle', 'box2d.b2ParticleColor', 'box2d.b2ParticleDef'], [], false);
+goog.addDependency('../../../../Testbed/../../../Box2D/Box2D/Particle/b2Particle.js', ['box2d.b2Particle', 'box2d.b2ParticleColor', 'box2d.b2ParticleDef', 'box2d.b2ParticleFlag'], [], false);
 goog.addDependency('../../../../Testbed/../../../Box2D/Box2D/Particle/b2ParticleGroup.js', ['box2d.b2ParticleGroup', 'box2d.b2ParticleGroupDef'], ['box2d.b2Particle'], false);
 goog.addDependency('../../../../Testbed/../../../Box2D/Box2D/Particle/b2ParticleSystem.js', ['box2d.b2ParticleSystem'], ['box2d.b2Particle', 'box2d.b2ParticleGroup'], false);
 goog.addDependency('../../../../Testbed/../../../Box2D/Box2D/Particle/b2StackQueue.js', ['box2d.b2StackQueue'], [], false);
@@ -61,7 +61,7 @@ goog.addDependency('../../../../Testbed/../../../Box2D/Box2D/Rope/b2Rope.js', ['
 goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Framework/DebugDraw.js', ['box2d.Testbed.DebugDraw'], ['box2d', 'goog.string.format'], false);
 goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Framework/FullscreenUI.js', ['box2d.Testbed.FullScreenUI'], [], false);
 goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Framework/Main.js', ['box2d.Testbed.Main', 'box2d.Testbed.TestMain'], ['box2d.Testbed.FullScreenUI', 'box2d.Testbed.ParticleParameter', 'box2d.Testbed.Test', 'box2d.Testbed.TestEntries', 'goog.events.BrowserEvent', 'goog.events.KeyCodes'], false);
-goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Framework/ParticleEmitter.js', ['box2d.Testbed.RadialEmitter'], [], false);
+goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Framework/ParticleEmitter.js', ['box2d.Testbed.RadialEmitter'], ['box2d.b2Particle', 'box2d.b2ParticleGroup', 'box2d.b2ParticleSystem'], false);
 goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Framework/ParticleParameter.js', ['box2d.Testbed.ParticleParameter', 'box2d.Testbed.ParticleParameter.Definition'], ['box2d.b2Particle'], false);
 goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Framework/Test.js', ['box2d.Testbed.DestructionListener', 'box2d.Testbed.Test'], ['box2d', 'box2d.Testbed.DebugDraw', 'box2d.Testbed.ParticleParameter'], false);
 goog.addDependency('../../../../Testbed/../../../Box2D/Testbed/Testbed.js', ['box2d.Testbed'], ['box2d.Testbed.Main'], false);
