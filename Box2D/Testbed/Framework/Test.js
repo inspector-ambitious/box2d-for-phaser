@@ -550,6 +550,51 @@ box2d.Testbed.Test.prototype.DrawTitle = function (string)
 }
 
 /**
+ * @constructor 
+ * @extends {box2d.b2QueryCallback} 
+ * @param {box2d.b2Vec2} point 
+ */
+box2d.Testbed.Test.QueryCallback = function (point)
+{
+	this.m_point = point;
+}
+
+goog.inherits(box2d.Testbed.Test.QueryCallback, box2d.b2QueryCallback);
+
+/**
+ * @type {box2d.b2Vec2}
+ */
+box2d.Testbed.Test.QueryCallback.prototype.m_point = null;
+
+/**
+ * @type {box2d.b2Fixture}
+ */
+box2d.Testbed.Test.QueryCallback.prototype.m_fixture = null;
+
+/** 
+ * @return {boolean}
+ * @param {box2d.b2Fixture} fixture 
+ */
+box2d.Testbed.Test.QueryCallback.prototype.ReportFixture = function (fixture)
+{
+	var body = fixture.GetBody();
+	if (body.GetType() === box2d.b2BodyType.b2_dynamicBody)
+	{
+		var inside = fixture.TestPoint(this.m_point);
+		if (inside)
+		{
+			this.m_fixture = fixture;
+
+			// We are done, terminate the query.
+			return false;
+		}
+	}
+
+	// Continue the query.
+	return true;
+}
+
+/**
  * @export 
  * @return {void} 
  * @param {box2d.b2Vec2} p 
@@ -570,34 +615,13 @@ box2d.Testbed.Test.prototype.MouseDown = function (p)
 	box2d.b2Sub_V2_V2(p, d, aabb.lowerBound);
 	box2d.b2Add_V2_V2(p, d, aabb.upperBound);
 
-	var that = this;
-	var hit_fixture = null;
-
 	// Query the world for overlapping shapes.
-	var callback = function (fixture)
-	{
-		var body = fixture.GetBody();
-		if (body.GetType() === box2d.b2BodyType.b2_dynamicBody)
-		{
-			var inside = fixture.TestPoint(that.m_mouseWorld);
-			if (inside)
-			{
-				hit_fixture = fixture;
-
-				// We are done, terminate the query.
-				return false;
-			}
-		}
-
-		// Continue the query.
-		return true;
-	}
-
+	var callback = new box2d.Testbed.Test.QueryCallback(this.m_mouseWorld);
 	this.m_world.QueryAABB(callback, aabb);
 
-	if (hit_fixture)
+	if (callback.m_fixture)
 	{
-		var body = hit_fixture.GetBody();
+		var body = callback.m_fixture.GetBody();
 		var md = new box2d.b2MouseJointDef();
 		md.bodyA = this.m_groundBody;
 		md.bodyB = body;
@@ -935,5 +959,14 @@ box2d.Testbed.Test.prototype.Step = function (settings)
 box2d.Testbed.Test.prototype.ShiftOrigin = function (newOrigin)
 {
 	this.m_world.ShiftOrigin(newOrigin);
+}
+
+/**
+ * @export 
+ * @return {number}
+ */
+box2d.Testbed.Test.prototype.GetDefaultViewZoom = function ()
+{
+	return 1.0;
 }
 

@@ -13,10 +13,6 @@ box2d.Testbed.PyramidTopple = function (canvas, settings)
 {
 	box2d.Testbed.Test.call(this, canvas, settings); // base class constructor
 
-	settings.viewCenter.x = 0;
-	settings.viewCenter.y = 0;
-	settings.viewZoom = 0.1;
-
 	var WIDTH = 4;
 	var HEIGHT = 30;
 
@@ -86,6 +82,15 @@ box2d.Testbed.PyramidTopple = function (canvas, settings)
 }
 
 goog.inherits(box2d.Testbed.PyramidTopple, box2d.Testbed.Test);
+
+/**
+ * @export 
+ * @return {number} 
+ */
+box2d.Testbed.PyramidTopple.prototype.GetDefaultViewZoom = function ()
+{
+	return 10.0;
+}
 
 /** 
  * @export 

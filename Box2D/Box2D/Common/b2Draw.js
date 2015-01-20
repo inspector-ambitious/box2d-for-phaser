@@ -137,7 +137,7 @@ box2d.b2DrawFlags =
 //#if B2_ENABLE_CONTROLLER
 	e_controllerBit		: 0x0020, /// @see box2d.b2Controller list
 //#endif
-	e_all				: 0x003f
+	e_all				: 0xffff
 };
 goog.exportProperty(box2d.b2DrawFlags, 'e_none'           , box2d.b2DrawFlags.e_none           );
 goog.exportProperty(box2d.b2DrawFlags, 'e_shapeBit'       , box2d.b2DrawFlags.e_shapeBit       );

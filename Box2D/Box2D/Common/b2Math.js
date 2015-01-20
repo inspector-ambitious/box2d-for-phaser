@@ -41,10 +41,7 @@ box2d.b2_two_pi = 2.0 * box2d.b2_pi;
  * @return {number}
  * @param {number} n
  */
-box2d.b2Abs = function (n)
-{
-	return (n < 0)?(-n):(n);
-}
+box2d.b2Abs = Math.abs;
 
 /**
  * @export 
@@ -52,10 +49,7 @@ box2d.b2Abs = function (n)
  * @param {number} a
  * @param {number} b
  */
-box2d.b2Min = function (a, b)
-{
-	return (a < b)?(a):(b);
-}
+box2d.b2Min = Math.min;
 
 /**
  * @export 
@@ -63,10 +57,7 @@ box2d.b2Min = function (a, b)
  * @param {number} a
  * @param {number} b
  */
-box2d.b2Max = function (a, b)
-{
-	return (a > b)?(a):(b);
-}
+box2d.b2Max = Math.max;
 
 /**
  * @export 
@@ -77,7 +68,7 @@ box2d.b2Max = function (a, b)
  */
 box2d.b2Clamp = function (a, lo, hi)
 {
-	return (a < lo)?(lo):((a > hi)?(hi):(a));
+	return Math.min(Math.max(a, lo), hi);
 }
 
 /**
@@ -663,8 +654,8 @@ box2d.b2Vec2.prototype.IsValid = function ()
  */
 box2d.b2Vec2.prototype.SelfMin = function (v)
 {
-	this.x = box2d.b2Min(this.x, v.x);
-	this.y = box2d.b2Min(this.y, v.y);
+	this.x = Math.min(this.x, v.x);
+	this.y = Math.min(this.y, v.y);
 	return this;
 }
 
@@ -675,8 +666,8 @@ box2d.b2Vec2.prototype.SelfMin = function (v)
  */
 box2d.b2Vec2.prototype.SelfMax = function (v)
 {
-	this.x = box2d.b2Max(this.x, v.x);
-	this.y = box2d.b2Max(this.y, v.y);
+	this.x = Math.max(this.x, v.x);
+	this.y = Math.max(this.y, v.y);
 	return this;
 }
 
@@ -686,8 +677,8 @@ box2d.b2Vec2.prototype.SelfMax = function (v)
  */
 box2d.b2Vec2.prototype.SelfAbs = function ()
 {
-	this.x = box2d.b2Abs(this.x);
-	this.y = box2d.b2Abs(this.y);
+	this.x = Math.abs(this.x);
+	this.y = Math.abs(this.y);
 	return this;
 }
 
@@ -724,8 +715,8 @@ box2d.b2Vec2.prototype.SelfSkew = function ()
  */
 box2d.b2Abs_V2 = function (v, out)
 {
-	out.x = box2d.b2Abs(v.x);
-	out.y = box2d.b2Abs(v.y);
+	out.x = Math.abs(v.x);
+	out.y = Math.abs(v.y);
 	return out;
 }
 
@@ -738,8 +729,8 @@ box2d.b2Abs_V2 = function (v, out)
  */
 box2d.b2Min_V2_V2 = function (a, b, out)
 {
-	out.x = box2d.b2Min(a.x, b.x);
-	out.y = box2d.b2Min(a.y, b.y);
+	out.x = Math.min(a.x, b.x);
+	out.y = Math.min(a.y, b.y);
 	return out;
 }
 
@@ -752,8 +743,8 @@ box2d.b2Min_V2_V2 = function (a, b, out)
  */
 box2d.b2Max_V2_V2 = function (a, b, out)
 {
-	out.x = box2d.b2Max(a.x, b.x);
-	out.y = box2d.b2Max(a.y, b.y);
+	out.x = Math.max(a.x, b.x);
+	out.y = Math.max(a.y, b.y);
 	return out;
 }
 
@@ -767,8 +758,8 @@ box2d.b2Max_V2_V2 = function (a, b, out)
  */
 box2d.b2Clamp_V2_V2_V2 = function (v, lo, hi, out)
 {
-	out.x = box2d.b2Clamp(v.x, lo.x, hi.x);
-	out.y = box2d.b2Clamp(v.y, lo.y, hi.y);
+	out.x = Math.min(Math.max(v.x, lo.x), hi.x);
+	out.y = Math.min(Math.max(v.y, lo.y), hi.y);
 	return out;
 }
 
@@ -1903,7 +1894,7 @@ box2d.b2Rot.prototype.Copy = function (other)
 box2d.b2Rot.prototype.Set = function (angle)
 {
 	/// TODO_ERIN optimize
-	if (this.angle !== angle)
+	if (Math.abs(this.angle - angle) >= box2d.b2_epsilon)
 	{
 		this.angle = angle;
 		this.s = Math.sin(angle);
@@ -2109,6 +2100,16 @@ box2d.b2Transform.prototype.SetIdentity = function ()
 	this.p.SetZero();
 	this.q.SetIdentity();
 	return this;
+}
+
+/** 
+ * @return {box2d.b2Transform} 
+ * @param {box2d.b2Vec2} position 
+ * @param {number} angle 
+ */
+box2d.b2Transform.prototype.Set = function (position, angle)
+{
+	return this.SetPositionRotationAngle(position, angle);
 }
 
 /** 

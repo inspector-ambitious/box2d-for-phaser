@@ -638,8 +638,8 @@ box2d.b2Body.prototype.DestroyFixture = function (fixture)
  * @export 
  * @return {void} 
  * @param {box2d.b2Transform|box2d.b2Vec2|number} a
- * @param {number} b
- * @param {number} c
+ * @param {number=} b
+ * @param {number=} c
  */
 box2d.b2Body.prototype.SetTransform = function (a, b, c)
 {

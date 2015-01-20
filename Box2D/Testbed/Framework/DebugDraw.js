@@ -233,7 +233,7 @@ box2d.Testbed.DebugDraw.prototype.DrawPoint = function (p, size, color)
 	var ctx = this.m_ctx;
 
 	ctx.fillStyle = color.MakeStyleString();
-	size /= this.m_settings.viewZoom;
+	size *= this.m_settings.viewZoom;
 	size /= this.m_settings.canvasScale;
 	var hsize = size / 2;
 	ctx.fillRect(p.x - hsize, p.y - hsize, size, size);
@@ -280,7 +280,7 @@ box2d.Testbed.DebugDraw.prototype.DrawStringWorld = function (x, y, format, var_
 	var vr = this.m_settings.viewRotation;
 	box2d.b2MulT_R_V2(vr, p, p);
 	var vs = this.m_settings.viewZoom;
-	box2d.b2Mul_S_V2(vs, p, p);
+	box2d.b2Mul_S_V2(1 / vs, p, p);
 
 	// viewport -> canvas
 	var cs = this.m_settings.canvasScale;

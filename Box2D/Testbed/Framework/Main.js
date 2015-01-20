@@ -218,7 +218,7 @@ box2d.Testbed.Main = function ()
 	var button_input;
 	button_input = connect_button_input(button_div, "Pause", function (e) { that.Pause(); });
 	button_input = connect_button_input(button_div, "Step", function (e) { that.SingleStep(); });
-	button_input = connect_button_input(button_div, "Restart", function (e) { that.LoadTest(); });
+	button_input = connect_button_input(button_div, "Restart", function (e) { that.LoadTest(true); });
 	button_input = connect_button_input(button_div, "Demo", function (e) { that.ToggleDemo(); });
 	this.m_demo_button = /** @type {HTMLButtonElement} */ (button_input);
 
@@ -294,14 +294,19 @@ box2d.Testbed.Main.prototype.m_test_index = 0;
 box2d.Testbed.Main.prototype.m_test_entries = null;
 /**
  * @export 
- * @type {number} 
+ * @type {boolean} 
  */
-box2d.Testbed.Main.prototype.m_shift = 0;
+box2d.Testbed.Main.prototype.m_shift = false;
 /**
  * @export 
- * @type {number} 
+ * @type {boolean} 
  */
-box2d.Testbed.Main.prototype.m_ctrl = 0;
+box2d.Testbed.Main.prototype.m_ctrl = false;
+/**
+ * @export 
+ * @type {boolean} 
+ */
+box2d.Testbed.Main.prototype.m_lMouseDown = false;
 /**
  * @export 
  * @type {boolean} 
@@ -394,7 +399,7 @@ box2d.Testbed.Main.prototype.ConvertElementToViewport = function (element, out)
 box2d.Testbed.Main.prototype.ConvertProjectionToViewport = function (projection, out)
 {
 	var viewport = out.Copy(projection);
-	box2d.b2Mul_S_V2(this.m_settings.viewZoom, viewport, viewport);
+	box2d.b2Mul_S_V2(1 / this.m_settings.viewZoom, viewport, viewport);
 	box2d.b2Mul_S_V2(this.m_settings.canvasScale, viewport, viewport);
 	return viewport;
 }
@@ -409,7 +414,7 @@ box2d.Testbed.Main.prototype.ConvertViewportToProjection = function (viewport, o
 {
 	var projection = out.Copy(viewport);
 	box2d.b2Mul_S_V2(1 / this.m_settings.canvasScale, projection, projection);
-	box2d.b2Mul_S_V2(1 / this.m_settings.viewZoom, projection, projection);
+	box2d.b2Mul_S_V2(this.m_settings.viewZoom, projection, projection);
 	return projection;
 }
 
@@ -507,9 +512,9 @@ box2d.Testbed.Main.prototype.ZoomCamera = function (zoom)
  */
 box2d.Testbed.Main.prototype.HomeCamera = function ()
 {
-	this.m_settings.viewCenter.Set(0, 20);
-	this.m_settings.viewRotation.SetAngle(box2d.b2DegToRad(0));
-	this.m_settings.viewZoom = 1;
+	this.m_settings.viewZoom = (this.m_test)?(this.m_test.GetDefaultViewZoom()):(1.0);
+	this.m_settings.viewCenter.Set(0.0, 20.0 * this.m_settings.viewZoom);
+	this.m_settings.viewRotation.SetAngle(box2d.b2DegToRad(0.0));
 }
 
 /**
@@ -522,7 +527,10 @@ box2d.Testbed.Main.prototype.HandleMouseMove = function (e)
 	var element = new box2d.b2Vec2(e.clientX, e.clientY);
 	var world = this.ConvertElementToWorld(element, new box2d.b2Vec2());
 
-	this.m_test.MouseMove(world);
+	if (this.m_lMouseDown)
+	{
+		this.m_test.MouseMove(world);
+	}
 
 	if (this.m_rMouseDown)
 	{
@@ -547,7 +555,8 @@ box2d.Testbed.Main.prototype.HandleMouseDown = function (e)
 	switch (e.which)
 	{
 	case 1: // left mouse button
-		if (this.m_shift === 0)
+		this.m_lMouseDown = true;
+		if (!this.m_shift)
 		{
 			this.m_test.MouseDown(world);
 		}
@@ -579,6 +588,7 @@ box2d.Testbed.Main.prototype.HandleMouseUp = function (e)
 	{
 	case 1: // left mouse button
 		this.m_test.MouseUp(world);
+		this.m_lMouseDown = false;
 		break;
 	case 3: // right mouse button
 		this.m_rMouseDown = false;
@@ -632,11 +642,11 @@ box2d.Testbed.Main.prototype.HandleMouseWheel = function (e)
 {
 	if (e.wheelDelta > 0)
 	{
-		this.ZoomCamera(1.1);
+		this.ZoomCamera(1 / 1.1);
 	}
 	else if (e.wheelDelta < 0)
 	{
-		this.ZoomCamera(1 / 1.1);
+		this.ZoomCamera(1.1);
 	}
 	e.preventDefault();
 }
@@ -651,10 +661,10 @@ box2d.Testbed.Main.prototype.HandleKeyDown = function (e)
 	switch (e.keyCode)
 	{
 	case goog.events.KeyCodes.CTRL:
-		this.m_ctrl = 1;
+		this.m_ctrl = true;
 		break;
 	case goog.events.KeyCodes.SHIFT:
-		this.m_shift = 1;
+		this.m_shift = true;
 		break;
 	case goog.events.KeyCodes.LEFT:
 		if (this.m_ctrl)
@@ -715,16 +725,16 @@ box2d.Testbed.Main.prototype.HandleKeyDown = function (e)
 		this.RollCamera(box2d.b2DegToRad(1));
 		break;
 	case goog.events.KeyCodes.Z:
-		this.ZoomCamera(1.1);
+		this.ZoomCamera(1 / 1.1);
 		break;
 	case goog.events.KeyCodes.X:
-		this.ZoomCamera(1 / 1.1);
+		this.ZoomCamera(1.1);
 		break;
 	case goog.events.KeyCodes.HOME:
 		this.HomeCamera();
 		break;
 	case goog.events.KeyCodes.R:
-		this.LoadTest();
+		this.LoadTest(true);
 		break;
 	case goog.events.KeyCodes.SPACE:
 		if (this.m_test)
@@ -735,14 +745,14 @@ box2d.Testbed.Main.prototype.HandleKeyDown = function (e)
 	case goog.events.KeyCodes.P:
 		this.Pause();
 		break;
-	case goog.events.KeyCodes.PERIOD:
-		this.SingleStep();
-		break;
 	case goog.events.KeyCodes.OPEN_SQUARE_BRACKET:
 		this.DecrementTest();
 		break;
 	case goog.events.KeyCodes.CLOSE_SQUARE_BRACKET:
 		this.IncrementTest();
+		break;
+	case goog.events.KeyCodes.SLASH:
+		this.SingleStep();
 		break;
 	default:
 		//window.console.log(e.keyCode);
@@ -765,10 +775,10 @@ box2d.Testbed.Main.prototype.HandleKeyUp = function (e)
 	switch (e.keyCode)
 	{
 	case goog.events.KeyCodes.CTRL:
-		this.m_ctrl = 0;
+		this.m_ctrl = false;
 		break;
 	case goog.events.KeyCodes.SHIFT:
-		this.m_shift = 0;
+		this.m_shift = false;
 		break;
 	default:
 		//window.console.log(e.keyCode);
@@ -839,12 +849,16 @@ box2d.Testbed.Main.prototype.IncrementTest = function ()
 /**
  * @export 
  * @return {void} 
+ * @param {boolean=} restartTest 
  */
-box2d.Testbed.Main.prototype.LoadTest = function ()
+box2d.Testbed.Main.prototype.LoadTest = function (restartTest)
 {
 	this.m_demo_time = 0;
-	this.HomeCamera();
 	this.m_test = this.m_test_entries[this.m_test_index].createFcn(this.m_canvas, this.m_settings);
+	if (!restartTest)
+	{
+		this.HomeCamera();
+	}
 }
 
 /**
@@ -920,17 +934,15 @@ box2d.Testbed.Main.prototype.SimulationLoop = function ()
 			ctx.lineWidth /= this.m_settings.canvasScale;
 
 			// apply camera
-			ctx.scale(this.m_settings.viewZoom, this.m_settings.viewZoom);
-			ctx.lineWidth /= this.m_settings.viewZoom;
+			ctx.scale(1 / this.m_settings.viewZoom, 1 / this.m_settings.viewZoom);
+			ctx.lineWidth *= this.m_settings.viewZoom;
 			ctx.rotate(-this.m_settings.viewRotation.GetAngle());
 			ctx.translate(-this.m_settings.viewCenter.x, -this.m_settings.viewCenter.y);
 
-			var hz = this.m_settings.hz;
-			this.m_settings.hz = box2d.b2Max(1000 / time_elapsed, hz);
 			this.m_test.Step(this.m_settings);
-			this.m_settings.hz = hz;
 		
-			this.m_test.DrawTitle(this.m_test_entries[this.m_test_index].name);
+			var msg = this.m_test_entries[this.m_test_index].name;
+			this.m_test.DrawTitle(msg);
 
 		ctx.restore();
 
