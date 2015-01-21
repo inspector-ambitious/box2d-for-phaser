@@ -1347,125 +1347,65 @@ box2d.b2Cross_V3_V3 = function (a, b, out)
 /** 
  * @export 
  * @constructor 
- * @param {number|Float32Array|Array.<number>=} a0
- * @param {number=} a1
- * @param {number=} a2
- * @param {number=} a3
+ * @param {number=} x
+ * @param {number=} y
+ * @param {number=} z
+ * @param {number=} w
  */
-box2d.b2Vec4 = function (a0, a1, a2, a3)
+box2d.b2Vec4 = function (x, y, z, w)
 {
-	if (arguments.length === 0)
-	{
-		this._array_ = new Float32Array(4);
-	}
-	else if (a0 instanceof Float32Array)
-	{
-		//box2d.b2Assert(a0.length === 4);
-		this._array_ = a0;
-	}
-	else if (a0 instanceof Array)
-	{
-		//box2d.b2Assert(a0.length === 4);
-		this._array_ = new Float32Array(a0);
-	}
-	else if (arguments.length === 4)
-	{
-		//box2d.b2Assert(typeof(a0) === 'number');
-		//box2d.b2Assert(typeof(a1) === 'number');
-		//box2d.b2Assert(typeof(a2) === 'number');
-		//box2d.b2Assert(typeof(a3) === 'number');
-		this._array_ = new Float32Array(4);
-		this._array_[0] = a0;
-		this._array_[1] = a1;
-		this._array_[2] = a2;
-		this._array_[3] = a3;
-	}
-	else
-	{
-		throw new Error();
-	}
+	this.x = x || 0.0;
+	this.y = y || 0.0;
+	this.z = z || 0.0;
+	this.w = w || 0.0;
+	//this.a = new Float32Array(4);
+	//this.a[0] = x || 0;
+	//this.a[1] = y || 0;
+	//this.a[2] = z || 0;
+	//this.a[3] = w || 0;
 }
 
 /**
- * @type {Float32Array} 
+ * @export 
+ * @type {number} 
  */
-box2d.b2Vec4.prototype._array_;
+box2d.b2Vec4.prototype.x = 0.0;
+/**
+ * @export 
+ * @type {number} 
+ */
+box2d.b2Vec4.prototype.y = 0.0;
+/**
+ * @export 
+ * @type {number} 
+ */
+box2d.b2Vec4.prototype.z = 0.0;
+/**
+ * @export 
+ * @type {number} 
+ */
+box2d.b2Vec4.prototype.w = 0.0;
 
-Object.defineProperty(box2d.b2Vec4.prototype, 'array',
-{
-	/**
-	 * @this {box2d.b2Vec4} 
-	 * @return {Float32Array} 
-	 */
-	get: function () { return this._array_; },
-});
-
-Object.defineProperty(box2d.b2Vec4.prototype, 'x',
-{
-	/**
-	 * @this {box2d.b2Vec4} 
-	 * @return {number} 
-	 */
-	get: function () { return this._array_[0]; },
-	/**
-	 * @this {box2d.b2Vec4} 
-	 * @return {void} 
-	 * @param {number} n
-	 */
-	set: function (n) { this._array_[0] = n; }
-});
-
-Object.defineProperty(box2d.b2Vec4.prototype, 'y',
-{
-	/**
-	 * @this {box2d.b2Vec4} 
-	 * @return {number} 
-	 */
-	get: function () { return this._array_[1]; },
-	/**
-	 * @this {box2d.b2Vec4} 
-	 * @return {void} 
-	 * @param {number} n
-	 */
-	set: function (n) { this._array_[1] = n; }
-});
-
-Object.defineProperty(box2d.b2Vec4.prototype, 'z',
-{
-	/**
-	 * @this {box2d.b2Vec4} 
-	 * @return {number} 
-	 */
-	get: function () { return this._array_[2]; },
-	/**
-	 * @this {box2d.b2Vec4} 
-	 * @return {void} 
-	 * @param {number} n
-	 */
-	set: function (n) { this._array_[2] = n; }
-});
-
-Object.defineProperty(box2d.b2Vec4.prototype, 'w',
-{
-	/**
-	 * @this {box2d.b2Vec4} 
-	 * @return {number} 
-	 */
-	get: function () { return this._array_[3]; },
-	/**
-	 * @this {box2d.b2Vec4} 
-	 * @return {void} 
-	 * @param {number} n
-	 */
-	set: function (n) { this._array_[3] = n; }
-});
+//	/**
+//	 * @type {Float32Array} 
+//	 */
+//	box2d.b2Vec4.prototype.a;
+//	
+//	box2d.b2Vec4.prototype.__defineGetter__('x', function () { return this.a[0]; });
+//	box2d.b2Vec4.prototype.__defineGetter__('y', function () { return this.a[1]; });
+//	box2d.b2Vec4.prototype.__defineGetter__('z', function () { return this.a[2]; });
+//	box2d.b2Vec4.prototype.__defineGetter__('w', function () { return this.a[3]; });
+//	box2d.b2Vec4.prototype.__defineSetter__('x', function (n) { this.a[0] = n; });
+//	box2d.b2Vec4.prototype.__defineSetter__('y', function (n) { this.a[1] = n; });
+//	box2d.b2Vec4.prototype.__defineSetter__('z', function (n) { this.a[2] = n; });
+//	box2d.b2Vec4.prototype.__defineSetter__('w', function (n) { this.a[3] = n; });
 
 /**
  * @export 
  * @const 
  * @type {box2d.b2Vec4}
  */
-box2d.b2Vec4.ZERO = new box2d.b2Vec4([ 0.0, 0.0, 0.0, 0.0 ]);
+box2d.b2Vec4.ZERO = new box2d.b2Vec4(0.0, 0.0, 0.0, 0.0);
 /**
  * @export 
  * @type {box2d.b2Vec4}
@@ -1478,8 +1418,7 @@ box2d.b2Vec4.s_t0 = new box2d.b2Vec4();
  */
 box2d.b2Vec4.prototype.Clone = function ()
 {
-	//return new box2d.b2Vec4(this.x, this.y, this.z, this.w);
-	return new box2d.b2Vec4(new Float32Array(this._array_));
+	return new box2d.b2Vec4(this.x, this.y, this.z, this.w);
 }
 
 /**
@@ -1488,11 +1427,10 @@ box2d.b2Vec4.prototype.Clone = function ()
  */
 box2d.b2Vec4.prototype.SetZero = function ()
 {
-	//this.x = 0.0;
-	//this.y = 0.0;
-	//this.z = 0.0;
-	//this.w = 0.0;
-	this._array_.set(box2d.b2Vec4.ZERO._array_);
+	this.x = 0.0;
+	this.y = 0.0;
+	this.z = 0.0;
+	this.w = 0.0;
 	return this;
 }
 
@@ -1521,11 +1459,10 @@ box2d.b2Vec4.prototype.Set = function (x, y, z, w)
 box2d.b2Vec4.prototype.Copy = function (other)
 {
 	//if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this !== other); }
-	//this.x = other.x;
-	//this.y = other.y;
-	//this.z = other.z;
-	//this.w = other.w;
-	this._array_.set(other._array_);
+	this.x = other.x;
+	this.y = other.y;
+	this.z = other.z;
+	this.w = other.w;
 	return this;
 }
 
