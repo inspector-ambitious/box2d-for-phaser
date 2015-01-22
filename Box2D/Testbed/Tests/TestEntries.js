@@ -111,6 +111,10 @@ goog.require('box2d.Testbed.Web');
  */
 box2d.Testbed.GetTestEntries = function (entries)
 {
+//#if B2_ENABLE_PARTICLE
+	entries.push(new box2d.Testbed.TestEntry("Sparky", box2d.Testbed.Sparky.Create));
+//#endif
+
 	entries.push(new box2d.Testbed.TestEntry("Ragdolls", box2d.Testbed.TestRagdoll.Create));
 	entries.push(new box2d.Testbed.TestEntry("Topdown Car", box2d.Testbed.TopdownCar.Create));
 
@@ -182,7 +186,7 @@ box2d.Testbed.GetTestEntries = function (entries)
 	
 //#if B2_ENABLE_PARTICLE
 	entries.push(new box2d.Testbed.TestEntry("Sandbox", box2d.Testbed.Sandbox.Create));
-	entries.push(new box2d.Testbed.TestEntry("Sparky", box2d.Testbed.Sparky.Create));
+	//entries.push(new box2d.Testbed.TestEntry("Sparky", box2d.Testbed.Sparky.Create));
 	entries.push(new box2d.Testbed.TestEntry("Dam Break", box2d.Testbed.DamBreak.Create));
 	entries.push(new box2d.Testbed.TestEntry("Liquid Timer", box2d.Testbed.LiquidTimer.Create));
 	entries.push(new box2d.Testbed.TestEntry("Wave Machine", box2d.Testbed.WaveMachine.Create));
@@ -204,7 +208,7 @@ box2d.Testbed.GetTestEntries = function (entries)
 	entries.push(new box2d.Testbed.TestEntry("Corner Case", box2d.Testbed.CornerCase.Create));
 //#endif
 
-	entries.push(new box2d.Testbed.TestEntry("Empty", box2d.Testbed.Empty.Create));
+	//entries.push(new box2d.Testbed.TestEntry("Empty", box2d.Testbed.Empty.Create));
 
 	return entries;
 }

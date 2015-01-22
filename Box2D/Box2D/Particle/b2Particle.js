@@ -104,7 +104,7 @@ goog.exportProperty(box2d.b2ParticleFlag, 'b2_particleContactFilterParticle'  , 
  *  
  * @export 
  * @constructor 
- * @param {number|box2d.b2Color|Uint8Array=} a0 
+ * @param {number|box2d.b2Color=} a0 
  * @param {number=} a1 
  * @param {number=} a2 
  * @param {number=} a3 
@@ -113,16 +113,10 @@ box2d.b2ParticleColor = function (a0, a1, a2, a3)
 {
 	if (arguments.length === 0)
 	{
-		this.array = new Uint8Array(4);
 		//this.r = this.g = this.b = this.a = 0;
-	}
-	else if (a0 instanceof Uint8Array)
-	{
-		this.array = a0;
 	}
 	else if (a0 instanceof box2d.b2Color)
 	{
-		this.array = new Uint8Array(4);
 		this.r = 0|(255 * a0.r);
 		this.g = 0|(255 * a0.g);
 		this.b = 0|(255 * a0.b);
@@ -130,7 +124,6 @@ box2d.b2ParticleColor = function (a0, a1, a2, a3)
 	}
 	else if (arguments.length >= 3)
 	{
-		this.array = new Uint8Array(4);
 		this.r = (0|a0) || 0;
 		this.g = (0|a1) || 0;
 		this.b = (0|a2) || 0;
@@ -143,69 +136,28 @@ box2d.b2ParticleColor = function (a0, a1, a2, a3)
 }
 
 /**
- * @type {Uint8Array}
+ * @export 
+ * @type {number} 
  */
-box2d.b2ParticleColor.prototype.array = null;
+box2d.b2ParticleColor.prototype.r = 0;
 
-Object.defineProperty(box2d.b2ParticleColor.prototype, 'r',
-{
-	/**
-	 * @this {box2d.b2ParticleColor} 
-	 * @return {number} 
-	 */
-	get: function () { return this.array[0]; },
-	/**
-	 * @this {box2d.b2ParticleColor} 
-	 * @return {void} 
-	 * @param {number} n
-	 */
-	set: function (n) { this.array[0] = n; }
-});
+/**
+ * @export 
+ * @type {number} 
+ */
+box2d.b2ParticleColor.prototype.g = 0;
 
-Object.defineProperty(box2d.b2ParticleColor.prototype, 'g',
-{
-	/**
-	 * @this {box2d.b2ParticleColor} 
-	 * @return {number} 
-	 */
-	get: function () { return this.array[1]; },
-	/**
-	 * @this {box2d.b2ParticleColor} 
-	 * @return {void} 
-	 * @param {number} n
-	 */
-	set: function (n) { this.array[1] = n; }
-});
+/**
+ * @export 
+ * @type {number} 
+ */
+box2d.b2ParticleColor.prototype.b = 0;
 
-Object.defineProperty(box2d.b2ParticleColor.prototype, 'b',
-{
-	/**
-	 * @this {box2d.b2ParticleColor} 
-	 * @return {number} 
-	 */
-	get: function () { return this.array[2]; },
-	/**
-	 * @this {box2d.b2ParticleColor} 
-	 * @return {void} 
-	 * @param {number} n
-	 */
-	set: function (n) { this.array[2] = n; }
-});
-
-Object.defineProperty(box2d.b2ParticleColor.prototype, 'a',
-{
-	/**
-	 * @this {box2d.b2ParticleColor} 
-	 * @return {number} 
-	 */
-	get: function () { return this.array[3]; },
-	/**
-	 * @this {box2d.b2ParticleColor} 
-	 * @return {void} 
-	 * @param {number} n
-	 */
-	set: function (n) { this.array[3] = n; }
-});
+/**
+ * @export 
+ * @type {number} 
+ */
+box2d.b2ParticleColor.prototype.a = 0;
 
 /** 
  * True when all four color elements equal 0. When true, a 
@@ -315,8 +267,7 @@ box2d.b2ParticleColor.prototype.Copy = function (color)
  */
 box2d.b2ParticleColor.prototype.Clone = function ()
 {
-	//return new box2d.b2ParticleColor(this.r, this.g, this.b, this.a);
-	return new box2d.b2ParticleColor(new Uint8Array(this.array));
+	return new box2d.b2ParticleColor(this.r, this.g, this.b, this.a);
 }
 
 /** 
