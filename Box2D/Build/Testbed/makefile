@@ -11,6 +11,8 @@ SOURCE_PATHS += $(GOOGLE_PATH)/closure-library/closure/goog
 
 OUTPUT_NAMESPACE = "main.start"
 OUTPUT_FILE = box2d-html5-testbed.js
+OUTPUT_DEP_FILE = deps.js
+OUTPUT_MAP_FILE = box2d-html5-testbed.map.json
 
 all:
 	$(MAKE) --no-print-directory deps
@@ -36,10 +38,12 @@ DEPSWRITER_PREFIX = ../../../../Testbed
 DEPS_COMMAND += python $(GOOGLE_PATH)/closure-library/closure/bin/build/depswriter.py
 DEPS_COMMAND += $(foreach file,$(SOURCE_FILES),--path_with_depspath="$(file) $(DEPSWRITER_PREFIX)/$(file)")
 DEPS_COMMAND += $(foreach path,$(SOURCE_PATHS),--root_with_prefix="$(path) $(DEPSWRITER_PREFIX)/$(path)")
-DEPS_COMMAND += > deps.js
+DEPS_COMMAND += > $(OUTPUT_DEP_FILE)
 
 clean:
 	rm -fv $(OUTPUT_FILE)
+	rm -fv $(OUTPUT_DEP_FILE)
+	rm -fv $(OUTPUT_MAP_FILE)
 	@echo done $@
 
 build:
@@ -53,8 +57,12 @@ BUILD_COMMAND += --only_closure_dependencies
 BUILD_COMMAND += --closure_entry_point $(OUTPUT_NAMESPACE)
 BUILD_COMMAND += $(SOURCE_PATHS)
 BUILD_COMMAND += $(SOURCE_FILES)
+BUILD_COMMAND += --create_source_map=$(OUTPUT_MAP_FILE)
+BUILD_COMMAND += --source_map_format=V3
+BUILD_COMMAND += --source_map_location_mapping="|"
 BUILD_COMMAND += --js_output_file=$(OUTPUT_FILE)
 BUILD_COMMAND += $(COMPILER_FLAGS)
+BUILD_COMMAND += && printf "\n//\# sourceMappingURL=$(OUTPUT_MAP_FILE)\n" >> $(OUTPUT_FILE)
 
 COMPILER_FLAGS += --generate_exports
 # --language_in: ECMASCRIPT3 | ECMASCRIPT5 | ECMASCRIPT5_STRICT
