@@ -154,7 +154,18 @@ box2d.Testbed.Main = function ()
 	controls_div.appendChild(document.createElement('hr'));
 
 	// simulation number inputs
-	var connect_number_input = function (parent, label, id, min, max, step)
+
+	/**
+	 * @return {Node} 
+	 * @param {Node} parent 
+	 * @param {string} label 
+	 * @param {number} number 
+	 * @param {number} min 
+	 * @param {number} max 
+	 * @param {number} step 
+	 * @param {function(number):void} callback 
+	 */
+	var connect_number_input = function (parent, label, number, min, max, step, callback)
 	{
 		var number_input_tr = parent.appendChild(document.createElement('tr'));
 		var number_input_td0 = number_input_tr.appendChild(document.createElement('td'));
@@ -170,28 +181,36 @@ box2d.Testbed.Main = function ()
 		number_input.min = min || 1;
 		number_input.max = max || 100;
 		number_input.step = step || 1;
-		number_input.value = that.m_settings[id];
-		number_input.addEventListener('change', function (e) { that.m_settings[id] = parseInt(this.value, 10); }, false);
+		number_input.value = number;
+		number_input.addEventListener('change', function (e) { callback(parseInt(this.value, 10)); }, false);
 		number_input_td1.appendChild(number_input);
 		return number_input;
 	}
 
 	var number_input_table = controls_div.appendChild(document.createElement('table'));
 	var number_input;
-	number_input = connect_number_input(number_input_table, "Vel Iters", 'velocityIterations', 1, 20, 1);
-	number_input = connect_number_input(number_input_table, "Pos Iters", 'positionIterations', 1, 20, 1);
+	number_input = connect_number_input(number_input_table, "Vel Iters", that.m_settings.velocityIterations, 1, 20, 1, function (number) { that.m_settings.velocityIterations = number; });
+	number_input = connect_number_input(number_input_table, "Pos Iters", that.m_settings.positionIterations, 1, 20, 1, function (number) { that.m_settings.positionIterations = number; });
 //#if B2_ENABLE_PARTICLE
-	number_input = connect_number_input(number_input_table, "Pcl Iters", 'particleIterations', 1, 100, 1);
+	number_input = connect_number_input(number_input_table, "Pcl Iters", that.m_settings.particleIterations, 1, 100, 1, function (number) { that.m_settings.particleIterations = number; });
 //#endif
-	number_input = connect_number_input(number_input_table, "Hertz", 'hz', 10, 120, 1);
+	number_input = connect_number_input(number_input_table, "Hertz", that.m_settings.hz, 10, 120, 1, function (number) { that.m_settings.hz = number; });
 
 	// simulation checkbox inputs
-	var connect_checkbox_input = function (parent, label, id)
+
+	/**
+	 * @return {Node} 
+	 * @param {Node} parent 
+	 * @param {string} label 
+	 * @param {boolean} checked 
+	 * @param {function(boolean):void} callback 
+	 */
+	var connect_checkbox_input = function (parent, label, checked, callback)
 	{
 		var checkbox_input = document.createElement('input');
 		checkbox_input.type = 'checkbox';
-		checkbox_input.checked = that.m_settings[id];
-		checkbox_input.addEventListener('click', function (e) { that.m_settings[id] = this.checked; }, false);
+		checkbox_input.checked = checked;
+		checkbox_input.addEventListener('click', function (e) { callback(this.checked); }, false);
 		parent.appendChild(checkbox_input);
 		parent.appendChild(document.createTextNode(label));
 		parent.appendChild(document.createElement('br'));
@@ -199,31 +218,31 @@ box2d.Testbed.Main = function ()
 	}
 
 	var checkbox_input;
-	checkbox_input = connect_checkbox_input(controls_div, "Sleep", 'enableSleep');
-	checkbox_input = connect_checkbox_input(controls_div, "Warm Starting", 'enableWarmStarting');
-	checkbox_input = connect_checkbox_input(controls_div, "Time of Impact", 'enableContinuous');
-	checkbox_input = connect_checkbox_input(controls_div, "Sub-Stepping", 'enableSubStepping');
+	checkbox_input = connect_checkbox_input(controls_div, "Sleep", that.m_settings.enableSleep, function (checked) { that.m_settings.enableSleep = checked; });
+	checkbox_input = connect_checkbox_input(controls_div, "Warm Starting", that.m_settings.enableWarmStarting, function (checked) { that.m_settings.enableWarmStarting = checked; });
+	checkbox_input = connect_checkbox_input(controls_div, "Time of Impact", that.m_settings.enableContinuous, function (checked) { that.m_settings.enableContinuous = checked; });
+	checkbox_input = connect_checkbox_input(controls_div, "Sub-Stepping", that.m_settings.enableSubStepping, function (checked) { that.m_settings.enableSubStepping = checked; });
 //#if B2_ENABLE_PARTICLE
-	checkbox_input = connect_checkbox_input(controls_div, "Strict Particle/Body Contacts", 'strictContacts');
+	checkbox_input = connect_checkbox_input(controls_div, "Strict Particle/Body Contacts", that.m_settings.strictContacts, function (checked) { that.m_settings.strictContacts = checked; });
 //#endif
 
 	// draw checkbox inputs
 	var draw_fieldset = controls_div.appendChild(document.createElement('fieldset'));
 	var draw_legend = draw_fieldset.appendChild(document.createElement('legend'));
 	draw_legend.appendChild(document.createTextNode("Draw"));
-	checkbox_input = connect_checkbox_input(draw_fieldset, "Shapes", 'drawShapes');
+	checkbox_input = connect_checkbox_input(draw_fieldset, "Shapes", that.m_settings.drawShapes, function (checked) { that.m_settings.drawShapes = checked; });
 //#if B2_ENABLE_PARTICLE
-	checkbox_input = connect_checkbox_input(draw_fieldset, "Particles", 'drawParticles');
+	checkbox_input = connect_checkbox_input(draw_fieldset, "Particles", that.m_settings.drawParticles, function (checked) { that.m_settings.drawParticles = checked; });
 //#endif
-	checkbox_input = connect_checkbox_input(draw_fieldset, "Joints", 'drawJoints');
-	checkbox_input = connect_checkbox_input(draw_fieldset, "AABBs", 'drawAABBs');
-	checkbox_input = connect_checkbox_input(draw_fieldset, "Contact Points", 'drawContactPoints');
-	checkbox_input = connect_checkbox_input(draw_fieldset, "Contact Normals", 'drawContactNormals');
-	checkbox_input = connect_checkbox_input(draw_fieldset, "Contact Impulses", 'drawContactImpulse');
-	checkbox_input = connect_checkbox_input(draw_fieldset, "Friction Impulses", 'drawFrictionImpulse');
-	checkbox_input = connect_checkbox_input(draw_fieldset, "Center of Masses", 'drawCOMs');
-	checkbox_input = connect_checkbox_input(draw_fieldset, "Statistics", 'drawStats');
-	checkbox_input = connect_checkbox_input(draw_fieldset, "Profile", 'drawProfile');
+	checkbox_input = connect_checkbox_input(draw_fieldset, "Joints", that.m_settings.drawJoints, function (checked) { that.m_settings.drawJoints = checked; });
+	checkbox_input = connect_checkbox_input(draw_fieldset, "AABBs", that.m_settings.drawAABBs, function (checked) { that.m_settings.drawAABBs = checked; });
+	checkbox_input = connect_checkbox_input(draw_fieldset, "Contact Points", that.m_settings.drawContactPoints, function (checked) { that.m_settings.drawContactPoints = checked; });
+	checkbox_input = connect_checkbox_input(draw_fieldset, "Contact Normals", that.m_settings.drawContactNormals, function (checked) { that.m_settings.drawContactNormals = checked; });
+	checkbox_input = connect_checkbox_input(draw_fieldset, "Contact Impulses", that.m_settings.drawContactImpulse, function (checked) { that.m_settings.drawContactImpulse = checked; });
+	checkbox_input = connect_checkbox_input(draw_fieldset, "Friction Impulses", that.m_settings.drawFrictionImpulse, function (checked) { that.m_settings.drawFrictionImpulse = checked; });
+	checkbox_input = connect_checkbox_input(draw_fieldset, "Center of Masses", that.m_settings.drawCOMs, function (checked) { that.m_settings.drawCOMs = checked; });
+	checkbox_input = connect_checkbox_input(draw_fieldset, "Statistics", that.m_settings.drawStats, function (checked) { that.m_settings.drawStats = checked; });
+	checkbox_input = connect_checkbox_input(draw_fieldset, "Profile", that.m_settings.drawProfile, function (checked) { that.m_settings.drawProfile = checked; });
 
 	// simulation buttons
 	var connect_button_input = function (parent, label, callback)
