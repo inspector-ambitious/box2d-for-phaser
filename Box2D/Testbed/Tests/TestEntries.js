@@ -53,6 +53,7 @@ goog.require('box2d.Testbed.EdgeShapes');
 goog.require('box2d.Testbed.EdgeTest');
 goog.require('box2d.Testbed.ElasticParticles');
 goog.require('box2d.Testbed.Empty');
+goog.require('box2d.Testbed.EyeCandy');
 goog.require('box2d.Testbed.Faucet');
 goog.require('box2d.Testbed.Fracker');
 goog.require('box2d.Testbed.Gears');
@@ -206,6 +207,7 @@ box2d.Testbed.GetTestEntries = function (entries)
 	entries.push(new box2d.Testbed.TestEntry("Pointy", box2d.Testbed.Pointy.Create));
 	entries.push(new box2d.Testbed.TestEntry("AntiPointy", box2d.Testbed.AntiPointy.Create));
 	entries.push(new box2d.Testbed.TestEntry("Corner Case", box2d.Testbed.CornerCase.Create));
+	entries.push(new box2d.Testbed.TestEntry("Eye Candy", box2d.Testbed.EyeCandy.Create));
 //#endif
 
 	//entries.push(new box2d.Testbed.TestEntry("Empty", box2d.Testbed.Empty.Create));
