@@ -20,7 +20,7 @@ goog.provide('box2d.Testbed.Main');
 
 //#if B2_ENABLE_PARTICLE
 goog.provide('box2d.Testbed.TestMain');
-//@endif
+//#endif
 
 goog.require('box2d.Testbed.Test');
 goog.require('box2d.Testbed.TestEntries');
@@ -38,7 +38,7 @@ box2d.Testbed.TestMain.fullscreenUI = new box2d.Testbed.FullScreenUI();
 // Used to control the behavior of particle tests.
 box2d.Testbed.TestMain.particleParameter = new box2d.Testbed.ParticleParameter();
 
-//@endif
+//#endif
 
 /**
  * @export 

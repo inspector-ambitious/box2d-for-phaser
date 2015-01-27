@@ -297,7 +297,7 @@ box2d.b2Draw.prototype.DrawParticles = function (centers, radius, colors, count)
 {
 }
 
-//@endif
+//#endif
 
 /** 
  * Draw a line segment. 
