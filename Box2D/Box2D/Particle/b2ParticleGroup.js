@@ -512,11 +512,12 @@ box2d.b2ParticleGroup.prototype.GetAngle = function ()
  */
 box2d.b2ParticleGroup.prototype.GetLinearVelocityFromWorldPoint = function (worldPoint, out)
 {
-	var s_t0 = new box2d.b2Vec2(); // TODO: static
+	var s_t0 = box2d.b2ParticleGroup.prototype.GetLinearVelocityFromWorldPoint.s_t0;
 	this.UpdateStatistics();
 	///	return m_linearVelocity + b2Cross(m_angularVelocity, worldPoint - m_center);
 	return box2d.b2AddCross_V2_S_V2(this.m_linearVelocity, this.m_angularVelocity, box2d.b2Sub_V2_V2(worldPoint, this.m_center, s_t0), out);
 }
+box2d.b2ParticleGroup.prototype.GetLinearVelocityFromWorldPoint.s_t0 = new box2d.b2Vec2();
 
 /** 
  * Get the user data pointer that was provided in the group 

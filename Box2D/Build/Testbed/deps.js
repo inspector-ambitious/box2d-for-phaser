@@ -54,7 +54,7 @@ goog.addDependency('../../../../Testbed/../../../Box2D/Box2D/Dynamics/b2World.js
 goog.addDependency('../../../../Testbed/../../../Box2D/Box2D/Dynamics/b2WorldCallbacks.js', ['box2d.b2WorldCallbacks'], ['box2d.b2Settings'], false);
 goog.addDependency('../../../../Testbed/../../../Box2D/Box2D/Particle/b2Particle.js', ['box2d.b2Particle', 'box2d.b2ParticleColor', 'box2d.b2ParticleDef', 'box2d.b2ParticleFlag'], [], false);
 goog.addDependency('../../../../Testbed/../../../Box2D/Box2D/Particle/b2ParticleGroup.js', ['box2d.b2ParticleGroup', 'box2d.b2ParticleGroupDef'], ['box2d.b2Particle'], false);
-goog.addDependency('../../../../Testbed/../../../Box2D/Box2D/Particle/b2ParticleSystem.js', ['box2d.b2ParticleSystem'], ['box2d.b2Particle', 'box2d.b2ParticleGroup'], false);
+goog.addDependency('../../../../Testbed/../../../Box2D/Box2D/Particle/b2ParticleSystem.js', ['box2d.b2ParticleSystem'], ['box2d.b2Particle', 'box2d.b2ParticleGroup', 'box2d.b2TimeStep'], false);
 goog.addDependency('../../../../Testbed/../../../Box2D/Box2D/Particle/b2StackQueue.js', ['box2d.b2StackQueue'], [], false);
 goog.addDependency('../../../../Testbed/../../../Box2D/Box2D/Particle/b2VoronoiDiagram.js', ['box2d.b2VoronoiDiagram'], ['box2d.b2Collision', 'box2d.b2StackQueue'], false);
 goog.addDependency('../../../../Testbed/../../../Box2D/Box2D/Rope/b2Rope.js', ['box2d.b2Rope'], ['box2d.b2Draw', 'box2d.b2Math'], false);

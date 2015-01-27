@@ -22,6 +22,7 @@ goog.provide('box2d.b2ParticleSystem');
 
 goog.require('box2d.b2Particle');
 goog.require('box2d.b2ParticleGroup');
+goog.require('box2d.b2TimeStep');
 
 /**
  * @return {void}
@@ -2046,7 +2047,7 @@ box2d.b2ParticleSystem.DestroyParticlesInShapeCallback.prototype.Destroyed = fun
  */
 box2d.b2ParticleSystem.prototype.DestroyParticlesInShape = function (shape, xf, callDestructionListener)
 {
-	var s_aabb = new box2d.b2AABB(); // TODO: static
+	var s_aabb = box2d.b2ParticleSystem.prototype.DestroyParticlesInShape.s_aabb;
 	box2d.b2Assert(this.m_world.IsLocked() === false);
 	if (this.m_world.IsLocked())
 	{
@@ -2060,6 +2061,7 @@ box2d.b2ParticleSystem.prototype.DestroyParticlesInShape = function (shape, xf, 
 	this.m_world.QueryAABB(callback, aabb);
 	return callback.Destroyed();
 }
+box2d.b2ParticleSystem.prototype.DestroyParticlesInShape.s_aabb = new box2d.b2AABB();
 
 /** 
  * Create a particle group whose properties have been defined. 
@@ -2074,7 +2076,7 @@ box2d.b2ParticleSystem.prototype.DestroyParticlesInShape = function (shape, xf, 
  */
 box2d.b2ParticleSystem.prototype.CreateParticleGroup = function (groupDef)
 {
-	var s_transform = new box2d.b2Transform(); // TODO: static
+	var s_transform = box2d.b2ParticleSystem.prototype.CreateParticleGroup.s_transform;
 
 	box2d.b2Assert(this.m_world.IsLocked() === false);
 	if (this.m_world.IsLocked())
@@ -2138,6 +2140,7 @@ box2d.b2ParticleSystem.prototype.CreateParticleGroup = function (groupDef)
 
 	return group;
 }
+box2d.b2ParticleSystem.prototype.CreateParticleGroup.s_transform = new box2d.b2Transform();
 
 /**
  * @constructor 
@@ -2892,7 +2895,7 @@ box2d.b2ParticleSystem.prototype.GetStuckCandidateCount = function ()
  */
 box2d.b2ParticleSystem.prototype.ComputeCollisionEnergy = function ()
 {
-	var s_v = new box2d.b2Vec2(); // TODO: static
+	var s_v = box2d.b2ParticleSystem.prototype.ComputeCollisionEnergy.s_v;
 	var vel_data = this.m_velocityBuffer.data;
 	var sum_v2 = 0;
 	for (var k = 0; k < this.m_contactBuffer.count; k++)
@@ -2911,6 +2914,7 @@ box2d.b2ParticleSystem.prototype.ComputeCollisionEnergy = function ()
 	}
 	return 0.5 * this.GetParticleMass() * sum_v2;
 }
+box2d.b2ParticleSystem.prototype.ComputeCollisionEnergy.s_v = new box2d.b2Vec2();
 
 /** 
  * Set strict Particle/Body contact check. 
@@ -3283,12 +3287,13 @@ box2d.b2ParticleSystem.prototype.QueryAABB = function (callback, aabb)
  */
 box2d.b2ParticleSystem.prototype.QueryShapeAABB = function (callback, shape, xf, childIndex)
 {
-	var s_aabb = new box2d.b2AABB(); // TODO: static
+	var s_aabb = box2d.b2ParticleSystem.prototype.QueryShapeAABB.s_aabb;
 	childIndex = childIndex || 0;
 	var aabb = s_aabb;
 	shape.ComputeAABB(aabb, xf, childIndex);
 	this.QueryAABB(callback, aabb);
 }
+box2d.b2ParticleSystem.prototype.QueryShapeAABB.s_aabb = new box2d.b2AABB();
 
 /** 
  * @export 
@@ -3299,13 +3304,14 @@ box2d.b2ParticleSystem.prototype.QueryShapeAABB = function (callback, shape, xf,
  */
 box2d.b2ParticleSystem.prototype.QueryPointAABB = function (callback, point, slop)
 {
-	var s_aabb = new box2d.b2AABB(); // TODO: static
+	var s_aabb = box2d.b2ParticleSystem.prototype.QueryPointAABB.s_aabb;
 	slop = (typeof(slop) === 'number')?(slop):(box2d.b2_linearSlop);
 	var aabb = s_aabb;
 	aabb.lowerBound.Set(point.x - slop, point.y - slop);
 	aabb.upperBound.Set(point.x + slop, point.y + slop);
 	this.QueryAABB(callback, aabb);
 }
+box2d.b2ParticleSystem.prototype.QueryPointAABB.s_aabb = new box2d.b2AABB();
 
 /** 
  * Ray-cast the particle system for all particles in the path of 
@@ -3323,11 +3329,11 @@ box2d.b2ParticleSystem.prototype.QueryPointAABB = function (callback, point, slo
  */
 box2d.b2ParticleSystem.prototype.RayCast = function (callback, point1, point2)
 {
-	var s_aabb = new box2d.b2AABB(); // TODO: static
-	var s_p = new box2d.b2Vec2(); // TODO: static
-	var s_v = new box2d.b2Vec2(); // TODO: static
-	var s_n = new box2d.b2Vec2(); // TODO: static
-	var s_point = new box2d.b2Vec2(); // TODO: static
+	var s_aabb	= box2d.b2ParticleSystem.prototype.RayCast.s_aabb;
+	var s_p		= box2d.b2ParticleSystem.prototype.RayCast.s_p;
+	var s_v		= box2d.b2ParticleSystem.prototype.RayCast.s_v;
+	var s_n		= box2d.b2ParticleSystem.prototype.RayCast.s_n;
+	var s_point	= box2d.b2ParticleSystem.prototype.RayCast.s_point;
 	if (this.m_proxyBuffer.count === 0)
 	{
 		return;
@@ -3383,6 +3389,11 @@ box2d.b2ParticleSystem.prototype.RayCast = function (callback, point1, point2)
 		}
 	}
 }
+box2d.b2ParticleSystem.prototype.RayCast.s_aabb = new box2d.b2AABB();
+box2d.b2ParticleSystem.prototype.RayCast.s_p = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.RayCast.s_v = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.RayCast.s_n = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.RayCast.s_point = new box2d.b2Vec2();
 
 /** 
  * Compute the axis-aligned bounding box for all particles 
@@ -3811,9 +3822,9 @@ box2d.b2ParticleSystem.prototype.CreateParticleForGroup = function (groupDef, xf
  */
 box2d.b2ParticleSystem.prototype.CreateParticlesStrokeShapeForGroup = function (shape, groupDef, xf)
 {
-	var s_edge = new box2d.b2EdgeShape(); // TODO: static
-	var s_d = new box2d.b2Vec2(); // TODO: static
-	var s_p = new box2d.b2Vec2(); // TODO: static
+	var s_edge	= box2d.b2ParticleSystem.prototype.CreateParticlesStrokeShapeForGroup.s_edge;
+	var s_d		= box2d.b2ParticleSystem.prototype.CreateParticlesStrokeShapeForGroup.s_d;
+	var s_p		= box2d.b2ParticleSystem.prototype.CreateParticlesStrokeShapeForGroup.s_p;
 	var stride = groupDef.stride;
 	if (stride === 0)
 	{
@@ -3847,6 +3858,9 @@ box2d.b2ParticleSystem.prototype.CreateParticlesStrokeShapeForGroup = function (
 		positionOnEdge -= edgeLength;
 	}
 }
+box2d.b2ParticleSystem.prototype.CreateParticlesStrokeShapeForGroup.s_edge = new box2d.b2EdgeShape();
+box2d.b2ParticleSystem.prototype.CreateParticlesStrokeShapeForGroup.s_d = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.CreateParticlesStrokeShapeForGroup.s_p = new box2d.b2Vec2();
 
 /**
  * @export 
@@ -3857,8 +3871,8 @@ box2d.b2ParticleSystem.prototype.CreateParticlesStrokeShapeForGroup = function (
  */
 box2d.b2ParticleSystem.prototype.CreateParticlesFillShapeForGroup = function (shape, groupDef, xf)
 {
-	var s_aabb = new box2d.b2AABB(); // TODO: static
-	var s_p = new box2d.b2Vec2(); // TODO: static
+	var s_aabb	= box2d.b2ParticleSystem.prototype.CreateParticlesFillShapeForGroup.s_aabb;
+	var s_p		= box2d.b2ParticleSystem.prototype.CreateParticlesFillShapeForGroup.s_p;
 	var stride = groupDef.stride;
 	if (stride === 0)
 	{
@@ -3882,6 +3896,8 @@ box2d.b2ParticleSystem.prototype.CreateParticlesFillShapeForGroup = function (sh
 		}
 	}
 }
+box2d.b2ParticleSystem.prototype.CreateParticlesFillShapeForGroup.s_aabb = new box2d.b2AABB();
+box2d.b2ParticleSystem.prototype.CreateParticlesFillShapeForGroup.s_p = new box2d.b2Vec2();
 
 /**
  * @export 
@@ -4181,9 +4197,9 @@ box2d.b2ParticleSystem.ParticleCanBeConnected = function (flags, group)
  */
 box2d.b2ParticleSystem.prototype.UpdatePairsAndTriads = function (firstIndex, lastIndex, filter)
 {
-	var s_dab = new box2d.b2Vec2(); // TODO: static
-	var s_dbc = new box2d.b2Vec2(); // TODO: static
-	var s_dca = new box2d.b2Vec2(); // TODO: static
+	var s_dab = box2d.b2ParticleSystem.prototype.UpdatePairsAndTriads.s_dab;
+	var s_dbc = box2d.b2ParticleSystem.prototype.UpdatePairsAndTriads.s_dbc;
+	var s_dca = box2d.b2ParticleSystem.prototype.UpdatePairsAndTriads.s_dca;
 	var pos_data = this.m_positionBuffer.data;
 	// Create pairs or triads.
 	// All particles in each pair/triad should satisfy the following:
@@ -4324,6 +4340,9 @@ box2d.b2ParticleSystem.prototype.UpdatePairsAndTriads = function (firstIndex, la
 		this.m_triadBuffer.Unique(box2d.b2ParticleSystem.MatchTriadIndices);
 	}
 }
+box2d.b2ParticleSystem.prototype.UpdatePairsAndTriads.s_dab = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.UpdatePairsAndTriads.s_dbc = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.UpdatePairsAndTriads.s_dca = new box2d.b2Vec2();
 
 /**
  * @constructor 
@@ -4823,7 +4842,7 @@ box2d.b2ParticleSystem.prototype.UpdateAllGroupFlags = function ()
  */
 box2d.b2ParticleSystem.prototype.AddContact = function (a, b, contacts)
 {
-	var s_d = new box2d.b2Vec2(); // TODO: static
+	var s_d = box2d.b2ParticleSystem.prototype.AddContact.s_d;
 	var pos_data = this.m_positionBuffer.data;
 	box2d.b2Assert(contacts === this.m_contactBuffer);
 	///	b2Vec2 d = m_positionBuffer.data[b] - m_positionBuffer.data[a];
@@ -4846,6 +4865,7 @@ box2d.b2ParticleSystem.prototype.AddContact = function (a, b, contacts)
 		box2d.b2Mul_S_V2(invD, d, contact.normal);
 	}
 }
+box2d.b2ParticleSystem.prototype.AddContact.s_d = new box2d.b2Vec2();
 
 /**
  * @return {void} 
@@ -5178,8 +5198,8 @@ box2d.b2ParticleSystem.UpdateBodyContactsCallback.prototype.ShouldCollideFixture
  */
 box2d.b2ParticleSystem.UpdateBodyContactsCallback.prototype.ReportFixtureAndParticle = function (fixture, childIndex, a)
 {
-	var s_n = new box2d.b2Vec2(); // TODO: static
-	var s_rp = new box2d.b2Vec2(); // TODO: static
+	var s_n		= box2d.b2ParticleSystem.UpdateBodyContactsCallback.prototype.ReportFixtureAndParticle.s_n;
+	var s_rp	= box2d.b2ParticleSystem.UpdateBodyContactsCallback.prototype.ReportFixtureAndParticle.s_rp;
 	var ap = this.m_system.m_positionBuffer.data[a];
 	var n = s_n;
 	var d = fixture.ComputeDistance(ap, n, childIndex);
@@ -5211,13 +5231,15 @@ box2d.b2ParticleSystem.UpdateBodyContactsCallback.prototype.ReportFixtureAndPart
 		this.m_system.DetectStuckParticle(a);
 	}
 }
+box2d.b2ParticleSystem.UpdateBodyContactsCallback.prototype.ReportFixtureAndParticle.s_n = new box2d.b2Vec2();
+box2d.b2ParticleSystem.UpdateBodyContactsCallback.prototype.ReportFixtureAndParticle.s_rp = new box2d.b2Vec2();
 
 /**
  * @return {void}
  */
 box2d.b2ParticleSystem.prototype.UpdateBodyContacts = function ()
 {
-	var s_aabb = new box2d.b2AABB(); // TODO: static
+	var s_aabb = box2d.b2ParticleSystem.prototype.UpdateBodyContacts.s_aabb;
 
 	// If the particle contact listener is enabled, generate a set of
 	// fixture / particle contacts.
@@ -5255,6 +5277,7 @@ box2d.b2ParticleSystem.prototype.UpdateBodyContacts = function ()
 
 	this.NotifyBodyContactListenerPostContact(fixtureSet);
 }
+box2d.b2ParticleSystem.prototype.UpdateBodyContacts.s_aabb = new box2d.b2AABB();
 
 /**
  * @export 
@@ -5263,7 +5286,7 @@ box2d.b2ParticleSystem.prototype.UpdateBodyContacts = function ()
  */
 box2d.b2ParticleSystem.prototype.Solve = function (step)
 {
-	var s_subStep = new box2d.b2TimeStep(); // TODO: static
+	var s_subStep = box2d.b2ParticleSystem.prototype.Solve.s_subStep;
 	if (this.m_count === 0)
 	{
 		return;
@@ -5386,6 +5409,7 @@ box2d.b2ParticleSystem.prototype.Solve = function (step)
 		}
 	}
 }
+box2d.b2ParticleSystem.prototype.Solve.s_subStep = new box2d.b2TimeStep();
 
 /**
  * @constructor 
@@ -5410,12 +5434,12 @@ goog.inherits(box2d.b2ParticleSystem.SolveCollisionCallback, box2d.b2FixturePart
  */
 box2d.b2ParticleSystem.SolveCollisionCallback.prototype.ReportFixtureAndParticle = function (fixture, childIndex, a)
 {
-	var s_p1 = new box2d.b2Vec2(); // TODO: static
-	var s_output = new box2d.b2RayCastOutput(); // TODO: static
-	var s_input = new box2d.b2RayCastInput(); // TODO: static
-	var s_p = new box2d.b2Vec2(); // TODO: static
-	var s_v = new box2d.b2Vec2(); // TODO: static
-	var s_f = new box2d.b2Vec2(); // TODO: static
+	var s_p1		= box2d.b2ParticleSystem.SolveCollisionCallback.prototype.ReportFixtureAndParticle.s_p1;
+	var s_output	= box2d.b2ParticleSystem.SolveCollisionCallback.prototype.ReportFixtureAndParticle.s_output;
+	var s_input		= box2d.b2ParticleSystem.SolveCollisionCallback.prototype.ReportFixtureAndParticle.s_input;
+	var s_p			= box2d.b2ParticleSystem.SolveCollisionCallback.prototype.ReportFixtureAndParticle.s_p;
+	var s_v			= box2d.b2ParticleSystem.SolveCollisionCallback.prototype.ReportFixtureAndParticle.s_v;
+	var s_f			= box2d.b2ParticleSystem.SolveCollisionCallback.prototype.ReportFixtureAndParticle.s_f;
 
 	var body = fixture.GetBody();
 	var ap = this.m_system.m_positionBuffer.data[a];
@@ -5474,6 +5498,12 @@ box2d.b2ParticleSystem.SolveCollisionCallback.prototype.ReportFixtureAndParticle
 		this.m_system.ParticleApplyForce(a, f);
 	}
 }
+box2d.b2ParticleSystem.SolveCollisionCallback.prototype.ReportFixtureAndParticle.s_p1 = new box2d.b2Vec2();
+box2d.b2ParticleSystem.SolveCollisionCallback.prototype.ReportFixtureAndParticle.s_output = new box2d.b2RayCastOutput();
+box2d.b2ParticleSystem.SolveCollisionCallback.prototype.ReportFixtureAndParticle.s_input = new box2d.b2RayCastInput();
+box2d.b2ParticleSystem.SolveCollisionCallback.prototype.ReportFixtureAndParticle.s_p = new box2d.b2Vec2();
+box2d.b2ParticleSystem.SolveCollisionCallback.prototype.ReportFixtureAndParticle.s_v = new box2d.b2Vec2();
+box2d.b2ParticleSystem.SolveCollisionCallback.prototype.ReportFixtureAndParticle.s_f = new box2d.b2Vec2();
 
 /**
  * @export 
@@ -5489,7 +5519,7 @@ box2d.b2ParticleSystem.SolveCollisionCallback.prototype.ReportParticle = functio
  */
 box2d.b2ParticleSystem.prototype.SolveCollision = function (step)
 {
-	var s_aabb = new box2d.b2AABB(); // TODO: static
+	var s_aabb = box2d.b2ParticleSystem.prototype.SolveCollision.s_aabb;
 	var pos_data = this.m_positionBuffer.data;
 	var vel_data = this.m_velocityBuffer.data;
 
@@ -5519,6 +5549,7 @@ box2d.b2ParticleSystem.prototype.SolveCollision = function (step)
 	var callback = new box2d.b2ParticleSystem.SolveCollisionCallback(this, step);
 	this.m_world.QueryAABB(callback, aabb);
 }
+box2d.b2ParticleSystem.prototype.SolveCollision.s_aabb = new box2d.b2AABB();
 
 /**
  * @return {void} 
@@ -5546,7 +5577,7 @@ box2d.b2ParticleSystem.prototype.LimitVelocity = function (step)
  */
 box2d.b2ParticleSystem.prototype.SolveGravity = function (step)
 {
-	var s_gravity = new box2d.b2Vec2(); // TODO: static
+	var s_gravity = box2d.b2ParticleSystem.prototype.SolveGravity.s_gravity;
 	var vel_data = this.m_velocityBuffer.data;
 	//b2Vec2 gravity = step.dt * m_def.gravityScale * m_world.GetGravity();
 	var gravity = box2d.b2Mul_S_V2(step.dt * this.m_def.gravityScale, this.m_world.GetGravity(), s_gravity);
@@ -5555,6 +5586,7 @@ box2d.b2ParticleSystem.prototype.SolveGravity = function (step)
 		vel_data[i].SelfAdd(gravity);
 	}
 }
+box2d.b2ParticleSystem.prototype.SolveGravity.s_gravity = new box2d.b2Vec2();
 
 /**
  * @return {void} 
@@ -5562,18 +5594,18 @@ box2d.b2ParticleSystem.prototype.SolveGravity = function (step)
  */
 box2d.b2ParticleSystem.prototype.SolveBarrier = function (step)
 {
-	var s_aabb = new box2d.b2AABB(); // TODO: static
-	var s_va = new box2d.b2Vec2(); // TODO: static
-	var s_vb = new box2d.b2Vec2(); // TODO: static
-	var s_pba = new box2d.b2Vec2(); // TODO: static
-	var s_vba = new box2d.b2Vec2(); // TODO: static
-	var s_vc = new box2d.b2Vec2(); // TODO: static
-	var s_pca = new box2d.b2Vec2(); // TODO: static
-	var s_vca = new box2d.b2Vec2(); // TODO: static
-	var s_qba = new box2d.b2Vec2(); // TODO: static
-	var s_qca = new box2d.b2Vec2(); // TODO: static
-	var s_dv = new box2d.b2Vec2(); // TODO: static
-	var s_f = new box2d.b2Vec2(); // TODO: static
+	var s_aabb	= box2d.b2ParticleSystem.prototype.SolveBarrier.s_aabb;
+	var s_va	= box2d.b2ParticleSystem.prototype.SolveBarrier.s_va;
+	var s_vb	= box2d.b2ParticleSystem.prototype.SolveBarrier.s_vb;
+	var s_pba	= box2d.b2ParticleSystem.prototype.SolveBarrier.s_pba;
+	var s_vba	= box2d.b2ParticleSystem.prototype.SolveBarrier.s_vba;
+	var s_vc	= box2d.b2ParticleSystem.prototype.SolveBarrier.s_vc;
+	var s_pca	= box2d.b2ParticleSystem.prototype.SolveBarrier.s_pca;
+	var s_vca	= box2d.b2ParticleSystem.prototype.SolveBarrier.s_vca;
+	var s_qba	= box2d.b2ParticleSystem.prototype.SolveBarrier.s_qba;
+	var s_qca	= box2d.b2ParticleSystem.prototype.SolveBarrier.s_qca;
+	var s_dv	= box2d.b2ParticleSystem.prototype.SolveBarrier.s_dv;
+	var s_f		= box2d.b2ParticleSystem.prototype.SolveBarrier.s_f;
 	var pos_data = this.m_positionBuffer.data;
 	var vel_data = this.m_velocityBuffer.data;
 	// If a particle is passing between paired barrier particles,
@@ -5722,6 +5754,18 @@ box2d.b2ParticleSystem.prototype.SolveBarrier = function (step)
 		}
 	}
 }
+box2d.b2ParticleSystem.prototype.SolveBarrier.s_aabb = new box2d.b2AABB();
+box2d.b2ParticleSystem.prototype.SolveBarrier.s_va = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveBarrier.s_vb = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveBarrier.s_pba = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveBarrier.s_vba = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveBarrier.s_vc = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveBarrier.s_pca = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveBarrier.s_vca = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveBarrier.s_qba = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveBarrier.s_qca = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveBarrier.s_dv = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveBarrier.s_f = new box2d.b2Vec2();
 
 /**
  * @return {void} 
@@ -5818,7 +5862,7 @@ box2d.b2ParticleSystem.prototype.ComputeWeight = function ()
  */
 box2d.b2ParticleSystem.prototype.SolvePressure = function (step)
 {
-	var s_f = new box2d.b2Vec2(); // TODO: static
+	var s_f = box2d.b2ParticleSystem.prototype.SolvePressure.s_f;
 	var pos_data = this.m_positionBuffer.data;
 	var vel_data = this.m_velocityBuffer.data;
 	// calculates pressure as a linear function of density
@@ -5889,6 +5933,7 @@ box2d.b2ParticleSystem.prototype.SolvePressure = function (step)
 		vel_data[b].SelfAdd(f);
 	}
 }
+box2d.b2ParticleSystem.prototype.SolvePressure.s_f = new box2d.b2Vec2();
 
 /**
  * @return {void} 
@@ -5896,8 +5941,8 @@ box2d.b2ParticleSystem.prototype.SolvePressure = function (step)
  */
 box2d.b2ParticleSystem.prototype.SolveDamping = function (step)
 {
-	var s_v = new box2d.b2Vec2(); // TODO: static
-	var s_f = new box2d.b2Vec2(); // TODO: static
+	var s_v = box2d.b2ParticleSystem.prototype.SolveDamping.s_v;
+	var s_f = box2d.b2ParticleSystem.prototype.SolveDamping.s_f;
 	var pos_data = this.m_positionBuffer.data;
 	var vel_data = this.m_velocityBuffer.data;
 	// reduces normal velocity of each contact
@@ -5950,16 +5995,18 @@ box2d.b2ParticleSystem.prototype.SolveDamping = function (step)
 		}
 	}
 }
+box2d.b2ParticleSystem.prototype.SolveDamping.s_v = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveDamping.s_f = new box2d.b2Vec2();
 
 /**
  * @return {void} 
  */
 box2d.b2ParticleSystem.prototype.SolveRigidDamping = function ()
 {
-	var s_t0 = new box2d.b2Vec2(); // TODO: static
-	var s_t1 = new box2d.b2Vec2(); // TODO: static
-	var s_p = new box2d.b2Vec2(); // TODO: static
-	var s_v = new box2d.b2Vec2(); // TODO: static
+	var s_t0	= box2d.b2ParticleSystem.prototype.SolveRigidDamping.s_t0;
+	var s_t1	= box2d.b2ParticleSystem.prototype.SolveRigidDamping.s_t1;
+	var s_p		= box2d.b2ParticleSystem.prototype.SolveRigidDamping.s_p;
+	var s_v		= box2d.b2ParticleSystem.prototype.SolveRigidDamping.s_v;
 	var invMassA = [0.0], invInertiaA = [0.0], tangentDistanceA = [0.0]; // TODO: static
 	var invMassB = [0.0], invInertiaB = [0.0], tangentDistanceB = [0.0]; // TODO: static
 	// Apply impulse to rigid particle groups colliding with other objects
@@ -6032,14 +6079,18 @@ box2d.b2ParticleSystem.prototype.SolveRigidDamping = function ()
 		}
 	}
 }
+box2d.b2ParticleSystem.prototype.SolveRigidDamping.s_t0 = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveRigidDamping.s_t1 = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveRigidDamping.s_p = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveRigidDamping.s_v = new box2d.b2Vec2();
 
 /**
  * @return {void} 
  */
 box2d.b2ParticleSystem.prototype.SolveExtraDamping = function ()
 {
-	var s_v = new box2d.b2Vec2(); // TODO: static
-	var s_f = new box2d.b2Vec2(); // TODO: static
+	var s_v = box2d.b2ParticleSystem.prototype.SolveExtraDamping.s_v;
+	var s_f = box2d.b2ParticleSystem.prototype.SolveExtraDamping.s_f;
 	var vel_data = this.m_velocityBuffer.data;
 	// Applies additional damping force between bodies and particles which can
 	// produce strong repulsive force. Applying damping force multiple times
@@ -6072,6 +6123,8 @@ box2d.b2ParticleSystem.prototype.SolveExtraDamping = function ()
 		}
 	}
 }
+box2d.b2ParticleSystem.prototype.SolveExtraDamping.s_v = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveExtraDamping.s_f = new box2d.b2Vec2();
 
 /**
  * @return {void} 
@@ -6094,10 +6147,10 @@ box2d.b2ParticleSystem.prototype.SolveWall = function ()
  */
 box2d.b2ParticleSystem.prototype.SolveRigid = function (step)
 {
-	var s_position = new box2d.b2Vec2(); // TODO: static
-	var s_rotation = new box2d.b2Rot(); // TODO: static
-	var s_transform = new box2d.b2Transform(); // TODO: static
-	var s_velocityTransform = new box2d.b2Transform(); // TODO: static
+	var s_position			= box2d.b2ParticleSystem.prototype.SolveRigid.s_position;
+	var s_rotation			= box2d.b2ParticleSystem.prototype.SolveRigid.s_rotation;
+	var s_transform			= box2d.b2ParticleSystem.prototype.SolveRigid.s_transform;
+	var s_velocityTransform	= box2d.b2ParticleSystem.prototype.SolveRigid.s_velocityTransform;
 	var pos_data = this.m_positionBuffer.data;
 	var vel_data = this.m_velocityBuffer.data;
 	for (var group = this.m_groupList; group; group = group.GetNext())
@@ -6131,6 +6184,10 @@ box2d.b2ParticleSystem.prototype.SolveRigid = function (step)
 		}
 	}
 }
+box2d.b2ParticleSystem.prototype.SolveRigid.s_position = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveRigid.s_rotation = new box2d.b2Rot();
+box2d.b2ParticleSystem.prototype.SolveRigid.s_transform = new box2d.b2Transform();
+box2d.b2ParticleSystem.prototype.SolveRigid.s_velocityTransform = new box2d.b2Transform();
 
 /**
  * @return {void} 
@@ -6138,11 +6195,11 @@ box2d.b2ParticleSystem.prototype.SolveRigid = function (step)
  */
 box2d.b2ParticleSystem.prototype.SolveElastic = function (step)
 {
-	var s_pa = new box2d.b2Vec2(); // TODO: static
-	var s_pb = new box2d.b2Vec2(); // TODO: static
-	var s_pc = new box2d.b2Vec2(); // TODO: static
-	var s_r = new box2d.b2Rot(); // TODO: static
-	var s_t0 = new box2d.b2Vec2(); // TODO: static
+	var s_pa	= box2d.b2ParticleSystem.prototype.SolveElastic.s_pa;
+	var s_pb	= box2d.b2ParticleSystem.prototype.SolveElastic.s_pb;
+	var s_pc	= box2d.b2ParticleSystem.prototype.SolveElastic.s_pc;
+	var s_r		= box2d.b2ParticleSystem.prototype.SolveElastic.s_r;
+	var s_t0	= box2d.b2ParticleSystem.prototype.SolveElastic.s_t0;
 	var pos_data = this.m_positionBuffer.data;
 	var vel_data = this.m_velocityBuffer.data;
 	var elasticStrength = step.inv_dt * this.m_def.elasticStrength;
@@ -6216,6 +6273,11 @@ box2d.b2ParticleSystem.prototype.SolveElastic = function (step)
 		}
 	}
 }
+box2d.b2ParticleSystem.prototype.SolveElastic.s_pa = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveElastic.s_pb = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveElastic.s_pc = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveElastic.s_r = new box2d.b2Rot();
+box2d.b2ParticleSystem.prototype.SolveElastic.s_t0 = new box2d.b2Vec2();
 
 /**
  * @return {void} 
@@ -6223,10 +6285,10 @@ box2d.b2ParticleSystem.prototype.SolveElastic = function (step)
  */
 box2d.b2ParticleSystem.prototype.SolveSpring = function (step)
 {
-	var s_pa = new box2d.b2Vec2(); // TODO: static
-	var s_pb = new box2d.b2Vec2(); // TODO: static
-	var s_d = new box2d.b2Vec2(); // TODO: static
-	var s_f = new box2d.b2Vec2(); // TODO: static
+	var s_pa	= box2d.b2ParticleSystem.prototype.SolveSpring.s_pa;
+	var s_pb	= box2d.b2ParticleSystem.prototype.SolveSpring.s_pb;
+	var s_d		= box2d.b2ParticleSystem.prototype.SolveSpring.s_d;
+	var s_f		= box2d.b2ParticleSystem.prototype.SolveSpring.s_f;
 	var pos_data = this.m_positionBuffer.data;
 	var vel_data = this.m_velocityBuffer.data;
 	var springStrength = step.inv_dt * this.m_def.springStrength;
@@ -6268,6 +6330,10 @@ box2d.b2ParticleSystem.prototype.SolveSpring = function (step)
 		}
 	}
 }
+box2d.b2ParticleSystem.prototype.SolveSpring.s_pa = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveSpring.s_pb = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveSpring.s_d = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveSpring.s_f = new box2d.b2Vec2();
 
 /**
  * @return {void} 
@@ -6275,9 +6341,9 @@ box2d.b2ParticleSystem.prototype.SolveSpring = function (step)
  */
 box2d.b2ParticleSystem.prototype.SolveTensile = function (step)
 {
-	var s_weightedNormal = new box2d.b2Vec2(); // TODO: static
-	var s_s = new box2d.b2Vec2(); // TODO: static
-	var s_f = new box2d.b2Vec2(); // TODO: static
+	var s_weightedNormal	= box2d.b2ParticleSystem.prototype.SolveTensile.s_weightedNormal;
+	var s_s					= box2d.b2ParticleSystem.prototype.SolveTensile.s_s;
+	var s_f					= box2d.b2ParticleSystem.prototype.SolveTensile.s_f;
 	var vel_data = this.m_velocityBuffer.data;
 	box2d.b2Assert(this.m_accumulation2Buffer !== null);
 	for (var i = 0; i < this.m_count; i++)
@@ -6330,14 +6396,17 @@ box2d.b2ParticleSystem.prototype.SolveTensile = function (step)
 		}
 	}
 }
+box2d.b2ParticleSystem.prototype.SolveTensile.s_weightedNormal = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveTensile.s_s = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveTensile.s_f = new box2d.b2Vec2();
 
 /**
  * @return {void} 
  */
 box2d.b2ParticleSystem.prototype.SolveViscous = function ()
 {
-	var s_v = new box2d.b2Vec2(); // TODO: static
-	var s_f = new box2d.b2Vec2(); // TODO: static
+	var s_v = box2d.b2ParticleSystem.prototype.SolveViscous.s_v;
+	var s_f = box2d.b2ParticleSystem.prototype.SolveViscous.s_f;
 	var pos_data = this.m_positionBuffer.data;
 	var vel_data = this.m_velocityBuffer.data;
 	var viscousStrength = this.m_def.viscousStrength;
@@ -6381,6 +6450,8 @@ box2d.b2ParticleSystem.prototype.SolveViscous = function ()
 		}
 	}
 }
+box2d.b2ParticleSystem.prototype.SolveViscous.s_v = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveViscous.s_f = new box2d.b2Vec2();
 
 /**
  * @return {void} 
@@ -6388,7 +6459,7 @@ box2d.b2ParticleSystem.prototype.SolveViscous = function ()
  */
 box2d.b2ParticleSystem.prototype.SolveRepulsive = function (step)
 {
-	var s_f = new box2d.b2Vec2(); // TODO: static
+	var s_f = box2d.b2ParticleSystem.prototype.SolveRepulsive.s_f;
 	var vel_data = this.m_velocityBuffer.data;
 	var repulsiveStrength = this.m_def.repulsiveStrength * this.GetCriticalVelocity(step);
 	for (var k = 0; k < this.m_contactBuffer.count; k++)
@@ -6412,6 +6483,7 @@ box2d.b2ParticleSystem.prototype.SolveRepulsive = function (step)
 		}
 	}
 }
+box2d.b2ParticleSystem.prototype.SolveRepulsive.s_f = new box2d.b2Vec2();
 
 /**
  * @return {void} 
@@ -6419,7 +6491,7 @@ box2d.b2ParticleSystem.prototype.SolveRepulsive = function (step)
  */
 box2d.b2ParticleSystem.prototype.SolvePowder = function (step)
 {
-	var s_f = new box2d.b2Vec2(); // TODO: static
+	var s_f = box2d.b2ParticleSystem.prototype.SolvePowder.s_f;
 	var pos_data = this.m_positionBuffer.data;
 	var vel_data = this.m_velocityBuffer.data;
 	var powderStrength = this.m_def.powderStrength * this.GetCriticalVelocity(step);
@@ -6462,6 +6534,7 @@ box2d.b2ParticleSystem.prototype.SolvePowder = function (step)
 		}
 	}
 }
+box2d.b2ParticleSystem.prototype.SolvePowder.s_f = new box2d.b2Vec2();
 
 /**
  * @return {void} 
@@ -6469,7 +6542,7 @@ box2d.b2ParticleSystem.prototype.SolvePowder = function (step)
  */
 box2d.b2ParticleSystem.prototype.SolveSolid = function (step)
 {
-	var s_f = new box2d.b2Vec2(); // TODO: static
+	var s_f = box2d.b2ParticleSystem.prototype.SolveSolid.s_f;
 	var vel_data = this.m_velocityBuffer.data;
 	// applies extra repulsive force from solid particle groups
 	this.m_depthBuffer = this.RequestBuffer(this.m_depthBuffer);
@@ -6490,6 +6563,7 @@ box2d.b2ParticleSystem.prototype.SolveSolid = function (step)
 		}
 	}
 }
+box2d.b2ParticleSystem.prototype.SolveSolid.s_f = new box2d.b2Vec2();
 
 /**
  * @return {void} 
@@ -7187,9 +7261,9 @@ box2d.b2ParticleSystem.prototype.RemoveSpuriousBodyContacts = function ()
 	///
 	///	m_bodyContactBuffer.SetCount(m_bodyContactBuffer.GetCount() - discarded);
 
-	var s_n = new box2d.b2Vec2(); // TODO: static
-	var s_pos = new box2d.b2Vec2(); // TODO: static
-	var s_normal = new box2d.b2Vec2(); // TODO: static
+	var s_n = box2d.b2ParticleSystem.prototype.RemoveSpuriousBodyContacts.s_n;
+	var s_pos = box2d.b2ParticleSystem.prototype.RemoveSpuriousBodyContacts.s_pos;
+	var s_normal = box2d.b2ParticleSystem.prototype.RemoveSpuriousBodyContacts.s_normal;
 
 	// Max number of contacts processed per particle, from nearest to farthest.
 	// This must be at least 2 for correctness with concave shapes; 3 was
@@ -7262,6 +7336,9 @@ box2d.b2ParticleSystem.prototype.RemoveSpuriousBodyContacts = function ()
 	}
 	this.m_bodyContactBuffer.count = box2d.std_remove_if(this.m_bodyContactBuffer.data, b2ParticleBodyContactRemovePredicate, this.m_bodyContactBuffer.count);
 }
+box2d.b2ParticleSystem.prototype.RemoveSpuriousBodyContacts.s_n = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.RemoveSpuriousBodyContacts.s_pos = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.RemoveSpuriousBodyContacts.s_normal = new box2d.b2Vec2();
 
 /**
  * @return {boolean} 
