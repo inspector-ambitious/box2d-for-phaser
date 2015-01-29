@@ -1475,7 +1475,7 @@ box2d.b2World.prototype.Step = function (dt, velocityIterations, positionIterati
 //#endif
 {
 //#if B2_ENABLE_PARTICLE
-	particleIterations = particleIterations || 1;
+	particleIterations = particleIterations || this.CalculateReasonableParticleIterations(dt);
 //#endif
 
 	/** @type {box2d.b2Timer} */ var stepTimer = new box2d.b2Timer();
@@ -2184,10 +2184,17 @@ box2d.b2World.prototype.SetBroadPhase = function (broadPhase)
 
 //#if B2_ENABLE_PARTICLE
 
-/**
+/** 
+ * Recommend a value to be used in `Step` for 
+ * `particleIterations`. This calculation is necessarily a 
+ * simplification and should only be used as a starting point. 
+ * Please see "Particle Iterations" in the Programmer's Guide 
+ * for details. 
+ *  
  * @export 
  * @return {number} 
- * @param {number} timeStep 
+ * @param {number} timeStep is the value to be passed into 
+ *  	  `Step`.
  */
 box2d.b2World.prototype.CalculateReasonableParticleIterations = function (timeStep)
 {
