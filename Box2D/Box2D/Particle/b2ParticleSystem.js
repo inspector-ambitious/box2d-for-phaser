@@ -1833,7 +1833,7 @@ box2d.b2ParticleSystem.prototype.CreateParticle = function (def)
 
 	// If particle lifetimes are enabled or the lifetime is set in the particle
 	// definition, initialize the lifetime.
-	var finiteLifetime = def.lifetime > 0;
+	var finiteLifetime = def.lifetime > 0.0;
 	if (this.m_expirationTimeBuffer.data || finiteLifetime)
 	{
 		this.SetParticleLifetime(index, finiteLifetime ? def.lifetime : 
@@ -2973,10 +2973,11 @@ box2d.b2ParticleSystem.prototype.SetParticleLifetime = function (index, lifetime
 			this.m_indexByExpirationTimeBuffer.data[i] = i;
 		}
 	}
-	var quantizedLifetime = 0|(lifetime / this.m_def.lifetimeGranularity);
+	///	const int32 quantizedLifetime = (int32)(lifetime / m_def.lifetimeGranularity);
+	var quantizedLifetime = lifetime / this.m_def.lifetimeGranularity;
 	// Use a negative lifetime so that it's possible to track which
 	// of the infinite lifetime particles are older.
-	var newExpirationTime = quantizedLifetime > 0 ? this.GetQuantizedTimeElapsed() + quantizedLifetime : quantizedLifetime;
+	var newExpirationTime = quantizedLifetime > 0.0 ? this.GetQuantizedTimeElapsed() + quantizedLifetime : quantizedLifetime;
 	if (newExpirationTime !== this.m_expirationTimeBuffer.data[index])
 	{
 		this.m_expirationTimeBuffer.data[index] = newExpirationTime;
@@ -7423,7 +7424,8 @@ box2d.b2ParticleSystem.prototype.ValidateParticleIndex = function (index)
  */
 box2d.b2ParticleSystem.prototype.GetQuantizedTimeElapsed = function ()
 {
-	return (this.m_timeElapsed >> 32) >> 0;
+	///	return (int32)(m_timeElapsed >> 32);
+	return Math.floor(this.m_timeElapsed / 0x100000000);
 }
 
 /** 
@@ -7435,7 +7437,7 @@ box2d.b2ParticleSystem.prototype.GetQuantizedTimeElapsed = function ()
 box2d.b2ParticleSystem.prototype.LifetimeToExpirationTime = function (lifetime)
 {
 	///	return m_timeElapsed + (int64)((lifetime / m_def.lifetimeGranularity) * (float32)(1LL << 32));
-	return (this.m_timeElapsed + ((lifetime / this.m_def.lifetimeGranularity) * Math.pow(2, 32))) >> 0;
+	return this.m_timeElapsed + Math.floor(((lifetime / this.m_def.lifetimeGranularity) * 0x100000000));
 }
 
 /**

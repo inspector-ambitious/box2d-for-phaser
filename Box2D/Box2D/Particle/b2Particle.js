@@ -560,7 +560,7 @@ box2d.b2ParticleDef.prototype.color = null;
  * @export 
  * @type {number}
  */
-box2d.b2ParticleDef.prototype.lifetime = 0;
+box2d.b2ParticleDef.prototype.lifetime = 0.0;
 
 /** 
  * Use this to store application-specific body data. 
