@@ -651,7 +651,7 @@ box2d.b2Fixture.prototype.SetFilterData = function (filter)
  */
 box2d.b2Fixture.prototype.Refilter = function ()
 {
-	if (this.m_body)
+	if (this.m_body === null)
 	{
 		return;
 	}
