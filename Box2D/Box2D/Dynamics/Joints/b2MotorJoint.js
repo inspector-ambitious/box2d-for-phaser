@@ -21,11 +21,11 @@ goog.provide('box2d.b2MotorJoint');
 goog.require('box2d.b2Settings');
 goog.require('box2d.b2Math');
 
-/** 
- * Motor joint definition. 
- * @export 
- * @constructor 
- * @extends {box2d.b2JointDef} 
+/**
+ * Motor joint definition.
+ * @export
+ * @constructor
+ * @extends {box2d.b2JointDef}
  */
 box2d.b2MotorJointDef = function ()
 {
@@ -36,47 +36,47 @@ box2d.b2MotorJointDef = function ()
 
 goog.inherits(box2d.b2MotorJointDef, box2d.b2JointDef);
 
-/** 
- * Position of bodyB minus the position of bodyA, in bodyA's 
- * frame, in meters. 
- * @export 
+/**
+ * Position of bodyB minus the position of bodyA, in bodyA's
+ * frame, in meters.
+ * @export
  * @type {box2d.b2Vec2}
  */
 box2d.b2MotorJointDef.prototype.linearOffset = null;
 
-/** 
- * The bodyB angle minus bodyA angle in radians. 
- * @export 
+/**
+ * The bodyB angle minus bodyA angle in radians.
+ * @export
  * @type {number}
  */
 box2d.b2MotorJointDef.prototype.angularOffset = 0;
 
-/** 
- * The maximum motor force in N. 
- * @export 
+/**
+ * The maximum motor force in N.
+ * @export
  * @type {number}
  */
 box2d.b2MotorJointDef.prototype.maxForce = 1;
 
-/** 
- * The maximum motor torque in N-m. 
- * @export 
+/**
+ * The maximum motor torque in N-m.
+ * @export
  * @type {number}
  */
 box2d.b2MotorJointDef.prototype.maxTorque = 1;
 
-/** 
- * Position correction factor in the range [0,1]. 
- * @export 
+/**
+ * Position correction factor in the range [0,1].
+ * @export
  * @type {number}
  */
 box2d.b2MotorJointDef.prototype.correctionFactor = 0.3;
 
 /**
- * @export 
- * @return {void} 
- * @param {box2d.b2Body} bA 
- * @param {box2d.b2Body} bB 
+ * @export
+ * @return {void}
+ * @param {box2d.b2Body} bA
+ * @param {box2d.b2Body} bB
  */
 box2d.b2MotorJointDef.prototype.Initialize = function (bA, bB)
 {
@@ -91,14 +91,14 @@ box2d.b2MotorJointDef.prototype.Initialize = function (bA, bB)
 	this.angularOffset = angleB - angleA;
 }
 
-/** 
- * A motor joint is used to control the relative motion between 
- * two bodies. A typical usage is to control the movement of a 
- * dynamic body with respect to the ground. 
- * @export 
- * @constructor 
- * @extends {box2d.b2Joint} 
- * @param {box2d.b2MotorJointDef} def 
+/**
+ * A motor joint is used to control the relative motion between
+ * two bodies. A typical usage is to control the movement of a
+ * dynamic body with respect to the ground.
+ * @export
+ * @constructor
+ * @extends {box2d.b2Joint}
+ * @param {box2d.b2MotorJointDef} def
  */
 box2d.b2MotorJoint = function (def)
 {
@@ -126,152 +126,152 @@ goog.inherits(box2d.b2MotorJoint, box2d.b2Joint);
 
 // Solver shared
 /**
- * @export 
+ * @export
  * @type {box2d.b2Vec2}
  */
 box2d.b2MotorJoint.prototype.m_linearOffset = null;
 /**
- * @export 
+ * @export
  * @type {number}
  */
 box2d.b2MotorJoint.prototype.m_angularOffset = 0;
 /**
- * @export 
+ * @export
  * @type {box2d.b2Vec2}
  */
 box2d.b2MotorJoint.prototype.m_linearImpulse = null;
 /**
- * @export 
+ * @export
  * @type {number}
  */
 box2d.b2MotorJoint.prototype.m_angularImpulse = 0;
 /**
- * @export 
+ * @export
  * @type {number}
  */
 box2d.b2MotorJoint.prototype.m_maxForce = 0;
 /**
- * @export 
+ * @export
  * @type {number}
  */
 box2d.b2MotorJoint.prototype.m_maxTorque = 0;
 /**
- * @export 
+ * @export
  * @type {number}
  */
 box2d.b2MotorJoint.prototype.m_correctionFactor = 0.3;
 
 // Solver temp
 /**
- * @export 
+ * @export
  * @type {number}
  */
 box2d.b2MotorJoint.prototype.m_indexA = 0;
 /**
- * @export 
+ * @export
  * @type {number}
  */
 box2d.b2MotorJoint.prototype.m_indexB = 0;
 /**
- * @export 
+ * @export
  * @type {box2d.b2Vec2}
  */
 box2d.b2MotorJoint.prototype.m_rA = null;
 /**
- * @export 
+ * @export
  * @type {box2d.b2Vec2}
  */
 box2d.b2MotorJoint.prototype.m_rB = null;
 /**
- * @export 
+ * @export
  * @type {box2d.b2Vec2}
  */
 box2d.b2MotorJoint.prototype.m_localCenterA = null;
 /**
- * @export 
+ * @export
  * @type {box2d.b2Vec2}
  */
 box2d.b2MotorJoint.prototype.m_localCenterB = null;
 /**
- * @export 
+ * @export
  * @type {box2d.b2Vec2}
  */
 box2d.b2MotorJoint.prototype.m_linearError = null;
 /**
- * @export 
+ * @export
  * @type {number}
  */
 box2d.b2MotorJoint.prototype.m_angularError = 0;
 /**
- * @export 
+ * @export
  * @type {number}
  */
 box2d.b2MotorJoint.prototype.m_invMassA = 0;
 /**
- * @export 
+ * @export
  * @type {number}
  */
 box2d.b2MotorJoint.prototype.m_invMassB = 0;
 /**
- * @export 
+ * @export
  * @type {number}
  */
 box2d.b2MotorJoint.prototype.m_invIA = 0;
 /**
- * @export 
+ * @export
  * @type {number}
  */
 box2d.b2MotorJoint.prototype.m_invIB = 0;
 /**
- * @export 
+ * @export
  * @type {box2d.b2Mat22}
  */
 box2d.b2MotorJoint.prototype.m_linearMass = null;
 /**
- * @export 
+ * @export
  * @type {number}
  */
 box2d.b2MotorJoint.prototype.m_angularMass = 0;
 
 /**
- * @export 
+ * @export
  * @type {box2d.b2Rot}
  */
 box2d.b2MotorJoint.prototype.m_qA = null;
 /**
- * @export 
+ * @export
  * @type {box2d.b2Rot}
  */
 box2d.b2MotorJoint.prototype.m_qB = null;
 /**
- * @export 
+ * @export
  * @type {box2d.b2Mat22}
  */
 box2d.b2MotorJoint.prototype.m_K = null;
 
-/** 
- * @export 
+/**
+ * @export
  * @return {box2d.b2Vec2}
- * @param {box2d.b2Vec2} out 
+ * @param {box2d.b2Vec2} out
  */
 box2d.b2MotorJoint.prototype.GetAnchorA = function (out)
 {
 	return this.m_bodyA.GetPosition(out);
 }
 /**
- * @export 
+ * @export
  * @return {box2d.b2Vec2}
- * @param {box2d.b2Vec2} out 
+ * @param {box2d.b2Vec2} out
  */
 box2d.b2MotorJoint.prototype.GetAnchorB = function (out)
 {
 	return this.m_bodyB.GetPosition(out);
 }
 
-/** 
- * @export 
- * @return {box2d.b2Vec2} 
- * @param {number} inv_dt 
+/**
+ * @export
+ * @return {box2d.b2Vec2}
+ * @param {number} inv_dt
  * @param {box2d.b2Vec2} out
  */
 box2d.b2MotorJoint.prototype.GetReactionForce = function (inv_dt, out)
@@ -280,10 +280,10 @@ box2d.b2MotorJoint.prototype.GetReactionForce = function (inv_dt, out)
 	return box2d.b2MulSV(inv_dt, this.m_linearImpulse, out);
 }
 
-/** 
- * @export 
- * @return {number} 
- * @param {number} inv_dt 
+/**
+ * @export
+ * @return {number}
+ * @param {number} inv_dt
  */
 box2d.b2MotorJoint.prototype.GetReactionTorque = function (inv_dt)
 {
@@ -291,9 +291,9 @@ box2d.b2MotorJoint.prototype.GetReactionTorque = function (inv_dt)
 }
 
 /**
- * Set the position correction factor in the range [0,1]. 
- * @return {void} 
- * @param {number} factor 
+ * Set the position correction factor in the range [0,1].
+ * @return {void}
+ * @param {number} factor
  */
 box2d.b2MotorJoint.prototype.SetCorrectionFactor = function (factor)
 {
@@ -302,18 +302,18 @@ box2d.b2MotorJoint.prototype.SetCorrectionFactor = function (factor)
 }
 
 /**
- * Get the position correction factor in the range [0,1]. 
- * @return {number} 
+ * Get the position correction factor in the range [0,1].
+ * @return {number}
  */
 box2d.b2MotorJoint.prototype.GetCorrectionFactor = function ()
 {
 	return this.m_correctionFactor;
 }
 
-/** 
- * Set/get the target linear offset, in frame A, in meters. 
- * @export 
- * @return {void} 
+/**
+ * Set/get the target linear offset, in frame A, in meters.
+ * @export
+ * @return {void}
  * @param {box2d.b2Vec2} linearOffset
  */
 box2d.b2MotorJoint.prototype.SetLinearOffset = function (linearOffset)
@@ -325,20 +325,20 @@ box2d.b2MotorJoint.prototype.SetLinearOffset = function (linearOffset)
 		this.m_linearOffset.Copy(linearOffset);
 	}
 }
-/** 
- * @export 
+/**
+ * @export
  * @return {box2d.b2Vec2}
- * @param {box2d.b2Vec2} out 
+ * @param {box2d.b2Vec2} out
  */
 box2d.b2MotorJoint.prototype.GetLinearOffset = function (out)
 {
 	return out.Copy(this.m_linearOffset);
 }
 
-/** 
- * Set/get the target angular offset, in radians. 
- * @export 
- * @return {void} 
+/**
+ * Set/get the target angular offset, in radians.
+ * @export
+ * @return {void}
  * @param {number} angularOffset
  */
 box2d.b2MotorJoint.prototype.SetAngularOffset = function (angularOffset)
@@ -350,8 +350,8 @@ box2d.b2MotorJoint.prototype.SetAngularOffset = function (angularOffset)
 		this.m_angularOffset = angularOffset;
 	}
 }
-/** 
- * @export 
+/**
+ * @export
  * @return {number}
  */
 box2d.b2MotorJoint.prototype.GetAngularOffset = function ()
@@ -359,10 +359,10 @@ box2d.b2MotorJoint.prototype.GetAngularOffset = function ()
 	return this.m_angularOffset;
 }
 
-/** 
- * Set the maximum friction force in N. 
- * @export 
- * @return {void} 
+/**
+ * Set the maximum friction force in N.
+ * @export
+ * @return {void}
  * @param {number} force
  */
 box2d.b2MotorJoint.prototype.SetMaxForce = function (force)
@@ -371,9 +371,9 @@ box2d.b2MotorJoint.prototype.SetMaxForce = function (force)
 	this.m_maxForce = force;
 }
 
-/** 
- * Get the maximum friction force in N. 
- * @export 
+/**
+ * Get the maximum friction force in N.
+ * @export
  * @return {number}
  */
 box2d.b2MotorJoint.prototype.GetMaxForce = function ()
@@ -381,10 +381,10 @@ box2d.b2MotorJoint.prototype.GetMaxForce = function ()
 	return this.m_maxForce;
 }
 
-/** 
- * Set the maximum friction torque in N*m. 
- * @export 
- * @return {void} 
+/**
+ * Set the maximum friction torque in N*m.
+ * @export
+ * @return {void}
  * @param {number} torque
  */
 box2d.b2MotorJoint.prototype.SetMaxTorque = function (torque)
@@ -393,9 +393,9 @@ box2d.b2MotorJoint.prototype.SetMaxTorque = function (torque)
 	this.m_maxTorque = torque;
 }
 
-/** 
- * Get the maximum friction torque in N*m. 
- * @export 
+/**
+ * Get the maximum friction torque in N*m.
+ * @export
  * @return {number}
  */
 box2d.b2MotorJoint.prototype.GetMaxTorque = function ()
@@ -403,9 +403,9 @@ box2d.b2MotorJoint.prototype.GetMaxTorque = function ()
 	return this.m_maxTorque;
 }
 
-/** 
- * @export 
- * @return {void} 
+/**
+ * @export
+ * @return {void}
  * @param {box2d.b2SolverData} data
  */
 box2d.b2MotorJoint.prototype.InitVelocityConstraints = function (data)
@@ -434,7 +434,7 @@ box2d.b2MotorJoint.prototype.InitVelocityConstraints = function (data)
 	// Compute the effective mass matrix.
 //	this.m_rA = b2Mul(qA, -this.m_localCenterA);
 	var rA = box2d.b2MulRV(qA, box2d.b2NegV(this.m_localCenterA, box2d.b2Vec2.s_t0), this.m_rA);
-//	this.m_rB = b2Mul(qB, -this.m_localCenterB); 
+//	this.m_rB = b2Mul(qB, -this.m_localCenterB);
 	var rB = box2d.b2MulRV(qB, box2d.b2NegV(this.m_localCenterB, box2d.b2Vec2.s_t0), this.m_rB);
 
 	// J = [-I -r1_skew I r2_skew]
@@ -448,14 +448,14 @@ box2d.b2MotorJoint.prototype.InitVelocityConstraints = function (data)
 
 	/*float32*/ var mA = this.m_invMassA, mB = this.m_invMassB;
 	/*float32*/ var iA = this.m_invIA, iB = this.m_invIB;
-	 
+
 	/*b2Mat22*/ var K = this.m_K;
 	K.ex.x = mA + mB + iA * rA.y * rA.y + iB * rB.y * rB.y;
 	K.ex.y = -iA * rA.x * rA.y - iB * rB.x * rB.y;
 	K.ey.x = K.ex.y;
 	K.ey.y = mA + mB + iA * rA.x * rA.x + iB * rB.x * rB.x;
 
-//	this.m_linearMass = K.GetInverse(); 
+//	this.m_linearMass = K.GetInverse();
 	K.GetInverse(this.m_linearMass);
 
 	this.m_angularMass = iA + iB;
@@ -467,12 +467,12 @@ box2d.b2MotorJoint.prototype.InitVelocityConstraints = function (data)
 //	this.m_linearError = cB + rB - cA - rA - b2Mul(qA, this.m_linearOffset);
 	box2d.b2SubVV(
 		box2d.b2SubVV(
-			box2d.b2AddVV(cB, rB, box2d.b2Vec2.s_t0), 
-			box2d.b2AddVV(cA, rA, box2d.b2Vec2.s_t1), 
+			box2d.b2AddVV(cB, rB, box2d.b2Vec2.s_t0),
+			box2d.b2AddVV(cA, rA, box2d.b2Vec2.s_t1),
 			box2d.b2Vec2.s_t2),
-		box2d.b2MulRV(qA, this.m_linearOffset, box2d.b2Vec2.s_t3), 
+		box2d.b2MulRV(qA, this.m_linearOffset, box2d.b2Vec2.s_t3),
 		this.m_linearError);
-	this.m_angularError = aB - aA - this.m_angularOffset; 
+	this.m_angularError = aB - aA - this.m_angularOffset;
 
 	if (data.step.warmStarting)
 	{
@@ -502,9 +502,9 @@ box2d.b2MotorJoint.prototype.InitVelocityConstraints = function (data)
 	data.velocities[this.m_indexB].w = wB;
 }
 
-/** 
- * @export 
- * @return {void} 
+/**
+ * @export
+ * @return {void}
  * @param {box2d.b2SolverData} data
  */
 box2d.b2MotorJoint.prototype.SolveVelocityConstraints = function (data)
@@ -520,13 +520,18 @@ box2d.b2MotorJoint.prototype.SolveVelocityConstraints = function (data)
 	/*float32*/ var h = data.step.dt;
 	/*float32*/ var inv_h = data.step.inv_dt;
 
+	var Cdot;
+	var impulse;
+	var oldImpulse;
+	var maxImpulse;
+
 	// Solve angular friction
 	{
-		/*float32*/ var Cdot = wB - wA + inv_h * this.m_correctionFactor * this.m_angularError;
-		/*float32*/ var impulse = -this.m_angularMass * Cdot;
+		/*float32*/ Cdot = wB - wA + inv_h * this.m_correctionFactor * this.m_angularError;
+		/*float32*/ impulse = -this.m_angularMass * Cdot;
 
-		/*float32*/ var oldImpulse = this.m_angularImpulse;
-		/*float32*/ var maxImpulse = h * this.m_maxTorque;
+		/*float32*/ oldImpulse = this.m_angularImpulse;
+		/*float32*/ maxImpulse = h * this.m_maxTorque;
 		this.m_angularImpulse = box2d.b2Clamp(this.m_angularImpulse + impulse, -maxImpulse, maxImpulse);
 		impulse = this.m_angularImpulse - oldImpulse;
 
@@ -540,22 +545,22 @@ box2d.b2MotorJoint.prototype.SolveVelocityConstraints = function (data)
 		var rB = this.m_rB;
 
 //		b2Vec2 Cdot = vB + b2CrossSV(wB, rB) - vA - b2CrossSV(wA, rA) + inv_h * this.m_correctionFactor * this.m_linearError;
-		var Cdot = 
+		Cdot =
 			box2d.b2AddVV(
 				box2d.b2SubVV(
-					box2d.b2AddVV(vB, box2d.b2CrossSV(wB, rB, box2d.b2Vec2.s_t0), box2d.b2Vec2.s_t0), 
-					box2d.b2AddVV(vA, box2d.b2CrossSV(wA, rA, box2d.b2Vec2.s_t1), box2d.b2Vec2.s_t1), box2d.b2Vec2.s_t2), 
-				box2d.b2MulSV(inv_h * this.m_correctionFactor, this.m_linearError, box2d.b2Vec2.s_t3), 
+					box2d.b2AddVV(vB, box2d.b2CrossSV(wB, rB, box2d.b2Vec2.s_t0), box2d.b2Vec2.s_t0),
+					box2d.b2AddVV(vA, box2d.b2CrossSV(wA, rA, box2d.b2Vec2.s_t1), box2d.b2Vec2.s_t1), box2d.b2Vec2.s_t2),
+				box2d.b2MulSV(inv_h * this.m_correctionFactor, this.m_linearError, box2d.b2Vec2.s_t3),
 				box2d.b2MotorJoint.prototype.SolveVelocityConstraints.s_Cdot);
 
 //		b2Vec2 impulse = -b2Mul(this.m_linearMass, Cdot);
-		var impulse = box2d.b2MulMV(this.m_linearMass, Cdot, box2d.b2MotorJoint.prototype.SolveVelocityConstraints.s_impulse).SelfNeg();
+		impulse = box2d.b2MulMV(this.m_linearMass, Cdot, box2d.b2MotorJoint.prototype.SolveVelocityConstraints.s_impulse).SelfNeg();
 //		b2Vec2 oldImpulse = this.m_linearImpulse;
-		var oldImpulse = box2d.b2MotorJoint.prototype.SolveVelocityConstraints.s_oldImpulse.Copy(this.m_linearImpulse);
+		oldImpulse = box2d.b2MotorJoint.prototype.SolveVelocityConstraints.s_oldImpulse.Copy(this.m_linearImpulse);
 //		this.m_linearImpulse += impulse;
 		this.m_linearImpulse.SelfAdd(impulse);
 
-		/*float32*/ var maxImpulse = h * this.m_maxForce;
+		/*float32*/ maxImpulse = h * this.m_maxForce;
 
 		if (this.m_linearImpulse.GetLengthSquared() > maxImpulse * maxImpulse)
 		{
@@ -587,19 +592,19 @@ box2d.b2MotorJoint.prototype.SolveVelocityConstraints.s_Cdot = new box2d.b2Vec2(
 box2d.b2MotorJoint.prototype.SolveVelocityConstraints.s_impulse = new box2d.b2Vec2();
 box2d.b2MotorJoint.prototype.SolveVelocityConstraints.s_oldImpulse = new box2d.b2Vec2();
 
-/** 
- * @export 
- * @return {boolean} 
- * @param {box2d.b2SolverData} data 
+/**
+ * @export
+ * @return {boolean}
+ * @param {box2d.b2SolverData} data
  */
 box2d.b2MotorJoint.prototype.SolvePositionConstraints = function (data)
 {
 	return true;
 }
 
-/** 
- * Dump to b2Log 
- * @export 
+/**
+ * Dump to b2Log
+ * @export
  * @return {void}
  */
 box2d.b2MotorJoint.prototype.Dump = function ()
@@ -623,4 +628,3 @@ box2d.b2MotorJoint.prototype.Dump = function ()
 		box2d.b2Log("  joints[%d] = this.m_world.CreateJoint(jd);\n", this.m_index);
 	}
 }
-

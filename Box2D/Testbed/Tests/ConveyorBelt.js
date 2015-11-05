@@ -21,33 +21,36 @@ goog.provide('box2d.Testbed.ConveyorBelt');
 goog.require('box2d.Testbed.Test');
 
 /**
- * @export 
- * @constructor 
- * @extends {box2d.Testbed.Test} 
- * @param {HTMLCanvasElement} canvas 
- * @param {box2d.Testbed.Settings} settings 
+ * @export
+ * @constructor
+ * @extends {box2d.Testbed.Test}
+ * @param {HTMLCanvasElement} canvas
+ * @param {box2d.Testbed.Settings} settings
  */
 box2d.Testbed.ConveyorBelt = function (canvas, settings)
 {
 	goog.base(this, canvas, settings); // base class constructor
 
+	var bd;
+	var shape;
 	// Ground
 	{
-		var bd = new box2d.b2BodyDef();
+		bd = new box2d.b2BodyDef();
 		/*b2Body*/ var ground = this.m_world.CreateBody(bd);
 
-		var shape = new box2d.b2EdgeShape();
+		shape = new box2d.b2EdgeShape();
 		shape.SetAsEdge(new box2d.b2Vec2(-20.0, 0.0), new box2d.b2Vec2(20.0, 0.0));
 		ground.CreateFixture2(shape, 0.0);
 	}
 
+	var body;
 	// Platform
 	{
-		var bd = new box2d.b2BodyDef();
+		bd = new box2d.b2BodyDef();
 		bd.position.SetXY(-5.0, 5.0);
-		/*b2Body*/ var body = this.m_world.CreateBody(bd);
+		/*b2Body*/ body = this.m_world.CreateBody(bd);
 
-		var shape = new box2d.b2PolygonShape();
+		shape = new box2d.b2PolygonShape();
 		shape.SetAsBox(10.0, 0.5);
 
 		var fd = new box2d.b2FixtureDef();
@@ -59,12 +62,12 @@ box2d.Testbed.ConveyorBelt = function (canvas, settings)
 	// Boxes
 	for (/*int*/ var i = 0; i < 5; ++i)
 	{
-		var bd = new box2d.b2BodyDef();
+		bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
 		bd.position.SetXY(-10.0 + 2.0 * i, 7.0);
-		/*b2Body*/ var body = this.m_world.CreateBody(bd);
+		/*b2Body*/ body = this.m_world.CreateBody(bd);
 
-		var shape = new box2d.b2PolygonShape();
+		shape = new box2d.b2PolygonShape();
 		shape.SetAsBox(0.5, 0.5);
 		body.CreateFixture2(shape, 20.0);
 	}
@@ -73,16 +76,16 @@ box2d.Testbed.ConveyorBelt = function (canvas, settings)
 goog.inherits(box2d.Testbed.ConveyorBelt, box2d.Testbed.Test);
 
 /**
- * @export 
- * @type {box2d.b2Fixture} 
+ * @export
+ * @type {box2d.b2Fixture}
  */
 box2d.Testbed.ConveyorBelt.prototype.m_platform = null;
 
 /**
  * @export
- * @return {void} 
- * @param {box2d.b2Contact} contact 
- * @param {box2d.b2Manifold} oldManifold 
+ * @return {void}
+ * @param {box2d.b2Contact} contact
+ * @param {box2d.b2Manifold} oldManifold
  */
 box2d.Testbed.ConveyorBelt.prototype.PreSolve = function (contact, oldManifold)
 {
@@ -104,22 +107,21 @@ box2d.Testbed.ConveyorBelt.prototype.PreSolve = function (contact, oldManifold)
 
 /**
  * @export
- * @return {void} 
- * @param {box2d.Testbed.Settings} settings 
+ * @return {void}
+ * @param {box2d.Testbed.Settings} settings
  */
 box2d.Testbed.ConveyorBelt.prototype.Step = function (settings)
 {
 	goog.base(this, 'Step', settings);
 }
 
-/** 
- * @export 
- * @return {box2d.Testbed.Test} 
- * @param {HTMLCanvasElement} canvas 
- * @param {box2d.Testbed.Settings} settings 
+/**
+ * @export
+ * @return {box2d.Testbed.Test}
+ * @param {HTMLCanvasElement} canvas
+ * @param {box2d.Testbed.Settings} settings
  */
 box2d.Testbed.ConveyorBelt.Create = function (canvas, settings)
 {
 	return new box2d.Testbed.ConveyorBelt(canvas, settings);
 }
-

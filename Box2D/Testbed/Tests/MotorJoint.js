@@ -21,25 +21,28 @@ goog.provide('box2d.Testbed.MotorJoint');
 goog.require('box2d.Testbed.Test');
 
 /**
- * @export 
- * @constructor 
- * @extends {box2d.Testbed.Test} 
- * @param {HTMLCanvasElement} canvas 
- * @param {box2d.Testbed.Settings} settings 
+ * @export
+ * @constructor
+ * @extends {box2d.Testbed.Test}
+ * @param {HTMLCanvasElement} canvas
+ * @param {box2d.Testbed.Settings} settings
  */
 box2d.Testbed.MotorJoint = function (canvas, settings)
 {
 	goog.base(this, canvas, settings); // base class constructor
 
+	var bd;
+	var shape;
+	var fd;
 	/*b2Body*/ var ground = null;
 	{
-		var bd = new box2d.b2BodyDef();
+		bd = new box2d.b2BodyDef();
 		ground = this.m_world.CreateBody(bd);
 
-		var shape = new box2d.b2EdgeShape();
+		shape = new box2d.b2EdgeShape();
 		shape.SetAsEdge(new box2d.b2Vec2(-20.0, 0.0), new box2d.b2Vec2(20.0, 0.0));
 
-		var fd = new box2d.b2FixtureDef();
+		fd = new box2d.b2FixtureDef();
 		fd.shape = shape;
 
 		ground.CreateFixture(fd);
@@ -47,15 +50,15 @@ box2d.Testbed.MotorJoint = function (canvas, settings)
 
 	// Define motorized body
 	{
-		var bd = new box2d.b2BodyDef();
+		bd = new box2d.b2BodyDef();
 		bd.type = box2d.b2BodyType.b2_dynamicBody;
 		bd.position.SetXY(0.0, 8.0);
 		/*b2Body*/ var body = this.m_world.CreateBody(bd);
 
-		var shape = new box2d.b2PolygonShape();
+		shape = new box2d.b2PolygonShape();
 		shape.SetAsBox(2.0, 0.5);
 
-		var fd = new box2d.b2FixtureDef();
+		fd = new box2d.b2FixtureDef();
 		fd.shape = shape;
 		fd.friction = 0.6;
 		fd.density = 2.0;
@@ -75,25 +78,25 @@ box2d.Testbed.MotorJoint = function (canvas, settings)
 goog.inherits(box2d.Testbed.MotorJoint, box2d.Testbed.Test);
 
 /**
- * @export 
- * @type {box2d.b2MotorJoint} 
+ * @export
+ * @type {box2d.b2MotorJoint}
  */
 box2d.Testbed.MotorJoint.prototype.m_joint = null;
 /**
- * @export 
- * @type {number} 
+ * @export
+ * @type {number}
  */
 box2d.Testbed.MotorJoint.prototype.m_time = 0.0;
 /**
- * @export 
- * @type {boolean} 
+ * @export
+ * @type {boolean}
  */
 box2d.Testbed.MotorJoint.prototype.m_go = false;
 
 /**
- * @export 
- * @return {void} 
- * @param {number} key 
+ * @export
+ * @return {void}
+ * @param {number} key
  */
 box2d.Testbed.MotorJoint.prototype.Keyboard = function (key)
 {
@@ -107,8 +110,8 @@ box2d.Testbed.MotorJoint.prototype.Keyboard = function (key)
 
 /**
  * @export
- * @return {void} 
- * @param {box2d.Testbed.Settings} settings 
+ * @return {void}
+ * @param {box2d.Testbed.Settings} settings
  */
 box2d.Testbed.MotorJoint.prototype.Step = function (settings)
 {
@@ -133,14 +136,13 @@ box2d.Testbed.MotorJoint.prototype.Step = function (settings)
 	this.m_textLine += box2d.Testbed.DRAW_STRING_NEW_LINE;
 }
 
-/** 
- * @export 
- * @return {box2d.Testbed.Test} 
- * @param {HTMLCanvasElement} canvas 
- * @param {box2d.Testbed.Settings} settings 
+/**
+ * @export
+ * @return {box2d.Testbed.Test}
+ * @param {HTMLCanvasElement} canvas
+ * @param {box2d.Testbed.Settings} settings
  */
 box2d.Testbed.MotorJoint.Create = function (canvas, settings)
 {
 	return new box2d.Testbed.MotorJoint(canvas, settings);
 }
-

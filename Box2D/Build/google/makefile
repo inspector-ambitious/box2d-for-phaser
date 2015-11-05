@@ -26,24 +26,28 @@ sync:
 	$(MAKE) --no-print-directory sync-closure-compiler
 	$(MAKE) --no-print-directory sync-closure-library
 	@echo done $@
-	
+
 sync-closure-compiler:
 	$(SYNC_CLOSURE_COMPILER_COMMAND)
 	@echo done $@
 
 SYNC_CLOSURE_COMPILER_COMMAND += mkdir -p $(GOOGLE_PATH)/closure-compiler ;
 SYNC_CLOSURE_COMPILER_COMMAND += if [ -e $(GOOGLE_PATH)/closure-compiler/compiler-latest.tar.gz ] ; then
-SYNC_CLOSURE_COMPILER_COMMAND +=  curl http://dl.google.com/closure-compiler/compiler-latest.tar.gz 
+SYNC_CLOSURE_COMPILER_COMMAND +=  curl http://dl.google.com/closure-compiler/compiler-latest.tar.gz
 SYNC_CLOSURE_COMPILER_COMMAND +=   -o $(GOOGLE_PATH)/closure-compiler/compiler-latest.tar.gz
 SYNC_CLOSURE_COMPILER_COMMAND +=   -z $(GOOGLE_PATH)/closure-compiler/compiler-latest.tar.gz ;
 SYNC_CLOSURE_COMPILER_COMMAND += else
-SYNC_CLOSURE_COMPILER_COMMAND +=  curl http://dl.google.com/closure-compiler/compiler-latest.tar.gz 
+SYNC_CLOSURE_COMPILER_COMMAND +=  curl http://dl.google.com/closure-compiler/compiler-latest.tar.gz
 SYNC_CLOSURE_COMPILER_COMMAND +=   -o $(GOOGLE_PATH)/closure-compiler/compiler-latest.tar.gz ;
 SYNC_CLOSURE_COMPILER_COMMAND += fi ;
 SYNC_CLOSURE_COMPILER_COMMAND += tar -zxvf $(GOOGLE_PATH)/closure-compiler/compiler-latest.tar.gz -C $(GOOGLE_PATH)/closure-compiler/ ;
 
 sync-closure-library:
-	mkdir -p $(GOOGLE_PATH)/closure-library
-	svn checkout http://closure-library.googlecode.com/svn/trunk/ $(GOOGLE_PATH)/closure-library
+	$(SYNC_CLOSURE_LIBRARY_COMMAND)
 	@echo done $@
 
+SYNC_CLOSURE_LIBRARY_COMMAND += if [ -e $(GOOGLE_PATH)/closure-library/.git ] ; then
+SYNC_CLOSURE_LIBRARY_COMMAND +=  ( cd $(GOOGLE_PATH)/closure-library && git pull ) ;
+SYNC_CLOSURE_LIBRARY_COMMAND += else
+SYNC_CLOSURE_LIBRARY_COMMAND +=  git clone https://github.com/google/closure-library.git $(GOOGLE_PATH)/closure-library ;
+SYNC_CLOSURE_LIBRARY_COMMAND += fi
