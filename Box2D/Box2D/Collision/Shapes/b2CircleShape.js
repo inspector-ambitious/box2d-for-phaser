@@ -182,7 +182,7 @@ box2d.b2CircleShape.prototype.ComputeMass = function (massData, density)
  */
 box2d.b2CircleShape.prototype.SetupDistanceProxy = function (proxy, index)
 {
-	proxy.m_vertices = new Array(1, true);
+	proxy.m_vertices = proxy.m_vertices || [this.m_p];
 	proxy.m_vertices[0] = this.m_p;
 	proxy.m_count = 1;
 	proxy.m_radius = this.m_radius;
@@ -236,4 +236,3 @@ box2d.b2CircleShape.prototype.Dump = function ()
 	box2d.b2Log("    shape.m_radius = %.15f;\n", this.m_radius);
 	box2d.b2Log("    shape.m_p.SetXY(%.15f, %.15f);\n", this.m_p.x, this.m_p.y);
 }
-

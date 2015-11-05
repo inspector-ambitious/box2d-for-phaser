@@ -378,10 +378,7 @@ box2d.b2Simplex = function ()
 	this.m_v1 = new box2d.b2SimplexVertex();
 	this.m_v2 = new box2d.b2SimplexVertex();
 	this.m_v3 = new box2d.b2SimplexVertex();
-	this.m_vertices = new Array(3);
-	this.m_vertices[0] = this.m_v1;
-	this.m_vertices[1] = this.m_v2;
-	this.m_vertices[2] = this.m_v3;
+	this.m_vertices = [this.m_v1, this.m_v2, this.m_v3];
 }
 
 /**
@@ -975,4 +972,3 @@ box2d.b2Distance.s_d = new box2d.b2Vec2();
 box2d.b2Distance.s_normal = new box2d.b2Vec2();
 box2d.b2Distance.s_supportA = new box2d.b2Vec2();
 box2d.b2Distance.s_supportB = new box2d.b2Vec2();
-

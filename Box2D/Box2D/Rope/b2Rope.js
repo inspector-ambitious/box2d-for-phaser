@@ -27,8 +27,8 @@ goog.require('box2d.b2Draw');
  */
 box2d.b2RopeDef = function ()
 {
-	this.vertices = new Array();
-	this.masses = new Array();
+	this.vertices = [];
+	this.masses = [];
 	this.gravity = new box2d.b2Vec2();
 };
 
@@ -352,4 +352,3 @@ box2d.b2Rope.prototype.Draw = function (draw)
 		draw.DrawSegment(this.m_ps[i], this.m_ps[i+1], c);
 	}
 }
-

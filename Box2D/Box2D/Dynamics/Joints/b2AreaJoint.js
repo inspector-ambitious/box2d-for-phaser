@@ -34,7 +34,7 @@ box2d.b2AreaJointDef = function ()
 {
 	goog.base(this, box2d.b2JointType.e_areaJoint); // base class constructor
 
-	this.bodies = new Array();
+	this.bodies = [];
 }
 
 goog.inherits(box2d.b2AreaJointDef, box2d.b2JointDef);
@@ -414,4 +414,3 @@ box2d.b2AreaJoint.prototype.SolvePositionConstraints = function (data)
 
 	return done;
 }
-

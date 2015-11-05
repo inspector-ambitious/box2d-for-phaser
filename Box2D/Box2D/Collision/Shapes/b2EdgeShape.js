@@ -265,7 +265,7 @@ box2d.b2EdgeShape.prototype.ComputeMass = function (massData, density)
  */
 box2d.b2EdgeShape.prototype.SetupDistanceProxy = function (proxy, index)
 {
-	proxy.m_vertices = new Array(2);
+	proxy.m_vertices = proxy.m_vertices || [this.m_vertex1, this.m_vertex2];
 	proxy.m_vertices[0] = this.m_vertex1;
 	proxy.m_vertices[1] = this.m_vertex2;
 	proxy.m_count = 2;
@@ -302,4 +302,3 @@ box2d.b2EdgeShape.prototype.Dump = function ()
 	box2d.b2Log("    shape.m_hasVertex0 = %s;\n", this.m_hasVertex0);
 	box2d.b2Log("    shape.m_hasVertex3 = %s;\n", this.m_hasVertex3);
 }
-
