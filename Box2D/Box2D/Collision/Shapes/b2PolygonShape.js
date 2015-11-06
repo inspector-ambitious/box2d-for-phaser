@@ -35,8 +35,8 @@ box2d.b2PolygonShape = function ()
 	goog.base(this, box2d.b2ShapeType.e_polygonShape, box2d.b2_polygonRadius); // base class constructor
 
 	this.m_centroid = new box2d.b2Vec2(0, 0);
-	this.m_vertices = box2d.b2Vec2.MakeArray(box2d.b2_maxPolygonVertices);
-	this.m_normals = box2d.b2Vec2.MakeArray(box2d.b2_maxPolygonVertices);
+	this.m_vertices = [];
+	this.m_normals = [];
 }
 
 goog.inherits(box2d.b2PolygonShape, box2d.b2Shape);
@@ -87,8 +87,10 @@ box2d.b2PolygonShape.prototype.Copy = function (other)
 	this.m_count = other.m_count;
 	for (var i = 0, ict = this.m_count; i < ict; ++i)
 	{
-		this.m_vertices[i].Copy(other.m_vertices[i]);
-		this.m_normals[i].Copy(other.m_normals[i]);
+        var v = this.m_vertices[i];
+		this.m_vertices[i] = v ? v.Copy(other.m_vertices[i]) : other.m_vertices[i].Clone();
+        var m = this.m_normals[i];
+		this.m_normals[i] = m ? m.Copy(other.m_normals[i]) : other.m_normals[i].Clone();
 	}
 	return this;
 }
@@ -104,14 +106,24 @@ box2d.b2PolygonShape.prototype.Copy = function (other)
 box2d.b2PolygonShape.prototype.SetAsBox = function (hx, hy)
 {
 	this.m_count = 4;
-	this.m_vertices[0].SetXY((-hx), (-hy));
-	this.m_vertices[1].SetXY(hx, (-hy));
-	this.m_vertices[2].SetXY(hx, hy);
-	this.m_vertices[3].SetXY((-hx), hy);
-	this.m_normals[0].SetXY(0, (-1));
-	this.m_normals[1].SetXY(1, 0);
-	this.m_normals[2].SetXY(0, 1);
-	this.m_normals[3].SetXY((-1), 0);
+    var v1 = this.m_vertices[0];
+    var v2 = this.m_vertices[1];
+    var v3 = this.m_vertices[2];
+    var v4 = this.m_vertices[3];
+	this.m_vertices[0] = v1 ? v1.SetXY(-hx, -hy) : new box2d.b2Vec2(-hx, -hy);
+    this.m_vertices[1] = v2 ? v2.SetXY(hx, -hy) : new box2d.b2Vec2(hx, -hy);
+    this.m_vertices[2] = v3 ? v3.SetXY(hx, hy) : new box2d.b2Vec2(hx, hy);
+    this.m_vertices[3] = v4 ? v4.SetXY(-hx, hy) : new box2d.b2Vec2(-hx, hy);
+
+    var m1 = this.m_normals[0];
+    var m2 = this.m_normals[1];
+    var m3 = this.m_normals[2];
+    var m4 = this.m_normals[3];
+    this.m_normals[0] = m1 ? m1.SetXY(0, -1) : new box2d.b2Vec2(0, -1);
+    this.m_normals[1] = m2 ? m2.SetXY(1, 0) : new box2d.b2Vec2(1, 0);
+    this.m_normals[2] = m3 ? m3.SetXY(0, 1) : new box2d.b2Vec2(0, 1);
+    this.m_normals[3] = m4 ? m4.SetXY(-1, 0) : new box2d.b2Vec2(-1, 0);
+
 	this.m_centroid.SetZero();
 	return this;
 }
@@ -128,14 +140,25 @@ box2d.b2PolygonShape.prototype.SetAsBox = function (hx, hy)
 box2d.b2PolygonShape.prototype.SetAsOrientedBox = function (hx, hy, center, angle)
 {
 	this.m_count = 4;
-	this.m_vertices[0].SetXY((-hx), (-hy));
-	this.m_vertices[1].SetXY(hx, (-hy));
-	this.m_vertices[2].SetXY(hx, hy);
-	this.m_vertices[3].SetXY((-hx), hy);
-	this.m_normals[0].SetXY(0, (-1));
-	this.m_normals[1].SetXY(1, 0);
-	this.m_normals[2].SetXY(0, 1);
-	this.m_normals[3].SetXY((-1), 0);
+    
+    var v1 = this.m_vertices[0];
+    var v2 = this.m_vertices[1];
+    var v3 = this.m_vertices[2];
+    var v4 = this.m_vertices[3];
+    this.m_vertices[0] = v1 ? v1.SetXY(-hx, -hy) : new box2d.b2Vec2(-hx, -hy);
+    this.m_vertices[1] = v2 ? v2.SetXY(hx, -hy) : new box2d.b2Vec2(hx, -hy);
+    this.m_vertices[2] = v3 ? v3.SetXY(hx, hy) : new box2d.b2Vec2(hx, hy);
+    this.m_vertices[3] = v4 ? v4.SetXY(-hx, hy) : new box2d.b2Vec2(-hx, hy);
+
+    var m1 = this.m_normals[0];
+    var m2 = this.m_normals[1];
+    var m3 = this.m_normals[2];
+    var m4 = this.m_normals[3];
+    this.m_normals[0] = m1 ? m1.SetXY(0, -1) : new box2d.b2Vec2(0, -1);
+    this.m_normals[1] = m2 ? m2.SetXY(1, 0) : new box2d.b2Vec2(1, 0);
+    this.m_normals[2] = m3 ? m3.SetXY(0, 1) : new box2d.b2Vec2(0, 1);
+    this.m_normals[3] = m4 ? m4.SetXY(-1, 0) : new box2d.b2Vec2(-1, 0);
+    
 	this.m_centroid.Copy(center);
 
 	var xf = new box2d.b2Transform();
@@ -269,7 +292,8 @@ box2d.b2PolygonShape.prototype.Set = function (vertices, count)
 	// Copy vertices.
 	for (var i = 0; i < m; ++i)
 	{
-		this.m_vertices[i].Copy(ps[hull[i]]);
+        var v = this.m_vertices[i];
+		this.m_vertices[i] = v ? v.Copy(ps[hull[i]]) : ps[hull[i]].Clone();
 	}
 
 	// Compute normals. Ensure the edges have non-zero length.
@@ -441,7 +465,7 @@ box2d.b2PolygonShape.prototype.RayCast.s_d = new box2d.b2Vec2();
  */
 box2d.b2PolygonShape.prototype.ComputeAABB = function (aabb, xf, childIndex)
 {
-	var lower = box2d.b2MulXV(xf, this.m_vertices[0], aabb.lowerBound);
+	var lower = box2d.b2MulXV(xf, this.m_vertices[0] || new box2d.b2Vec2(), aabb.lowerBound);
 	var upper = aabb.upperBound.Copy(lower);
 
 	for (var i = 0, ict = this.m_count; i < ict; ++i)
@@ -853,4 +877,3 @@ box2d.b2PolygonShape.ComputeOBB = function (obb, vs, count)
 	}
 }
 */
-
