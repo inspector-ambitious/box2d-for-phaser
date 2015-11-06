@@ -652,9 +652,9 @@ box2d.b2EPCollider.prototype.Collide = function (manifold, edgeA, xfA, polygonB,
 	
 	// Get polygonB in frameA
 	this.m_polygonB.count = polygonB.m_count;
-    this.m_polygonB.vertices = box2d.b2Vec2.MakeArray(polygonB.m_count);
-    this.m_polygonB.normals = box2d.b2Vec2.MakeArray(polygonB.m_count);
-    
+	this.m_polygonB.vertices = box2d.b2Vec2.MakeArray(polygonB.m_count);
+	this.m_polygonB.normals = box2d.b2Vec2.MakeArray(polygonB.m_count);
+
 	for (var i = 0, ict = polygonB.m_count; i < ict; ++i)
 	{
 		box2d.b2MulXV(this.m_xf, polygonB.m_vertices[i], this.m_polygonB.vertices[i]);

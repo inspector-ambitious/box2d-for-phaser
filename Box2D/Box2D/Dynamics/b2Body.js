@@ -1818,4 +1818,3 @@ box2d.b2Body.prototype.GetControllerCount = function ()
 {
 	return this.m_controllerCount;
 }
-

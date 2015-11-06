@@ -79,20 +79,20 @@ box2d.b2PolygonShape.prototype.Clone = function ()
  */
 box2d.b2PolygonShape.prototype.Copy = function (other)
 {
-	goog.base(this, 'Copy', other);
+    goog.base(this, 'Copy', other);
 
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(other instanceof box2d.b2PolygonShape); }
+    if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(other instanceof box2d.b2PolygonShape); }
 
-	this.m_centroid.Copy(other.m_centroid);
-	this.m_count = other.m_count;
-	for (var i = 0, ict = this.m_count; i < ict; ++i)
-	{
+    this.m_centroid.Copy(other.m_centroid);
+    this.m_count = other.m_count;
+    for (var i = 0, ict = this.m_count; i < ict; ++i)
+    {
         var v = this.m_vertices[i];
-		this.m_vertices[i] = v ? v.Copy(other.m_vertices[i]) : other.m_vertices[i].Clone();
+        this.m_vertices[i] = v ? v.Copy(other.m_vertices[i]) : other.m_vertices[i].Clone();
         var m = this.m_normals[i];
-		this.m_normals[i] = m ? m.Copy(other.m_normals[i]) : other.m_normals[i].Clone();
-	}
-	return this;
+        this.m_normals[i] = m ? m.Copy(other.m_normals[i]) : other.m_normals[i].Clone();
+    }
+    return this;
 }
 
 /** 
@@ -105,41 +105,7 @@ box2d.b2PolygonShape.prototype.Copy = function (other)
  */
 box2d.b2PolygonShape.prototype.SetAsBox = function (hx, hy)
 {
-	this.m_count = 4;
-    var v1 = this.m_vertices[0];
-    var v2 = this.m_vertices[1];
-    var v3 = this.m_vertices[2];
-    var v4 = this.m_vertices[3];
-	this.m_vertices[0] = v1 ? v1.SetXY(-hx, -hy) : new box2d.b2Vec2(-hx, -hy);
-    this.m_vertices[1] = v2 ? v2.SetXY(hx, -hy) : new box2d.b2Vec2(hx, -hy);
-    this.m_vertices[2] = v3 ? v3.SetXY(hx, hy) : new box2d.b2Vec2(hx, hy);
-    this.m_vertices[3] = v4 ? v4.SetXY(-hx, hy) : new box2d.b2Vec2(-hx, hy);
-
-    var m1 = this.m_normals[0];
-    var m2 = this.m_normals[1];
-    var m3 = this.m_normals[2];
-    var m4 = this.m_normals[3];
-    this.m_normals[0] = m1 ? m1.SetXY(0, -1) : new box2d.b2Vec2(0, -1);
-    this.m_normals[1] = m2 ? m2.SetXY(1, 0) : new box2d.b2Vec2(1, 0);
-    this.m_normals[2] = m3 ? m3.SetXY(0, 1) : new box2d.b2Vec2(0, 1);
-    this.m_normals[3] = m4 ? m4.SetXY(-1, 0) : new box2d.b2Vec2(-1, 0);
-
-	this.m_centroid.SetZero();
-	return this;
-}
-
-/** 
- * Build vertices to represent an oriented box. 
- * @export 
- * @return {box2d.b2PolygonShape} 
- * @param {number} hx the half-width.
- * @param {number} hy the half-height.
- * @param {box2d.b2Vec2} center the center of the box in local coordinates.
- * @param {number} angle the rotation of the box in local coordinates.
- */
-box2d.b2PolygonShape.prototype.SetAsOrientedBox = function (hx, hy, center, angle)
-{
-	this.m_count = 4;
+    this.m_count = 4;
     
     var v1 = this.m_vertices[0];
     var v2 = this.m_vertices[1];
@@ -158,7 +124,42 @@ box2d.b2PolygonShape.prototype.SetAsOrientedBox = function (hx, hy, center, angl
     this.m_normals[1] = m2 ? m2.SetXY(1, 0) : new box2d.b2Vec2(1, 0);
     this.m_normals[2] = m3 ? m3.SetXY(0, 1) : new box2d.b2Vec2(0, 1);
     this.m_normals[3] = m4 ? m4.SetXY(-1, 0) : new box2d.b2Vec2(-1, 0);
-    
+
+    this.m_centroid.SetZero();
+    return this;
+}
+
+/** 
+ * Build vertices to represent an oriented box. 
+ * @export 
+ * @return {box2d.b2PolygonShape} 
+ * @param {number} hx the half-width.
+ * @param {number} hy the half-height.
+ * @param {box2d.b2Vec2} center the center of the box in local coordinates.
+ * @param {number} angle the rotation of the box in local coordinates.
+ */
+box2d.b2PolygonShape.prototype.SetAsOrientedBox = function (hx, hy, center, angle)
+{
+	this.m_count = 4;
+	
+	var v1 = this.m_vertices[0];
+	var v2 = this.m_vertices[1];
+	var v3 = this.m_vertices[2];
+	var v4 = this.m_vertices[3];
+	this.m_vertices[0] = v1 ? v1.SetXY(-hx, -hy) : new box2d.b2Vec2(-hx, -hy);
+	this.m_vertices[1] = v2 ? v2.SetXY(hx, -hy) : new box2d.b2Vec2(hx, -hy);
+	this.m_vertices[2] = v3 ? v3.SetXY(hx, hy) : new box2d.b2Vec2(hx, hy);
+	this.m_vertices[3] = v4 ? v4.SetXY(-hx, hy) : new box2d.b2Vec2(-hx, hy);
+
+	var m1 = this.m_normals[0];
+	var m2 = this.m_normals[1];
+	var m3 = this.m_normals[2];
+	var m4 = this.m_normals[3];
+	this.m_normals[0] = m1 ? m1.SetXY(0, -1) : new box2d.b2Vec2(0, -1);
+	this.m_normals[1] = m2 ? m2.SetXY(1, 0) : new box2d.b2Vec2(1, 0);
+	this.m_normals[2] = m3 ? m3.SetXY(0, 1) : new box2d.b2Vec2(0, 1);
+	this.m_normals[3] = m4 ? m4.SetXY(-1, 0) : new box2d.b2Vec2(-1, 0);
+	
 	this.m_centroid.Copy(center);
 
 	var xf = new box2d.b2Transform();
