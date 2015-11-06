@@ -335,8 +335,8 @@ box2d.b2ContactSolverDef.prototype.allocator = null;
 box2d.b2ContactSolver = function ()
 {
 	this.m_step = new box2d.b2TimeStep();
-	this.m_positionConstraints = box2d.b2ContactPositionConstraint.MakeArray(1024); // TODO: b2Settings
-	this.m_velocityConstraints = box2d.b2ContactVelocityConstraint.MakeArray(1024); // TODO: b2Settings
+	this.m_positionConstraints = []; 
+	this.m_velocityConstraints = [];
 }
 
 /**
@@ -1676,4 +1676,3 @@ box2d.b2ContactSolver.prototype.SolveTOIPositionConstraints.s_psm = new box2d.b2
 box2d.b2ContactSolver.prototype.SolveTOIPositionConstraints.s_rA = new box2d.b2Vec2();
 box2d.b2ContactSolver.prototype.SolveTOIPositionConstraints.s_rB = new box2d.b2Vec2();
 box2d.b2ContactSolver.prototype.SolveTOIPositionConstraints.s_P = new box2d.b2Vec2();
-

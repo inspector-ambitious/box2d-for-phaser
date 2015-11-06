@@ -58,7 +58,7 @@ box2d.b2ContactFactory.prototype.AddType = function (createFcn, destroyFcn, type
 {
 	if (true)
 	{
-		var pool = box2d.b2MakeArray(256, function (i) { return createFcn(); } ); // TODO: b2Settings
+		var pool = [];
 
 		var poolCreateFcn = function (allocator)
 		{
@@ -199,4 +199,3 @@ box2d.b2ContactFactory.prototype.Destroy = function (contact)
 	var destroyFcn = reg.destroyFcn;
 	destroyFcn(contact, this.m_allocator);
 }
-

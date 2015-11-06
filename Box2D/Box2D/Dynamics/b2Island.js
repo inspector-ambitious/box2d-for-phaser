@@ -153,8 +153,8 @@ box2d.b2Island = function ()
 	this.m_contacts = new Array(1024); // TODO: b2Settings
 	this.m_joints = new Array(1024); // TODO: b2Settings
 
-	this.m_positions = box2d.b2Position.MakeArray(1024); // TODO: b2Settings
-	this.m_velocities = box2d.b2Velocity.MakeArray(1024); // TODO: b2Settings
+	this.m_positions = []; // TODO: b2Settings
+	this.m_velocities = []; // TODO: b2Settings
 }
 
 /**
@@ -731,4 +731,3 @@ box2d.b2Island.s_contactSolverDef = new box2d.b2ContactSolverDef();
 box2d.b2Island.s_contactSolver = new box2d.b2ContactSolver();
 box2d.b2Island.s_translation = new box2d.b2Vec2();
 box2d.b2Island.s_impulse = new box2d.b2ContactImpulse();
-

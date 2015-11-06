@@ -2500,4 +2500,3 @@ box2d.b2Sweep.prototype.Normalize = function ()
 	this.a0 -= d;
 	this.a -= d;
 }
-
