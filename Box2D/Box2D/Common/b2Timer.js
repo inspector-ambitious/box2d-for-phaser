@@ -43,7 +43,7 @@ box2d.b2Timer.prototype.m_start = 0;
  */
 box2d.b2Timer.prototype.Reset = function ()
 {
-	this.m_start = new Date().getTime();
+	this.m_start = Date.now();
 	return this;
 }
 
@@ -53,7 +53,7 @@ box2d.b2Timer.prototype.Reset = function ()
  */
 box2d.b2Timer.prototype.GetMilliseconds = function ()
 {
-	return new Date().getTime() - this.m_start;
+	return Date.now() - this.m_start;
 }
 
 /**
@@ -163,4 +163,3 @@ box2d.b2Counter.prototype.Decrement = function ()
 		this.m_min_count = this.m_count;
 	}
 }
-
