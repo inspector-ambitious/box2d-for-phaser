@@ -64,7 +64,7 @@ box2d.b2ContactFactory.prototype.AddType = function (createFcn, destroyFcn, type
 		{
 			if (pool.length > 0)
 			{
-				return pool.pop();
+				return pool[pool.length--];
 			}
 
 			return createFcn(allocator);
@@ -72,7 +72,7 @@ box2d.b2ContactFactory.prototype.AddType = function (createFcn, destroyFcn, type
 
 		var poolDestroyFcn = function (contact, allocator)
 		{
-			pool.push(contact);
+			pool[pool.length] = contact;
 		}
 
 		this.m_registers[type1][type2].pool = pool;
