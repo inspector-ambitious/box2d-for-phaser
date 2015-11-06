@@ -64,9 +64,8 @@ box2d.b2ContactFactory.prototype.AddType = function (createFcn, destroyFcn, type
 		{
 			if (pool.length > 0)
 			{
-				return pool[pool.length--];
+				return pool.pop();
 			}
-
 			return createFcn(allocator);
 		}
 

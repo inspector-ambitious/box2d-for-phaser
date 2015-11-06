@@ -2155,4 +2155,3 @@ box2d.b2World.prototype.RemoveController = function (controller)
 	controller.m_next = null;
 	controller.m_world = null;
 }
-
