@@ -41,10 +41,7 @@ box2d.b2_two_pi = 2.0 * box2d.b2_pi;
  * @return {number}
  * @param {number} n
  */
-box2d.b2Abs = function (n)
-{
-	return (n < 0)?(-n):(n);
-}
+box2d.b2Abs = Math.abs
 
 /**
  * @export 
@@ -52,10 +49,7 @@ box2d.b2Abs = function (n)
  * @param {number} a
  * @param {number} b
  */
-box2d.b2Min = function (a, b)
-{
-	return (a < b)?(a):(b);
-}
+box2d.b2Min = Math.min;
 
 /**
  * @export 
@@ -63,10 +57,7 @@ box2d.b2Min = function (a, b)
  * @param {number} a
  * @param {number} b
  */
-box2d.b2Max = function (a, b)
-{
-	return (a > b)?(a):(b);
-}
+box2d.b2Max = Math.max;
 
 /**
  * @export 
@@ -77,7 +68,7 @@ box2d.b2Max = function (a, b)
  */
 box2d.b2Clamp = function (a, lo, hi)
 {
-	return (a < lo)?(lo):((a > hi)?(hi):(a));
+	return Math.min(Math.max(a,lo),hi);
 }
 
 /**
@@ -143,10 +134,7 @@ box2d.b2Sqrt = function (n)
  * @param {number} x
  * @param {number} y
  */
-box2d.b2Pow = function (x, y)
-{
-	return Math.pow(x, y);
-}
+box2d.b2Pow = Math.pow;
 
 /**
  * @export 
@@ -173,40 +161,28 @@ box2d.b2RadToDeg = function (radians)
  * @return {number}
  * @param {number} radians
  */
-box2d.b2Cos = function (radians)
-{
-	return Math.cos(radians);
-}
+box2d.b2Cos = Math.cos;
 
 /**
  * @export 
  * @return {number}
  * @param {number} radians
  */
-box2d.b2Sin = function (radians)
-{
-	return Math.sin(radians);
-}
+box2d.b2Sin = Math.sin;
 
 /**
  * @export 
  * @return {number}
  * @param {number} n
  */
-box2d.b2Acos = function (n)
-{
-	return Math.acos(n);
-}
+box2d.b2Acos = Math.acos;
 
 /**
  * @export 
  * @return {number}
  * @param {number} n
  */
-box2d.b2Asin = function (n)
-{
-	return Math.asin(n);
-}
+box2d.b2Asin = Math.asin;
 
 /**
  * @export 
@@ -214,10 +190,7 @@ box2d.b2Asin = function (n)
  * @param {number} y
  * @param {number} x
  */
-box2d.b2Atan2 = function (y, x)
-{
-	return Math.atan2(y, x);
-}
+box2d.b2Atan2 = Math.atan2;
 
 /** 
  * Next Largest Power of 2 
@@ -666,8 +639,8 @@ box2d.b2Vec2.prototype.SelfCrossSV = function (s)
  */
 box2d.b2Vec2.prototype.SelfMinV = function (v)
 {
-	this.x = box2d.b2Min(this.x, v.x);
-	this.y = box2d.b2Min(this.y, v.y);
+	this.x = Math.min(this.x, v.x);
+	this.y = Math.min(this.y, v.y);
 	return this;
 }
 
@@ -678,8 +651,8 @@ box2d.b2Vec2.prototype.SelfMinV = function (v)
  */
 box2d.b2Vec2.prototype.SelfMaxV = function (v)
 {
-	this.x = box2d.b2Max(this.x, v.x);
-	this.y = box2d.b2Max(this.y, v.y);
+	this.x = Math.max(this.x, v.x);
+	this.y = Math.max(this.y, v.y);
 	return this;
 }
 
@@ -689,8 +662,8 @@ box2d.b2Vec2.prototype.SelfMaxV = function (v)
  */
 box2d.b2Vec2.prototype.SelfAbs = function ()
 {
-	this.x = box2d.b2Abs(this.x);
-	this.y = box2d.b2Abs(this.y);
+	this.x = Math.abs(this.x);
+	this.y = Math.abs(this.y);
 	return this;
 }
 
@@ -727,8 +700,8 @@ box2d.b2Vec2.prototype.SelfSkew = function ()
  */
 box2d.b2AbsV = function (v, out)
 {
-	out.x = box2d.b2Abs(v.x);
-	out.y = box2d.b2Abs(v.y);
+	out.x = Math.abs(v.x);
+	out.y = Math.abs(v.y);
 	return out;
 }
 
@@ -741,8 +714,8 @@ box2d.b2AbsV = function (v, out)
  */
 box2d.b2MinV = function (a, b, out)
 {
-	out.x = box2d.b2Min(a.x, b.x);
-	out.y = box2d.b2Min(a.y, b.y);
+	out.x = Math.min(a.x, b.x);
+	out.y = Math.min(a.y, b.y);
 	return out;
 }
 
@@ -755,8 +728,8 @@ box2d.b2MinV = function (a, b, out)
  */
 box2d.b2MaxV = function (a, b, out)
 {
-	out.x = box2d.b2Max(a.x, b.x);
-	out.y = box2d.b2Max(a.y, b.y);
+	out.x = Math.max(a.x, b.x);
+	out.y = Math.max(a.y, b.y);
 	return out;
 }
 
@@ -1529,10 +1502,10 @@ box2d.b2Mat22.prototype.SelfSubM = function (M)
 box2d.b2AbsM = function (M, out)
 {
 	var M_ex = M.ex, M_ey = M.ey;
-	out.ex.x = box2d.b2Abs(M_ex.x);
-	out.ex.y = box2d.b2Abs(M_ex.y);
-	out.ey.x = box2d.b2Abs(M_ey.x);
-	out.ey.y = box2d.b2Abs(M_ey.y);
+	out.ex.x = Math.abs(M_ex.x);
+	out.ex.y = Math.abs(M_ex.y);
+	out.ey.x = Math.abs(M_ey.x);
+	out.ey.y = Math.abs(M_ey.y);
 	return out;
 }
 
