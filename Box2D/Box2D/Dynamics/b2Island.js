@@ -149,12 +149,12 @@ However, we can compute sin+cos of the same angle fast.
  */
 box2d.b2Island = function ()
 {
-	this.m_bodies = new Array(1024); // TODO: b2Settings
-	this.m_contacts = new Array(1024); // TODO: b2Settings
-	this.m_joints = new Array(1024); // TODO: b2Settings
+	this.m_bodies = [];
+	this.m_contacts = [];
+	this.m_joints = [];
 
-	this.m_positions = []; // TODO: b2Settings
-	this.m_velocities = []; // TODO: b2Settings
+	this.m_positions = [];
+	this.m_velocities = [];
 }
 
 /**
