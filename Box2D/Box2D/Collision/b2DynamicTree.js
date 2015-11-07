@@ -408,8 +408,8 @@ box2d.b2DynamicTree.prototype.MoveProxy = function (proxy, aabb, displacement)
 
 	// Extend AABB.
 	// Predict AABB displacement.
-	/** @type {number} */ var r_x = box2d.b2_aabbExtension + box2d.b2_aabbMultiplier * (displacement.x > 0 ? displacement.x : (-displacement.x));
-	/** @type {number} */ var r_y = box2d.b2_aabbExtension + box2d.b2_aabbMultiplier * (displacement.y > 0 ? displacement.y : (-displacement.y));
+	/** @type {number} */ var r_x = box2d.b2_aabbExtension + box2d.b2_aabbMultiplier * Math.abs(displacement.x);
+	/** @type {number} */ var r_y = box2d.b2_aabbExtension + box2d.b2_aabbMultiplier * Math.abs(displacement.y);
 	proxy.aabb.lowerBound.x = aabb.lowerBound.x - r_x;
 	proxy.aabb.lowerBound.y = aabb.lowerBound.y - r_y;
 	proxy.aabb.upperBound.x = aabb.upperBound.x + r_x;
@@ -1139,4 +1139,3 @@ box2d.b2DynamicTree.prototype.ShiftOrigin = function (newOrigin)
 	}
 	*/
 }
-
