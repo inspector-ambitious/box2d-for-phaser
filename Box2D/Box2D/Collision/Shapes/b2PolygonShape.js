@@ -304,6 +304,7 @@ box2d.b2PolygonShape.prototype.Set = function (vertices, count)
 		var vertexi2 = this.m_vertices[(i + 1) % ict];
 		var edge = box2d.b2SubVV(vertexi2, vertexi1, box2d.b2Vec2.s_t0); // edge uses s_t0
 		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(edge.GetLengthSquared() > box2d.b2_epsilon_sq); }
+		this.m_normals[i] = this.m_normals[i] || new box2d.b2Vec2();
 		box2d.b2CrossVOne(edge, this.m_normals[i]).SelfNormalize();
 	}
 
