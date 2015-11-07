@@ -52,11 +52,7 @@ box2d.b2FindMaxSeparation = function (edgeIndex, poly1, xf1, poly2, xf2)
 		var /*float32*/ si = box2d.b2_maxFloat;
 		for (var /*int32*/ j = 0; j < count2; ++j)
 		{
-			var /*float32*/ sij = box2d.b2DotVV(n, box2d.b2SubVV(v2s[j], v1, box2d.b2Vec2.s_t0)); // b2Dot(n, v2s[j] - v1);
-			if (sij < si)
-			{
-				si = sij;
-			}
+			si = Math.min(box2d.b2DotVV(n, box2d.b2SubVV(v2s[j], v1, box2d.b2Vec2.s_t0)), si);
 		}
 
 		if (si > maxSeparation)
@@ -285,4 +281,3 @@ box2d.b2CollidePolygons.s_tangent = new box2d.b2Vec2();
 box2d.b2CollidePolygons.s_ntangent = new box2d.b2Vec2();
 box2d.b2CollidePolygons.s_v11 = new box2d.b2Vec2();
 box2d.b2CollidePolygons.s_v12 = new box2d.b2Vec2();
-
