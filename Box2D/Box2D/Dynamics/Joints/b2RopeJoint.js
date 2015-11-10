@@ -16,11 +16,11 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2RopeJoint');
 
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Joint');
-goog.require('box2d.b2Math');
+
+
+
+
 
 /** 
  * Rope joint definition. This requires two body anchor points 
@@ -35,11 +35,11 @@ box2d.b2RopeJointDef = function ()
 {
 	box2d.b2JointDef.call(this, box2d.b2JointType.e_ropeJoint); // base class constructor
 
-	this.localAnchorA = new box2d.b2Vec2(-1, 0);
-	this.localAnchorB = new box2d.b2Vec2(1, 0);
+	this.localAnchorA = new box2d.b2Vec2(1.0, 0.0);
+	this.localAnchorB = new box2d.b2Vec2(1.0, 0.0);
 }
 
-goog.inherits(box2d.b2RopeJointDef, box2d.b2JointDef);
+box2d.b2RopeJointDef.prototype = Object.create(box2d.b2JointDef.prototype);
 
 /** 
  * The local anchor point relative to bodyA's origin. 
@@ -98,7 +98,7 @@ box2d.b2RopeJoint = function (def)
 	this.m_lalcB = new box2d.b2Vec2();
 }
 
-goog.inherits(box2d.b2RopeJoint, box2d.b2Joint);
+box2d.b2RopeJoint.prototype = Object.create(box2d.b2Joint.prototype);
 
 // Solver shared
 /**
@@ -499,7 +499,7 @@ box2d.b2RopeJoint.prototype.GetLimitState = function ()
  */
 box2d.b2RopeJoint.prototype.Dump = function ()
 {
-	if (box2d.DEBUG)
+	if (BOX2D_DEBUG)
 	{
 		var indexA = this.m_bodyA.m_islandIndex;
 		var indexB = this.m_bodyB.m_islandIndex;

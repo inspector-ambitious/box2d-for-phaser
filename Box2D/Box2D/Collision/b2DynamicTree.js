@@ -16,11 +16,11 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2DynamicTree')
 
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Collision');
-goog.require('box2d.b2GrowableStack');
+
+
+
+
 
 /** 
  * A node in the dynamic tree. The client does not interact with 
@@ -150,7 +150,7 @@ box2d.b2DynamicTree.s_aabb = new box2d.b2AABB();
  */
 box2d.b2DynamicTree.prototype.GetUserData = function (proxy)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(proxy !== null); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(proxy !== null); }
 	return proxy.userData;
 }
 
@@ -162,7 +162,7 @@ box2d.b2DynamicTree.prototype.GetUserData = function (proxy)
  */
 box2d.b2DynamicTree.prototype.GetFatAABB = function (proxy)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(proxy !== null); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(proxy !== null); }
 	return proxy.aabb;
 }
 
@@ -231,7 +231,7 @@ box2d.b2DynamicTree.prototype.RayCast = function (callback, input)
 	/** @type {box2d.b2Vec2} */ var p1 = input.p1;
 	/** @type {box2d.b2Vec2} */ var p2 = input.p2;
 	/** @type {box2d.b2Vec2} */ var r = box2d.b2Sub_V2_V2(p2, p1, box2d.b2DynamicTree.s_r);
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(r.LengthSquared() > 0); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(r.LengthSquared() > 0); }
 	r.Normalize();
 
 	// v is perpendicular to the segment.
@@ -383,7 +383,7 @@ box2d.b2DynamicTree.prototype.CreateProxy = function (aabb, userData)
  */
 box2d.b2DynamicTree.prototype.DestroyProxy = function (proxy)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(proxy.IsLeaf()); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(proxy.IsLeaf()); }
 
 	this.RemoveLeaf(proxy);
 	this.FreeNode(proxy);
@@ -402,7 +402,7 @@ box2d.b2DynamicTree.prototype.DestroyProxy = function (proxy)
  */
 box2d.b2DynamicTree.prototype.MoveProxy = function (proxy, aabb, displacement)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(proxy.IsLeaf()); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(proxy.IsLeaf()); }
 
 	if (proxy.aabb.Contains(aabb))
 	{
@@ -559,8 +559,8 @@ box2d.b2DynamicTree.prototype.InsertLeaf = function (leaf)
 		child1 = index.child1;
 		child2 = index.child2;
 
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(child1 !== null); }
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(child2 !== null); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(child1 !== null); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(child2 !== null); }
 
 		index.height = 1 + box2d.b2Max(child1.height, child2.height);
 		index.aabb.Combine2(child1.aabb, child2.aabb);
@@ -644,7 +644,7 @@ box2d.b2DynamicTree.prototype.RemoveLeaf = function (leaf)
  */
 box2d.b2DynamicTree.prototype.Balance = function (A)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(A !== null); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(A !== null); }
 
 	if (A.IsLeaf() || A.height < 2)
 	{
@@ -676,7 +676,7 @@ box2d.b2DynamicTree.prototype.Balance = function (A)
 			}
 			else
 			{
-				if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(C.parent.child2 === A); }
+				if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(C.parent.child2 === A); }
 				C.parent.child2 = C;
 			}
 		}
@@ -732,7 +732,7 @@ box2d.b2DynamicTree.prototype.Balance = function (A)
 			}
 			else
 			{
-				if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(B.parent.child2 === A); }
+				if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(B.parent.child2 === A); }
 				B.parent.child2 = B;
 			}
 		}
@@ -881,7 +881,7 @@ box2d.b2DynamicTree.prototype.ValidateStructure = function (index)
 
 	if (index === this.m_root)
 	{
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(index.parent === null); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(index.parent === null); }
 	}
 
 	/** @type {box2d.b2TreeNode} */ var node = index;
@@ -891,14 +891,14 @@ box2d.b2DynamicTree.prototype.ValidateStructure = function (index)
 
 	if (node.IsLeaf())
 	{
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(child1 === null); }
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(child2 === null); }
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(node.height === 0); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(child1 === null); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(child2 === null); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(node.height === 0); }
 		return;
 	}
 
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(child1.parent === index); }
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(child2.parent === index); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(child1.parent === index); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(child2.parent === index); }
 
 	this.ValidateStructure(child1);
 	this.ValidateStructure(child2);
@@ -923,9 +923,9 @@ box2d.b2DynamicTree.prototype.ValidateMetrics = function (index)
 
 	if (node.IsLeaf())
 	{
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(child1 === null); }
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(child2 === null); }
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(node.height === 0); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(child1 === null); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(child2 === null); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(node.height === 0); }
 		return;
 	}
 
@@ -933,13 +933,13 @@ box2d.b2DynamicTree.prototype.ValidateMetrics = function (index)
 	/** @type {number} */ var height2 = child2.height;
 	/** @type {number} */ var height;
 	height = 1 + box2d.b2Max(height1, height2);
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(node.height === height); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(node.height === height); }
 
 	/** @type {box2d.b2AABB} */ var aabb = box2d.b2DynamicTree.s_aabb;
 	aabb.Combine2(child1.aabb, child2.aabb);
 
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(aabb.lowerBound === node.aabb.lowerBound); }
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(aabb.upperBound === node.aabb.upperBound); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(aabb.lowerBound === node.aabb.lowerBound); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(aabb.upperBound === node.aabb.upperBound); }
 
 	this.ValidateMetrics(child1);
 	this.ValidateMetrics(child2);
@@ -963,7 +963,7 @@ box2d.b2DynamicTree.prototype.Validate = function ()
 		++freeCount;
 	}
 
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.GetHeight() === this.ComputeHeight()); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this.GetHeight() === this.ComputeHeight()); }
 }
 
 /** 
@@ -986,7 +986,7 @@ box2d.b2DynamicTree.prototype.GetMaxBalance = function ()
 			return maxBalance;
 		}
 
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(!node.IsLeaf()); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(!node.IsLeaf()); }
 
 		/** @type {box2d.b2TreeNode} */ var child1 = node.child1;
 		/** @type {box2d.b2TreeNode} */ var child2 = node.child2;
@@ -1122,7 +1122,7 @@ box2d.b2DynamicTree.prototype.ShiftOrigin = function (newOrigin)
 			return;
 		}
 
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(!node.IsLeaf()); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(!node.IsLeaf()); }
 
 		/** @type {box2d.b2TreeNode} */ var child1 = node.child1;
 		/** @type {box2d.b2TreeNode} */ var child2 = node.child2;

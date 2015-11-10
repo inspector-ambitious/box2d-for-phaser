@@ -18,10 +18,10 @@
 
 //#if B2_ENABLE_ROPE
 
-goog.provide('box2d.b2Rope');
 
-goog.require('box2d.b2Math');
-goog.require('box2d.b2Draw');
+
+
+
 
 /**
  * @export 
@@ -105,7 +105,7 @@ box2d.b2Rope.prototype.GetVertices = function ()
  */
 box2d.b2Rope.prototype.Initialize = function (def)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(def.count >= 3); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(def.count >= 3); }
 	this.m_count = def.count;
 //	this.m_ps = (box2d.b2Vec2*)b2Alloc(this.m_count * sizeof(box2d.b2Vec2));
 	this.m_ps = box2d.b2Vec2.MakeArray(this.m_count);

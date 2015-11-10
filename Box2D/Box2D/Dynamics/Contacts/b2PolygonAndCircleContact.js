@@ -16,10 +16,10 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2PolygonAndCircleContact');
 
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Contact');
+
+
+
 
 /**
  * @export 
@@ -31,7 +31,7 @@ box2d.b2PolygonAndCircleContact = function ()
 	box2d.b2Contact.call(this); // base class constructor
 };
 
-goog.inherits(box2d.b2PolygonAndCircleContact, box2d.b2Contact);
+box2d.b2PolygonAndCircleContact.prototype = Object.create(box2d.b2Contact.prototype);
 
 /**
  * @export 
@@ -64,8 +64,8 @@ box2d.b2PolygonAndCircleContact.prototype.Evaluate = function (manifold, xfA, xf
 {
 	var shapeA = this.m_fixtureA.GetShape();
 	var shapeB = this.m_fixtureB.GetShape();
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(shapeA instanceof box2d.b2PolygonShape); }
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(shapeB instanceof box2d.b2CircleShape); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(shapeA instanceof box2d.b2PolygonShape); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(shapeB instanceof box2d.b2CircleShape); }
 	box2d.b2CollidePolygonAndCircle(
 		manifold, 
 		(shapeA instanceof box2d.b2PolygonShape)? shapeA : null, xfA, 

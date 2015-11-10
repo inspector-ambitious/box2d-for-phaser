@@ -16,9 +16,9 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2CircleShape');
 
-goog.require('box2d.b2Shape');
+
+
 
 /** 
  * A circle shape. 
@@ -34,7 +34,7 @@ box2d.b2CircleShape = function (radius)
 	this.m_p = new box2d.b2Vec2();
 }
 
-goog.inherits(box2d.b2CircleShape, box2d.b2Shape);
+box2d.b2CircleShape.prototype = Object.create(box2d.b2Shape.prototype);
 
 /**
  * @export 
@@ -61,7 +61,7 @@ box2d.b2CircleShape.prototype.Copy = function (other)
 {
 	box2d.b2Shape.prototype.Copy.call(this, other);
 
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(other instanceof box2d.b2CircleShape); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(other instanceof box2d.b2CircleShape); }
 
 	this.m_p.Copy(other.m_p);
 	return this;

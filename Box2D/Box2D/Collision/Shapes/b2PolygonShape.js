@@ -16,9 +16,9 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2PolygonShape');
 
-goog.require('box2d.b2Shape');
+
+
 
 /** 
  * A convex polygon. It is assumed that the interior of the 
@@ -34,12 +34,12 @@ box2d.b2PolygonShape = function ()
 {
 	box2d.b2Shape.call(this, box2d.b2ShapeType.e_polygonShape, box2d.b2_polygonRadius); // base class constructor
 
-	this.m_centroid = new box2d.b2Vec2(0, 0);
+	this.m_centroid = new box2d.b2Vec2(0.0, 0.0);
 	this.m_vertices = box2d.b2Vec2.MakeArray(box2d.b2_maxPolygonVertices);
 	this.m_normals = box2d.b2Vec2.MakeArray(box2d.b2_maxPolygonVertices);
 }
 
-goog.inherits(box2d.b2PolygonShape, box2d.b2Shape);
+box2d.b2PolygonShape.prototype = Object.create(box2d.b2Shape.prototype);
 
 /**
  * @export 
@@ -81,7 +81,7 @@ box2d.b2PolygonShape.prototype.Copy = function (other)
 {
 	box2d.b2Shape.prototype.Copy.call(this, other);
 
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(other instanceof box2d.b2PolygonShape); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(other instanceof box2d.b2PolygonShape); }
 
 	this.m_centroid.Copy(other.m_centroid);
 	this.m_count = other.m_count;
@@ -155,7 +155,7 @@ box2d.b2PolygonShape.prototype.Set = function (vertices, count, start)
 	count = (typeof(count) === 'number')?(count):(vertices.length);
 	start = (typeof(start) === 'number')?(start):(0);
 
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(3 <= count && count <= box2d.b2_maxPolygonVertices); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(3 <= count && count <= box2d.b2_maxPolygonVertices); }
 	if (count < 3)
 	{
 		return this.SetAsBox(1, 1);
@@ -190,7 +190,7 @@ box2d.b2PolygonShape.prototype.Set = function (vertices, count, start)
 	if (n < 3)
 	{
 		// Polygon is degenerate.
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(false); }
 		return this.SetAsBox(1.0, 1.0);
 	}
 
@@ -254,7 +254,7 @@ box2d.b2PolygonShape.prototype.Set = function (vertices, count, start)
 	if (m < 3)
 	{
 		// Polygon is degenerate
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(false); }
 		return this.SetAsBox(1.0, 1.0);
 	}
 	
@@ -272,7 +272,7 @@ box2d.b2PolygonShape.prototype.Set = function (vertices, count, start)
 		var vertexi1 = this.m_vertices[i];
 		var vertexi2 = this.m_vertices[(i + 1) % ict];
 		var edge = box2d.b2Sub_V2_V2(vertexi2, vertexi1, box2d.b2Vec2.s_t0); // edge uses s_t0
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(edge.LengthSquared() > box2d.b2_epsilon_sq); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(edge.LengthSquared() > box2d.b2_epsilon_sq); }
 		box2d.b2Cross_V2_S(edge, 1.0, this.m_normals[i]).SelfNormalize();
 	}
 
@@ -445,7 +445,7 @@ box2d.b2PolygonShape.prototype.RayCast = function (output, input, xf, childIndex
 		}
 	}
 
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(0 <= lower && lower <= input.maxFraction); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(0 <= lower && lower <= input.maxFraction); }
 
 	if (index >= 0)
 	{
@@ -519,7 +519,7 @@ box2d.b2PolygonShape.prototype.ComputeMass = function (massData, density)
 	//
 	// The rest of the derivation is handled by computer algebra.
 
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_count >= 3); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this.m_count >= 3); }
 
 	var center = box2d.b2PolygonShape.prototype.ComputeMass.s_center.SetZero();
 	var area = 0;
@@ -567,7 +567,7 @@ box2d.b2PolygonShape.prototype.ComputeMass = function (massData, density)
 	massData.mass = density * area;
 
 	// Center of mass
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(area > box2d.b2_epsilon); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(area > box2d.b2_epsilon); }
 	center.SelfMul(1 / area);
 	box2d.b2Add_V2_V2(center, s, massData.center);
 
@@ -777,7 +777,7 @@ box2d.b2PolygonShape.prototype.Dump = function ()
  */
 box2d.b2PolygonShape.ComputeCentroid = function (vs, count, out)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(count >= 3); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(count >= 3); }
 
 	var c = out; c.SetZero();
 	var area = 0;
@@ -819,7 +819,7 @@ box2d.b2PolygonShape.ComputeCentroid = function (vs, count, out)
 	}
 
 	// Centroid
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(area > box2d.b2_epsilon); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(area > box2d.b2_epsilon); }
 	c.SelfMul(1 / area);
 	return c;
 }

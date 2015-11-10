@@ -16,13 +16,13 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2Island');
 
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Timer');
-goog.require('box2d.b2TimeStep');
-goog.require('box2d.b2WorldCallbacks');
-goog.require('box2d.b2ContactSolver');
+
+
+
+
+
+
 
 /*
 Position Correction Notes
@@ -269,7 +269,7 @@ box2d.b2Island.prototype.Initialize = function (bodyCapacity, contactCapacity, j
 	{
 		var new_length = box2d.b2Max(this.m_positions.length * 2, bodyCapacity);
 
-		if (box2d.DEBUG)
+		if (BOX2D_DEBUG)
 		{
 			window.console.log("box2d.b2Island.m_positions: " + new_length);
 		}
@@ -284,7 +284,7 @@ box2d.b2Island.prototype.Initialize = function (bodyCapacity, contactCapacity, j
 	{
 		var new_length = box2d.b2Max(this.m_velocities.length * 2, bodyCapacity);
 
-		if (box2d.DEBUG)
+		if (BOX2D_DEBUG)
 		{
 			window.console.log("box2d.b2Island.m_velocities: " + new_length);
 		}
@@ -314,7 +314,7 @@ box2d.b2Island.prototype.Clear = function ()
  */
 box2d.b2Island.prototype.AddBody = function (body)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_bodyCount < this.m_bodyCapacity); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this.m_bodyCount < this.m_bodyCapacity); }
 	body.m_islandIndex = this.m_bodyCount;
 	this.m_bodies[this.m_bodyCount++] = body;
 }
@@ -326,7 +326,7 @@ box2d.b2Island.prototype.AddBody = function (body)
  */
 box2d.b2Island.prototype.AddContact = function (contact)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_contactCount < this.m_contactCapacity); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this.m_contactCount < this.m_contactCapacity); }
 	this.m_contacts[this.m_contactCount++] = contact;
 }
 
@@ -337,7 +337,7 @@ box2d.b2Island.prototype.AddContact = function (contact)
  */
 box2d.b2Island.prototype.AddJoint = function (joint)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_jointCount < this.m_jointCapacity); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this.m_jointCount < this.m_jointCapacity); }
 	this.m_joints[this.m_jointCount++] = joint;
 }
 
@@ -349,9 +349,8 @@ box2d.b2Island.prototype.AddJoint = function (joint)
  * @param {box2d.b2Vec2} gravity 
  * @param {boolean} allowSleep 
  */
-box2d.b2Island.prototype.Solve = function (profile, step, gravity, allowSleep)
+box2d.b2Island.prototype.Solve = function (step, gravity, allowSleep)
 {
-	/*box2d.b2Timer*/ var timer = box2d.b2Island.s_timer.Reset();
 
 	/*float32*/ var h = step.dt;
 
@@ -393,7 +392,6 @@ box2d.b2Island.prototype.Solve = function (profile, step, gravity, allowSleep)
 		this.m_velocities[i].w = w;
 	}
 
-	timer.Reset();
 
 	// Solver data
 	/*box2d.b2SolverData*/ var solverData = box2d.b2Island.s_solverData;
@@ -423,10 +421,7 @@ box2d.b2Island.prototype.Solve = function (profile, step, gravity, allowSleep)
 		this.m_joints[i].InitVelocityConstraints(solverData);
 	}
 
-	profile.solveInit = timer.GetMilliseconds();
 
-	// Solve velocity constraints.
-	timer.Reset();
 	for (var i = 0; i < step.velocityIterations; ++i)
 	{
 		for (var j = 0; j < this.m_jointCount; ++j)
@@ -439,7 +434,6 @@ box2d.b2Island.prototype.Solve = function (profile, step, gravity, allowSleep)
 
 	// Store impulses for warm starting
 	contactSolver.StoreImpulses();
-	profile.solveVelocity = timer.GetMilliseconds();
 
 	// Integrate positions.
 	for (var i = 0; i < this.m_bodyCount; ++i)
@@ -475,8 +469,7 @@ box2d.b2Island.prototype.Solve = function (profile, step, gravity, allowSleep)
 		this.m_velocities[i].w = w;
 	}
 
-	// Solve position constraints
-	timer.Reset();
+
 	/*bool*/ var positionSolved = false;
 	for (var i = 0; i < step.positionIterations; ++i)
 	{
@@ -508,7 +501,6 @@ box2d.b2Island.prototype.Solve = function (profile, step, gravity, allowSleep)
 		body.SynchronizeTransform();
 	}
 
-	profile.solvePosition = timer.GetMilliseconds();
 
 	this.Report(contactSolver.m_velocityConstraints);
 
@@ -561,8 +553,8 @@ box2d.b2Island.prototype.Solve = function (profile, step, gravity, allowSleep)
  */
 box2d.b2Island.prototype.SolveTOI = function (subStep, toiIndexA, toiIndexB)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(toiIndexA < this.m_bodyCount); }
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(toiIndexB < this.m_bodyCount); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(toiIndexA < this.m_bodyCount); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(toiIndexB < this.m_bodyCount); }
 
 	// Initialize the body state.
 	for (var i = 0; i < this.m_bodyCount; ++i)

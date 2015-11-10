@@ -16,10 +16,10 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2MotorJoint');
 
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Math');
+
+
+
 
 /** 
  * Motor joint definition. 
@@ -31,10 +31,10 @@ box2d.b2MotorJointDef = function ()
 {
 	box2d.b2JointDef.call(this, box2d.b2JointType.e_motorJoint); // base class constructor
 
-	this.linearOffset = new box2d.b2Vec2(0, 0);
+	this.linearOffset = new box2d.b2Vec2(0.0, 0.0);
 }
 
-goog.inherits(box2d.b2MotorJointDef, box2d.b2JointDef);
+box2d.b2MotorJointDef.prototype = Object.create(box2d.b2JointDef.prototype);
 
 /** 
  * Position of bodyB minus the position of bodyA, in bodyA's 
@@ -105,16 +105,16 @@ box2d.b2MotorJoint = function (def)
 	box2d.b2Joint.call(this, def); // base class constructor
 
 	this.m_linearOffset = def.linearOffset.Clone();
-	this.m_linearImpulse = new box2d.b2Vec2(0, 0);
+	this.m_linearImpulse = new box2d.b2Vec2(0.0, 0.0);
 	this.m_maxForce = def.maxForce;
 	this.m_maxTorque = def.maxTorque;
 	this.m_correctionFactor = def.correctionFactor;
 
-	this.m_rA = new box2d.b2Vec2(0, 0);
-	this.m_rB = new box2d.b2Vec2(0, 0);
-	this.m_localCenterA = new box2d.b2Vec2(0, 0);
-	this.m_localCenterB = new box2d.b2Vec2(0, 0);
-	this.m_linearError = new box2d.b2Vec2(0, 0);
+	this.m_rA = new box2d.b2Vec2(0.0, 0.0);
+	this.m_rB = new box2d.b2Vec2(0.0, 0.0);
+	this.m_localCenterA = new box2d.b2Vec2(0.0, 0.0);
+	this.m_localCenterB = new box2d.b2Vec2(0.0, 0.0);
+	this.m_linearError = new box2d.b2Vec2(0.0, 0.0);
 	this.m_linearMass = new box2d.b2Mat22();
 
 	this.m_qA = new box2d.b2Rot();
@@ -122,7 +122,7 @@ box2d.b2MotorJoint = function (def)
 	this.m_K = new box2d.b2Mat22();
 }
 
-goog.inherits(box2d.b2MotorJoint, box2d.b2Joint);
+box2d.b2MotorJoint.prototype = Object.create(box2d.b2Joint.prototype);
 
 // Solver shared
 /**
@@ -297,7 +297,7 @@ box2d.b2MotorJoint.prototype.GetReactionTorque = function (inv_dt)
  */
 box2d.b2MotorJoint.prototype.SetCorrectionFactor = function (factor)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2IsValid(factor) && 0.0 <= factor && factor <= 1.0) };
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2IsValid(factor) && 0.0 <= factor && factor <= 1.0) };
 	this._correctionFactor = factor;
 }
 
@@ -367,7 +367,7 @@ box2d.b2MotorJoint.prototype.GetAngularOffset = function ()
  */
 box2d.b2MotorJoint.prototype.SetMaxForce = function (force)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2IsValid(force) && force >= 0); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2IsValid(force) && force >= 0); }
 	this.m_maxForce = force;
 }
 
@@ -389,7 +389,7 @@ box2d.b2MotorJoint.prototype.GetMaxForce = function ()
  */
 box2d.b2MotorJoint.prototype.SetMaxTorque = function (torque)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2IsValid(torque) && torque >= 0); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2IsValid(torque) && torque >= 0); }
 	this.m_maxTorque = torque;
 }
 
@@ -604,7 +604,7 @@ box2d.b2MotorJoint.prototype.SolvePositionConstraints = function (data)
  */
 box2d.b2MotorJoint.prototype.Dump = function ()
 {
-	if (box2d.DEBUG)
+	if (BOX2D_DEBUG)
 	{
 		var indexA = this.m_bodyA.m_islandIndex;
 		var indexB = this.m_bodyB.m_islandIndex;

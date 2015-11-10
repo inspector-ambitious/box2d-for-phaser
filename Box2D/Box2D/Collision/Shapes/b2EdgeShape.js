@@ -16,9 +16,9 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2EdgeShape');
 
-goog.require('box2d.b2Shape');
+
+
 
 /** 
  * A line segment (edge) shape. These can be connected in chains 
@@ -39,7 +39,7 @@ box2d.b2EdgeShape = function ()
 	this.m_vertex3 = new box2d.b2Vec2();
 }
 
-goog.inherits(box2d.b2EdgeShape, box2d.b2Shape);
+box2d.b2EdgeShape.prototype = Object.create(box2d.b2Shape.prototype);
 
 /** 
  * These are the edge vertices 
@@ -113,7 +113,7 @@ box2d.b2EdgeShape.prototype.Copy = function (other)
 {
 	box2d.b2Shape.prototype.Copy.call(this, other);
 
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(other instanceof box2d.b2EdgeShape); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(other instanceof box2d.b2EdgeShape); }
 
 	this.m_vertex1.Copy(other.m_vertex1);
 	this.m_vertex2.Copy(other.m_vertex2);

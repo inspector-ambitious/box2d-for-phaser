@@ -16,11 +16,11 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2PulleyJoint');
 
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Joint');
-goog.require('box2d.b2Math');
+
+
+
+
 
 /**
  * @export 
@@ -41,14 +41,14 @@ box2d.b2PulleyJointDef = function ()
 	box2d.b2JointDef.call(this, box2d.b2JointType.e_pulleyJoint); // base class constructor
 	this.collideConnected = true;
 
-	this.groundAnchorA = new box2d.b2Vec2(-1, 1);
-	this.groundAnchorB = new box2d.b2Vec2(1, 1);
+	this.groundAnchorA = new box2d.b2Vec2(-1.0, 1.0);
+	this.groundAnchorB = new box2d.b2Vec2(1.0, 1.0);
 
-	this.localAnchorA = new box2d.b2Vec2(-1, 0);
-	this.localAnchorB = new box2d.b2Vec2(1, 0);
+	this.localAnchorA = new box2d.b2Vec2(-1.0, 0.0);
+	this.localAnchorB = new box2d.b2Vec2(1.0, 0.0);
 }
 
-goog.inherits(box2d.b2PulleyJointDef, box2d.b2JointDef);
+box2d.b2PulleyJointDef.prototype = Object.create(box2d.b2JointDef.prototype);
 
 /** 
  * The first ground anchor in world coordinates. This point 
@@ -123,7 +123,7 @@ box2d.b2PulleyJointDef.prototype.Initialize = function (bA, bB, groundA, groundB
 	this.lengthA = box2d.b2Distance(anchorA, groundA);
 	this.lengthB = box2d.b2Distance(anchorB, groundB);
 	this.ratio = r;
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.ratio > box2d.b2_epsilon); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this.ratio > box2d.b2_epsilon); }
 }
 
 /** 
@@ -144,22 +144,22 @@ box2d.b2PulleyJoint = function (def)
 {
 	box2d.b2Joint.call(this, def); // base class constructor
 
-	this.m_groundAnchorA = new box2d.b2Vec2();
-	this.m_groundAnchorB = new box2d.b2Vec2();
-	this.m_localAnchorA = new box2d.b2Vec2();
-	this.m_localAnchorB = new box2d.b2Vec2();
+	this.m_groundAnchorA = new box2d.b2Vec2(0.0, 0.0);
+	this.m_groundAnchorB = new box2d.b2Vec2(0.0, 0.0);
+	this.m_localAnchorA = new box2d.b2Vec2(0.0, 0.0);
+	this.m_localAnchorB = new box2d.b2Vec2(0.0, 0.0);
 
-	this.m_uA = new box2d.b2Vec2();
-	this.m_uB = new box2d.b2Vec2();
-	this.m_rA = new box2d.b2Vec2();
-	this.m_rB = new box2d.b2Vec2();
-	this.m_localCenterA = new box2d.b2Vec2();
-	this.m_localCenterB = new box2d.b2Vec2();
+	this.m_uA = new box2d.b2Vec2(0.0, 0.0);
+	this.m_uB = new box2d.b2Vec2(0.0, 0.0);
+	this.m_rA = new box2d.b2Vec2(0.0, 0.0);
+	this.m_rB = new box2d.b2Vec2(0.0, 0.0);
+	this.m_localCenterA = new box2d.b2Vec2(0.0, 0.0);
+	this.m_localCenterB = new box2d.b2Vec2(0.0, 0.0);
 
 	this.m_qA = new box2d.b2Rot();
 	this.m_qB = new box2d.b2Rot();
-	this.m_lalcA = new box2d.b2Vec2();
-	this.m_lalcB = new box2d.b2Vec2();
+	this.m_lalcA = new box2d.b2Vec2(0.0, 0.0);
+	this.m_lalcB = new box2d.b2Vec2(0.0, 0.0);
 
 	this.m_groundAnchorA.Copy(def.groundAnchorA);
 	this.m_groundAnchorB.Copy(def.groundAnchorB);
@@ -169,7 +169,7 @@ box2d.b2PulleyJoint = function (def)
 	this.m_lengthA = def.lengthA;
 	this.m_lengthB = def.lengthB;
 
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(def.ratio !== 0); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(def.ratio !== 0); }
 	this.m_ratio = def.ratio;
 
 	this.m_constant = def.lengthA + this.m_ratio * def.lengthB;
@@ -177,7 +177,7 @@ box2d.b2PulleyJoint = function (def)
 	this.m_impulse = 0;
 }
 
-goog.inherits(box2d.b2PulleyJoint, box2d.b2Joint);
+box2d.b2PulleyJoint.prototype = Object.create(box2d.b2Joint.prototype);
 
 /**
  * @export 
@@ -421,8 +421,8 @@ box2d.b2PulleyJoint.prototype.InitVelocityConstraints = function (data)
 //	data.velocities[this.m_indexB].v = vB;
 	data.velocities[this.m_indexB].w = wB;
 }
-box2d.b2PulleyJoint.prototype.InitVelocityConstraints.s_PA = new box2d.b2Vec2();
-box2d.b2PulleyJoint.prototype.InitVelocityConstraints.s_PB = new box2d.b2Vec2();
+box2d.b2PulleyJoint.prototype.InitVelocityConstraints.s_PA = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2PulleyJoint.prototype.InitVelocityConstraints.s_PB = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * @export 
@@ -461,10 +461,10 @@ box2d.b2PulleyJoint.prototype.SolveVelocityConstraints = function (data)
 //	data.velocities[this.m_indexB].v = vB;
 	data.velocities[this.m_indexB].w = wB;
 }
-box2d.b2PulleyJoint.prototype.SolveVelocityConstraints.s_vpA = new box2d.b2Vec2();
-box2d.b2PulleyJoint.prototype.SolveVelocityConstraints.s_vpB = new box2d.b2Vec2();
-box2d.b2PulleyJoint.prototype.SolveVelocityConstraints.s_PA = new box2d.b2Vec2();
-box2d.b2PulleyJoint.prototype.SolveVelocityConstraints.s_PB = new box2d.b2Vec2();
+box2d.b2PulleyJoint.prototype.SolveVelocityConstraints.s_vpA = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2PulleyJoint.prototype.SolveVelocityConstraints.s_vpB = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2PulleyJoint.prototype.SolveVelocityConstraints.s_PA = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2PulleyJoint.prototype.SolveVelocityConstraints.s_PB = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * @export 
@@ -553,8 +553,8 @@ box2d.b2PulleyJoint.prototype.SolvePositionConstraints = function (data)
 
 	return linearError < box2d.b2_linearSlop;
 }
-box2d.b2PulleyJoint.prototype.SolvePositionConstraints.s_PA = new box2d.b2Vec2();
-box2d.b2PulleyJoint.prototype.SolvePositionConstraints.s_PB = new box2d.b2Vec2();
+box2d.b2PulleyJoint.prototype.SolvePositionConstraints.s_PA = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2PulleyJoint.prototype.SolvePositionConstraints.s_PB = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * @export 
@@ -664,7 +664,7 @@ box2d.b2PulleyJoint.prototype.GetCurrentLengthA = function ()
 	var s = this.m_groundAnchorA;
 	return box2d.b2Distance(p, s);
 }
-box2d.b2PulleyJoint.prototype.GetCurrentLengthA.s_p = new box2d.b2Vec2();
+box2d.b2PulleyJoint.prototype.GetCurrentLengthA.s_p = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * Get the current length of the segment attached to bodyB. 
@@ -681,7 +681,7 @@ box2d.b2PulleyJoint.prototype.GetCurrentLengthB = function ()
 	var s = this.m_groundAnchorB;
 	return box2d.b2Distance(p, s);
 }
-box2d.b2PulleyJoint.prototype.GetCurrentLengthB.s_p = new box2d.b2Vec2();
+box2d.b2PulleyJoint.prototype.GetCurrentLengthB.s_p = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * Dump joint to dmLog 
@@ -690,7 +690,7 @@ box2d.b2PulleyJoint.prototype.GetCurrentLengthB.s_p = new box2d.b2Vec2();
  */
 box2d.b2PulleyJoint.prototype.Dump = function ()
 {
-	if (box2d.DEBUG)
+	if (BOX2D_DEBUG)
 	{
 		var indexA = this.m_bodyA.m_islandIndex;
 		var indexB = this.m_bodyB.m_islandIndex;

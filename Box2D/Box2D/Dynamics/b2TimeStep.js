@@ -16,9 +16,9 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2TimeStep');
 
-goog.require('box2d.b2Settings');
+
+
 
 /** 
  * Profiling data. Times are in milliseconds. 

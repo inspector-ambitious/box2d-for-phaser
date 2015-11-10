@@ -16,9 +16,9 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-goog.provide('box2d.b2CollideEdge');
 
-goog.require('box2d.b2Collision');
+
+
 
 /** 
  * Compute the collision manifold between an edge and a circle. 
@@ -134,7 +134,7 @@ box2d.b2CollideEdgeAndCircle = function (manifold, edgeA, xfA, circleB, xfB)
 	
 	// Region AB
 	/** @type {number} */ var den = box2d.b2Dot_V2_V2(e, e);
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(den > 0); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(den > 0); }
 	/** type {box2d.b2Vec2} */ var P = box2d.b2CollideEdgeAndCircle.s_P;
 	P.x = (1 / den) * (u * A.x + v * B.x);
 	P.y = (1 / den) * (u * A.y + v * B.y);
@@ -182,9 +182,9 @@ box2d.b2EPAxisType =
 	e_edgeA		: 1, 
 	e_edgeB		: 2
 };
-goog.exportProperty(box2d.b2EPAxisType, 'e_unknown', box2d.b2EPAxisType.e_unknown);
-goog.exportProperty(box2d.b2EPAxisType, 'e_edgeA'  , box2d.b2EPAxisType.e_edgeA  );
-goog.exportProperty(box2d.b2EPAxisType, 'e_edgeB'  , box2d.b2EPAxisType.e_edgeB  );
+
+
+
 	
 /** 
  * This structure is used to keep track of the best separating 
@@ -322,9 +322,9 @@ box2d.b2EPColliderVertexType =
 	e_concave	: 1,
 	e_convex	: 2
 };
-goog.exportProperty(box2d.b2EPColliderVertexType, 'e_isolated', box2d.b2EPColliderVertexType.e_isolated);
-goog.exportProperty(box2d.b2EPColliderVertexType, 'e_concave' , box2d.b2EPColliderVertexType.e_concave );
-goog.exportProperty(box2d.b2EPColliderVertexType, 'e_convex'  , box2d.b2EPColliderVertexType.e_convex  );
+
+
+
 	
 /** 
  * This class collides and edge and a polygon, taking into 
@@ -957,4 +957,3 @@ box2d.b2CollideEdgeAndPolygon = function (manifold, edgeA, xfA, polygonB, xfB)
 	collider.Collide(manifold, edgeA, xfA, polygonB, xfB);
 }
 box2d.b2CollideEdgeAndPolygon.s_collider = new box2d.b2EPCollider();
-

@@ -16,11 +16,11 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2AreaJoint');
 
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Joint');
-goog.require('box2d.b2Math');
+
+
+
+
 
 /** 
  * Definition for a {@link box2d.b2AreaJoint}, which connects a 
@@ -37,7 +37,7 @@ box2d.b2AreaJointDef = function ()
 	this.bodies = new Array();
 }
 
-goog.inherits(box2d.b2AreaJointDef, box2d.b2JointDef);
+box2d.b2AreaJointDef.prototype = Object.create(box2d.b2JointDef.prototype);
 
 /**
  * @export 
@@ -98,7 +98,7 @@ box2d.b2AreaJoint = function (def)
 {
 	box2d.b2Joint.call(this, def); // base class constructor
 
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(def.bodies.length >= 3, "You cannot create an area joint with less than three bodies."); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(def.bodies.length >= 3, "You cannot create an area joint with less than three bodies."); }
 
 	this.m_bodies = def.bodies;
 	this.m_frequencyHz = def.frequencyHz;
@@ -135,7 +135,7 @@ box2d.b2AreaJoint = function (def)
 	this.m_targetArea *= 0.5;
 }
 
-goog.inherits(box2d.b2AreaJoint, box2d.b2Joint);
+box2d.b2AreaJoint.prototype = Object.create(box2d.b2Joint.prototype);
 
 /**
  * @export 
@@ -270,7 +270,7 @@ box2d.b2AreaJoint.prototype.GetDampingRatio = function ()
  */
 box2d.b2AreaJoint.prototype.Dump = function ()
 {
-	if (box2d.DEBUG)
+	if (BOX2D_DEBUG)
 	{
 		box2d.b2Log("Area joint dumping is not supported.\n");
 	}

@@ -16,10 +16,10 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2ShapeDistance');
 
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Math');
+
+
+
 
 /** 
  * A distance proxy is used by the GJK algorithm. 
@@ -143,7 +143,7 @@ box2d.b2DistanceProxy.prototype.GetVertexCount = function ()
  */
 box2d.b2DistanceProxy.prototype.GetVertex = function (index)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(0 <= index && index < this.m_count); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(0 <= index && index < this.m_count); }
 	return this.m_vertices[index];
 }
 
@@ -421,7 +421,7 @@ box2d.b2Simplex.prototype.m_count = 0;
  */
 box2d.b2Simplex.prototype.ReadCache = function (cache, proxyA, transformA, proxyB, transformB)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(0 <= cache.count && cache.count <= 3); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(0 <= cache.count && cache.count <= 3); }
 
 	// Copy data from cache.
 	this.m_count = cache.count;
@@ -514,7 +514,7 @@ box2d.b2Simplex.prototype.GetSearchDirection = function (out)
 		}
 
 	default:
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(false); }
 		return out.SetZero();
 	}
 }
@@ -529,7 +529,7 @@ box2d.b2Simplex.prototype.GetClosestPoint = function (out)
 	switch (this.m_count)
 	{
 	case 0:
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(false); }
 		return out.SetZero();
 
 	case 1:
@@ -544,7 +544,7 @@ box2d.b2Simplex.prototype.GetClosestPoint = function (out)
 		return out.SetZero();
 
 	default:
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(false); }
 		return out.SetZero();
 	}
 }
@@ -560,7 +560,7 @@ box2d.b2Simplex.prototype.GetWitnessPoints = function (pA, pB)
 	switch (this.m_count)
 	{
 	case 0:
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(false); }
 		break;
 
 	case 1:
@@ -581,7 +581,7 @@ box2d.b2Simplex.prototype.GetWitnessPoints = function (pA, pB)
 		break;
 
 	default:
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(false); }
 		break;
 	}
 }
@@ -595,7 +595,7 @@ box2d.b2Simplex.prototype.GetMetric = function ()
 	switch (this.m_count)
 	{
 	case 0:
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(false); }
 		return 0;
 
 	case 1:
@@ -608,7 +608,7 @@ box2d.b2Simplex.prototype.GetMetric = function ()
 		return box2d.b2Cross_V2_V2(box2d.b2Sub_V2_V2(this.m_v2.w, this.m_v1.w, box2d.b2Vec2.s_t0), box2d.b2Sub_V2_V2(this.m_v3.w, this.m_v1.w, box2d.b2Vec2.s_t1));
 
 	default:
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(false); }
 		return 0;
 	}
 }
@@ -845,26 +845,15 @@ box2d.b2ShapeDistance = function (output, cache, input)
 			saveB[i] = vertices[i].indexB;
 		}
 
-		switch (simplex.m_count)
+		if (saveCount === 2)
 		{
-		case 1:
-			break;
-
-		case 2:
 			simplex.Solve2();
-			break;
-
-		case 3:
-			simplex.Solve3();
-			break;
-
-		default:
-			if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false); }
 		}
 
 		// If we have 3 points, then the origin is in the corresponding triangle.
-		if (simplex.m_count === 3)
+		if (saveCount === 3)
 		{
+			simplex.Solve3();
 			break;
 		}
 

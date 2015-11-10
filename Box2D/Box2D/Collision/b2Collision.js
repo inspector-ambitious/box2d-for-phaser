@@ -16,11 +16,11 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2Collision');
 
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Math');
-goog.require('box2d.b2ShapeDistance');
+
+
+
+
 
 /**
  * Structures and functions used for computing contact points, 
@@ -36,8 +36,8 @@ box2d.b2ContactFeatureType =
 	e_vertex	: 0,
 	e_face		: 1
 };
-goog.exportProperty(box2d.b2ContactFeatureType, 'e_vertex', box2d.b2ContactFeatureType.e_vertex);
-goog.exportProperty(box2d.b2ContactFeatureType, 'e_face'  , box2d.b2ContactFeatureType.e_face  );
+
+
 
 /** 
  * The features that intersect to form the contact point 
@@ -329,10 +329,10 @@ box2d.b2ManifoldType =
 	e_faceA		: 1,
 	e_faceB		: 2
 };
-goog.exportProperty(box2d.b2ManifoldType, 'e_unknown', box2d.b2ManifoldType.e_unknown);
-goog.exportProperty(box2d.b2ManifoldType, 'e_circles', box2d.b2ManifoldType.e_circles);
-goog.exportProperty(box2d.b2ManifoldType, 'e_faceA'  , box2d.b2ManifoldType.e_faceA  );
-goog.exportProperty(box2d.b2ManifoldType, 'e_faceB'  , box2d.b2ManifoldType.e_faceB  );
+
+
+
+
 
 /** 
  * A manifold for two touching convex shapes.
@@ -397,7 +397,7 @@ box2d.b2Manifold.prototype.Reset = function ()
 {
 	for (var i = 0, ict = box2d.b2_maxManifoldPoints; i < ict; ++i)
 	{
-		//if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.points[i] instanceof box2d.b2ManifoldPoint); }
+		//if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this.points[i] instanceof box2d.b2ManifoldPoint); }
 		this.points[i].Reset();
 	}
 	this.localNormal.SetZero();
@@ -416,7 +416,7 @@ box2d.b2Manifold.prototype.Copy = function (o)
 	this.pointCount = o.pointCount;
 	for (var i = 0, ict = box2d.b2_maxManifoldPoints; i < ict; ++i)
 	{
-		//if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.points[i] instanceof box2d.b2ManifoldPoint); }
+		//if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this.points[i] instanceof box2d.b2ManifoldPoint); }
 		this.points[i].Copy(o.points[i]);
 	}
 	this.localNormal.Copy(o.localNormal);
@@ -559,10 +559,10 @@ box2d.b2PointState =
 	b2_persistState	: 2, ///< point persisted across the update
 	b2_removeState	: 3  ///< point was removed in the update
 };
-goog.exportProperty(box2d.b2PointState, 'b2_nullState   ', box2d.b2PointState.b2_nullState   );
-goog.exportProperty(box2d.b2PointState, 'b2_addState    ', box2d.b2PointState.b2_addState    );
-goog.exportProperty(box2d.b2PointState, 'b2_persistState', box2d.b2PointState.b2_persistState);
-goog.exportProperty(box2d.b2PointState, 'b2_removeState ', box2d.b2PointState.b2_removeState );
+
+
+
+
 
 /** 
  * Compute the point states given two manifolds. The states 

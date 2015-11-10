@@ -16,11 +16,11 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2RevoluteJoint');
 
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Joint');
-goog.require('box2d.b2Math');
+
+
+
+
 
 /** 
  * Revolute joint definition. This requires defining an anchor 
@@ -42,11 +42,11 @@ box2d.b2RevoluteJointDef = function ()
 {
 	box2d.b2JointDef.call(this, box2d.b2JointType.e_revoluteJoint); // base class constructor
 
-	this.localAnchorA = new box2d.b2Vec2(0, 0);
-	this.localAnchorB = new box2d.b2Vec2(0, 0);
+	this.localAnchorA = new box2d.b2Vec2(0.0, 0.0);
+	this.localAnchorB = new box2d.b2Vec2(0.0, 0.0);
 }
 
-goog.inherits(box2d.b2RevoluteJointDef, box2d.b2JointDef);
+box2d.b2RevoluteJointDef.prototype = Object.create(box2d.b2JointDef.prototype);
 
 /** 
  * The local anchor point relative to bodyA's origin. 
@@ -180,7 +180,7 @@ box2d.b2RevoluteJoint = function (def)
 	this.m_limitState = box2d.b2LimitState.e_inactiveLimit;
 }
 
-goog.inherits(box2d.b2RevoluteJoint, box2d.b2Joint);
+box2d.b2RevoluteJoint.prototype = Object.create(box2d.b2Joint.prototype);
 
 // Solver shared
 /**
@@ -951,7 +951,7 @@ box2d.b2RevoluteJoint.prototype.SetMotorSpeed = function (speed)
  */
 box2d.b2RevoluteJoint.prototype.Dump = function ()
 {
-	if (box2d.DEBUG)
+	if (BOX2D_DEBUG)
 	{
 		var indexA = this.m_bodyA.m_islandIndex;
 		var indexB = this.m_bodyB.m_islandIndex;

@@ -16,12 +16,12 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2TimeOfImpact');
 
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2ShapeDistance');
-goog.require('box2d.b2Math');
-goog.require('box2d.b2Timer');
+
+
+
+
+
 
 /**
  * @export
@@ -110,11 +110,11 @@ box2d.b2TOIOutputState =
 	e_touching		: 3,
 	e_separated		: 4
 };
-goog.exportProperty(box2d.b2TOIOutputState, 'e_unknown'   , box2d.b2TOIOutputState.e_unknown   );
-goog.exportProperty(box2d.b2TOIOutputState, 'e_failed'    , box2d.b2TOIOutputState.e_failed    );
-goog.exportProperty(box2d.b2TOIOutputState, 'e_overlapped', box2d.b2TOIOutputState.e_overlapped);
-goog.exportProperty(box2d.b2TOIOutputState, 'e_touching'  , box2d.b2TOIOutputState.e_touching  );
-goog.exportProperty(box2d.b2TOIOutputState, 'e_separated' , box2d.b2TOIOutputState.e_separated );
+
+
+
+
+
 
 /** 
  * Output parameters for b2TimeOfImpact. 
@@ -147,10 +147,10 @@ box2d.b2SeparationFunctionType =
 	e_faceA		: 1,
 	e_faceB		: 2
 };
-goog.exportProperty(box2d.b2SeparationFunctionType, 'e_unknown', box2d.b2SeparationFunctionType.e_unknown);
-goog.exportProperty(box2d.b2SeparationFunctionType, 'e_points' , box2d.b2SeparationFunctionType.e_points );
-goog.exportProperty(box2d.b2SeparationFunctionType, 'e_faceA'  , box2d.b2SeparationFunctionType.e_faceA  );
-goog.exportProperty(box2d.b2SeparationFunctionType, 'e_faceB'  , box2d.b2SeparationFunctionType.e_faceB  );
+
+
+
+
 
 /**
  * @export
@@ -216,7 +216,7 @@ box2d.b2SeparationFunction.prototype.Initialize = function (cache, proxyA, sweep
 	this.m_proxyA = proxyA;
 	this.m_proxyB = proxyB;
 	/** @type {number} */ var count = cache.count;
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(0 < count && count < 3); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(0 < count && count < 3); }
 
 	this.m_sweepA.Copy(sweepA);
 	this.m_sweepB.Copy(sweepB);
@@ -357,7 +357,7 @@ box2d.b2SeparationFunction.prototype.FindMinSeparation = function (indexA, index
 		}
 
 	default:
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(false); }
 		indexA[0] = -1;
 		indexB[0] = -1;
 		return 0;
@@ -417,7 +417,7 @@ box2d.b2SeparationFunction.prototype.Evaluate = function (indexA, indexB, t)
 		}
 
 	default:
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(false); }
 		return 0;
 	}
 }
@@ -437,7 +437,6 @@ box2d.b2SeparationFunction.prototype.Evaluate = function (indexA, indexB, t)
  */
 box2d.b2TimeOfImpact = function (output, input)
 {
-	var timer = box2d.b2TimeOfImpact.s_timer.Reset();
 
 	++box2d.b2_toiCalls;
 
@@ -460,7 +459,7 @@ box2d.b2TimeOfImpact = function (output, input)
 	/** @type {number} */ var totalRadius = proxyA.m_radius + proxyB.m_radius;
 	/** @type {number} */ var target = box2d.b2Max(box2d.b2_linearSlop, totalRadius - 3 * box2d.b2_linearSlop);
 	/** @type {number} */ var tolerance = 0.25 * box2d.b2_linearSlop;
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(target > tolerance); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(target > tolerance); }
 
 	/** @type {number} */ var t1 = 0;
 	/** @type {number} */ var k_maxIterations = 20; // TODO_ERIN b2Settings
@@ -669,9 +668,6 @@ box2d.b2TimeOfImpact = function (output, input)
 
 	box2d.b2_toiMaxIters = box2d.b2Max(box2d.b2_toiMaxIters, iter);
 
-	var time = timer.GetMilliseconds();
-	box2d.b2_toiMaxTime = box2d.b2Max(box2d.b2_toiMaxTime, time);
-	box2d.b2_toiTime += time;
 }
 box2d.b2TimeOfImpact.s_timer = new box2d.b2Timer();
 box2d.b2TimeOfImpact.s_cache = new box2d.b2SimplexCache();

@@ -16,11 +16,11 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2WeldJoint');
 
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Joint');
-goog.require('box2d.b2Math');
+
+
+
+
 
 /** 
  * Weld joint definition. You need to specify local anchor 
@@ -39,7 +39,7 @@ box2d.b2WeldJointDef = function ()
 	this.localAnchorB = new box2d.b2Vec2();
 }
 
-goog.inherits(box2d.b2WeldJointDef, box2d.b2JointDef);
+box2d.b2WeldJointDef.prototype = Object.create(box2d.b2JointDef.prototype);
 
 /** 
  * The local anchor point relative to bodyA's origin. 
@@ -128,7 +128,7 @@ box2d.b2WeldJoint = function (def)
 	this.m_K = new box2d.b2Mat33();
 }
 
-goog.inherits(box2d.b2WeldJoint, box2d.b2Joint);
+box2d.b2WeldJoint.prototype = Object.create(box2d.b2Joint.prototype);
 
 /**
  * @export 
@@ -675,7 +675,7 @@ box2d.b2WeldJoint.prototype.GetDampingRatio = function () { return this.m_dampin
  */
 box2d.b2WeldJoint.prototype.Dump = function ()
 {
-	if (box2d.DEBUG)
+	if (BOX2D_DEBUG)
 	{
 		var indexA = this.m_bodyA.m_islandIndex;
 		var indexB = this.m_bodyB.m_islandIndex;

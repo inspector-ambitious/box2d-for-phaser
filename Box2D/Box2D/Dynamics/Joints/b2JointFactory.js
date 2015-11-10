@@ -16,11 +16,11 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2JointFactory');
 
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Math');
-goog.require('box2d.b2Joint');
+
+
+box2d.b2JointFactory = {};
+
 
 /** 
  * @export 
@@ -107,7 +107,7 @@ box2d.b2JointFactory.Create = function (def, allocator)
 		break;
 
 	default:
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(false); }
 		break;
 	}
 

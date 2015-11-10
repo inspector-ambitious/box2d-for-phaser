@@ -16,10 +16,10 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2ContactFactory');
 
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Contact');
+
+
+
 
 /**
  * @export
@@ -140,8 +140,8 @@ box2d.b2ContactFactory.prototype.Create = function (fixtureA, indexA, fixtureB, 
 	var type1 = fixtureA.GetType();
 	var type2 = fixtureB.GetType();
 
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(0 <= type1 && type1 < box2d.b2ShapeType.e_shapeTypeCount); }
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(0 <= type2 && type2 < box2d.b2ShapeType.e_shapeTypeCount); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(0 <= type1 && type1 < box2d.b2ShapeType.e_shapeTypeCount); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(0 <= type2 && type2 < box2d.b2ShapeType.e_shapeTypeCount); }
 
 	var reg = this.m_registers[type1][type2];
 
@@ -188,8 +188,8 @@ box2d.b2ContactFactory.prototype.Destroy = function (contact)
 	var typeA = fixtureA.GetType();
 	var typeB = fixtureB.GetType();
 
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(0 <= typeA && typeB < box2d.b2ShapeType.e_shapeTypeCount); }
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(0 <= typeA && typeB < box2d.b2ShapeType.e_shapeTypeCount); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(0 <= typeA && typeB < box2d.b2ShapeType.e_shapeTypeCount); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(0 <= typeA && typeB < box2d.b2ShapeType.e_shapeTypeCount); }
 
 	var reg = this.m_registers[typeA][typeB];
 

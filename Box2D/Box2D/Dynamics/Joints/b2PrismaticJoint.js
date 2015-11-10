@@ -16,11 +16,11 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2PrismaticJoint');
 
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Joint');
-goog.require('box2d.b2Math');
+
+
+
+
 
 /** 
  * Prismatic joint definition. This requires defining a line of 
@@ -38,12 +38,12 @@ box2d.b2PrismaticJointDef = function ()
 {
 	box2d.b2JointDef.call(this, box2d.b2JointType.e_prismaticJoint); // base class constructor
 
-	this.localAnchorA = new box2d.b2Vec2();
-	this.localAnchorB = new box2d.b2Vec2();
-	this.localAxisA = new box2d.b2Vec2(1, 0);
+	this.localAnchorA = new box2d.b2Vec2(0.0, 0.0);
+	this.localAnchorB = new box2d.b2Vec2(0.0, 0.0);
+	this.localAxisA = new box2d.b2Vec2(1.0, 0.0);
 }
 
-goog.inherits(box2d.b2PrismaticJointDef, box2d.b2JointDef);
+box2d.b2PrismaticJointDef.prototype = Object.create(box2d.b2JointDef.prototype);
 
 /** 
  * The local anchor point relative to bodyA's origin. 
@@ -154,7 +154,7 @@ box2d.b2PrismaticJoint = function (def)
 	this.m_localAnchorA = def.localAnchorA.Clone();
 	this.m_localAnchorB = def.localAnchorB.Clone();
 	this.m_localXAxisA = def.localAxisA.Clone().SelfNormalize();
-	this.m_localYAxisA = box2d.b2Cross_S_V2(1.0, this.m_localXAxisA, new box2d.b2Vec2());
+	this.m_localYAxisA = box2d.b2Cross_S_V2(1.0, this.m_localXAxisA, new box2d.b2Vec2(0.0, 0.0));
 	this.m_referenceAngle = def.referenceAngle;
 	this.m_impulse = new box2d.b2Vec3(0, 0, 0);
 	this.m_lowerTranslation = def.lowerTranslation;
@@ -164,23 +164,23 @@ box2d.b2PrismaticJoint = function (def)
 	this.m_enableLimit = def.enableLimit;
 	this.m_enableMotor = def.enableMotor;
 
-	this.m_localCenterA = new box2d.b2Vec2();
-	this.m_localCenterB = new box2d.b2Vec2();
-	this.m_axis = new box2d.b2Vec2(0, 0);
-	this.m_perp = new box2d.b2Vec2(0, 0);
+	this.m_localCenterA = new box2d.b2Vec2(0.0, 0.0);
+	this.m_localCenterB = new box2d.b2Vec2(0.0, 0.0);
+	this.m_axis = new box2d.b2Vec2(0.0, 0.0);
+	this.m_perp = new box2d.b2Vec2(0.0, 0.0);
 	this.m_K = new box2d.b2Mat33();
 	this.m_K3 = new box2d.b2Mat33();
 	this.m_K2 = new box2d.b2Mat22();
 
 	this.m_qA = new box2d.b2Rot();
 	this.m_qB = new box2d.b2Rot();
-	this.m_lalcA = new box2d.b2Vec2();
-	this.m_lalcB = new box2d.b2Vec2();
-	this.m_rA = new box2d.b2Vec2();
-	this.m_rB = new box2d.b2Vec2();
+	this.m_lalcA = new box2d.b2Vec2(0.0, 0.0);
+	this.m_lalcB = new box2d.b2Vec2(0.0, 0.0);
+	this.m_rA = new box2d.b2Vec2(0.0, 0.0);
+	this.m_rB = new box2d.b2Vec2(0.0, 0.0);
 }
 
-goog.inherits(box2d.b2PrismaticJoint, box2d.b2Joint);
+box2d.b2PrismaticJoint.prototype = Object.create(box2d.b2Joint.prototype);
 
 // Solver shared
 /**
@@ -554,8 +554,8 @@ box2d.b2PrismaticJoint.prototype.InitVelocityConstraints = function (data)
 //	data.velocities[this.m_indexB].v = vB;
 	data.velocities[this.m_indexB].w = wB;
 }
-box2d.b2PrismaticJoint.prototype.InitVelocityConstraints.s_d = new box2d.b2Vec2();
-box2d.b2PrismaticJoint.prototype.InitVelocityConstraints.s_P = new box2d.b2Vec2();
+box2d.b2PrismaticJoint.prototype.InitVelocityConstraints.s_d = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2PrismaticJoint.prototype.InitVelocityConstraints.s_P = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * @export 
@@ -692,11 +692,11 @@ box2d.b2PrismaticJoint.prototype.SolveVelocityConstraints = function (data)
 //	data.velocities[this.m_indexB].v = vB;
 	data.velocities[this.m_indexB].w = wB;
 }
-box2d.b2PrismaticJoint.prototype.SolveVelocityConstraints.s_P = new box2d.b2Vec2();
-box2d.b2PrismaticJoint.prototype.SolveVelocityConstraints.s_f2r = new box2d.b2Vec2();
+box2d.b2PrismaticJoint.prototype.SolveVelocityConstraints.s_P = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2PrismaticJoint.prototype.SolveVelocityConstraints.s_f2r = new box2d.b2Vec2(0.0, 0.0);
 box2d.b2PrismaticJoint.prototype.SolveVelocityConstraints.s_f1 = new box2d.b2Vec3();
 box2d.b2PrismaticJoint.prototype.SolveVelocityConstraints.s_df3 = new box2d.b2Vec3();
-box2d.b2PrismaticJoint.prototype.SolveVelocityConstraints.s_df2 = new box2d.b2Vec2();
+box2d.b2PrismaticJoint.prototype.SolveVelocityConstraints.s_df2 = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * @export 
@@ -864,10 +864,10 @@ box2d.b2PrismaticJoint.prototype.SolvePositionConstraints = function (data)
 
 	return linearError <= box2d.b2_linearSlop && angularError <= box2d.b2_angularSlop;
 }
-box2d.b2PrismaticJoint.prototype.SolvePositionConstraints.s_d = new box2d.b2Vec2();
+box2d.b2PrismaticJoint.prototype.SolvePositionConstraints.s_d = new box2d.b2Vec2(0.0, 0.0);
 box2d.b2PrismaticJoint.prototype.SolvePositionConstraints.s_impulse = new box2d.b2Vec3();;
-box2d.b2PrismaticJoint.prototype.SolvePositionConstraints.s_impulse1 = new box2d.b2Vec2();;
-box2d.b2PrismaticJoint.prototype.SolvePositionConstraints.s_P = new box2d.b2Vec2();;
+box2d.b2PrismaticJoint.prototype.SolvePositionConstraints.s_impulse1 = new box2d.b2Vec2(0.0, 0.0);;
+box2d.b2PrismaticJoint.prototype.SolvePositionConstraints.s_P = new box2d.b2Vec2(0.0, 0.0);;
 
 /** 
  * @export 
@@ -961,10 +961,10 @@ box2d.b2PrismaticJoint.prototype.GetJointTranslation = function ()
 	var translation = box2d.b2Dot_V2_V2(d, axis);
 	return translation;
 }
-box2d.b2PrismaticJoint.prototype.GetJointTranslation.s_pA = new box2d.b2Vec2();
-box2d.b2PrismaticJoint.prototype.GetJointTranslation.s_pB = new box2d.b2Vec2();
-box2d.b2PrismaticJoint.prototype.GetJointTranslation.s_d = new box2d.b2Vec2();
-box2d.b2PrismaticJoint.prototype.GetJointTranslation.s_axis = new box2d.b2Vec2();
+box2d.b2PrismaticJoint.prototype.GetJointTranslation.s_pA = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2PrismaticJoint.prototype.GetJointTranslation.s_pB = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2PrismaticJoint.prototype.GetJointTranslation.s_d = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2PrismaticJoint.prototype.GetJointTranslation.s_axis = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * @export 
@@ -1145,7 +1145,7 @@ box2d.b2PrismaticJoint.prototype.GetMotorForce = function (inv_dt)
  */
 box2d.b2PrismaticJoint.prototype.Dump = function ()
 {
-	if (box2d.DEBUG)
+	if (BOX2D_DEBUG)
 	{
 		var indexA = this.m_bodyA.m_islandIndex;
 		var indexB = this.m_bodyB.m_islandIndex;

@@ -16,18 +16,18 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2ContactSolver');
 
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Math');
-goog.require('box2d.b2Collision');
-goog.require('box2d.b2CircleContact');
-goog.require('box2d.b2PolygonAndCircleContact');
-goog.require('box2d.b2PolygonContact');
-goog.require('box2d.b2EdgeAndCircleContact');
-goog.require('box2d.b2EdgeAndPolygonContact');
-goog.require('box2d.b2ChainAndCircleContact');
-goog.require('box2d.b2ChainAndPolygonContact');
+
+
+
+
+
+
+
+
+
+
+
 
 /**
  * @type {boolean}
@@ -400,7 +400,7 @@ box2d.b2ContactSolver.prototype.Initialize = function (def)
 	{
 		var new_length = box2d.b2Max(this.m_positionConstraints.length * 2, this.m_count);
 
-		if (box2d.DEBUG)
+		if (BOX2D_DEBUG)
 		{
 			window.console.log("box2d.b2ContactSolver.m_positionConstraints: " + new_length);
 		}
@@ -415,7 +415,7 @@ box2d.b2ContactSolver.prototype.Initialize = function (def)
 	{
 		var new_length = box2d.b2Max(this.m_velocityConstraints.length * 2, this.m_count);
 
-		if (box2d.DEBUG)
+		if (BOX2D_DEBUG)
 		{
 			window.console.log("box2d.b2ContactSolver.m_velocityConstraints: " + new_length);
 		}
@@ -470,7 +470,7 @@ box2d.b2ContactSolver.prototype.Initialize = function (def)
 		manifold = contact.GetManifold();
 
 		pointCount = manifold.pointCount;
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(pointCount > 0); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(pointCount > 0); }
 
 		vc = this.m_velocityConstraints[i];
 		vc.friction = contact.m_friction;
@@ -638,7 +638,7 @@ box2d.b2ContactSolver.prototype.InitializeVelocityConstraints = function ()
 		vB = this.m_velocities[indexB].v;
 		wB = this.m_velocities[indexB].w;
 
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(manifold.pointCount > 0); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(manifold.pointCount > 0); }
 
 		xfA.q.SetAngle(aA);
 		xfB.q.SetAngle(aB);
@@ -888,7 +888,7 @@ box2d.b2ContactSolver.prototype.SolveVelocityConstraints = function ()
 		tangent = vc.tangent; // precomputed from normal
 		friction = vc.friction;
 
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(pointCount === 1 || pointCount === 2); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(pointCount === 1 || pointCount === 2); }
 
 		// Solve tangent constraints first because non-penetration is more important
 		// than friction.
@@ -1008,7 +1008,7 @@ box2d.b2ContactSolver.prototype.SolveVelocityConstraints = function ()
 
 //			b2Vec2 a(cp1->normalImpulse, cp2->normalImpulse);
 			a.Set(cp1.normalImpulse, cp2.normalImpulse);
-			if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(a.x >= 0 && a.y >= 0); }
+			if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(a.x >= 0 && a.y >= 0); }
 
 			// Relative velocity at contact
 //			b2Vec2 dv1 = vB + b2Cross(wB, cp1->rB) - vA - b2Cross(wA, cp1->rA);
@@ -1092,8 +1092,8 @@ box2d.b2ContactSolver.prototype.SolveVelocityConstraints = function ()
 					vn1 = b2Dot(dv1, normal);
 					vn2 = b2Dot(dv2, normal);
 
-					if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2Abs(vn1 - cp1->velocityBias) < k_errorTol); }
-					if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2Abs(vn2 - cp2->velocityBias) < k_errorTol); }
+					if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2Abs(vn1 - cp1->velocityBias) < k_errorTol); }
+					if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2Abs(vn2 - cp2->velocityBias) < k_errorTol); }
 #endif
 */
 					break;
@@ -1144,7 +1144,7 @@ box2d.b2ContactSolver.prototype.SolveVelocityConstraints = function ()
 					// Compute normal velocity
 					vn1 = b2Dot(dv1, normal);
 
-					if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2Abs(vn1 - cp1->velocityBias) < k_errorTol); }
+					if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2Abs(vn1 - cp1->velocityBias) < k_errorTol); }
 #endif
 */
 					break;
@@ -1196,7 +1196,7 @@ box2d.b2ContactSolver.prototype.SolveVelocityConstraints = function ()
 					// Compute normal velocity
 					vn2 = b2Dot(dv2, normal);
 
-					if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2Abs(vn2 - cp2->velocityBias) < k_errorTol); }
+					if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2Abs(vn2 - cp2->velocityBias) < k_errorTol); }
 #endif
 */
 					break;
@@ -1332,7 +1332,7 @@ box2d.b2PositionSolverManifold.prototype.Initialize = function (pc, xfA, xfB, in
 	/** @type {box2d.b2Vec2} */ var planePoint = box2d.b2PositionSolverManifold.prototype.Initialize.s_planePoint;
 	/** @type {box2d.b2Vec2} */ var clipPoint = box2d.b2PositionSolverManifold.prototype.Initialize.s_clipPoint;
 
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(pc.pointCount > 0); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(pc.pointCount > 0); }
 
 	switch (pc.type)
 	{

@@ -16,11 +16,11 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2EdgeAndCircleContact');
 
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Contact');
-goog.require('box2d.b2CollideEdge');
+
+
+
+
 
 /**
  * @export 
@@ -32,7 +32,7 @@ box2d.b2EdgeAndCircleContact = function ()
 	box2d.b2Contact.call(this); // base class constructor
 };
 
-goog.inherits(box2d.b2EdgeAndCircleContact, box2d.b2Contact);
+box2d.b2EdgeAndCircleContact.prototype = Object.create(box2d.b2Contact.prototype);
 
 /**
  * @export 
@@ -65,8 +65,8 @@ box2d.b2EdgeAndCircleContact.prototype.Evaluate = function (manifold, xfA, xfB)
 {
 	var shapeA = this.m_fixtureA.GetShape();
 	var shapeB = this.m_fixtureB.GetShape();
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(shapeA instanceof box2d.b2EdgeShape); }
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(shapeB instanceof box2d.b2CircleShape); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(shapeA instanceof box2d.b2EdgeShape); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(shapeB instanceof box2d.b2CircleShape); }
 	box2d.b2CollideEdgeAndCircle(
 		manifold, 
 		(shapeA instanceof box2d.b2EdgeShape)? shapeA : null, xfA, 

@@ -18,10 +18,10 @@
 
 //#if B2_ENABLE_PARTICLE
 
-goog.provide('box2d.b2VoronoiDiagram');
 
-goog.require('box2d.b2StackQueue');
-goog.require('box2d.b2Collision');
+
+
+
 
 /** 
  * A field representing the nearest generator from each point. 

@@ -16,10 +16,10 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2Settings');
 
-//goog.require('goog.asserts');
-//goog.require('goog.string.format');
+
+//
+//
 
 if (!Object.defineProperty)
 {
@@ -55,13 +55,13 @@ if (!Object.defineProperty)
  * @export 
  * @define {boolean}
  */
-box2d.DEBUG = true;
+const BOX2D_DEBUG = false;
 
 /** 
  * @export 
  * @define {boolean}
  */
-box2d.ENABLE_ASSERTS = box2d.DEBUG;
+const BOX2D_ENABLE_ASSERTS = false;
 
 /** 
  * @export 
@@ -72,14 +72,13 @@ box2d.ENABLE_ASSERTS = box2d.DEBUG;
  */
 box2d.b2Assert = function (condition, opt_message, var_args)
 {
-	if (box2d.DEBUG)
+	if (BOX2D_DEBUG)
 	{
 		if (!condition)
 		{
 			debugger;
 		}
 	
-		//goog.asserts.assert(condition, opt_message, var_args);
 	}
 }
 
@@ -447,7 +446,7 @@ box2d.b2Free = function (mem)
  */
 box2d.b2Log = function (var_args)
 {
-	goog.global.console.log.apply(null, arguments);
+	console.log.apply(null, arguments);
 }
 
 /** 
@@ -561,4 +560,3 @@ box2d.b2MakeNumberArray = function (length)
 {
 	return box2d.b2MakeArray(length, function (i) { return 0; });
 }
-

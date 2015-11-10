@@ -16,9 +16,9 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2CollidePolygon');
 
-goog.require('box2d.b2Collision');
+
+
 
 /**
  * Find the max separation between poly1 and poly2 using edge
@@ -92,7 +92,7 @@ box2d.b2FindIncidentEdge = function (c, poly1, xf1, edge1, poly2, xf2)
 	var vertices2 = poly2.m_vertices;
 	var normals2 = poly2.m_normals;
 
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(0 <= edge1 && edge1 < count1); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(0 <= edge1 && edge1 < count1); }
 
 	// Get the normal of the reference edge in poly2's frame.
 	var normal1 = box2d.b2MulT_R_V2(xf2.q, box2d.b2Mul_R_V2(xf1.q, normals1[edge1], box2d.b2Vec2.s_t0), box2d.b2FindIncidentEdge.s_normal1);

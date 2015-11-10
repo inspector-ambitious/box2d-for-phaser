@@ -16,10 +16,10 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2WheelJoint');
 
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Math');
+
+
+
 
 /** 
  * Wheel joint definition. This requires defining a line of 
@@ -37,12 +37,12 @@ box2d.b2WheelJointDef = function ()
 {
 	box2d.b2JointDef.call(this, box2d.b2JointType.e_wheelJoint); // base class constructor
 
-	this.localAnchorA = new box2d.b2Vec2(0, 0);
-	this.localAnchorB = new box2d.b2Vec2(0, 0);
-	this.localAxisA = new box2d.b2Vec2(1, 0);
+	this.localAnchorA = new box2d.b2Vec2(0.0, 0.0);
+	this.localAnchorB = new box2d.b2Vec2(0.0, 0.0);
+	this.localAxisA = new box2d.b2Vec2(1.0, 0.0);
 }
 
-goog.inherits(box2d.b2WheelJointDef, box2d.b2JointDef);
+box2d.b2WheelJointDef.prototype = Object.create(box2d.b2JointDef.prototype);
 
 /** 
  * The local anchor point relative to bodyA's origin. 
@@ -160,7 +160,7 @@ box2d.b2WheelJoint = function (def)
 	this.m_ay.SetZero();
 }
 
-goog.inherits(box2d.b2WheelJoint, box2d.b2Joint);
+box2d.b2WheelJoint.prototype = Object.create(box2d.b2Joint.prototype);
 
 /**
  * @export 
@@ -737,7 +737,7 @@ box2d.b2WheelJoint.prototype.SolvePositionConstraints.s_P = new box2d.b2Vec2();
  */
 box2d.b2WheelJoint.prototype.GetDefinition = function (def)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false); } // TODO
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(false); } // TODO
 	return def;
 }
 
@@ -975,7 +975,7 @@ box2d.b2WheelJoint.prototype.GetMotorTorque = function (inv_dt)
  */
 box2d.b2WheelJoint.prototype.Dump = function ()
 {
-	if (box2d.DEBUG)
+	if (BOX2D_DEBUG)
 	{
 		var indexA = this.m_bodyA.m_islandIndex;
 		var indexB = this.m_bodyB.m_islandIndex;

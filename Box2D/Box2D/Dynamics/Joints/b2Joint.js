@@ -16,10 +16,10 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2Joint');
 
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Math');
+
+
+
 
 /** 
  * @export 
@@ -41,19 +41,19 @@ box2d.b2JointType =
 	e_motorJoint		: 11,
 	e_areaJoint			: 12
 };
-goog.exportProperty(box2d.b2JointType, 'e_unknownJoint'  , box2d.b2JointType.e_unknownJoint  );
-goog.exportProperty(box2d.b2JointType, 'e_revoluteJoint' , box2d.b2JointType.e_revoluteJoint );
-goog.exportProperty(box2d.b2JointType, 'e_prismaticJoint', box2d.b2JointType.e_prismaticJoint);
-goog.exportProperty(box2d.b2JointType, 'e_distanceJoint' , box2d.b2JointType.e_distanceJoint );
-goog.exportProperty(box2d.b2JointType, 'e_pulleyJoint'   , box2d.b2JointType.e_pulleyJoint   );
-goog.exportProperty(box2d.b2JointType, 'e_mouseJoint'    , box2d.b2JointType.e_mouseJoint    );
-goog.exportProperty(box2d.b2JointType, 'e_gearJoint'     , box2d.b2JointType.e_gearJoint     );
-goog.exportProperty(box2d.b2JointType, 'e_wheelJoint'    , box2d.b2JointType.e_wheelJoint    );
-goog.exportProperty(box2d.b2JointType, 'e_weldJoint'     , box2d.b2JointType.e_weldJoint     );
-goog.exportProperty(box2d.b2JointType, 'e_frictionJoint' , box2d.b2JointType.e_frictionJoint );
-goog.exportProperty(box2d.b2JointType, 'e_ropeJoint'     , box2d.b2JointType.e_ropeJoint     );
-goog.exportProperty(box2d.b2JointType, 'e_motorJoint'    , box2d.b2JointType.e_motorJoint    );
-goog.exportProperty(box2d.b2JointType, 'e_areaJoint'     , box2d.b2JointType.e_areaJoint     );
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /** 
  * @export 
@@ -66,10 +66,10 @@ box2d.b2LimitState =
 	e_atUpperLimit	: 2,
 	e_equalLimits	: 3
 };
-goog.exportProperty(box2d.b2LimitState, 'e_inactiveLimit', box2d.b2LimitState.e_inactiveLimit);
-goog.exportProperty(box2d.b2LimitState, 'e_atLowerLimit' , box2d.b2LimitState.e_atLowerLimit );
-goog.exportProperty(box2d.b2LimitState, 'e_atUpperLimit' , box2d.b2LimitState.e_atUpperLimit );
-goog.exportProperty(box2d.b2LimitState, 'e_equalLimits'  , box2d.b2LimitState.e_equalLimits  );
+
+
+
+
 
 /** 
  * @export 
@@ -212,7 +212,7 @@ box2d.b2JointDef.prototype.collideConnected = false;
  */
 box2d.b2Joint = function (def)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(def.bodyA !== def.bodyB); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(def.bodyA !== def.bodyB); }
 
 	this.m_type = def.type;
 	this.m_edgeA = new box2d.b2JointEdge();
@@ -441,7 +441,7 @@ box2d.b2Joint.prototype.GetCollideConnected = function ()
  */
 box2d.b2Joint.prototype.Dump = function ()
 {
-	if (box2d.DEBUG)
+	if (BOX2D_DEBUG)
 	{
 		box2d.b2Log("// Dump is not supported for this joint type.\n");
 	}
