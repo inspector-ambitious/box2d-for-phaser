@@ -434,22 +434,6 @@ box2d.b2Fixture.prototype.TestPoint = function (p)
 	return this.m_shape.TestPoint(this.m_body.GetTransform(), p);
 }
 
-//#if B2_ENABLE_PARTICLE
-
-/** 
- * Compute the distance from this fixture. 
- * @export 
- * @return {number} 
- * @param {box2d.b2Vec2} p a point in world coordinates.
- * @param {box2d.b2Vec2} normal 
- * @param {number} childIndex 
- */
-box2d.b2Fixture.prototype.ComputeDistance = function (p, normal, childIndex)
-{
-	return this.m_shape.ComputeDistance(this.m_body.GetTransform(), p, normal, childIndex);
-}
-
-//#endif
 
 /** 
  * Cast a ray against this shape. 
@@ -729,4 +713,3 @@ box2d.b2Fixture.prototype.Dump = function (bodyIndex)
 		box2d.b2Log("    bodies[%d].CreateFixture(fd);\n", bodyIndex);
 	}
 }
-

@@ -137,9 +137,6 @@ box2d.b2DrawFlags =
 //#if B2_ENABLE_CONTROLLER
 	e_controllerBit		: 0x0020, /// @see box2d.b2Controller list
 //#endif
-//#if B2_ENABLE_PARTICLE
-	e_particleBit		: 0x0040, ///< draw particles
-//#endif
 	e_all				: 0xffff
 };
 
@@ -320,4 +317,3 @@ box2d.b2Draw.prototype.DrawSegment = function (p1, p2, color)
 box2d.b2Draw.prototype.DrawTransform = function (xf)
 {
 }
-

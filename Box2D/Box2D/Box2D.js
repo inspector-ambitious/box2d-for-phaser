@@ -76,11 +76,3 @@ For discussion please visit http://box2d.org/forum
 
 
 //#endif
-
-//#if B2_ENABLE_PARTICLE
-
-
-
-
-
-//#endif
