@@ -86,16 +86,16 @@ box2d.b2RopeJoint = function (def)
 	this.m_localAnchorB = def.localAnchorB.Clone();
 	this.m_maxLength = def.maxLength;
 
-	this.m_u = new box2d.b2Vec2();
-	this.m_rA = new box2d.b2Vec2();
-	this.m_rB = new box2d.b2Vec2();
-	this.m_localCenterA = new box2d.b2Vec2();
-	this.m_localCenterB = new box2d.b2Vec2();
+	this.m_u = new box2d.b2Vec2(0.0, 0.0);
+	this.m_rA = new box2d.b2Vec2(0.0, 0.0);
+	this.m_rB = new box2d.b2Vec2(0.0, 0.0);
+	this.m_localCenterA = new box2d.b2Vec2(0.0, 0.0);
+	this.m_localCenterB = new box2d.b2Vec2(0.0, 0.0);
 
 	this.m_qA = new box2d.b2Rot();
 	this.m_qB = new box2d.b2Rot();
-	this.m_lalcA = new box2d.b2Vec2();
-	this.m_lalcB = new box2d.b2Vec2();
+	this.m_lalcA = new box2d.b2Vec2(0.0, 0.0);
+	this.m_lalcB = new box2d.b2Vec2(0.0, 0.0);
 }
 
 box2d.b2RopeJoint.prototype = Object.create(box2d.b2Joint.prototype);
@@ -307,7 +307,7 @@ box2d.b2RopeJoint.prototype.InitVelocityConstraints = function (data)
 //	data.velocities[this.m_indexB].v = vB;
 	data.velocities[this.m_indexB].w = wB;
 }
-box2d.b2RopeJoint.prototype.InitVelocityConstraints.s_P = new box2d.b2Vec2();
+box2d.b2RopeJoint.prototype.InitVelocityConstraints.s_P = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * @export 
@@ -356,9 +356,9 @@ box2d.b2RopeJoint.prototype.SolveVelocityConstraints = function (data)
 //	data.velocities[this.m_indexB].v = vB;
 	data.velocities[this.m_indexB].w = wB;
 }
-box2d.b2RopeJoint.prototype.SolveVelocityConstraints.s_vpA = new box2d.b2Vec2();
-box2d.b2RopeJoint.prototype.SolveVelocityConstraints.s_vpB = new box2d.b2Vec2();
-box2d.b2RopeJoint.prototype.SolveVelocityConstraints.s_P = new box2d.b2Vec2();
+box2d.b2RopeJoint.prototype.SolveVelocityConstraints.s_vpA = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2RopeJoint.prototype.SolveVelocityConstraints.s_vpB = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2RopeJoint.prototype.SolveVelocityConstraints.s_P = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * @export 
@@ -406,7 +406,7 @@ box2d.b2RopeJoint.prototype.SolvePositionConstraints = function (data)
 
 	return length - this.m_maxLength < box2d.b2_linearSlop;
 }
-box2d.b2RopeJoint.prototype.SolvePositionConstraints.s_P = new box2d.b2Vec2();
+box2d.b2RopeJoint.prototype.SolvePositionConstraints.s_P = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * @export 

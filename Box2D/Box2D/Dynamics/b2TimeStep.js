@@ -100,17 +100,17 @@ box2d.b2TimeStep = function ()
  * @export 
  * @type {number}
  */
-box2d.b2TimeStep.prototype.dt = 0; // time step
+box2d.b2TimeStep.prototype.dt = 0.0; // time step
 /**
  * @export 
  * @type {number}
  */
-box2d.b2TimeStep.prototype.inv_dt = 0; // inverse time step (0 if dt === 0).
+box2d.b2TimeStep.prototype.inv_dt = 0.0; // inverse time step (0 if dt === 0).
 /**
  * @export 
  * @type {number}
  */
-box2d.b2TimeStep.prototype.dtRatio = 0; // dt * inv_dt0
+box2d.b2TimeStep.prototype.dtRatio = 0.0; // dt * inv_dt0
 /**
  * @export 
  * @type {number}
@@ -160,7 +160,7 @@ box2d.b2TimeStep.prototype.Copy = function (step)
  */
 box2d.b2Position = function ()
 {
-	this.c = new box2d.b2Vec2();
+	this.c = new box2d.b2Vec2(0.0, 0.0);
 };
 
 /**
@@ -191,7 +191,7 @@ box2d.b2Position.MakeArray = function (length)
  */
 box2d.b2Velocity = function ()
 {
-	this.v = new box2d.b2Vec2();
+	this.v = new box2d.b2Vec2(0.0, 0.0);
 };
 
 /**

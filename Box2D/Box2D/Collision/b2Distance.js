@@ -252,8 +252,8 @@ box2d.b2DistanceInput.prototype.Reset = function ()
  */
 box2d.b2DistanceOutput = function ()
 {
-	this.pointA = new box2d.b2Vec2();
-	this.pointB = new box2d.b2Vec2();
+	this.pointA = new box2d.b2Vec2(0.0, 0.0);
+	this.pointB = new box2d.b2Vec2(0.0, 0.0);
 };
 
 /**
@@ -317,9 +317,9 @@ box2d.b2_gjkMaxIters = 0;
  */
 box2d.b2SimplexVertex = function ()
 {
-	this.wA = new box2d.b2Vec2();
-	this.wB = new box2d.b2Vec2();
-	this.w = new box2d.b2Vec2();
+	this.wA = new box2d.b2Vec2(0.0, 0.0);
+	this.wB = new box2d.b2Vec2(0.0, 0.0);
+	this.w = new box2d.b2Vec2(0.0, 0.0);
 };
 
 /**
@@ -792,9 +792,9 @@ box2d.b2Simplex.prototype.Solve3 = function ()
 	this.m_v3.a = d123_3 * inv_d123;
 	this.m_count = 3;
 }
-box2d.b2Simplex.s_e12 = new box2d.b2Vec2();
-box2d.b2Simplex.s_e13 = new box2d.b2Vec2();
-box2d.b2Simplex.s_e23 = new box2d.b2Vec2();
+box2d.b2Simplex.s_e12 = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2Simplex.s_e13 = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2Simplex.s_e23 = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * Compute the closest points between two shapes. Supports any combination of:
@@ -959,9 +959,9 @@ box2d.b2ShapeDistance = function (output, cache, input)
 box2d.b2Distance.s_simplex = new box2d.b2Simplex();
 box2d.b2Distance.s_saveA = box2d.b2MakeNumberArray(3);
 box2d.b2Distance.s_saveB = box2d.b2MakeNumberArray(3);
-box2d.b2Distance.s_p = new box2d.b2Vec2();
-box2d.b2Distance.s_d = new box2d.b2Vec2();
-box2d.b2Distance.s_normal = new box2d.b2Vec2();
-box2d.b2Distance.s_supportA = new box2d.b2Vec2();
-box2d.b2Distance.s_supportB = new box2d.b2Vec2();
+box2d.b2Distance.s_p = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2Distance.s_d = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2Distance.s_normal = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2Distance.s_supportA = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2Distance.s_supportB = new box2d.b2Vec2(0.0, 0.0);
 

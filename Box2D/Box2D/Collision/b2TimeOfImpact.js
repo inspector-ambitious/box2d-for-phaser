@@ -160,8 +160,8 @@ box2d.b2SeparationFunction = function ()
 {
 	this.m_sweepA = new box2d.b2Sweep();
 	this.m_sweepB = new box2d.b2Sweep();
-	this.m_localPoint = new box2d.b2Vec2();
-	this.m_axis = new box2d.b2Vec2();
+	this.m_localPoint = new box2d.b2Vec2(0.0, 0.0);
+	this.m_axis = new box2d.b2Vec2(0.0, 0.0);
 };
 
 /**
@@ -680,9 +680,9 @@ box2d.b2TimeOfImpact.s_indexB = box2d.b2MakeNumberArray(1);
 box2d.b2TimeOfImpact.s_fcn = new box2d.b2SeparationFunction();
 box2d.b2TimeOfImpact.s_sweepA = new box2d.b2Sweep();
 box2d.b2TimeOfImpact.s_sweepB = new box2d.b2Sweep();
-box2d.b2TimeOfImpact.s_pointA = new box2d.b2Vec2();
-box2d.b2TimeOfImpact.s_pointB = new box2d.b2Vec2();
-box2d.b2TimeOfImpact.s_normal = new box2d.b2Vec2();
-box2d.b2TimeOfImpact.s_axisA = new box2d.b2Vec2();
-box2d.b2TimeOfImpact.s_axisB = new box2d.b2Vec2();
+box2d.b2TimeOfImpact.s_pointA = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2TimeOfImpact.s_pointB = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2TimeOfImpact.s_normal = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2TimeOfImpact.s_axisA = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2TimeOfImpact.s_axisB = new box2d.b2Vec2(0.0, 0.0);
 

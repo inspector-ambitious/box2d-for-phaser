@@ -694,8 +694,8 @@ box2d.b2PrismaticJoint.prototype.SolveVelocityConstraints = function (data)
 }
 box2d.b2PrismaticJoint.prototype.SolveVelocityConstraints.s_P = new box2d.b2Vec2(0.0, 0.0);
 box2d.b2PrismaticJoint.prototype.SolveVelocityConstraints.s_f2r = new box2d.b2Vec2(0.0, 0.0);
-box2d.b2PrismaticJoint.prototype.SolveVelocityConstraints.s_f1 = new box2d.b2Vec3();
-box2d.b2PrismaticJoint.prototype.SolveVelocityConstraints.s_df3 = new box2d.b2Vec3();
+box2d.b2PrismaticJoint.prototype.SolveVelocityConstraints.s_f1 = new box2d.b2Vec3(0.0, 0.0, 0.0);
+box2d.b2PrismaticJoint.prototype.SolveVelocityConstraints.s_df3 = new box2d.b2Vec3(0.0, 0.0, 0.0);
 box2d.b2PrismaticJoint.prototype.SolveVelocityConstraints.s_df2 = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
@@ -865,7 +865,7 @@ box2d.b2PrismaticJoint.prototype.SolvePositionConstraints = function (data)
 	return linearError <= box2d.b2_linearSlop && angularError <= box2d.b2_angularSlop;
 }
 box2d.b2PrismaticJoint.prototype.SolvePositionConstraints.s_d = new box2d.b2Vec2(0.0, 0.0);
-box2d.b2PrismaticJoint.prototype.SolvePositionConstraints.s_impulse = new box2d.b2Vec3();;
+box2d.b2PrismaticJoint.prototype.SolvePositionConstraints.s_impulse = new box2d.b2Vec3(0.0, 0.0, 0.0);;
 box2d.b2PrismaticJoint.prototype.SolvePositionConstraints.s_impulse1 = new box2d.b2Vec2(0.0, 0.0);;
 box2d.b2PrismaticJoint.prototype.SolvePositionConstraints.s_P = new box2d.b2Vec2(0.0, 0.0);;
 

@@ -33,7 +33,7 @@ box2d.b2MouseJointDef = function ()
 {
 	box2d.b2JointDef.call(this, box2d.b2JointType.e_mouseJoint); // base class constructor
 
-	this.target = new box2d.b2Vec2();
+	this.target = new box2d.b2Vec2(0.0, 0.0);
 }
 
 box2d.b2MouseJointDef.prototype = Object.create(box2d.b2JointDef.prototype);
@@ -86,17 +86,17 @@ box2d.b2MouseJoint = function (def)
 {
 	box2d.b2Joint.call(this, def); // base class constructor
 
-	this.m_localAnchorB = new box2d.b2Vec2();
-	this.m_targetA = new box2d.b2Vec2();
+	this.m_localAnchorB = new box2d.b2Vec2(0.0, 0.0);
+	this.m_targetA = new box2d.b2Vec2(0.0, 0.0);
 
-	this.m_impulse = new box2d.b2Vec2();
+	this.m_impulse = new box2d.b2Vec2(0.0, 0.0);
 
-	this.m_rB = new box2d.b2Vec2();
-	this.m_localCenterB = new box2d.b2Vec2();
+	this.m_rB = new box2d.b2Vec2(0.0, 0.0);
+	this.m_localCenterB = new box2d.b2Vec2(0.0, 0.0);
 	this.m_mass = new box2d.b2Mat22();
-	this.m_C = new box2d.b2Vec2();
+	this.m_C = new box2d.b2Vec2(0.0, 0.0);
 	this.m_qB = new box2d.b2Rot();
-	this.m_lalcB = new box2d.b2Vec2();
+	this.m_lalcB = new box2d.b2Vec2(0.0, 0.0);
 	this.m_K = new box2d.b2Mat22();
 
 	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(def.target.IsValid()); }
@@ -426,9 +426,9 @@ box2d.b2MouseJoint.prototype.SolveVelocityConstraints = function (data)
 //	data.velocities[this.m_indexB].v = vB;
 	data.velocities[this.m_indexB].w = wB;
 }
-box2d.b2MouseJoint.prototype.SolveVelocityConstraints.s_Cdot = new box2d.b2Vec2();
-box2d.b2MouseJoint.prototype.SolveVelocityConstraints.s_impulse = new box2d.b2Vec2();
-box2d.b2MouseJoint.prototype.SolveVelocityConstraints.s_oldImpulse = new box2d.b2Vec2();
+box2d.b2MouseJoint.prototype.SolveVelocityConstraints.s_Cdot = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2MouseJoint.prototype.SolveVelocityConstraints.s_impulse = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2MouseJoint.prototype.SolveVelocityConstraints.s_oldImpulse = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @export 

@@ -583,9 +583,9 @@ box2d.b2MotorJoint.prototype.SolveVelocityConstraints = function (data)
 //	data.velocities[this.m_indexB].v = vB; // vB is a reference
 	data.velocities[this.m_indexB].w = wB;
 }
-box2d.b2MotorJoint.prototype.SolveVelocityConstraints.s_Cdot = new box2d.b2Vec2();
-box2d.b2MotorJoint.prototype.SolveVelocityConstraints.s_impulse = new box2d.b2Vec2();
-box2d.b2MotorJoint.prototype.SolveVelocityConstraints.s_oldImpulse = new box2d.b2Vec2();
+box2d.b2MotorJoint.prototype.SolveVelocityConstraints.s_Cdot = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2MotorJoint.prototype.SolveVelocityConstraints.s_impulse = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2MotorJoint.prototype.SolveVelocityConstraints.s_oldImpulse = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * @export 

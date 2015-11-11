@@ -70,8 +70,8 @@ box2d.b2FindMaxSeparation = function (edgeIndex, poly1, xf1, poly2, xf2)
 	return maxSeparation;
 }
 box2d.b2FindMaxSeparation.s_xf = new box2d.b2Transform();
-box2d.b2FindMaxSeparation.s_n = new box2d.b2Vec2();
-box2d.b2FindMaxSeparation.s_v1 = new box2d.b2Vec2();
+box2d.b2FindMaxSeparation.s_n = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2FindMaxSeparation.s_v1 = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @export
@@ -130,7 +130,7 @@ box2d.b2FindIncidentEdge = function (c, poly1, xf1, edge1, poly2, xf2)
 	cf1.typeA = box2d.b2ContactFeatureType.e_face;
 	cf1.typeB = box2d.b2ContactFeatureType.e_vertex;
 }
-box2d.b2FindIncidentEdge.s_normal1 = new box2d.b2Vec2();
+box2d.b2FindIncidentEdge.s_normal1 = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * Find edge normal of max separation on A - return if separating axis is found
@@ -277,12 +277,12 @@ box2d.b2CollidePolygons.s_clipPoints1 = box2d.b2ClipVertex.MakeArray(2);
 box2d.b2CollidePolygons.s_clipPoints2 = box2d.b2ClipVertex.MakeArray(2);
 box2d.b2CollidePolygons.s_edgeA = box2d.b2MakeNumberArray(1);
 box2d.b2CollidePolygons.s_edgeB = box2d.b2MakeNumberArray(1);
-box2d.b2CollidePolygons.s_localTangent = new box2d.b2Vec2();
-box2d.b2CollidePolygons.s_localNormal = new box2d.b2Vec2();
-box2d.b2CollidePolygons.s_planePoint = new box2d.b2Vec2();
-box2d.b2CollidePolygons.s_normal = new box2d.b2Vec2();
-box2d.b2CollidePolygons.s_tangent = new box2d.b2Vec2();
-box2d.b2CollidePolygons.s_ntangent = new box2d.b2Vec2();
-box2d.b2CollidePolygons.s_v11 = new box2d.b2Vec2();
-box2d.b2CollidePolygons.s_v12 = new box2d.b2Vec2();
+box2d.b2CollidePolygons.s_localTangent = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2CollidePolygons.s_localNormal = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2CollidePolygons.s_planePoint = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2CollidePolygons.s_normal = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2CollidePolygons.s_tangent = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2CollidePolygons.s_ntangent = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2CollidePolygons.s_v11 = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2CollidePolygons.s_v12 = new box2d.b2Vec2(0.0, 0.0);
 

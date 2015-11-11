@@ -84,19 +84,19 @@ box2d.b2GearJoint = function (def)
 	this.m_joint1 = def.joint1;
 	this.m_joint2 = def.joint2;
 
-	this.m_localAnchorA = new box2d.b2Vec2();
-	this.m_localAnchorB = new box2d.b2Vec2();
-	this.m_localAnchorC = new box2d.b2Vec2();
-	this.m_localAnchorD = new box2d.b2Vec2();
+	this.m_localAnchorA = new box2d.b2Vec2(0.0, 0.0);
+	this.m_localAnchorB = new box2d.b2Vec2(0.0, 0.0);
+	this.m_localAnchorC = new box2d.b2Vec2(0.0, 0.0);
+	this.m_localAnchorD = new box2d.b2Vec2(0.0, 0.0);
 
-	this.m_localAxisC = new box2d.b2Vec2();
-	this.m_localAxisD = new box2d.b2Vec2();
+	this.m_localAxisC = new box2d.b2Vec2(0.0, 0.0);
+	this.m_localAxisD = new box2d.b2Vec2(0.0, 0.0);
 
-	this.m_lcA = new box2d.b2Vec2(), this.m_lcB = new box2d.b2Vec2(), this.m_lcC = new box2d.b2Vec2(), this.m_lcD = new box2d.b2Vec2();
-	this.m_JvAC = new box2d.b2Vec2(), this.m_JvBD = new box2d.b2Vec2();
+	this.m_lcA = new box2d.b2Vec2(0.0, 0.0), this.m_lcB = new box2d.b2Vec2(0.0, 0.0), this.m_lcC = new box2d.b2Vec2(0.0, 0.0), this.m_lcD = new box2d.b2Vec2(0.0, 0.0);
+	this.m_JvAC = new box2d.b2Vec2(0.0, 0.0), this.m_JvBD = new box2d.b2Vec2(0.0, 0.0);
 
 	this.m_qA = new box2d.b2Rot(), this.m_qB = new box2d.b2Rot(), this.m_qC = new box2d.b2Rot(), this.m_qD = new box2d.b2Rot();
-	this.m_lalcA = new box2d.b2Vec2(), this.m_lalcB = new box2d.b2Vec2(), this.m_lalcC = new box2d.b2Vec2(), this.m_lalcD = new box2d.b2Vec2();
+	this.m_lalcA = new box2d.b2Vec2(0.0, 0.0), this.m_lalcB = new box2d.b2Vec2(0.0, 0.0), this.m_lalcC = new box2d.b2Vec2(0.0, 0.0), this.m_lalcD = new box2d.b2Vec2(0.0, 0.0);
 
 	this.m_typeA = this.m_joint1.GetType();
 	this.m_typeB = this.m_joint2.GetType();
@@ -583,11 +583,11 @@ box2d.b2GearJoint.prototype.InitVelocityConstraints = function (data)
 //	data.velocities[this.m_indexD].v = vD;
 	data.velocities[this.m_indexD].w = wD;
 }
-box2d.b2GearJoint.prototype.InitVelocityConstraints.s_u = new box2d.b2Vec2();
-box2d.b2GearJoint.prototype.InitVelocityConstraints.s_rA = new box2d.b2Vec2();
-box2d.b2GearJoint.prototype.InitVelocityConstraints.s_rB = new box2d.b2Vec2();
-box2d.b2GearJoint.prototype.InitVelocityConstraints.s_rC = new box2d.b2Vec2();
-box2d.b2GearJoint.prototype.InitVelocityConstraints.s_rD = new box2d.b2Vec2();
+box2d.b2GearJoint.prototype.InitVelocityConstraints.s_u = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2GearJoint.prototype.InitVelocityConstraints.s_rA = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2GearJoint.prototype.InitVelocityConstraints.s_rB = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2GearJoint.prototype.InitVelocityConstraints.s_rC = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2GearJoint.prototype.InitVelocityConstraints.s_rD = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @param {box2d.b2SolverData} data
@@ -776,11 +776,11 @@ box2d.b2GearJoint.prototype.SolvePositionConstraints = function (data)
 	// TODO_ERIN not implemented
 	return linearError < box2d.b2_linearSlop;
 }
-box2d.b2GearJoint.prototype.SolvePositionConstraints.s_u = new box2d.b2Vec2();
-box2d.b2GearJoint.prototype.SolvePositionConstraints.s_rA = new box2d.b2Vec2();
-box2d.b2GearJoint.prototype.SolvePositionConstraints.s_rB = new box2d.b2Vec2();
-box2d.b2GearJoint.prototype.SolvePositionConstraints.s_rC = new box2d.b2Vec2();
-box2d.b2GearJoint.prototype.SolvePositionConstraints.s_rD = new box2d.b2Vec2();
+box2d.b2GearJoint.prototype.SolvePositionConstraints.s_u = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2GearJoint.prototype.SolvePositionConstraints.s_rA = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2GearJoint.prototype.SolvePositionConstraints.s_rB = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2GearJoint.prototype.SolvePositionConstraints.s_rC = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2GearJoint.prototype.SolvePositionConstraints.s_rD = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * @export 

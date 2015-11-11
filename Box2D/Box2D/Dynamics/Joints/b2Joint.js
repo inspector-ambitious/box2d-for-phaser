@@ -77,7 +77,7 @@ box2d.b2LimitState =
  */
 box2d.b2Jacobian = function ()
 {
-	this.linear = new box2d.b2Vec2();
+	this.linear = new box2d.b2Vec2(0.0, 0.0);
 };
 
 /**

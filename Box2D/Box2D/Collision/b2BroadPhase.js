@@ -250,6 +250,8 @@ box2d.b2BroadPhase.prototype.ShiftOrigin = function (newOrigin)
  * @return {void} 
  * @param contactManager 
  */
+
+ // TODO: clean that shit up it can't be compiled by DFG
 box2d.b2BroadPhase.prototype.UpdatePairs = function (contactManager)
 {
 	// Reset pair buffer

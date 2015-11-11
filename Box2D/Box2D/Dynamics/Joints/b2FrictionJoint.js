@@ -32,8 +32,8 @@ box2d.b2FrictionJointDef = function ()
 {
 	box2d.b2JointDef.call(this, box2d.b2JointType.e_frictionJoint); // base class constructor
 
-	this.localAnchorA = new box2d.b2Vec2();
-	this.localAnchorB = new box2d.b2Vec2();
+	this.localAnchorA = new box2d.b2Vec2(0.0, 0.0);
+	this.localAnchorB = new box2d.b2Vec2(0.0, 0.0);
 }
 
 box2d.b2FrictionJointDef.prototype = Object.create(box2d.b2JointDef.prototype);
@@ -96,20 +96,20 @@ box2d.b2FrictionJoint = function (def)
 	this.m_localAnchorA = def.localAnchorA.Clone();
 	this.m_localAnchorB = def.localAnchorB.Clone();
 
-	this.m_linearImpulse = new box2d.b2Vec2().SetZero();
+	this.m_linearImpulse = new box2d.b2Vec2(0.0, 0.0).SetZero();
 	this.m_maxForce = def.maxForce;
 	this.m_maxTorque = def.maxTorque;
 
-	this.m_rA = new box2d.b2Vec2();
-	this.m_rB = new box2d.b2Vec2();
-	this.m_localCenterA = new box2d.b2Vec2();
-	this.m_localCenterB = new box2d.b2Vec2();
+	this.m_rA = new box2d.b2Vec2(0.0, 0.0);
+	this.m_rB = new box2d.b2Vec2(0.0, 0.0);
+	this.m_localCenterA = new box2d.b2Vec2(0.0, 0.0);
+	this.m_localCenterB = new box2d.b2Vec2(0.0, 0.0);
 	this.m_linearMass = new box2d.b2Mat22().SetZero();
 
 	this.m_qA = new box2d.b2Rot();
 	this.m_qB = new box2d.b2Rot();
-	this.m_lalcA = new box2d.b2Vec2();
-	this.m_lalcB = new box2d.b2Vec2();
+	this.m_lalcA = new box2d.b2Vec2(0.0, 0.0);
+	this.m_lalcB = new box2d.b2Vec2(0.0, 0.0);
 	this.m_K = new box2d.b2Mat22();
 }
 
@@ -403,9 +403,9 @@ box2d.b2FrictionJoint.prototype.SolveVelocityConstraints = function (data)
 //	data.velocities[this.m_indexB].v = vB;
 	data.velocities[this.m_indexB].w = wB;
 }
-box2d.b2FrictionJoint.prototype.SolveVelocityConstraints.s_Cdot = new box2d.b2Vec2();
-box2d.b2FrictionJoint.prototype.SolveVelocityConstraints.s_impulseV = new box2d.b2Vec2();
-box2d.b2FrictionJoint.prototype.SolveVelocityConstraints.s_oldImpulseV = new box2d.b2Vec2();
+box2d.b2FrictionJoint.prototype.SolveVelocityConstraints.s_Cdot = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2FrictionJoint.prototype.SolveVelocityConstraints.s_impulseV = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2FrictionJoint.prototype.SolveVelocityConstraints.s_oldImpulseV = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * @export 

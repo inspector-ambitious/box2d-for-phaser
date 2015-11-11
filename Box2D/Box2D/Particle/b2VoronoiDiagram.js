@@ -80,7 +80,7 @@ box2d.b2VoronoiDiagram.NodeCallback;
  */
 box2d.b2VoronoiDiagram.Generator = function ()
 {
-	this.center = new box2d.b2Vec2();
+	this.center = new box2d.b2Vec2(0.0, 0.0);
 };
 
 /**

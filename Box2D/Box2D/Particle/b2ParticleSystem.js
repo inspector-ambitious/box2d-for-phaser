@@ -458,7 +458,7 @@ box2d.b2FixtureParticleQueryCallback.prototype.ReportFixtureAndParticle = functi
  */
 box2d.b2ParticleContact = function ()
 {
-	this.normal = new box2d.b2Vec2();
+	this.normal = new box2d.b2Vec2(0.0, 0.0);
 }
 
 /**
@@ -620,7 +620,7 @@ box2d.b2ParticleContact.prototype.ApproximatelyEqual = function (rhs)
  */
 box2d.b2ParticleBodyContact = function ()
 {
-	this.normal = new box2d.b2Vec2();
+	this.normal = new box2d.b2Vec2(0.0, 0.0);
 }
 
 /** 
@@ -1802,10 +1802,10 @@ box2d.b2ParticleSystem.prototype.CreateParticle = function (def)
 	{
 		this.m_consecutiveContactStepsBuffer.data[index] = 0;
 	}
-	this.m_positionBuffer.data[index] = (this.m_positionBuffer.data[index] || new box2d.b2Vec2()).Copy(def.position);
-	this.m_velocityBuffer.data[index] = (this.m_velocityBuffer.data[index] || new box2d.b2Vec2()).Copy(def.velocity);
+	this.m_positionBuffer.data[index] = (this.m_positionBuffer.data[index] || new box2d.b2Vec2(0.0, 0.0)).Copy(def.position);
+	this.m_velocityBuffer.data[index] = (this.m_velocityBuffer.data[index] || new box2d.b2Vec2(0.0, 0.0)).Copy(def.velocity);
 	this.m_weightBuffer[index] = 0;
-	this.m_forceBuffer[index] = (this.m_forceBuffer[index] || new box2d.b2Vec2()).SetZero();
+	this.m_forceBuffer[index] = (this.m_forceBuffer[index] || new box2d.b2Vec2(0.0, 0.0)).SetZero();
 	if (this.m_staticPressureBuffer)
 	{
 		this.m_staticPressureBuffer[index] = 0;
@@ -2914,7 +2914,7 @@ box2d.b2ParticleSystem.prototype.ComputeCollisionEnergy = function ()
 	}
 	return 0.5 * this.GetParticleMass() * sum_v2;
 }
-box2d.b2ParticleSystem.prototype.ComputeCollisionEnergy.s_v = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.ComputeCollisionEnergy.s_v = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * Set strict Particle/Body contact check. 
@@ -3391,10 +3391,10 @@ box2d.b2ParticleSystem.prototype.RayCast = function (callback, point1, point2)
 	}
 }
 box2d.b2ParticleSystem.prototype.RayCast.s_aabb = new box2d.b2AABB();
-box2d.b2ParticleSystem.prototype.RayCast.s_p = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.RayCast.s_v = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.RayCast.s_n = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.RayCast.s_point = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.RayCast.s_p = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.RayCast.s_v = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.RayCast.s_n = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.RayCast.s_point = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * Compute the axis-aligned bounding box for all particles 
@@ -3860,8 +3860,8 @@ box2d.b2ParticleSystem.prototype.CreateParticlesStrokeShapeForGroup = function (
 	}
 }
 box2d.b2ParticleSystem.prototype.CreateParticlesStrokeShapeForGroup.s_edge = new box2d.b2EdgeShape();
-box2d.b2ParticleSystem.prototype.CreateParticlesStrokeShapeForGroup.s_d = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.CreateParticlesStrokeShapeForGroup.s_p = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.CreateParticlesStrokeShapeForGroup.s_d = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.CreateParticlesStrokeShapeForGroup.s_p = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @export 
@@ -3898,7 +3898,7 @@ box2d.b2ParticleSystem.prototype.CreateParticlesFillShapeForGroup = function (sh
 	}
 }
 box2d.b2ParticleSystem.prototype.CreateParticlesFillShapeForGroup.s_aabb = new box2d.b2AABB();
-box2d.b2ParticleSystem.prototype.CreateParticlesFillShapeForGroup.s_p = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.CreateParticlesFillShapeForGroup.s_p = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @export 
@@ -4316,16 +4316,16 @@ box2d.b2ParticleSystem.prototype.UpdatePairsAndTriads = function (firstIndex, la
 					groupA ? groupA.m_strength : 1,
 					groupB ? groupB.m_strength : 1),
 					groupC ? groupC.m_strength : 1);
-				///	var midPoint = box2d.b2Mul_S_V2(1.0 / 3.0, box2d.b2Add_V2_V2(pa, box2d.b2Add_V2_V2(pb, pc, new box2d.b2Vec2()), new box2d.b2Vec2()), new box2d.b2Vec2());
+				///	var midPoint = box2d.b2Mul_S_V2(1.0 / 3.0, box2d.b2Add_V2_V2(pa, box2d.b2Add_V2_V2(pb, pc, new box2d.b2Vec2(0.0, 0.0)), new box2d.b2Vec2(0.0, 0.0)), new box2d.b2Vec2(0.0, 0.0));
 				var midPoint_x = (pa.x + pb.x + pc.x) / 3.0;
 				var midPoint_y = (pa.y + pb.y + pc.y) / 3.0;
-				///	triad.pa = box2d.b2Sub_V2_V2(pa, midPoint, new box2d.b2Vec2());
+				///	triad.pa = box2d.b2Sub_V2_V2(pa, midPoint, new box2d.b2Vec2(0.0, 0.0));
 				triad.pa.x = pa.x - midPoint_x;
 				triad.pa.y = pa.y - midPoint_y;
-				///	triad.pb = box2d.b2Sub_V2_V2(pb, midPoint, new box2d.b2Vec2());
+				///	triad.pb = box2d.b2Sub_V2_V2(pb, midPoint, new box2d.b2Vec2(0.0, 0.0));
 				triad.pb.x = pb.x - midPoint_x;
 				triad.pb.y = pb.y - midPoint_y;
-				///	triad.pc = box2d.b2Sub_V2_V2(pc, midPoint, new box2d.b2Vec2());
+				///	triad.pc = box2d.b2Sub_V2_V2(pc, midPoint, new box2d.b2Vec2(0.0, 0.0));
 				triad.pc.x = pc.x - midPoint_x;
 				triad.pc.y = pc.y - midPoint_y;
 				triad.ka = -box2d.b2Dot_V2_V2(dca, dab);
@@ -4341,9 +4341,9 @@ box2d.b2ParticleSystem.prototype.UpdatePairsAndTriads = function (firstIndex, la
 		this.m_triadBuffer.Unique(box2d.b2ParticleSystem.MatchTriadIndices);
 	}
 }
-box2d.b2ParticleSystem.prototype.UpdatePairsAndTriads.s_dab = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.UpdatePairsAndTriads.s_dbc = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.UpdatePairsAndTriads.s_dca = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.UpdatePairsAndTriads.s_dab = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.UpdatePairsAndTriads.s_dbc = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.UpdatePairsAndTriads.s_dca = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @constructor 
@@ -4866,7 +4866,7 @@ box2d.b2ParticleSystem.prototype.AddContact = function (a, b, contacts)
 		box2d.b2Mul_S_V2(invD, d, contact.normal);
 	}
 }
-box2d.b2ParticleSystem.prototype.AddContact.s_d = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.AddContact.s_d = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @return {void} 
@@ -5232,8 +5232,8 @@ box2d.b2ParticleSystem.UpdateBodyContactsCallback.prototype.ReportFixtureAndPart
 		this.m_system.DetectStuckParticle(a);
 	}
 }
-box2d.b2ParticleSystem.UpdateBodyContactsCallback.prototype.ReportFixtureAndParticle.s_n = new box2d.b2Vec2();
-box2d.b2ParticleSystem.UpdateBodyContactsCallback.prototype.ReportFixtureAndParticle.s_rp = new box2d.b2Vec2();
+box2d.b2ParticleSystem.UpdateBodyContactsCallback.prototype.ReportFixtureAndParticle.s_n = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.UpdateBodyContactsCallback.prototype.ReportFixtureAndParticle.s_rp = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @return {void}
@@ -5499,12 +5499,12 @@ box2d.b2ParticleSystem.SolveCollisionCallback.prototype.ReportFixtureAndParticle
 		this.m_system.ParticleApplyForce(a, f);
 	}
 }
-box2d.b2ParticleSystem.SolveCollisionCallback.prototype.ReportFixtureAndParticle.s_p1 = new box2d.b2Vec2();
+box2d.b2ParticleSystem.SolveCollisionCallback.prototype.ReportFixtureAndParticle.s_p1 = new box2d.b2Vec2(0.0, 0.0);
 box2d.b2ParticleSystem.SolveCollisionCallback.prototype.ReportFixtureAndParticle.s_output = new box2d.b2RayCastOutput();
 box2d.b2ParticleSystem.SolveCollisionCallback.prototype.ReportFixtureAndParticle.s_input = new box2d.b2RayCastInput();
-box2d.b2ParticleSystem.SolveCollisionCallback.prototype.ReportFixtureAndParticle.s_p = new box2d.b2Vec2();
-box2d.b2ParticleSystem.SolveCollisionCallback.prototype.ReportFixtureAndParticle.s_v = new box2d.b2Vec2();
-box2d.b2ParticleSystem.SolveCollisionCallback.prototype.ReportFixtureAndParticle.s_f = new box2d.b2Vec2();
+box2d.b2ParticleSystem.SolveCollisionCallback.prototype.ReportFixtureAndParticle.s_p = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.SolveCollisionCallback.prototype.ReportFixtureAndParticle.s_v = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.SolveCollisionCallback.prototype.ReportFixtureAndParticle.s_f = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @export 
@@ -5587,7 +5587,7 @@ box2d.b2ParticleSystem.prototype.SolveGravity = function (step)
 		vel_data[i].SelfAdd(gravity);
 	}
 }
-box2d.b2ParticleSystem.prototype.SolveGravity.s_gravity = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveGravity.s_gravity = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @return {void} 
@@ -5756,17 +5756,17 @@ box2d.b2ParticleSystem.prototype.SolveBarrier = function (step)
 	}
 }
 box2d.b2ParticleSystem.prototype.SolveBarrier.s_aabb = new box2d.b2AABB();
-box2d.b2ParticleSystem.prototype.SolveBarrier.s_va = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.SolveBarrier.s_vb = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.SolveBarrier.s_pba = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.SolveBarrier.s_vba = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.SolveBarrier.s_vc = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.SolveBarrier.s_pca = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.SolveBarrier.s_vca = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.SolveBarrier.s_qba = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.SolveBarrier.s_qca = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.SolveBarrier.s_dv = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.SolveBarrier.s_f = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveBarrier.s_va = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.SolveBarrier.s_vb = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.SolveBarrier.s_pba = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.SolveBarrier.s_vba = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.SolveBarrier.s_vc = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.SolveBarrier.s_pca = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.SolveBarrier.s_vca = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.SolveBarrier.s_qba = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.SolveBarrier.s_qca = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.SolveBarrier.s_dv = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.SolveBarrier.s_f = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @return {void} 
@@ -5934,7 +5934,7 @@ box2d.b2ParticleSystem.prototype.SolvePressure = function (step)
 		vel_data[b].SelfAdd(f);
 	}
 }
-box2d.b2ParticleSystem.prototype.SolvePressure.s_f = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolvePressure.s_f = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @return {void} 
@@ -5996,8 +5996,8 @@ box2d.b2ParticleSystem.prototype.SolveDamping = function (step)
 		}
 	}
 }
-box2d.b2ParticleSystem.prototype.SolveDamping.s_v = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.SolveDamping.s_f = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveDamping.s_v = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.SolveDamping.s_f = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @return {void} 
@@ -6080,10 +6080,10 @@ box2d.b2ParticleSystem.prototype.SolveRigidDamping = function ()
 		}
 	}
 }
-box2d.b2ParticleSystem.prototype.SolveRigidDamping.s_t0 = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.SolveRigidDamping.s_t1 = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.SolveRigidDamping.s_p = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.SolveRigidDamping.s_v = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveRigidDamping.s_t0 = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.SolveRigidDamping.s_t1 = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.SolveRigidDamping.s_p = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.SolveRigidDamping.s_v = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @return {void} 
@@ -6124,8 +6124,8 @@ box2d.b2ParticleSystem.prototype.SolveExtraDamping = function ()
 		}
 	}
 }
-box2d.b2ParticleSystem.prototype.SolveExtraDamping.s_v = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.SolveExtraDamping.s_f = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveExtraDamping.s_v = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.SolveExtraDamping.s_f = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @return {void} 
@@ -6185,7 +6185,7 @@ box2d.b2ParticleSystem.prototype.SolveRigid = function (step)
 		}
 	}
 }
-box2d.b2ParticleSystem.prototype.SolveRigid.s_position = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveRigid.s_position = new box2d.b2Vec2(0.0, 0.0);
 box2d.b2ParticleSystem.prototype.SolveRigid.s_rotation = new box2d.b2Rot();
 box2d.b2ParticleSystem.prototype.SolveRigid.s_transform = new box2d.b2Transform();
 box2d.b2ParticleSystem.prototype.SolveRigid.s_velocityTransform = new box2d.b2Transform();
@@ -6274,11 +6274,11 @@ box2d.b2ParticleSystem.prototype.SolveElastic = function (step)
 		}
 	}
 }
-box2d.b2ParticleSystem.prototype.SolveElastic.s_pa = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.SolveElastic.s_pb = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.SolveElastic.s_pc = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveElastic.s_pa = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.SolveElastic.s_pb = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.SolveElastic.s_pc = new box2d.b2Vec2(0.0, 0.0);
 box2d.b2ParticleSystem.prototype.SolveElastic.s_r = new box2d.b2Rot();
-box2d.b2ParticleSystem.prototype.SolveElastic.s_t0 = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveElastic.s_t0 = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @return {void} 
@@ -6331,10 +6331,10 @@ box2d.b2ParticleSystem.prototype.SolveSpring = function (step)
 		}
 	}
 }
-box2d.b2ParticleSystem.prototype.SolveSpring.s_pa = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.SolveSpring.s_pb = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.SolveSpring.s_d = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.SolveSpring.s_f = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveSpring.s_pa = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.SolveSpring.s_pb = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.SolveSpring.s_d = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.SolveSpring.s_f = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @return {void} 
@@ -6397,9 +6397,9 @@ box2d.b2ParticleSystem.prototype.SolveTensile = function (step)
 		}
 	}
 }
-box2d.b2ParticleSystem.prototype.SolveTensile.s_weightedNormal = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.SolveTensile.s_s = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.SolveTensile.s_f = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveTensile.s_weightedNormal = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.SolveTensile.s_s = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.SolveTensile.s_f = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @return {void} 
@@ -6451,8 +6451,8 @@ box2d.b2ParticleSystem.prototype.SolveViscous = function ()
 		}
 	}
 }
-box2d.b2ParticleSystem.prototype.SolveViscous.s_v = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.SolveViscous.s_f = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveViscous.s_v = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.SolveViscous.s_f = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @return {void} 
@@ -6484,7 +6484,7 @@ box2d.b2ParticleSystem.prototype.SolveRepulsive = function (step)
 		}
 	}
 }
-box2d.b2ParticleSystem.prototype.SolveRepulsive.s_f = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveRepulsive.s_f = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @return {void} 
@@ -6535,7 +6535,7 @@ box2d.b2ParticleSystem.prototype.SolvePowder = function (step)
 		}
 	}
 }
-box2d.b2ParticleSystem.prototype.SolvePowder.s_f = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolvePowder.s_f = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @return {void} 
@@ -6564,7 +6564,7 @@ box2d.b2ParticleSystem.prototype.SolveSolid = function (step)
 		}
 	}
 }
-box2d.b2ParticleSystem.prototype.SolveSolid.s_f = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.SolveSolid.s_f = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @return {void} 
@@ -7337,9 +7337,9 @@ box2d.b2ParticleSystem.prototype.RemoveSpuriousBodyContacts = function ()
 	}
 	this.m_bodyContactBuffer.count = box2d.std_remove_if(this.m_bodyContactBuffer.data, b2ParticleBodyContactRemovePredicate, this.m_bodyContactBuffer.count);
 }
-box2d.b2ParticleSystem.prototype.RemoveSpuriousBodyContacts.s_n = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.RemoveSpuriousBodyContacts.s_pos = new box2d.b2Vec2();
-box2d.b2ParticleSystem.prototype.RemoveSpuriousBodyContacts.s_normal = new box2d.b2Vec2();
+box2d.b2ParticleSystem.prototype.RemoveSpuriousBodyContacts.s_n = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.RemoveSpuriousBodyContacts.s_pos = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ParticleSystem.prototype.RemoveSpuriousBodyContacts.s_normal = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @return {boolean} 

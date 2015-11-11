@@ -163,13 +163,13 @@ box2d.b2CollideEdgeAndCircle = function (manifold, edgeA, xfA, circleB, xfB)
 //	manifold.points[0].id.cf = cf;
 	manifold.points[0].localPoint.Copy(circleB.m_p);
 }
-box2d.b2CollideEdgeAndCircle.s_Q = new box2d.b2Vec2();
-box2d.b2CollideEdgeAndCircle.s_e = new box2d.b2Vec2();
-box2d.b2CollideEdgeAndCircle.s_d = new box2d.b2Vec2();
-box2d.b2CollideEdgeAndCircle.s_e1 = new box2d.b2Vec2();
-box2d.b2CollideEdgeAndCircle.s_e2 = new box2d.b2Vec2();
-box2d.b2CollideEdgeAndCircle.s_P = new box2d.b2Vec2();
-box2d.b2CollideEdgeAndCircle.s_n = new box2d.b2Vec2();
+box2d.b2CollideEdgeAndCircle.s_Q = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2CollideEdgeAndCircle.s_e = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2CollideEdgeAndCircle.s_d = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2CollideEdgeAndCircle.s_e1 = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2CollideEdgeAndCircle.s_e2 = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2CollideEdgeAndCircle.s_P = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2CollideEdgeAndCircle.s_n = new box2d.b2Vec2(0.0, 0.0);
 box2d.b2CollideEdgeAndCircle.s_id = new box2d.b2ContactID();
 
 /** 
@@ -250,15 +250,15 @@ box2d.b2ReferenceFace = function ()
 	this.i1 = 0;
 	this.i2 = 0;
 	
-	this.v1 = new box2d.b2Vec2();
-	this.v2 = new box2d.b2Vec2();
+	this.v1 = new box2d.b2Vec2(0.0, 0.0);
+	this.v2 = new box2d.b2Vec2(0.0, 0.0);
 	
-	this.normal = new box2d.b2Vec2();
+	this.normal = new box2d.b2Vec2(0.0, 0.0);
 	
-	this.sideNormal1 = new box2d.b2Vec2();
+	this.sideNormal1 = new box2d.b2Vec2(0.0, 0.0);
 	this.sideOffset1 = 0;
 	
-	this.sideNormal2 = new box2d.b2Vec2();
+	this.sideNormal2 = new box2d.b2Vec2(0.0, 0.0);
 	this.sideOffset2 = 0;
 };
 
@@ -337,12 +337,12 @@ box2d.b2EPCollider = function ()
 	this.m_polygonB = new box2d.b2TempPolygon();
 	
 	this.m_xf = new box2d.b2Transform();
-	this.m_centroidB = new box2d.b2Vec2();
-	this.m_v0 = new box2d.b2Vec2(), this.m_v1 = new box2d.b2Vec2(), this.m_v2 = new box2d.b2Vec2(), this.m_v3 = new box2d.b2Vec2();
-	this.m_normal0 = new box2d.b2Vec2(), this.m_normal1 = new box2d.b2Vec2(), this.m_normal2 = new box2d.b2Vec2();
-	this.m_normal = new box2d.b2Vec2();
+	this.m_centroidB = new box2d.b2Vec2(0.0, 0.0);
+	this.m_v0 = new box2d.b2Vec2(0.0, 0.0), this.m_v1 = new box2d.b2Vec2(0.0, 0.0), this.m_v2 = new box2d.b2Vec2(0.0, 0.0), this.m_v3 = new box2d.b2Vec2(0.0, 0.0);
+	this.m_normal0 = new box2d.b2Vec2(0.0, 0.0), this.m_normal1 = new box2d.b2Vec2(0.0, 0.0), this.m_normal2 = new box2d.b2Vec2(0.0, 0.0);
+	this.m_normal = new box2d.b2Vec2(0.0, 0.0);
 	this.m_type1 = box2d.b2EPColliderVertexType.e_isolated, this.m_type2 = box2d.b2EPColliderVertexType.e_isolated;
-	this.m_lowerLimit = new box2d.b2Vec2(), this.m_upperLimit = new box2d.b2Vec2();
+	this.m_lowerLimit = new box2d.b2Vec2(0.0, 0.0), this.m_upperLimit = new box2d.b2Vec2(0.0, 0.0);
 	this.m_radius = 0;
 	this.m_front = false;
 };
@@ -847,9 +847,9 @@ box2d.b2EPCollider.prototype.Collide = function (manifold, edgeA, xfA, polygonB,
 	manifold.pointCount = pointCount;
 }
 
-box2d.b2EPCollider.s_edge1 = new box2d.b2Vec2();
-box2d.b2EPCollider.s_edge0 = new box2d.b2Vec2();
-box2d.b2EPCollider.s_edge2 = new box2d.b2Vec2();
+box2d.b2EPCollider.s_edge1 = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2EPCollider.s_edge0 = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2EPCollider.s_edge2 = new box2d.b2Vec2(0.0, 0.0);
 box2d.b2EPCollider.s_ie = box2d.b2ClipVertex.MakeArray(2);
 box2d.b2EPCollider.s_rf = new box2d.b2ReferenceFace();
 box2d.b2EPCollider.s_clipPoints1 = box2d.b2ClipVertex.MakeArray(2);
@@ -938,8 +938,8 @@ box2d.b2EPCollider.prototype.ComputePolygonSeparation = function (out)
 	
 	return axis;
 }
-box2d.b2EPCollider.s_n = new box2d.b2Vec2();
-box2d.b2EPCollider.s_perp = new box2d.b2Vec2();
+box2d.b2EPCollider.s_n = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2EPCollider.s_perp = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * Compute the collision manifold between an edge and a polygon.

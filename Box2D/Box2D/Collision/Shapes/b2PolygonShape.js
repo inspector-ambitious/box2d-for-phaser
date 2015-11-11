@@ -283,8 +283,8 @@ box2d.b2PolygonShape.prototype.Set = function (vertices, count, start)
 }
 box2d.b2PolygonShape.prototype.Set.s_ps = box2d.b2Vec2.MakeArray(box2d.b2_maxPolygonVertices);
 box2d.b2PolygonShape.prototype.Set.s_hull = box2d.b2MakeNumberArray(box2d.b2_maxPolygonVertices);
-box2d.b2PolygonShape.prototype.Set.s_r = new box2d.b2Vec2();
-box2d.b2PolygonShape.prototype.Set.s_v = new box2d.b2Vec2();
+box2d.b2PolygonShape.prototype.Set.s_r = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2PolygonShape.prototype.Set.s_v = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * Implement box2d.b2Shape. 
@@ -318,7 +318,7 @@ box2d.b2PolygonShape.prototype.TestPoint = function (xf, p)
 
 	return true;
 }
-box2d.b2PolygonShape.prototype.TestPoint.s_pLocal = new box2d.b2Vec2();
+box2d.b2PolygonShape.prototype.TestPoint.s_pLocal = new box2d.b2Vec2(0.0, 0.0);
 
 //#if B2_ENABLE_PARTICLE
 
@@ -372,10 +372,10 @@ box2d.b2PolygonShape.prototype.ComputeDistance = function (xf, p, normal, childI
 		return maxDistance;
 	}
 }
-box2d.b2PolygonShape.prototype.ComputeDistance.s_pLocal = new box2d.b2Vec2();
-box2d.b2PolygonShape.prototype.ComputeDistance.s_normalForMaxDistance = new box2d.b2Vec2();
-box2d.b2PolygonShape.prototype.ComputeDistance.s_minDistance = new box2d.b2Vec2();
-box2d.b2PolygonShape.prototype.ComputeDistance.s_distance = new box2d.b2Vec2();
+box2d.b2PolygonShape.prototype.ComputeDistance.s_pLocal = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2PolygonShape.prototype.ComputeDistance.s_normalForMaxDistance = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2PolygonShape.prototype.ComputeDistance.s_minDistance = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2PolygonShape.prototype.ComputeDistance.s_distance = new box2d.b2Vec2(0.0, 0.0);
 
 //#endif
 
@@ -456,9 +456,9 @@ box2d.b2PolygonShape.prototype.RayCast = function (output, input, xf, childIndex
 
 	return false;
 }
-box2d.b2PolygonShape.prototype.RayCast.s_p1 = new box2d.b2Vec2();
-box2d.b2PolygonShape.prototype.RayCast.s_p2 = new box2d.b2Vec2();
-box2d.b2PolygonShape.prototype.RayCast.s_d = new box2d.b2Vec2();
+box2d.b2PolygonShape.prototype.RayCast.s_p1 = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2PolygonShape.prototype.RayCast.s_p2 = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2PolygonShape.prototype.RayCast.s_d = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * @see box2d.b2Shape::ComputeAABB 
@@ -484,7 +484,7 @@ box2d.b2PolygonShape.prototype.ComputeAABB = function (aabb, xf, childIndex)
 	lower.SelfSubXY(r, r);
 	upper.SelfAddXY(r, r);
 }
-box2d.b2PolygonShape.prototype.ComputeAABB.s_v = new box2d.b2Vec2();
+box2d.b2PolygonShape.prototype.ComputeAABB.s_v = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * @see box2d.b2Shape::ComputeMass 
@@ -577,10 +577,10 @@ box2d.b2PolygonShape.prototype.ComputeMass = function (massData, density)
 	// Shift to center of mass then to original body origin.
 	massData.I += massData.mass * (box2d.b2Dot_V2_V2(massData.center, massData.center) - box2d.b2Dot_V2_V2(center, center));
 }
-box2d.b2PolygonShape.prototype.ComputeMass.s_center = new box2d.b2Vec2();
-box2d.b2PolygonShape.prototype.ComputeMass.s_s = new box2d.b2Vec2();
-box2d.b2PolygonShape.prototype.ComputeMass.s_e1 = new box2d.b2Vec2();
-box2d.b2PolygonShape.prototype.ComputeMass.s_e2 = new box2d.b2Vec2();
+box2d.b2PolygonShape.prototype.ComputeMass.s_center = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2PolygonShape.prototype.ComputeMass.s_s = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2PolygonShape.prototype.ComputeMass.s_e1 = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2PolygonShape.prototype.ComputeMass.s_e2 = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * Validate convexity. This is a very time consuming operation. 
@@ -614,8 +614,8 @@ box2d.b2PolygonShape.prototype.Validate = function ()
 
 	return true;
 }
-box2d.b2PolygonShape.prototype.Validate.s_e = new box2d.b2Vec2();
-box2d.b2PolygonShape.prototype.Validate.s_v = new box2d.b2Vec2();
+box2d.b2PolygonShape.prototype.Validate.s_e = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2PolygonShape.prototype.Validate.s_v = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @return {void} 
@@ -745,12 +745,12 @@ box2d.b2PolygonShape.prototype.ComputeSubmergedArea = function (normal, offset, 
 
 	return area;
 }
-box2d.b2PolygonShape.prototype.ComputeSubmergedArea.s_normalL = new box2d.b2Vec2();
+box2d.b2PolygonShape.prototype.ComputeSubmergedArea.s_normalL = new box2d.b2Vec2(0.0, 0.0);
 box2d.b2PolygonShape.prototype.ComputeSubmergedArea.s_depths = box2d.b2MakeNumberArray(box2d.b2_maxPolygonVertices);
 box2d.b2PolygonShape.prototype.ComputeSubmergedArea.s_md = new box2d.b2MassData();
-box2d.b2PolygonShape.prototype.ComputeSubmergedArea.s_intoVec = new box2d.b2Vec2();
-box2d.b2PolygonShape.prototype.ComputeSubmergedArea.s_outoVec = new box2d.b2Vec2();
-box2d.b2PolygonShape.prototype.ComputeSubmergedArea.s_center = new box2d.b2Vec2();
+box2d.b2PolygonShape.prototype.ComputeSubmergedArea.s_intoVec = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2PolygonShape.prototype.ComputeSubmergedArea.s_outoVec = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2PolygonShape.prototype.ComputeSubmergedArea.s_center = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * Dump this shape to the log file. 
@@ -823,9 +823,9 @@ box2d.b2PolygonShape.ComputeCentroid = function (vs, count, out)
 	c.SelfMul(1 / area);
 	return c;
 }
-box2d.b2PolygonShape.ComputeCentroid.s_pRef = new box2d.b2Vec2();
-box2d.b2PolygonShape.ComputeCentroid.s_e1 = new box2d.b2Vec2();
-box2d.b2PolygonShape.ComputeCentroid.s_e2 = new box2d.b2Vec2();
+box2d.b2PolygonShape.ComputeCentroid.s_pRef = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2PolygonShape.ComputeCentroid.s_e1 = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2PolygonShape.ComputeCentroid.s_e2 = new box2d.b2Vec2(0.0, 0.0);
 
 /*
 box2d.b2PolygonShape.ComputeOBB = function (obb, vs, count)

@@ -31,7 +31,7 @@ box2d.b2RopeDef = function ()
 {
 	this.vertices = new Array();
 	this.masses = new Array();
-	this.gravity = new box2d.b2Vec2();
+	this.gravity = new box2d.b2Vec2(0.0, 0.0);
 };
 
 /*box2d.b2Vec2[]*/ box2d.b2RopeDef.prototype.vertices = null;
@@ -61,7 +61,7 @@ box2d.b2RopeDef = function ()
  */
 box2d.b2Rope = function ()
 {
-	this.m_gravity = new box2d.b2Vec2();
+	this.m_gravity = new box2d.b2Vec2(0.0, 0.0);
 };
 
 /*int32*/ box2d.b2Rope.prototype.m_count = 0;
@@ -243,7 +243,7 @@ box2d.b2Rope.prototype.SolveC2 = function ()
 //		this.m_ps[i + 1] = p2;
 	}
 }
-box2d.b2Rope.s_d = new box2d.b2Vec2();
+box2d.b2Rope.s_d = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @export 
@@ -333,12 +333,12 @@ box2d.b2Rope.prototype.SolveC3 = function ()
 //		this.m_ps[i + 2] = p3;
 	}
 }
-box2d.b2Rope.s_d1 = new box2d.b2Vec2();
-box2d.b2Rope.s_d2 = new box2d.b2Vec2();
-box2d.b2Rope.s_Jd1 = new box2d.b2Vec2();
-box2d.b2Rope.s_Jd2 = new box2d.b2Vec2();
-box2d.b2Rope.s_J1 = new box2d.b2Vec2();
-box2d.b2Rope.s_J2 = new box2d.b2Vec2();
+box2d.b2Rope.s_d1 = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2Rope.s_d2 = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2Rope.s_Jd1 = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2Rope.s_Jd2 = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2Rope.s_J1 = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2Rope.s_J2 = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * @export 

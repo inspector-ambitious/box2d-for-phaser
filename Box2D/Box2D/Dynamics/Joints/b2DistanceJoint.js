@@ -37,8 +37,8 @@ box2d.b2DistanceJointDef = function ()
 {
 	box2d.b2JointDef.call(this, box2d.b2JointType.e_distanceJoint); // base class constructor
 
-	this.localAnchorA = new box2d.b2Vec2();
-	this.localAnchorB = new box2d.b2Vec2();
+	this.localAnchorA = new box2d.b2Vec2(0.0, 0.0);
+	this.localAnchorB = new box2d.b2Vec2(0.0, 0.0);
 }
 
 box2d.b2DistanceJointDef.prototype = Object.create(box2d.b2JointDef.prototype);
@@ -111,16 +111,16 @@ box2d.b2DistanceJoint = function (def)
 {
 	box2d.b2Joint.call(this, def); // base class constructor
 
-	this.m_u = new box2d.b2Vec2();
-	this.m_rA = new box2d.b2Vec2();
-	this.m_rB = new box2d.b2Vec2();
-	this.m_localCenterA = new box2d.b2Vec2();
-	this.m_localCenterB = new box2d.b2Vec2();
+	this.m_u = new box2d.b2Vec2(0.0, 0.0);
+	this.m_rA = new box2d.b2Vec2(0.0, 0.0);
+	this.m_rB = new box2d.b2Vec2(0.0, 0.0);
+	this.m_localCenterA = new box2d.b2Vec2(0.0, 0.0);
+	this.m_localCenterB = new box2d.b2Vec2(0.0, 0.0);
 
 	this.m_qA = new box2d.b2Rot();
 	this.m_qB = new box2d.b2Rot();
-	this.m_lalcA = new box2d.b2Vec2();
-	this.m_lalcB = new box2d.b2Vec2();
+	this.m_lalcA = new box2d.b2Vec2(0.0, 0.0);
+	this.m_lalcB = new box2d.b2Vec2(0.0, 0.0);
 
 	this.m_frequencyHz = def.frequencyHz;
 	this.m_dampingRatio = def.dampingRatio;
@@ -518,7 +518,7 @@ box2d.b2DistanceJoint.prototype.InitVelocityConstraints = function (data)
 //	data.velocities[this.m_indexB].v = vB;
 	data.velocities[this.m_indexB].w = wB;
 }
-box2d.b2DistanceJoint.prototype.InitVelocityConstraints.s_P = new box2d.b2Vec2();
+box2d.b2DistanceJoint.prototype.InitVelocityConstraints.s_P = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * @export 
@@ -559,9 +559,9 @@ box2d.b2DistanceJoint.prototype.SolveVelocityConstraints = function (data)
 //	data.velocities[this.m_indexB].v = vB;
 	data.velocities[this.m_indexB].w = wB;
 }
-box2d.b2DistanceJoint.prototype.SolveVelocityConstraints.s_vpA = new box2d.b2Vec2();
-box2d.b2DistanceJoint.prototype.SolveVelocityConstraints.s_vpB = new box2d.b2Vec2();
-box2d.b2DistanceJoint.prototype.SolveVelocityConstraints.s_P = new box2d.b2Vec2();
+box2d.b2DistanceJoint.prototype.SolveVelocityConstraints.s_vpA = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2DistanceJoint.prototype.SolveVelocityConstraints.s_vpB = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2DistanceJoint.prototype.SolveVelocityConstraints.s_P = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @export 
@@ -619,5 +619,5 @@ box2d.b2DistanceJoint.prototype.SolvePositionConstraints = function (data)
 
 	return box2d.b2Abs(C) < box2d.b2_linearSlop;
 }
-box2d.b2DistanceJoint.prototype.SolvePositionConstraints.s_P = new box2d.b2Vec2();
+box2d.b2DistanceJoint.prototype.SolvePositionConstraints.s_P = new box2d.b2Vec2(0.0, 0.0);
 
