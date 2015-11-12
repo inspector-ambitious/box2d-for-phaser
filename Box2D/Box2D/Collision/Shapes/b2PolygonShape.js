@@ -670,9 +670,7 @@ box2d.b2PolygonShape.prototype.ComputeSubmergedArea = function (normal, offset, 
 		}
 		lastSubmerged = isSubmerged;
 	}
-	switch (diveCount)
-	{
-	case 0:
+	if (diveCount === 0) {
 		if (lastSubmerged)
 		{
 			// Completely submerged
@@ -686,8 +684,9 @@ box2d.b2PolygonShape.prototype.ComputeSubmergedArea = function (normal, offset, 
 			//Completely dry
 			return 0;
 		}
-		break;
-	case 1:
+	}
+
+	if (diveCount === 1) {
 		if (intoIndex === (-1))
 		{
 			intoIndex = this.m_count - 1;
@@ -696,50 +695,52 @@ box2d.b2PolygonShape.prototype.ComputeSubmergedArea = function (normal, offset, 
 		{
 			outoIndex = this.m_count - 1;
 		}
-		break;
+
+		var intoIndex2 = ((intoIndex + 1) % this.m_count);
+		var outoIndex2 = ((outoIndex + 1) % this.m_count);
+		var intoLamdda = (0 - depths[intoIndex]) / (depths[intoIndex2] - depths[intoIndex]);
+		var outoLamdda = (0 - depths[outoIndex]) / (depths[outoIndex2] - depths[outoIndex]);
+
+		var intoVec = box2d.b2PolygonShape.prototype.ComputeSubmergedArea.s_intoVec.Set(
+			this.m_vertices[intoIndex].x * (1 - intoLamdda) + this.m_vertices[intoIndex2].x * intoLamdda, 
+			this.m_vertices[intoIndex].y * (1 - intoLamdda) + this.m_vertices[intoIndex2].y * intoLamdda);
+		var outoVec = box2d.b2PolygonShape.prototype.ComputeSubmergedArea.s_outoVec.Set(
+			this.m_vertices[outoIndex].x * (1 - outoLamdda) + this.m_vertices[outoIndex2].x * outoLamdda, 
+			this.m_vertices[outoIndex].y * (1 - outoLamdda) + this.m_vertices[outoIndex2].y * outoLamdda);
+
+		// Initialize accumulator
+		var area = 0;
+		var center = box2d.b2PolygonShape.prototype.ComputeSubmergedArea.s_center.SetZero();
+		var p2 = this.m_vertices[intoIndex2];
+		var p3 = null;
+
+		// An awkward loop from intoIndex2+1 to outIndex2
+		var i = intoIndex2;
+		while (i !== outoIndex2)
+		{
+			i = (i + 1) % this.m_count;
+			if (i === outoIndex2)
+				p3 = outoVec;
+			else
+				p3	= this.m_vertices[i];
+
+			var triangleArea = 0.5 * ((p2.x - intoVec.x) * (p3.y - intoVec.y) - (p2.y - intoVec.y) * (p3.x - intoVec.x));
+			area += triangleArea;
+			// Area weighted centroid
+			center.x += triangleArea * (intoVec.x + p2.x + p3.x) / 3;
+			center.y += triangleArea * (intoVec.y + p2.y + p3.y) / 3;
+
+			p2 = p3;
+		}
+
+		//Normalize and transform centroid
+		center.SelfMul(1 / area);
+		box2d.b2Mul_X_V2(xf, center, c);
+
+		return area;
+
 	}
-	var intoIndex2 = ((intoIndex + 1) % this.m_count);
-	var outoIndex2 = ((outoIndex + 1) % this.m_count);
-	var intoLamdda = (0 - depths[intoIndex]) / (depths[intoIndex2] - depths[intoIndex]);
-	var outoLamdda = (0 - depths[outoIndex]) / (depths[outoIndex2] - depths[outoIndex]);
 
-	var intoVec = box2d.b2PolygonShape.prototype.ComputeSubmergedArea.s_intoVec.Set(
-		this.m_vertices[intoIndex].x * (1 - intoLamdda) + this.m_vertices[intoIndex2].x * intoLamdda, 
-		this.m_vertices[intoIndex].y * (1 - intoLamdda) + this.m_vertices[intoIndex2].y * intoLamdda);
-	var outoVec = box2d.b2PolygonShape.prototype.ComputeSubmergedArea.s_outoVec.Set(
-		this.m_vertices[outoIndex].x * (1 - outoLamdda) + this.m_vertices[outoIndex2].x * outoLamdda, 
-		this.m_vertices[outoIndex].y * (1 - outoLamdda) + this.m_vertices[outoIndex2].y * outoLamdda);
-
-	// Initialize accumulator
-	var area = 0;
-	var center = box2d.b2PolygonShape.prototype.ComputeSubmergedArea.s_center.SetZero();
-	var p2 = this.m_vertices[intoIndex2];
-	var p3 = null;
-
-	// An awkward loop from intoIndex2+1 to outIndex2
-	var i = intoIndex2;
-	while (i !== outoIndex2)
-	{
-		i = (i + 1) % this.m_count;
-		if (i === outoIndex2)
-			p3 = outoVec;
-		else
-			p3	= this.m_vertices[i];
-
-		var triangleArea = 0.5 * ((p2.x - intoVec.x) * (p3.y - intoVec.y) - (p2.y - intoVec.y) * (p3.x - intoVec.x));
-		area += triangleArea;
-		// Area weighted centroid
-		center.x += triangleArea * (intoVec.x + p2.x + p3.x) / 3;
-		center.y += triangleArea * (intoVec.y + p2.y + p3.y) / 3;
-
-		p2 = p3;
-	}
-
-	//Normalize and transform centroid
-	center.SelfMul(1 / area);
-	box2d.b2Mul_X_V2(xf, center, c);
-
-	return area;
 }
 box2d.b2PolygonShape.prototype.ComputeSubmergedArea.s_normalL = new box2d.b2Vec2();
 box2d.b2PolygonShape.prototype.ComputeSubmergedArea.s_depths = box2d.b2MakeNumberArray(box2d.b2_maxPolygonVertices);
