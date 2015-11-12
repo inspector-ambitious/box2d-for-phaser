@@ -55,28 +55,29 @@ box2d.b2MixRestitution = function (restitution1, restitution2)
  */
 box2d.b2ContactEdge = function ()
 {
+	/**
+	 * @export
+	 * @type {box2d.b2Body}
+	 */
+	this.other = null; ///< provides quick access to the other body attached.
+	/**
+	 * @export
+	 * @type {box2d.b2Contact}
+	 */
+	this.contact = null; ///< the contact
+	/**
+	 * @export
+	 * @type {box2d.b2ContactEdge}
+	 */
+	this.prev = null; ///< the previous contact edge in the body's contact list
+	/**
+	 * @export
+	 * @type {box2d.b2ContactEdge}
+	 */
+	this.next = null; ///< the next contact edge in the body's contact list
+
 };
 
-/**
- * @export
- * @type {box2d.b2Body}
- */
-box2d.b2ContactEdge.prototype.other = null; ///< provides quick access to the other body attached.
-/**
- * @export
- * @type {box2d.b2Contact}
- */
-box2d.b2ContactEdge.prototype.contact = null; ///< the contact
-/**
- * @export
- * @type {box2d.b2ContactEdge}
- */
-box2d.b2ContactEdge.prototype.prev = null; ///< the previous contact edge in the body's contact list
-/**
- * @export
- * @type {box2d.b2ContactEdge}
- */
-box2d.b2ContactEdge.prototype.next = null; ///< the next contact edge in the body's contact list
 
 /**
  * The class manages contact between two shapes. A contact
