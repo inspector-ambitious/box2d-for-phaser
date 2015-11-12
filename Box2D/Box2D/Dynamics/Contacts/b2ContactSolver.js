@@ -16,19 +16,6 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2ContactSolver');
-
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Math');
-goog.require('box2d.b2Collision');
-goog.require('box2d.b2CircleContact');
-goog.require('box2d.b2PolygonAndCircleContact');
-goog.require('box2d.b2PolygonContact');
-goog.require('box2d.b2EdgeAndCircleContact');
-goog.require('box2d.b2EdgeAndPolygonContact');
-goog.require('box2d.b2ChainAndCircleContact');
-goog.require('box2d.b2ChainAndPolygonContact');
-
 /**
  * @type {boolean}
  */

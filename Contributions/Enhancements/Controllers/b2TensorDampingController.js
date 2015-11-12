@@ -18,12 +18,6 @@
 
 //#if B2_ENABLE_CONTROLLER
 
-goog.provide('box2d.b2TensorDampingController');
-
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Controller');
-goog.require('box2d.b2Math');
-
 /** 
  * Applies top down linear damping to the controlled bodies 
  * The damping is calculated by multiplying velocity by a matrix 
@@ -34,7 +28,7 @@ goog.require('box2d.b2Math');
  */
 box2d.b2TensorDampingController = function ()
 {
-	goog.base(this); // base class constructor
+	box2d.b2Controller.apply(this, arguments); // base class constructor
 
 	/// Tensor to use in damping model
 	/** @type {box2d.b2Mat22} */ this.T = new box2d.b2Mat22();
@@ -50,7 +44,7 @@ box2d.b2TensorDampingController = function ()
 	// Typically one wants maxTimestep to be 1/(max eigenvalue of T), so that damping will never cause something to reverse direction
 };
 
-goog.inherits(box2d.b2TensorDampingController, box2d.b2Controller);
+box2d.b2TensorDampingController.prototype = Object.create(box2d.b2Controller.prototype);
 
 /** 
  * Tensor to use in damping model 

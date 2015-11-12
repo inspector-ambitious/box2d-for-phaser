@@ -16,11 +16,6 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2MotorJoint');
-
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Math');
-
 /** 
  * Motor joint definition. 
  * @export 
@@ -34,7 +29,7 @@ box2d.b2MotorJointDef = function ()
 	this.linearOffset = new box2d.b2Vec2(0, 0);
 }
 
-goog.inherits(box2d.b2MotorJointDef, box2d.b2JointDef);
+box2d.b2MotorJointDef.prototype = Object.create(box2d.b2JointDef.prototype);
 
 /** 
  * Position of bodyB minus the position of bodyA, in bodyA's 
@@ -122,7 +117,7 @@ box2d.b2MotorJoint = function (def)
 	this.m_K = new box2d.b2Mat22();
 }
 
-goog.inherits(box2d.b2MotorJoint, box2d.b2Joint);
+box2d.b2MotorJoint.prototype = Object.create(box2d.b2Joint.prototype);
 
 // Solver shared
 /**

@@ -18,12 +18,6 @@
 
 //#if B2_ENABLE_CONTROLLER
 
-goog.provide('box2d.b2GravityController');
-
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Controller');
-goog.require('box2d.b2Math');
-
 /** 
  * Applies simplified gravity between every pair of bodies 
  * @export 
@@ -32,10 +26,10 @@ goog.require('box2d.b2Math');
  */
 box2d.b2GravityController = function ()
 {
-	goog.base(this); // base class constructor
+	box2d.b2Controller.apply(this, arguments);  // base class constructor
 };
 
-goog.inherits(box2d.b2GravityController, box2d.b2Controller);
+box2d.b2GravityController.prototype = Object.create(box2d.b2Controller.prototype);
 
 /** 
  * Specifies the strength of the gravitiation force 

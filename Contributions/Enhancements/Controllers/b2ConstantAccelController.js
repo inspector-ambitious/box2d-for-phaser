@@ -18,12 +18,6 @@
 
 //#if B2_ENABLE_CONTROLLER
 
-goog.provide('box2d.b2ConstantAccelController');
-
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Controller');
-goog.require('box2d.b2Math');
-
 /** 
  * Applies a force every frame 
  * @export 
@@ -32,12 +26,12 @@ goog.require('box2d.b2Math');
  */
 box2d.b2ConstantAccelController = function ()
 {
-	goog.base(this); // base class constructor
+	box2d.b2Controller.apply(this, arguments); // base class constructor
 
 	this.A = new box2d.b2Vec2(0, 0);
 };
 
-goog.inherits(box2d.b2ConstantAccelController, box2d.b2Controller);
+box2d.b2ConstantAccelController.prototype = Object.create(box2d.b2Controller.prototype);
 
 /** 
  * The acceleration to apply 

@@ -18,11 +18,6 @@
 
 //#if B2_ENABLE_PARTICLE
 
-goog.provide('box2d.b2Particle');
-goog.provide('box2d.b2ParticleFlag');
-goog.provide('box2d.b2ParticleColor');
-goog.provide('box2d.b2ParticleDef');
-
 /** 
  * The particle type. Can be combined with the | operator. 
  *  
@@ -77,25 +72,6 @@ box2d.b2ParticleFlag =
 	/// particles.
 	b2_particleContactFilterParticle : 1 << 17
 };
-
-goog.exportProperty(box2d.b2ParticleFlag, 'b2_waterParticle'                  , box2d.b2ParticleFlag.b2_waterParticle                  );
-goog.exportProperty(box2d.b2ParticleFlag, 'b2_zombieParticle'                 , box2d.b2ParticleFlag.b2_zombieParticle                 );
-goog.exportProperty(box2d.b2ParticleFlag, 'b2_wallParticle'                   , box2d.b2ParticleFlag.b2_wallParticle                   );
-goog.exportProperty(box2d.b2ParticleFlag, 'b2_springParticle'                 , box2d.b2ParticleFlag.b2_springParticle                 );
-goog.exportProperty(box2d.b2ParticleFlag, 'b2_elasticParticle'                , box2d.b2ParticleFlag.b2_elasticParticle                );
-goog.exportProperty(box2d.b2ParticleFlag, 'b2_viscousParticle'                , box2d.b2ParticleFlag.b2_viscousParticle                );
-goog.exportProperty(box2d.b2ParticleFlag, 'b2_powderParticle'                 , box2d.b2ParticleFlag.b2_powderParticle                 );
-goog.exportProperty(box2d.b2ParticleFlag, 'b2_tensileParticle'                , box2d.b2ParticleFlag.b2_tensileParticle                );
-goog.exportProperty(box2d.b2ParticleFlag, 'b2_colorMixingParticle'            , box2d.b2ParticleFlag.b2_colorMixingParticle            );
-goog.exportProperty(box2d.b2ParticleFlag, 'b2_destructionListenerParticle'    , box2d.b2ParticleFlag.b2_destructionListenerParticle    );
-goog.exportProperty(box2d.b2ParticleFlag, 'b2_barrierParticle'                , box2d.b2ParticleFlag.b2_barrierParticle                );
-goog.exportProperty(box2d.b2ParticleFlag, 'b2_staticPressureParticle'         , box2d.b2ParticleFlag.b2_staticPressureParticle         );
-goog.exportProperty(box2d.b2ParticleFlag, 'b2_reactiveParticle'               , box2d.b2ParticleFlag.b2_reactiveParticle               );
-goog.exportProperty(box2d.b2ParticleFlag, 'b2_repulsiveParticle'              , box2d.b2ParticleFlag.b2_repulsiveParticle              );
-goog.exportProperty(box2d.b2ParticleFlag, 'b2_fixtureContactListenerParticle' , box2d.b2ParticleFlag.b2_fixtureContactListenerParticle );
-goog.exportProperty(box2d.b2ParticleFlag, 'b2_particleContactListenerParticle', box2d.b2ParticleFlag.b2_particleContactListenerParticle);
-goog.exportProperty(box2d.b2ParticleFlag, 'b2_fixtureContactFilterParticle'   , box2d.b2ParticleFlag.b2_fixtureContactFilterParticle   );
-goog.exportProperty(box2d.b2ParticleFlag, 'b2_particleContactFilterParticle'  , box2d.b2ParticleFlag.b2_particleContactFilterParticle  );
 
 /** 
  * Small color object for each particle 

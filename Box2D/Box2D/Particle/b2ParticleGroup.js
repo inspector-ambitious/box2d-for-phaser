@@ -18,11 +18,6 @@
 
 //#if B2_ENABLE_PARTICLE
 
-goog.provide('box2d.b2ParticleGroup');
-goog.provide('box2d.b2ParticleGroupDef');
-
-goog.require('box2d.b2Particle');
-
 /** 
  * The particle group type.  Can be combined with the | 
  * operator. 
@@ -43,12 +38,6 @@ box2d.b2ParticleGroupFlag =
 	/// Updates depth data on next simulation step.
 	b2_particleGroupNeedsUpdateDepth : 1 << 4
 };
-
-goog.exportProperty(box2d.b2ParticleGroupFlag, 'b2_solidParticleGroup'           , box2d.b2ParticleGroupFlag.b2_solidParticleGroup           );
-goog.exportProperty(box2d.b2ParticleGroupFlag, 'b2_rigidParticleGroup'           , box2d.b2ParticleGroupFlag.b2_rigidParticleGroup           );
-goog.exportProperty(box2d.b2ParticleGroupFlag, 'b2_particleGroupCanBeEmpty'      , box2d.b2ParticleGroupFlag.b2_particleGroupCanBeEmpty      );
-goog.exportProperty(box2d.b2ParticleGroupFlag, 'b2_particleGroupWillBeDestroyed' , box2d.b2ParticleGroupFlag.b2_particleGroupWillBeDestroyed );
-goog.exportProperty(box2d.b2ParticleGroupFlag, 'b2_particleGroupNeedsUpdateDepth', box2d.b2ParticleGroupFlag.b2_particleGroupNeedsUpdateDepth);
 
 /** 
  * @const 

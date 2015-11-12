@@ -16,12 +16,6 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2MouseJoint');
-
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Joint');
-goog.require('box2d.b2Math');
-
 /** 
  * Mouse joint definition. This requires a world target point, 
  * tuning parameters, and the time step. 
@@ -36,7 +30,7 @@ box2d.b2MouseJointDef = function ()
 	this.target = new box2d.b2Vec2();
 }
 
-goog.inherits(box2d.b2MouseJointDef, box2d.b2JointDef);
+box2d.b2MouseJointDef.prototype = Object.create(box2d.b2JointDef.prototype);
 
 /** 
  * The initial world target point. This is assumed to coincide 
@@ -117,7 +111,7 @@ box2d.b2MouseJoint = function (def)
 	this.m_gamma = 0;
 }
 
-goog.inherits(box2d.b2MouseJoint, box2d.b2Joint);
+box2d.b2MouseJoint.prototype = Object.create(box2d.b2Joint.prototype);
 
 /**
  * @export 

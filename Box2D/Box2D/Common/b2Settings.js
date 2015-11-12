@@ -16,10 +16,6 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2Settings');
-
-//goog.require('goog.asserts');
-//goog.require('goog.string.format');
 
 if (!Object.defineProperty)
 {
@@ -78,8 +74,6 @@ box2d.b2Assert = function (condition, opt_message, var_args)
 		{
 			debugger;
 		}
-	
-		//goog.asserts.assert(condition, opt_message, var_args);
 	}
 }
 
@@ -447,7 +441,7 @@ box2d.b2Free = function (mem)
  */
 box2d.b2Log = function (var_args)
 {
-	goog.global.console.log.apply(null, arguments);
+	console.log.apply(null, arguments);
 }
 
 /** 

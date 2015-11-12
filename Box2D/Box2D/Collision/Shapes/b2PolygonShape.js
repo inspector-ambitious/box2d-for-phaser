@@ -16,10 +16,6 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2PolygonShape');
-
-goog.require('box2d.b2Shape');
-
 /** 
  * A convex polygon. It is assumed that the interior of the 
  * polygon is to the left of each edge. 
@@ -39,7 +35,7 @@ box2d.b2PolygonShape = function ()
 	this.m_normals = box2d.b2Vec2.MakeArray(box2d.b2_maxPolygonVertices);
 }
 
-goog.inherits(box2d.b2PolygonShape, box2d.b2Shape);
+box2d.b2PolygonShape.prototype = Object.create(box2d.b2Shape.prototype);
 
 /**
  * @export 

@@ -18,10 +18,6 @@
 
 //#if B2_ENABLE_CONTROLLER
 
-goog.provide('box2d.b2Controller');
-
-goog.require('box2d.b2Settings');
-
 /** 
  * A controller edge is used to connect bodies and controllers 
  * together in a bipartite graph. 

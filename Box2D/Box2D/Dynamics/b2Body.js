@@ -16,12 +16,6 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2Body');
-
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Math');
-goog.require('box2d.b2Fixture');
-
 /**
  * The body type.
  * static: zero mass, zero velocity, may be manually moved
@@ -38,11 +32,6 @@ box2d.b2BodyType =
 	b2_dynamicBody		: 2,
 	b2_bulletBody		: 3 // TODO_ERIN
 };
-goog.exportProperty(box2d.b2BodyType, 'b2_unknown'      , box2d.b2BodyType.b2_unknown      );
-goog.exportProperty(box2d.b2BodyType, 'b2_staticBody'   , box2d.b2BodyType.b2_staticBody   );
-goog.exportProperty(box2d.b2BodyType, 'b2_kinematicBody', box2d.b2BodyType.b2_kinematicBody);
-goog.exportProperty(box2d.b2BodyType, 'b2_dynamicBody'  , box2d.b2BodyType.b2_dynamicBody  );
-goog.exportProperty(box2d.b2BodyType, 'b2_bulletBody'   , box2d.b2BodyType.b2_bulletBody   );
 
 /** 
  * A body definition holds all the data needed to construct a 

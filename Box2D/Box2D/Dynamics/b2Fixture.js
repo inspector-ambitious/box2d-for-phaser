@@ -16,12 +16,6 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2Fixture');
-
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Collision');
-goog.require('box2d.b2Shape');
-
 /** 
  * This holds contact filtering data. 
  * @export 

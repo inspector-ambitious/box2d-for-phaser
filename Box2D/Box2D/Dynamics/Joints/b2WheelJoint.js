@@ -16,11 +16,6 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2WheelJoint');
-
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Math');
-
 /** 
  * Wheel joint definition. This requires defining a line of 
  * motion using an axis and an anchor point. The definition uses 
@@ -42,7 +37,7 @@ box2d.b2WheelJointDef = function ()
 	this.localAxisA = new box2d.b2Vec2(1, 0);
 }
 
-goog.inherits(box2d.b2WheelJointDef, box2d.b2JointDef);
+box2d.b2WheelJointDef.prototype = Object.create(box2d.b2JointDef.prototype);
 
 /** 
  * The local anchor point relative to bodyA's origin. 
@@ -160,7 +155,7 @@ box2d.b2WheelJoint = function (def)
 	this.m_ay.SetZero();
 }
 
-goog.inherits(box2d.b2WheelJoint, box2d.b2Joint);
+box2d.b2WheelJoint.prototype = Object.create(box2d.b2Joint.prototype);
 
 /**
  * @export 

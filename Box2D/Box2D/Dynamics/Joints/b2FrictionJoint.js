@@ -16,12 +16,6 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2FrictionJoint');
-
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Joint');
-goog.require('box2d.b2Math');
-
 /** 
  * Friction joint definition. 
  * @export 
@@ -36,7 +30,7 @@ box2d.b2FrictionJointDef = function ()
 	this.localAnchorB = new box2d.b2Vec2();
 }
 
-goog.inherits(box2d.b2FrictionJointDef, box2d.b2JointDef);
+box2d.b2FrictionJointDef.prototype = Object.create(box2d.b2JointDef.prototype);
 
 /** 
  * The local anchor point relative to bodyA's origin. 
@@ -113,7 +107,7 @@ box2d.b2FrictionJoint = function (def)
 	this.m_K = new box2d.b2Mat22();
 }
 
-goog.inherits(box2d.b2FrictionJoint, box2d.b2Joint);
+box2d.b2FrictionJoint.prototype = Object.create(box2d.b2Joint.prototype);
 
 /**
  * @export 

@@ -16,12 +16,6 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2PrismaticJoint');
-
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Joint');
-goog.require('box2d.b2Math');
-
 /** 
  * Prismatic joint definition. This requires defining a line of 
  * motion using an axis and an anchor point. The definition uses 
@@ -43,7 +37,7 @@ box2d.b2PrismaticJointDef = function ()
 	this.localAxisA = new box2d.b2Vec2(1, 0);
 }
 
-goog.inherits(box2d.b2PrismaticJointDef, box2d.b2JointDef);
+box2d.b2PrismaticJointDef.prototype = Object.create(box2d.b2JointDef.prototype);
 
 /** 
  * The local anchor point relative to bodyA's origin. 
@@ -180,7 +174,7 @@ box2d.b2PrismaticJoint = function (def)
 	this.m_rB = new box2d.b2Vec2();
 }
 
-goog.inherits(box2d.b2PrismaticJoint, box2d.b2Joint);
+box2d.b2PrismaticJoint.prototype = Object.create(box2d.b2Joint.prototype);
 
 // Solver shared
 /**

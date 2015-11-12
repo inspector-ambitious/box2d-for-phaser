@@ -16,11 +16,6 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2Shape');
-
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Math');
-goog.require('box2d.b2ShapeDistance');
 
 /** 
  * This holds the mass data computed for a shape. 
@@ -67,12 +62,7 @@ box2d.b2ShapeType =
 	e_chainShape		: 3,
 	e_shapeTypeCount	: 4
 };
-goog.exportProperty(box2d.b2ShapeType, 'e_unknown'       , box2d.b2ShapeType.e_unknown       );
-goog.exportProperty(box2d.b2ShapeType, 'e_circleShape'   , box2d.b2ShapeType.e_circleShape   );
-goog.exportProperty(box2d.b2ShapeType, 'e_edgeShape'     , box2d.b2ShapeType.e_edgeShape     );
-goog.exportProperty(box2d.b2ShapeType, 'e_polygonShape'  , box2d.b2ShapeType.e_polygonShape  );
-goog.exportProperty(box2d.b2ShapeType, 'e_chainShape'    , box2d.b2ShapeType.e_chainShape    );
-goog.exportProperty(box2d.b2ShapeType, 'e_shapeTypeCount', box2d.b2ShapeType.e_shapeTypeCount);
+
 
 /** 
  * A shape is used for collision detection. You can create a 

@@ -16,13 +16,6 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2TimeOfImpact');
-
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2ShapeDistance');
-goog.require('box2d.b2Math');
-goog.require('box2d.b2Timer');
-
 /**
  * @export
  * @type {number}
@@ -110,11 +103,6 @@ box2d.b2TOIOutputState =
 	e_touching		: 3,
 	e_separated		: 4
 };
-goog.exportProperty(box2d.b2TOIOutputState, 'e_unknown'   , box2d.b2TOIOutputState.e_unknown   );
-goog.exportProperty(box2d.b2TOIOutputState, 'e_failed'    , box2d.b2TOIOutputState.e_failed    );
-goog.exportProperty(box2d.b2TOIOutputState, 'e_overlapped', box2d.b2TOIOutputState.e_overlapped);
-goog.exportProperty(box2d.b2TOIOutputState, 'e_touching'  , box2d.b2TOIOutputState.e_touching  );
-goog.exportProperty(box2d.b2TOIOutputState, 'e_separated' , box2d.b2TOIOutputState.e_separated );
 
 /** 
  * Output parameters for b2TimeOfImpact. 
@@ -147,10 +135,6 @@ box2d.b2SeparationFunctionType =
 	e_faceA		: 1,
 	e_faceB		: 2
 };
-goog.exportProperty(box2d.b2SeparationFunctionType, 'e_unknown', box2d.b2SeparationFunctionType.e_unknown);
-goog.exportProperty(box2d.b2SeparationFunctionType, 'e_points' , box2d.b2SeparationFunctionType.e_points );
-goog.exportProperty(box2d.b2SeparationFunctionType, 'e_faceA'  , box2d.b2SeparationFunctionType.e_faceA  );
-goog.exportProperty(box2d.b2SeparationFunctionType, 'e_faceB'  , box2d.b2SeparationFunctionType.e_faceB  );
 
 /**
  * @export

@@ -16,14 +16,6 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2Island');
-
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Timer');
-goog.require('box2d.b2TimeStep');
-goog.require('box2d.b2WorldCallbacks');
-goog.require('box2d.b2ContactSolver');
-
 /*
 Position Correction Notes
 =========================

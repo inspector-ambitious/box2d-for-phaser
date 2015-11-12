@@ -18,12 +18,6 @@
 
 //#if B2_ENABLE_PARTICLE
 
-goog.provide('box2d.b2ParticleSystem');
-
-goog.require('box2d.b2Particle');
-goog.require('box2d.b2ParticleGroup');
-goog.require('box2d.b2TimeStep');
-
 /**
  * @return {void}
  * @param {Array.<?>} array 
@@ -390,7 +384,7 @@ box2d.b2FixtureParticleQueryCallback = function (system)
 	this.m_system = system;
 }
 
-goog.inherits(box2d.b2FixtureParticleQueryCallback, box2d.b2QueryCallback);
+box2d.b2FixtureParticleQueryCallback.prototype = Object.create(box2d.b2QueryCallback.prototype);
 
 /**
  * @type {box2d.b2ParticleSystem}
@@ -1509,7 +1503,7 @@ box2d.b2ParticleSystem.FixtureParticleSet = function ()
 {
 }
 
-goog.inherits(box2d.b2ParticleSystem.FixtureParticleSet, box2d.b2ParticleSystem.FixedSetAllocator);
+box2d.b2ParticleSystem.FixtureParticleSet.prototype = Object.create(box2d.b2ParticleSystem.FixedSetAllocator.prototype);
 
 /**
  * @return {void} 
@@ -1557,7 +1551,7 @@ box2d.b2ParticleSystem.b2ParticlePairSet = function ()
 {
 }
 
-goog.inherits(box2d.b2ParticleSystem.b2ParticlePairSet, box2d.b2ParticleSystem.FixedSetAllocator);
+box2d.b2ParticleSystem.b2ParticlePairSet.prototype = Object.create(box2d.b2ParticleSystem.FixedSetAllocator.prototype);
 
 /**
  * @return {void} 
@@ -1964,7 +1958,7 @@ box2d.b2ParticleSystem.DestroyParticlesInShapeCallback = function (system, shape
 	this.m_destroyed = 0;
 }
 
-goog.inherits(box2d.b2ParticleSystem.DestroyParticlesInShapeCallback, box2d.b2QueryCallback);
+box2d.b2ParticleSystem.DestroyParticlesInShapeCallback.prototype = Object.create(box2d.b2QueryCallback.prototype);
 
 /**
  * @type {box2d.b2ParticleSystem}
@@ -2152,7 +2146,7 @@ box2d.b2ParticleSystem.JoinParticleGroupsFilter = function (threshold)
 	this.m_threshold = threshold;
 }
 
-goog.inherits(box2d.b2ParticleSystem.JoinParticleGroupsFilter, box2d.b2ParticleSystem.ConnectionFilter);
+box2d.b2ParticleSystem.JoinParticleGroupsFilter.prototype = Object.create(box2d.b2ParticleSystem.ConnectionFilter.prototype);
 
 /**
  * @type {number}
@@ -3934,7 +3928,7 @@ box2d.b2ParticleSystem.CompositeShape = function (shapes, shapeCount)
 	this.m_shapeCount = shapeCount;
 }
 
-goog.inherits(box2d.b2ParticleSystem.CompositeShape, box2d.b2Shape);
+box2d.b2ParticleSystem.CompositeShape.prototype = Object.create(box2d.b2Shape.prototype);
 
 /**
  * @type {Array.<box2d.b2Shape>}
@@ -4354,7 +4348,7 @@ box2d.b2ParticleSystem.ReactiveFilter = function (flagsBuffer)
 	this.m_flagsBuffer = flagsBuffer;
 }
 
-goog.inherits(box2d.b2ParticleSystem.ReactiveFilter, box2d.b2ParticleSystem.ConnectionFilter);
+box2d.b2ParticleSystem.ReactiveFilter.prototype = Object.create(box2d.b2ParticleSystem.ConnectionFilter.prototype);
 
 /**
  * @type {box2d.b2ParticleSystem.UserOverridableBuffer<number>}
@@ -5165,7 +5159,7 @@ box2d.b2ParticleSystem.UpdateBodyContactsCallback = function (system, contactFil
 	this.m_contactFilter = contactFilter;
 }
 
-goog.inherits(box2d.b2ParticleSystem.UpdateBodyContactsCallback, box2d.b2FixtureParticleQueryCallback);
+box2d.b2ParticleSystem.UpdateBodyContactsCallback.prototype = Object.create(box2d.b2FixtureParticleQueryCallback.prototype);
 
 /** 
  * @export 
@@ -5424,7 +5418,7 @@ box2d.b2ParticleSystem.SolveCollisionCallback = function (system, step)
 	this.m_step = step;
 }
 
-goog.inherits(box2d.b2ParticleSystem.SolveCollisionCallback, box2d.b2FixtureParticleQueryCallback);
+box2d.b2ParticleSystem.SolveCollisionCallback.prototype = Object.create(box2d.b2FixtureParticleQueryCallback.prototype);
 
 /** 
  * @export 

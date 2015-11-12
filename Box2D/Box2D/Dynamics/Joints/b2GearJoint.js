@@ -16,14 +16,6 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2GearJoint');
-
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Joint');
-goog.require('box2d.b2Math');
-goog.require('box2d.b2RevoluteJoint');
-goog.require('box2d.b2PrismaticJoint');
-
 /** 
  * Gear joint definition. This definition requires two existing 
  * revolute or prismatic joints (any combination will work). 
@@ -36,7 +28,7 @@ box2d.b2GearJointDef = function ()
 	box2d.b2JointDef.call(this, box2d.b2JointType.e_gearJoint); // base class constructor
 }
 
-goog.inherits(box2d.b2GearJointDef, box2d.b2JointDef);
+box2d.b2GearJointDef.prototype = Object.create(box2d.b2JointDef.prototype);
 
 /** 
  * The first revolute/prismatic joint attached to the gear 
@@ -197,7 +189,7 @@ box2d.b2GearJoint = function (def)
 	this.m_impulse = 0;
 }
 
-goog.inherits(box2d.b2GearJoint, box2d.b2Joint);
+box2d.b2GearJoint.prototype = Object.create(box2d.b2Joint.prototype);
 
 /**
  * @export 

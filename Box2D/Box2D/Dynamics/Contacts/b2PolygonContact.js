@@ -16,12 +16,6 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2PolygonContact');
-
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Contact');
-goog.require('box2d.b2CollidePolygon');
-
 /**
  * @export 
  * @constructor 
@@ -32,7 +26,7 @@ box2d.b2PolygonContact = function ()
 	box2d.b2Contact.call(this); // base class constructor
 };
 
-goog.inherits(box2d.b2PolygonContact, box2d.b2Contact);
+box2d.b2PolygonContact.prototype = Object.create(box2d.b2Contact.prototype);
 
 /**
  * @export 

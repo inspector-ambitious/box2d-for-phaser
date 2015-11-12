@@ -16,10 +16,6 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2Draw');
-
-goog.require('box2d.b2Settings');
-
 /** 
  * Color for debug drawing. Each value has the range [0,1]. 
  * @export
@@ -142,19 +138,6 @@ box2d.b2DrawFlags =
 //#endif
 	e_all				: 0xffff
 };
-goog.exportProperty(box2d.b2DrawFlags, 'e_none'           , box2d.b2DrawFlags.e_none           );
-goog.exportProperty(box2d.b2DrawFlags, 'e_shapeBit'       , box2d.b2DrawFlags.e_shapeBit       );
-goog.exportProperty(box2d.b2DrawFlags, 'e_jointBit'       , box2d.b2DrawFlags.e_jointBit       );
-goog.exportProperty(box2d.b2DrawFlags, 'e_aabbBit'        , box2d.b2DrawFlags.e_aabbBit        );
-goog.exportProperty(box2d.b2DrawFlags, 'e_pairBit'        , box2d.b2DrawFlags.e_pairBit        );
-goog.exportProperty(box2d.b2DrawFlags, 'e_centerOfMassBit', box2d.b2DrawFlags.e_centerOfMassBit);
-//#if B2_ENABLE_CONTROLLER
-goog.exportProperty(box2d.b2DrawFlags, 'e_controllerBit'  , box2d.b2DrawFlags.e_controllerBit  );
-//#endif
-//#if B2_ENABLE_PARTICLE
-goog.exportProperty(box2d.b2DrawFlags, 'e_particleBit'    , box2d.b2DrawFlags.e_particleBit    );
-//#endif
-goog.exportProperty(box2d.b2DrawFlags, 'e_all'            , box2d.b2DrawFlags.e_all            );
 
 /** 
  * Implement and register this class with a b2World to provide 

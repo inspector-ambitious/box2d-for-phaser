@@ -16,12 +16,6 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2AreaJoint');
-
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Joint');
-goog.require('box2d.b2Math');
-
 /** 
  * Definition for a {@link box2d.b2AreaJoint}, which connects a 
  * group a bodies together so they maintain a constant area 
@@ -37,7 +31,7 @@ box2d.b2AreaJointDef = function ()
 	this.bodies = new Array();
 }
 
-goog.inherits(box2d.b2AreaJointDef, box2d.b2JointDef);
+box2d.b2AreaJointDef.prototype = Object.create(box2d.b2JointDef.prototype);
 
 /**
  * @export 
@@ -135,7 +129,7 @@ box2d.b2AreaJoint = function (def)
 	this.m_targetArea *= 0.5;
 }
 
-goog.inherits(box2d.b2AreaJoint, box2d.b2Joint);
+box2d.b2AreaJoint.prototype = Object.create(box2d.b2Joint.prototype);
 
 /**
  * @export 

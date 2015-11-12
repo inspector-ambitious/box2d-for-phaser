@@ -18,11 +18,6 @@
 
 //#if B2_ENABLE_ROPE
 
-goog.provide('box2d.b2Rope');
-
-goog.require('box2d.b2Math');
-goog.require('box2d.b2Draw');
-
 /**
  * @export 
  * @constructor

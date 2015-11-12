@@ -16,10 +16,6 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2EdgeShape');
-
-goog.require('box2d.b2Shape');
-
 /** 
  * A line segment (edge) shape. These can be connected in chains 
  * or loops to other edge shapes. The connectivity information 
@@ -39,7 +35,7 @@ box2d.b2EdgeShape = function ()
 	this.m_vertex3 = new box2d.b2Vec2();
 }
 
-goog.inherits(box2d.b2EdgeShape, box2d.b2Shape);
+box2d.b2EdgeShape.prototype = Object.create(box2d.b2Shape.prototype);
 
 /** 
  * These are the edge vertices 

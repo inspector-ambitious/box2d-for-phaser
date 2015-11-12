@@ -16,10 +16,6 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2WorldCallbacks');
-
-goog.require('box2d.b2Settings');
-
 /** 
  * Joints and fixtures are destroyed when their associated body 
  * is destroyed. Implement this listener so that you may nullify 

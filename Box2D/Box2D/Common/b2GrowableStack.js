@@ -16,10 +16,6 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2GrowableStack');
-
-goog.require('box2d.b2Settings');
-
 /** 
  * This is a growable LIFO stack with an initial capacity of N. 
  * If the stack size exceeds the initial capacity, the heap is 

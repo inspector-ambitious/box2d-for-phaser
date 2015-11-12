@@ -18,13 +18,6 @@
 
 //#if B2_ENABLE_CONTROLLER
 
-goog.provide('box2d.b2BuoyancyController');
-
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Controller');
-goog.require('box2d.b2Math');
-goog.require('box2d.b2WorldCallbacks');
-
 /** 
  * Calculates buoyancy forces for fluids in the form of a half 
  * plane. 
@@ -34,14 +27,14 @@ goog.require('box2d.b2WorldCallbacks');
  */
 box2d.b2BuoyancyController = function ()
 {
-	goog.base(this); // base class constructor
+	box2d.b2Controller.apply(this, arguments);  // base class constructor
 
 	this.normal = new box2d.b2Vec2(0, 1);
 	this.velocity = new box2d.b2Vec2(0, 0);
 	this.gravity = new box2d.b2Vec2(0, 0);
 };
 
-goog.inherits(box2d.b2BuoyancyController, box2d.b2Controller);
+box2d.b2BuoyancyController.prototype = Object.create(box2d.b2Controller.prototype);
 
 /** 
  * The outer surface normal 

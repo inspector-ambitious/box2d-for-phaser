@@ -16,12 +16,6 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2RopeJoint');
-
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Joint');
-goog.require('box2d.b2Math');
-
 /** 
  * Rope joint definition. This requires two body anchor points 
  * and a maximum lengths. 
@@ -39,7 +33,7 @@ box2d.b2RopeJointDef = function ()
 	this.localAnchorB = new box2d.b2Vec2(1, 0);
 }
 
-goog.inherits(box2d.b2RopeJointDef, box2d.b2JointDef);
+box2d.b2RopeJointDef.prototype = Object.create(box2d.b2JointDef.prototype);
 
 /** 
  * The local anchor point relative to bodyA's origin. 
@@ -98,7 +92,7 @@ box2d.b2RopeJoint = function (def)
 	this.m_lalcB = new box2d.b2Vec2();
 }
 
-goog.inherits(box2d.b2RopeJoint, box2d.b2Joint);
+box2d.b2RopeJoint.prototype = Object.create(box2d.b2Joint.prototype);
 
 // Solver shared
 /**

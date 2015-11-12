@@ -16,13 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2ChainAndPolygonContact');
 
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Contact');
-goog.require('box2d.b2CollideEdge');
-goog.require('box2d.b2ChainShape');
-goog.require('box2d.b2PolygonShape');
 
 /** 
  * @export 
@@ -34,7 +28,7 @@ box2d.b2ChainAndPolygonContact = function ()
 	box2d.b2Contact.call(this); // base class constructor
 };
 
-goog.inherits(box2d.b2ChainAndPolygonContact, box2d.b2Contact);
+box2d.b2ChainAndPolygonContact.prototype = Object.create(box2d.b2Contact.prototype);
 
 /** 
  * @export 

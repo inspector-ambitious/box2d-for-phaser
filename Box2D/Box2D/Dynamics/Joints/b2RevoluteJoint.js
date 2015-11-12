@@ -16,12 +16,6 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2RevoluteJoint');
-
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Joint');
-goog.require('box2d.b2Math');
-
 /** 
  * Revolute joint definition. This requires defining an anchor 
  * point where the bodies are joined. The definition uses local 
@@ -46,7 +40,7 @@ box2d.b2RevoluteJointDef = function ()
 	this.localAnchorB = new box2d.b2Vec2(0, 0);
 }
 
-goog.inherits(box2d.b2RevoluteJointDef, box2d.b2JointDef);
+box2d.b2RevoluteJointDef.prototype = Object.create(box2d.b2JointDef.prototype);
 
 /** 
  * The local anchor point relative to bodyA's origin. 
@@ -180,7 +174,7 @@ box2d.b2RevoluteJoint = function (def)
 	this.m_limitState = box2d.b2LimitState.e_inactiveLimit;
 }
 
-goog.inherits(box2d.b2RevoluteJoint, box2d.b2Joint);
+box2d.b2RevoluteJoint.prototype = Object.create(box2d.b2Joint.prototype);
 
 // Solver shared
 /**

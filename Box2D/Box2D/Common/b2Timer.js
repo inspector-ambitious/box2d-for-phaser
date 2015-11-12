@@ -16,10 +16,6 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2Timer');
-
-goog.require('box2d.b2Settings');
-
 /** 
  * Timer for profiling. This has platform specific code and may 
  * not work on every platform. 

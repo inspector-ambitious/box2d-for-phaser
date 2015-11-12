@@ -16,11 +16,6 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d.b2ChainShape');
-
-goog.require('box2d.b2Shape');
-goog.require('box2d.b2EdgeShape');
-
 /** 
  * A chain shape is a free form sequence of line segments.
  * The chain has two-sided collision, so you can use inside and outside collision.
@@ -40,7 +35,7 @@ box2d.b2ChainShape = function ()
 	this.m_nextVertex = new box2d.b2Vec2();
 }
 
-goog.inherits(box2d.b2ChainShape, box2d.b2Shape);
+box2d.b2ChainShape.prototype = Object.create(box2d.b2Shape.prototype);
 
 /** 
  * The vertices. Owned by this class. 

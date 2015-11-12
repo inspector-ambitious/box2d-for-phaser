@@ -16,7 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-goog.provide('box2d');
+var box2d = {};
 
 /**
 \mainpage Box2D API Documentation
@@ -27,60 +27,3 @@ For documentation please see http://box2d.org/documentation.html
 
 For discussion please visit http://box2d.org/forum
 */
-
-// These include files constitute the main Box2D API
-
-goog.require('box2d.b2Settings');
-goog.require('box2d.b2Draw');
-goog.require('box2d.b2Timer');
-
-goog.require('box2d.b2CircleShape');
-goog.require('box2d.b2EdgeShape');
-goog.require('box2d.b2ChainShape');
-goog.require('box2d.b2PolygonShape');
-
-goog.require('box2d.b2BroadPhase');
-goog.require('box2d.b2ShapeDistance');
-goog.require('box2d.b2DynamicTree');
-goog.require('box2d.b2TimeOfImpact');
-
-goog.require('box2d.b2Body');
-goog.require('box2d.b2Fixture');
-goog.require('box2d.b2WorldCallbacks');
-goog.require('box2d.b2TimeStep');
-goog.require('box2d.b2World');
-
-goog.require('box2d.b2Contact');
-
-goog.require('box2d.b2AreaJoint');
-goog.require('box2d.b2DistanceJoint');
-goog.require('box2d.b2FrictionJoint');
-goog.require('box2d.b2GearJoint');
-goog.require('box2d.b2MotorJoint');
-goog.require('box2d.b2MouseJoint');
-goog.require('box2d.b2PrismaticJoint');
-goog.require('box2d.b2PulleyJoint');
-goog.require('box2d.b2RevoluteJoint');
-goog.require('box2d.b2RopeJoint');
-goog.require('box2d.b2WeldJoint');
-goog.require('box2d.b2WheelJoint');
-
-//#if B2_ENABLE_ROPE
-goog.require('box2d.b2Rope');
-//#endif
-
-//#if B2_ENABLE_CONTROLLER
-goog.require('box2d.b2BuoyancyController');
-goog.require('box2d.b2ConstantAccelController');
-goog.require('box2d.b2ConstantForceController');
-goog.require('box2d.b2GravityController');
-goog.require('box2d.b2TensorDampingController');
-//#endif
-
-//#if B2_ENABLE_PARTICLE
-goog.require('box2d.b2Particle');
-goog.require('box2d.b2ParticleGroup');
-goog.require('box2d.b2ParticleSystem');
-goog.require('box2d.b2StackQueue');
-goog.require('box2d.b2VoronoiDiagram');
-//#endif

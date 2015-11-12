@@ -18,8 +18,6 @@
 
 //#if B2_ENABLE_PARTICLE
 
-goog.provide('box2d.b2StackQueue');
-
 /**
  * @constructor
  * @param {number} capacity 
