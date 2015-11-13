@@ -395,7 +395,13 @@ box2d.b2Vec2.s_t3 = new box2d.b2Vec2(0.0, 0.0);
  */
 box2d.b2Vec2.MakeArray = function (length)
 {
-	return box2d.b2MakeArray(length, function (i) { return new box2d.b2Vec2(0.0, 0.0); });
+	var array = [];
+
+	for (var i = 0; i < length; i++) {
+		array[i] = new box2d.b2Vec2(0.0, 0.0);
+	}
+	
+	return array;
 }
 
 /**

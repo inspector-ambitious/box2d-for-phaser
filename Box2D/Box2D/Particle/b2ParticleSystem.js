@@ -2237,7 +2237,10 @@ box2d.b2ParticleSystem.prototype.SplitParticleGroup = function (group)
 	var particleCount = group.GetParticleCount();
 	// We create several linked lists. Each list represents a set of connected particles.
 	///	ParticleListNode* nodeBuffer = (ParticleListNode*) m_world.m_stackAllocator.Allocate(sizeof(ParticleListNode) * particleCount);
-	var nodeBuffer = box2d.b2MakeArray(particleCount, function (index) { return new box2d.b2ParticleSystem.ParticleListNode(); });
+	var nodeBuffer = [];
+	for (var i = 0; i < particleCount; i++) {
+		nodeBuffer[i] = new box2d.b2ParticleSystem.ParticleListNode();
+	}	
 	box2d.b2ParticleSystem.InitializeParticleLists(group, nodeBuffer);
 	this.MergeParticleListsInContact(group, nodeBuffer);
 	var survivingList = box2d.b2ParticleSystem.FindLongestParticleList(group, nodeBuffer);

@@ -281,7 +281,13 @@ box2d.b2ManifoldPoint.prototype.id = null; ///< uniquely identifies a contact po
  */
 box2d.b2ManifoldPoint.MakeArray = function (length)
 {
-	return box2d.b2MakeArray(length, function (i) { return new box2d.b2ManifoldPoint(); } );
+	var array = [];
+
+	for (var i = 0; i < length; i++) {
+		array[i] = new box2d.b2ManifoldPoint();
+	}
+	
+	return array;
 }
 
 /**
@@ -636,7 +642,13 @@ box2d.b2ClipVertex.prototype.id = null;
  */
 box2d.b2ClipVertex.MakeArray = function (length)
 {
-	return box2d.b2MakeArray(length, function (i) { return new box2d.b2ClipVertex(); });
+	var array = [];
+
+	for (var i = 0; i < length; i++) {
+		array[i] = new box2d.b2ClipVertex();
+	}
+	
+	return array;
 }
 
 /**

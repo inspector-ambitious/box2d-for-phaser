@@ -51,7 +51,13 @@ box2d.b2ContactFactory.prototype.m_allocator = null;
  */
 box2d.b2ContactFactory.prototype.AddType = function (createFcn, destroyFcn, type1, type2)
 {
-	var pool = box2d.b2MakeArray(256, function (i) { return createFcn(); } ); // TODO: b2Settings
+
+	var pool = [];
+
+	for (var i = 0; i < 256; i++) { // TODO: b2Settings
+		pool[i] = createFcn();
+	}
+	
 
 	var poolCreateFcn = function (allocator)
 	{

@@ -74,7 +74,13 @@ box2d.b2VelocityConstraintPoint.prototype.velocityBias = 0;
  */
 box2d.b2VelocityConstraintPoint.MakeArray = function (length)
 {
-	return box2d.b2MakeArray(length, function (i) { return new box2d.b2VelocityConstraintPoint(); });
+	var array = [];
+
+	for (var i = 0; i < length; i++) {
+		array[i] = new box2d.b2VelocityConstraintPoint();
+	}
+	
+	return array;
 }
 
 /**
@@ -178,7 +184,13 @@ box2d.b2ContactVelocityConstraint.prototype.contactIndex = 0;
  */
 box2d.b2ContactVelocityConstraint.MakeArray = function (length)
 {
-	return box2d.b2MakeArray(length, function (i) { return new box2d.b2ContactVelocityConstraint(); } );
+	var array = [];
+
+	for (var i = 0; i < length; i++) {
+		array[i] = new box2d.b2ContactVelocityConstraint();
+	}
+	
+	return array;
 }
 
 /**
@@ -277,7 +289,14 @@ box2d.b2ContactPositionConstraint.prototype.pointCount = 0;
  */
 box2d.b2ContactPositionConstraint.MakeArray = function (length)
 {
-	return box2d.b2MakeArray(length, function (i) { return new box2d.b2ContactPositionConstraint(); } );
+	var array = [];
+
+	for (var i = 0; i < length; i++) {
+		array[i] = new box2d.b2ContactPositionConstraint();
+	}
+	
+	return array;
+
 }
 
 /**

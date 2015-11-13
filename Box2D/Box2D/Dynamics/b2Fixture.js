@@ -176,7 +176,13 @@ box2d.b2FixtureProxy.prototype.proxy = null;
  */
 box2d.b2FixtureProxy.MakeArray = function (length)
 {
-	return box2d.b2MakeArray(length, function (i) { return new box2d.b2FixtureProxy(); });
+	var array = [];
+
+	for (var i = 0; i < length; i++) {
+		array[i] = new box2d.b2FixtureProxy();
+	}
+	
+	return array;
 }
 
 /** 

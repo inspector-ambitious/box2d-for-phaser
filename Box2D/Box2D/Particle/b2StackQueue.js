@@ -24,7 +24,7 @@
  */
 box2d.b2StackQueue = function (capacity)
 {
-	this.m_buffer = box2d.b2MakeArray(capacity);
+	this.m_buffer = new Array(capacity);
 	this.m_end = capacity;
 }
 
@@ -66,12 +66,12 @@ box2d.b2StackQueue.prototype.Push = function (item)
 		{
 			if (this.m_capacity > 0)
 			{
-				this.m_buffer.concat(box2d.b2MakeArray(this.m_capacity));
+				this.m_buffer.concat(new Array(this.m_capacity));
 				this.m_capacity *= 2;
 			}
 			else
 			{
-				this.m_buffer.concat(box2d.b2MakeArray(1));
+				this.m_buffer.concat(new Array(1));
 				this.m_capacity = 1;
 			}
 			///m_buffer = (T*) m_allocator->Reallocate(m_buffer, sizeof(T) * m_capacity);

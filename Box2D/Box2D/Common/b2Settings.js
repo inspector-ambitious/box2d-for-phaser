@@ -519,32 +519,6 @@ box2d.b2ParseUInt = function (v)
 	return box2d.b2Abs(parseInt(v, 10));
 }
 
-/** 
- * @export 
- * @return {Array.<*>} 
- * @param {number=} length 
- * @param {function(number): *=} init 
- */
-box2d.b2MakeArray = function (length, init)
-{
-	length = (typeof(length) === 'number')?(length):(0);
-	var a = [];
-	if (typeof(init) === 'function')
-	{
-		for (var i = 0; i < length; ++i)
-		{
-			a.push(init(i));
-		}
-	}
-	else
-	{
-		for (var i = 0; i < length; ++i)
-		{
-			a.push(null);
-		}
-	}
-	return a;
-}
 
 /** 
  * @export 
@@ -553,6 +527,12 @@ box2d.b2MakeArray = function (length, init)
  */
 box2d.b2MakeNumberArray = function (length)
 {
-	return box2d.b2MakeArray(length, function (i) { return 0; });
+	var array = [];
+
+	for (var i = 0; i < length; i++) {
+		array[i] = 0;
+	}
+	
+	return array;
 }
 

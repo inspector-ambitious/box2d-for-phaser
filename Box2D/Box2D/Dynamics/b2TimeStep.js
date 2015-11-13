@@ -177,7 +177,13 @@ box2d.b2Position.prototype.a = 0;
  */
 box2d.b2Position.MakeArray = function (length)
 {
-	return box2d.b2MakeArray(length, function (i) { return new box2d.b2Position(); } );
+	var array = [];
+
+	for (var i = 0; i < length; i++) {
+		array[i] = new box2d.b2Position();
+	}
+	
+	return array;
 }
 
 /** 
@@ -208,7 +214,13 @@ box2d.b2Velocity.prototype.w = 0;
  */
 box2d.b2Velocity.MakeArray = function (length)
 {
-	return box2d.b2MakeArray(length, function (i) { return new box2d.b2Velocity(); } );
+	var array = [];
+
+	for (var i = 0; i < length; i++) {
+		array[i] = new box2d.b2Velocity();
+	}
+	
+	return array;
 }
 
 /** 

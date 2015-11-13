@@ -26,7 +26,10 @@
  */
 box2d.b2VoronoiDiagram = function (generatorCapacity)
 {
-	this.m_generatorBuffer = box2d.b2MakeArray(generatorCapacity, function (index) { return new box2d.b2VoronoiDiagram.Generator(); })
+	this.m_generatorBuffer = [];
+	for (var i = 0; i < generatorCapacity; i++) {
+		this.m_generatorBuffer[i] = new box2d.b2VoronoiDiagram.Generator();
+	}	
 	this.m_generatorCapacity = generatorCapacity;
 }
 
@@ -188,7 +191,7 @@ box2d.b2VoronoiDiagram.prototype.Generate = function (radius, margin)
 	///	{
 	///		m_diagram[i] = NULL;
 	///	}
-	this.m_diagram = /** @type {Array.<box2d.b2VoronoiDiagram.Generator>} */ (box2d.b2MakeArray(this.m_countX * this.m_countY));
+	this.m_diagram = /** @type {Array.<box2d.b2VoronoiDiagram.Generator>} */ (new Array(this.m_countX * this.m_countY));
 
 	// (4 * m_countX * m_countY) is the queue capacity that is experimentally
 	// known to be necessary and sufficient for general particle distributions.
