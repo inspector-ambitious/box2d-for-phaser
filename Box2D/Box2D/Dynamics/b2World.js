@@ -1122,7 +1122,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 		{
 			var b = this.m_bodyList[i];
 			b.m_flag_islandFlag = false;
-			b.m_sweep.alpha0 = 0;
+			b.m_sweep.alpha0 = 0.0;
 		}
 
 		for (/** @type {box2d.b2Contact} */ var c = this.m_contactManager.m_contactList; c; c = c.m_next)

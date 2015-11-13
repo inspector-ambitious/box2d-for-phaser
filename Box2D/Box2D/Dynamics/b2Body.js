@@ -43,124 +43,130 @@ box2d.b2BodyType =
  */
 box2d.b2BodyDef = function ()
 {
+
+	/** 
+	 * The world position of the body. Avoid creating bodies at the 
+	 * origin since this can lead to many overlapping shapes. 
+	 * @export 
+	 * @type {box2d.b2Vec2} 
+	 */
+
 	this.position = new box2d.b2Vec2(0.0, 0.0);
+
+	/** 
+	 * The linear velocity of the body's origin in world 
+	 * co-ordinates. 
+	 * @export 
+	 * @type {box2d.b2Vec2}
+	 */
+
 	this.linearVelocity = new box2d.b2Vec2(0.0, 0.0);
+
+	/** 
+	 * The body type: static, kinematic, or dynamic. 
+	 * Note: if a dynamic body would have zero mass, the mass is set 
+	 * to one. 
+	 * @export
+	 * @type {box2d.b2BodyType} 
+	 */ 
+	this.type = box2d.b2BodyType.b2_staticBody;
+
+
+
+	/** 
+	 * The world angle of the body in radians. 
+	 * @export 
+	 * @type {number} 
+	 */
+	this.angle = 0.0;
+
+
+	/** 
+	 * The angular velocity of the body. 
+	 * @export 
+	 * @type {number}
+	 */
+	this.angularVelocity = 0.0;
+
+	/** 
+	 * Linear damping is use to reduce the linear velocity. The 
+	 * damping parameter can be larger than 1.0f but the damping 
+	 * effect becomes sensitive to the time step when the damping 
+	 * parameter is large. 
+	 * @export 
+	 * @type {number}
+	 */
+	this.linearDamping = 0.0;
+
+	/** 
+	 * Angular damping is use to reduce the angular velocity. The 
+	 * damping parameter can be larger than 1.0f but the damping 
+	 * effect becomes sensitive to the time step when the damping 
+	 * parameter is large. 
+	 * @export 
+	 * @type {number}
+	 */
+	this.angularDamping = 0.0;
+
+	/** 
+	 * Set this flag to false if this body should never fall asleep. 
+	 * Note that this increases CPU usage. 
+	 * @export 
+	 * @type {boolean}
+	 */
+	this.allowSleep = true;
+
+	/** 
+	 * Is this body initially awake or sleeping? 
+	 * @export 
+	 * @type {boolean}
+	 */
+	this.awake = true;
+
+	/** 
+	 * Should this body be prevented from rotating? Useful for 
+	 * characters. 
+	 * @export 
+	 * @type {boolean}
+	 */
+	this.fixedRotation = false;
+
+	/** 
+	 * Is this a fast moving body that should be prevented from 
+	 * tunneling through other moving bodies? Note that all bodies 
+	 * are prevented from tunneling through kinematic and static 
+	 * bodies. This setting is only considered on dynamic bodies. 
+	 * warning You should use this flag sparingly since it increases 
+	 * processing time. 
+	 * @export 
+	 * @type {boolean}
+	 */
+	this.bullet = false;
+
+	/** 
+	 * Does this body start out active? 
+	 * @export 
+	 * @type {boolean}
+	 */
+	this.active = true;
+
+	/** 
+	 * Use this to store application specific body data. 
+	 * @export 
+	 * @type {*}
+	 */
+	this.userData = null;
+
+	/** 
+	 * Scale the gravity applied to this body. 
+	 * @export 
+	 * @type {number}
+	 */
+	this.gravityScale = 1.0;
+
 }
 
-/** 
- * The body type: static, kinematic, or dynamic. 
- * Note: if a dynamic body would have zero mass, the mass is set 
- * to one. 
- * @export
- * @type {box2d.b2BodyType} 
- */ 
-box2d.b2BodyDef.prototype.type = box2d.b2BodyType.b2_staticBody;
 
-/** 
- * The world position of the body. Avoid creating bodies at the 
- * origin since this can lead to many overlapping shapes. 
- * @export 
- * @type {box2d.b2Vec2} 
- */
-box2d.b2BodyDef.prototype.position = null;
-
-/** 
- * The world angle of the body in radians. 
- * @export 
- * @type {number} 
- */
-box2d.b2BodyDef.prototype.angle = 0;
-
-/** 
- * The linear velocity of the body's origin in world 
- * co-ordinates. 
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2BodyDef.prototype.linearVelocity = null;
-
-/** 
- * The angular velocity of the body. 
- * @export 
- * @type {number}
- */
-box2d.b2BodyDef.prototype.angularVelocity = 0;
-
-/** 
- * Linear damping is use to reduce the linear velocity. The 
- * damping parameter can be larger than 1.0f but the damping 
- * effect becomes sensitive to the time step when the damping 
- * parameter is large. 
- * @export 
- * @type {number}
- */
-box2d.b2BodyDef.prototype.linearDamping = 0;
-
-/** 
- * Angular damping is use to reduce the angular velocity. The 
- * damping parameter can be larger than 1.0f but the damping 
- * effect becomes sensitive to the time step when the damping 
- * parameter is large. 
- * @export 
- * @type {number}
- */
-box2d.b2BodyDef.prototype.angularDamping = 0;
-
-/** 
- * Set this flag to false if this body should never fall asleep. 
- * Note that this increases CPU usage. 
- * @export 
- * @type {boolean}
- */
-box2d.b2BodyDef.prototype.allowSleep = true;
-
-/** 
- * Is this body initially awake or sleeping? 
- * @export 
- * @type {boolean}
- */
-box2d.b2BodyDef.prototype.awake = true;
-
-/** 
- * Should this body be prevented from rotating? Useful for 
- * characters. 
- * @export 
- * @type {boolean}
- */
-box2d.b2BodyDef.prototype.fixedRotation = false;
-
-/** 
- * Is this a fast moving body that should be prevented from 
- * tunneling through other moving bodies? Note that all bodies 
- * are prevented from tunneling through kinematic and static 
- * bodies. This setting is only considered on dynamic bodies. 
- * warning You should use this flag sparingly since it increases 
- * processing time. 
- * @export 
- * @type {boolean}
- */
-box2d.b2BodyDef.prototype.bullet = false;
-
-/** 
- * Does this body start out active? 
- * @export 
- * @type {boolean}
- */
-box2d.b2BodyDef.prototype.active = true;
-
-/** 
- * Use this to store application specific body data. 
- * @export 
- * @type {*}
- */
-box2d.b2BodyDef.prototype.userData = null;
-
-/** 
- * Scale the gravity applied to this body. 
- * @export 
- * @type {number}
- */
-box2d.b2BodyDef.prototype.gravityScale = 1;
 
 /** 
  * A rigid body. These are created via 
@@ -172,6 +178,8 @@ box2d.b2BodyDef.prototype.gravityScale = 1;
  */
 box2d.b2Body = function (bd, world)
 {
+
+
 	this.m_xf = new box2d.b2Transform();
 	this.m_out_xf = new box2d.b2Transform();
 //#if B2_ENABLE_PARTICLE
@@ -183,35 +191,32 @@ box2d.b2Body = function (bd, world)
 	this.m_out_linearVelocity = new box2d.b2Vec2(0.0, 0.0);
 	this.m_force = new box2d.b2Vec2(0.0, 0.0);
 
+	this.m_angularVelocity = 0.0;
+
 	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(bd.position.IsValid()); }
 	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(bd.linearVelocity.IsValid()); }
 	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2IsValid(bd.angle)); }
 	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2IsValid(bd.angularVelocity)); }
-	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2IsValid(bd.gravityScale) && bd.gravityScale >= 0); }
-	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2IsValid(bd.angularDamping) && bd.angularDamping >= 0); }
-	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2IsValid(bd.linearDamping) && bd.linearDamping >= 0); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2IsValid(bd.gravityScale) && bd.gravityScale >= 0.0); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2IsValid(bd.angularDamping) && bd.angularDamping >= 0.0); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2IsValid(bd.linearDamping) && bd.linearDamping >= 0.0); }
 
-	if (bd.bullet)
-	{
-		this.m_flag_bulletFlag = true;
-	}
-	if (bd.fixedRotation)
-	{
-		this.m_flag_fixedRotationFlag = true;
-	}
-	if (bd.allowSleep)
-	{
-		this.m_flag_autoSleepFlag = true;
-	}
-	if (bd.awake)
-	{
-		this.m_flag_awakeFlag = true;
-	}
-	if (bd.active)
-	{
-		this.m_flag_activeFlag = true;
-	}
 
+	this.m_flag_islandFlag = false;
+
+	this.m_flag_bulletFlag = !!bd.bullet;
+	
+	this.m_flag_fixedRotationFlag = !!bd.fixedRotation;
+
+	this.m_flag_autoSleepFlag = !!bd.allowSleep;
+
+	this.m_flag_awakeFlag = !!bd.awake;
+	
+	this.m_flag_activeFlag = !!bd.active;
+	
+	this.m_flag_toiFlag = false;
+
+	this.m_islandIndex = 0;
 	this.m_world = world;
 
 	this.m_xf.p.Copy(bd.position);
@@ -225,7 +230,7 @@ box2d.b2Body = function (bd, world)
 	this.m_sweep.c.Copy(this.m_xf.p);
 	this.m_sweep.a0 = bd.angle;
 	this.m_sweep.a = bd.angle;
-	this.m_sweep.alpha0 = 0;
+	this.m_sweep.alpha0 = 0.0;
 
 	this.m_linearVelocity.Copy(bd.linearVelocity);
 	this.m_angularVelocity = bd.angularVelocity;
@@ -235,7 +240,7 @@ box2d.b2Body = function (bd, world)
 	this.m_gravityScale = bd.gravityScale;
 
 	this.m_force.SetZero();
-	this.m_torque = 0;
+	this.m_torque = 0.0;
 
 	this.m_sleepTime = 0;
 
@@ -243,214 +248,31 @@ box2d.b2Body = function (bd, world)
 
 	if (bd.type === box2d.b2BodyType.b2_dynamicBody)
 	{
-		this.m_mass = 1;
-		this.m_invMass = 1;
+		this.m_mass = 1.0;
+		this.m_invMass = 1.0;
 	}
 	else
 	{
-		this.m_mass = 0;
-		this.m_invMass = 0;
+		this.m_mass = 0/0;
+		this.m_invMass = 0.0;
 	}
 
-	this.m_I = 0;
-	this.m_invI = 0;
+	this.m_I = 0.0;
+	this.m_invI = 0.0;
 
 	this.m_userData = bd.userData;
 
 	this.m_fixtureList = null;
 	this.m_fixtureCount = 0;
 
+	this.m_contactList = null;
+	this.m_jointList = null;
 //#if B2_ENABLE_CONTROLLER
 	this.m_controllerList = null;
 	this.m_controllerCount = 0;
 //#endif
 }
 
-/**
- * @export 
- * @type {boolean}
- */
-box2d.b2Body.prototype.m_flag_islandFlag = false;
-/**
- * @export 
- * @type {boolean}
- */
-box2d.b2Body.prototype.m_flag_awakeFlag = false;
-/**
- * @export 
- * @type {boolean}
- */
-box2d.b2Body.prototype.m_flag_autoSleepFlag = false;
-/**
- * @export 
- * @type {boolean}
- */
-box2d.b2Body.prototype.m_flag_bulletFlag = false;
-/**
- * @export 
- * @type {boolean}
- */
-box2d.b2Body.prototype.m_flag_fixedRotationFlag = false;
-/**
- * @export 
- * @type {boolean}
- */
-box2d.b2Body.prototype.m_flag_activeFlag = false;
-/**
- * @export 
- * @type {boolean}
- */
-box2d.b2Body.prototype.m_flag_toiFlag = false;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Body.prototype.m_islandIndex = 0;
-/**
- * @export 
- * @type {box2d.b2World}
- */
-box2d.b2Body.prototype.m_world = null;
-/**
- * @export 
- * @type {box2d.b2Transform}
- */
-box2d.b2Body.prototype.m_xf = null; // the body origin transform
-/**
- * @export 
- * @type {box2d.b2Transform}
- */
-box2d.b2Body.prototype.m_out_xf = null;
-//#if B2_ENABLE_PARTICLE
-/**
- * @export 
- * @type {box2d.b2Transform}
- */
-box2d.b2Body.prototype.m_xf0 = null;
-//#endif
-/**
- * @export 
- * @type {box2d.b2Sweep}
- */
-box2d.b2Body.prototype.m_sweep = null; // the swept motion for CCD
-/**
- * @export 
- * @type {box2d.b2Sweep}
- */
-box2d.b2Body.prototype.m_out_sweep = null;
-/**
- * @export 
- * @type {box2d.b2JointEdge}
- */
-box2d.b2Body.prototype.m_jointList = null;
-/**
- * @export 
- * @type {box2d.b2ContactEdge}
- */
-box2d.b2Body.prototype.m_contactList = null;
-
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2Body.prototype.m_linearVelocity = null;
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2Body.prototype.m_out_linearVelocity = null;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Body.prototype.m_angularVelocity = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Body.prototype.m_linearDamping = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Body.prototype.m_angularDamping = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Body.prototype.m_gravityScale = 1;
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2Body.prototype.m_force = null;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Body.prototype.m_torque = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Body.prototype.m_sleepTime = 0;
-/**
- * @export 
- * @type {box2d.b2BodyType} 
- */
-box2d.b2Body.prototype.m_type = box2d.b2BodyType.b2_staticBody;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Body.prototype.m_mass = 1;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Body.prototype.m_invMass = 1;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Body.prototype.m_I = 0; // Rotational inertia about the center of mass.
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Body.prototype.m_invI = 0;
-/**
- * @export 
- * @type {*}
- */
-box2d.b2Body.prototype.m_userData = null;
-/**
- * @export 
- * @type {box2d.b2Fixture}
- */
-box2d.b2Body.prototype.m_fixtureList = null;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Body.prototype.m_fixtureCount = 0;
-
-//#if B2_ENABLE_CONTROLLER
-
-/** 
- * @see box2d.b2Controller list 
- * @export 
- * @type {box2d.b2ControllerEdge}
- */
-box2d.b2Body.prototype.m_controllerList = null;
-
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Body.prototype.m_controllerCount = 0;
-
-//#endif
 
 /** 
  * @export 
