@@ -655,10 +655,9 @@ box2d.b2Fixture.prototype.Refilter = function ()
 	}
 
 	// Flag associated contacts for filtering.
-	var edge = this.m_body.GetContactList();
-
-	while (edge)
+	for (var i = 0; i < this.m_body.m_contactCount; i++)
 	{
+		var edge = this.m_body.m_contactList[i];
 		var contact = edge.contact;
 		var fixtureA = contact.GetFixtureA();
 		var fixtureB = contact.GetFixtureB();
@@ -667,7 +666,6 @@ box2d.b2Fixture.prototype.Refilter = function ()
 			contact.FlagForFiltering();
 		}
 
-		edge = edge.next;
 	}
 
 	var world = this.m_body.GetWorld();

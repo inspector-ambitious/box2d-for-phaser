@@ -606,13 +606,11 @@ box2d.b2World.prototype.DestroyBody = function (b)
 
 	// Delete the attached contacts.
 	/** @type {box2d.b2ContactEdge} */ var ce = b.m_contactList;
-	while (ce)
+	for (var i = 0; i < b.m_contactCount; i++)
 	{
-		/** @type {box2d.b2ContactEdge} */ var ce0 = ce;
-		ce = ce.next;
-		this.m_contactManager.Destroy(ce0.contact);
+		this.m_contactManager.Destroy(b.m_contactList[i].contact);
+		i--;
 	}
-	b.m_contactList = null;
 
 	// Delete the attached fixtures. This destroys broad-phase proxies.
 	/** @type {box2d.b2Fixture} */ var f = b.m_fixtureList;
@@ -692,17 +690,15 @@ box2d.b2World.prototype.CreateJoint = function (def)
 	// If the joint prevents collisions, then flag any contacts for filtering.
 	if (!def.collideConnected)
 	{
-		/** @type {box2d.b2ContactEdge} */ var edge = bodyB.GetContactList();
-		while (edge)
+		for (var i = 0; i < bodyB.m_contactCount; i++)
 		{
+			var edge = bodyB.m_contactList[i];
 			if (edge.other === bodyA)
 			{
 				// Flag the contact for filtering at the next time step (where either
 				// body is awake).
 				edge.contact.FlagForFiltering();
-			}
-
-			edge = edge.next;
+			} 
 		}
 	}
 
@@ -799,17 +795,15 @@ box2d.b2World.prototype.DestroyJoint = function (j)
 	// If the joint prevents collisions, then flag any contacts for filtering.
 	if (!collideConnected)
 	{
-		/** @type {box2d.b2ContactEdge} */ var edge = bodyB.GetContactList();
-		while (edge)
+		for (var i = 0; i < bodyB.m_contactCount; i++)
 		{
+			var edge = bodyB.m_contactList[i];
 			if (edge.other === bodyA)
 			{
 				// Flag the contact for filtering at the next time step (where either
 				// body is awake).
 				edge.contact.FlagForFiltering();
 			}
-
-			edge = edge.next;
 		}
 	}
 }
@@ -920,9 +914,9 @@ box2d.b2World.prototype.Solve = function (step)
 	{
 		this.m_bodyList[i].m_flag_islandFlag = false;
 	}
-	for (/** @type {box2d.b2Contact} */ var c = this.m_contactManager.m_contactList; c; c = c.m_next)
+	for (/** @type {box2d.b2Contact} */ var k = 0; k < this.m_contactManager.m_contactCount; k++)
 	{
-		c.m_flag_islandFlag = false;
+		this.m_contactManager.m_contactList[k].m_flag_islandFlag = false;
 	}
 	for (/** @type {box2d.b2Joint} */ var j = this.m_jointList; j; j = j.m_next)
 	{
@@ -979,10 +973,11 @@ box2d.b2World.prototype.Solve = function (step)
 			}
 
 			// Search all contacts connected to this body.
-			for (/** @type {box2d.b2ContactEdge} */ var ce = b.m_contactList; ce; ce = ce.next)
+			for (/** @type {box2d.b2ContactEdge} */ var k = 0; k < b.m_contactCount; k++)
 			{
-				/** @type {box2d.b2Contact} */ var contact = ce.contact;
+				/** @type {box2d.b2Contact} */ var contact =  b.m_contactList[k].contact;
 
+	
 				// Has this contact already been added to an island?
 				if (contact.m_flag_islandFlag)
 				{
@@ -1007,7 +1002,7 @@ box2d.b2World.prototype.Solve = function (step)
 				island.AddContact(contact);
 				contact.m_flag_islandFlag = true;
 
-				/** @type {box2d.b2Body} */ var other = ce.other;
+				/** @type {box2d.b2Body} */ var other = b.m_contactList[k].other;
 
 				// Was the other body already added to this island?
 				if (other.m_flag_islandFlag)
@@ -1125,9 +1120,10 @@ box2d.b2World.prototype.SolveTOI = function (step)
 			b.m_sweep.alpha0 = 0.0;
 		}
 
-		for (/** @type {box2d.b2Contact} */ var c = this.m_contactManager.m_contactList; c; c = c.m_next)
+		for (var j = 0; j < this.m_contactManager.m_contactCount; j++)
 		{
 			// Invalidate TOI
+			var c = this.m_contactManager.m_contactList[j];
 			c.m_flag_toiFlag = c.m_flag_islandFlag = false;
 			c.m_toiCount = 0;
 			c.m_toi = 1;
@@ -1138,11 +1134,13 @@ box2d.b2World.prototype.SolveTOI = function (step)
 	for (;;)
 	{
 		// Find the first TOI.
-		/** @type {box2d.b2Contact} */ var minContact = null;
-		/** @type {number} */ var minAlpha = 1;
+		/** @type {box2d.b2Contact} */
+		var minContactIsSet = false;
+		/** @type {number} */ var minAlpha = 1.0;
 
-		for (/* type {box2d.b2Contact} */ var c = this.m_contactManager.m_contactList; c; c = c.m_next)
+		for (var j = 0; j < this.m_contactManager.m_contactCount; j++)
 		{
+			var c = this.m_contactManager.m_contactList[j];
 			// Is this contact disabled?
 			if (!c.IsEnabled())
 			{
@@ -1155,7 +1153,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 				continue;
 			}
 
-			/** @type {number} */ var alpha = 1;
+			/** @type {number} */ var alpha = 1.0;
 			if (c.m_flag_toiFlag)
 			{
 				// This contact has a valid cached TOI.
@@ -1212,7 +1210,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 					bB.m_sweep.Advance(alpha0);
 				}
 
-				if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(alpha0 < 1); }
+				if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(alpha0 < 1.0); }
 
 				/** @type {number} */ var indexA = c.GetChildIndexA();
 				/** @type {number} */ var indexB = c.GetChildIndexB();
@@ -1232,11 +1230,11 @@ box2d.b2World.prototype.SolveTOI = function (step)
 				/** @type {number} */ var beta = output.t;
 				if (output.state === box2d.b2TOIOutputState.e_touching)
 				{
-					alpha = box2d.b2Min(alpha0 + (1 - alpha0) * beta, 1);
+					alpha = box2d.b2Min(alpha0 + (1.0 - alpha0) * beta, 1.0);
 				}
 				else
 				{
-					alpha = 1;
+					alpha = 1.0;
 				}
 
 				c.m_toi = alpha;
@@ -1246,18 +1244,28 @@ box2d.b2World.prototype.SolveTOI = function (step)
 			if (alpha < minAlpha)
 			{
 				// This is the minimum TOI found so far.
-				minContact = c;
+				var minContact = c;
 				minAlpha = alpha;
+				minContactIsSet = true;
 			}
 		}
 
-		if (minContact === null || 1 - 10 * box2d.b2_epsilon < minAlpha)
+		if (minContactIsSet === false || 1 - 10 * box2d.b2_epsilon < minAlpha)
 		{
 			// No more TOI events. Done!
 			this.m_stepComplete = true;
 			break;
 		}
 
+		if (this.advanceBodiesToTOI(island, step, minContact, minAlpha) && this.m_subStepping)
+		{
+			this.m_stepComplete = false;
+			break;
+		}
+	}
+}
+
+box2d.b2World.prototype.advanceBodiesToTOI = function(island, step, minContact, minAlpha) {
 		// Advance the bodies to the TOI.
 		/* type {box2d.b2Fixture} */ var fA = minContact.GetFixtureA();
 		/* type {box2d.b2Fixture} */ var fB = minContact.GetFixtureB();
@@ -1284,7 +1292,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 			bB.m_sweep.Copy(backup2);
 			bA.SynchronizeTransform();
 			bB.SynchronizeTransform();
-			continue;
+			return false;
 		}
 
 		bA.SetAwake(true);
@@ -1307,8 +1315,10 @@ box2d.b2World.prototype.SolveTOI = function (step)
 			/** @type {box2d.b2Body} */ var body = (i === 0)?(bA):(bB);//bodies[i];
 			if (body.m_type === box2d.b2BodyType.b2_dynamicBody)
 			{
-				for (/** @type {box2d.b2ContactEdge} */ var ce = body.m_contactList; ce; ce = ce.next)
+				for (var j = 0; j < body.m_contactCount; j++)
 				{
+					var ce = body.m_contactList[j];
+
 					if (island.m_bodyCount === island.m_bodyCapacity)
 					{
 						break;
@@ -1416,25 +1426,22 @@ box2d.b2World.prototype.SolveTOI = function (step)
 			}
 
 			body.SynchronizeFixtures();
-
 			// Invalidate all contact TOIs on this displaced body.
-			for (/* type {box2d.b2ContactEdge} */ var ce = body.m_contactList; ce; ce = ce.next)
+			for (var j = 0; j < body.m_contactCount; j++)
 			{
+				var ce = body.m_contactList[j];
 				ce.contact.m_flag_toiFlag = ce.contact.m_flag_islandFlag = false;
 			}
+
 		}
 
 		// Commit fixture proxy movements to the broad-phase so that new contacts are created.
 		// Also, some contacts can be destroyed.
 		this.m_contactManager.FindNewContacts();
 
-		if (this.m_subStepping)
-		{
-			this.m_stepComplete = false;
-			break;
-		}
-	}
-}
+		return true;
+};
+
 box2d.b2World.prototype.SolveTOI.s_subStep = new box2d.b2TimeStep();
 box2d.b2World.prototype.SolveTOI.s_backup = new box2d.b2Sweep();
 box2d.b2World.prototype.SolveTOI.s_backup1 = new box2d.b2Sweep();

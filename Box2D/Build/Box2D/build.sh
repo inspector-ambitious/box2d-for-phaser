@@ -61,5 +61,5 @@
 ../../../Contributions/Enhancements/Controllers/b2ConstantForceController.js \
 ../../../Contributions/Enhancements/Controllers/b2GravityController.js \
 ../../../Contributions/Enhancements/Controllers/b2TensorDampingController.js \
--b -ns -c unused=false,sequences=false,hoist_funs=false,keep_fargs=true,keep_fnames=true,booleans=false > box2d-html5.js 
+-b -ns -c unused=false,sequences=false,hoist_funs=false,keep_fargs=true,keep_fnames=true,booleans=false,drop_debugger=false > box2d-html5.js 
 cp box2d-html5.js ~/Repos/X/www/js/

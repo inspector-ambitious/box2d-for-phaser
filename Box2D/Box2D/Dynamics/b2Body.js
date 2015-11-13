@@ -265,7 +265,8 @@ box2d.b2Body = function (bd, world)
 	this.m_fixtureList = null;
 	this.m_fixtureCount = 0;
 
-	this.m_contactList = null;
+	this.m_contactList = [];
+	this.m_contactCount = 0;
 	this.m_jointList = null;
 //#if B2_ENABLE_CONTROLLER
 	this.m_controllerList = null;
@@ -416,11 +417,12 @@ box2d.b2Body.prototype.DestroyFixture = function (fixture)
 	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(found); }
 
 	// Destroy any contacts associated with the fixture.
-	var edge = this.m_contactList;
-	while (edge)
+	
+	for (var i = 0; i < this.m_contactCount; i++)
 	{
+		var edge = this.m_contactList[i];
+
 		var c = edge.contact;
-		edge = edge.next;
 
 		var fixtureA = c.GetFixtureA();
 		var fixtureB = c.GetFixtureB();
@@ -430,6 +432,7 @@ box2d.b2Body.prototype.DestroyFixture = function (fixture)
 			// This destroys the contact and removes it from
 			// this body's contact list.
 			this.m_world.m_contactManager.Destroy(c);
+			i--;
 		}
 	}
 
@@ -1273,15 +1276,12 @@ box2d.b2Body.prototype.SetType = function (type)
 	this.m_torque = 0;
 
 	// Delete the attached contacts.
-	/** @type {box2d.b2ContactEdge} */ var ce = this.m_contactList;
-	while (ce)
+	/** @type {box2d.b2ContactEdge} */
+	for (var i = 0; i < this.m_contactCount; i++)
 	{
-		/** @type {box2d.b2ContactEdge} */ var ce0 = ce;
-		ce = ce.next;
-		this.m_world.m_contactManager.Destroy(ce0.contact);
+		this.m_world.m_contactManager.Destroy(this.m_contactList[i].contact);
+		i--;
 	}
-	this.m_contactList = null;
-
 	// Touch the proxies so that new contacts will be created (when appropriate)
 	/** @type {box2d.b2BroadPhase} */ var broadPhase = this.m_world.m_contactManager.m_broadPhase;
 	for (/** @type {box2d.b2Fixture} */ var f = this.m_fixtureList; f; f = f.m_next)
@@ -1447,14 +1447,11 @@ box2d.b2Body.prototype.SetActive = function (flag)
 		}
 
 		// Destroy the attached contacts.
-		var ce = this.m_contactList;
-		while (ce)
+		for (var i = 0; i < this.m_contactCount; i++)
 		{
-			var ce0 = ce;
-			ce = ce.next;
-			this.m_world.m_contactManager.Destroy(ce0.contact);
+			this.m_world.m_contactManager.Destroy(this.m_contactList[i].contact);
+			i--;
 		}
-		this.m_contactList = null;
 	}
 }
 
