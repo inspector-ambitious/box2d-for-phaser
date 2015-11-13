@@ -350,38 +350,32 @@ box2d.b2ManifoldType =
  */
 box2d.b2Manifold = function ()
 {
+   /**
+ 	* @export 
+ 	* @type {Array.<box2d.b2ManifoldPoint>}
+ 	*/
 	this.points = box2d.b2ManifoldPoint.MakeArray(box2d.b2_maxManifoldPoints);
+   /**
+ 	* @export 
+ 	* @type {box2d.b2Vec2}
+ 	*/
 	this.localNormal = new box2d.b2Vec2(0.0, 0.0);
+   /**
+ 	* @export 
+ 	* @type {box2d.b2Vec2}
+ 	*/
 	this.localPoint = new box2d.b2Vec2(0.0, 0.0);
+   /**
+ 	* @export 
+ 	* @type {box2d.b2ManifoldType}
+ 	*/
 	this.type = box2d.b2ManifoldType.e_unknown;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
 	this.pointCount = 0;
 }
-
-/**
- * @export 
- * @type {Array.<box2d.b2ManifoldPoint>}
- */
-box2d.b2Manifold.prototype.points = null;
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2Manifold.prototype.localNormal = null;
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2Manifold.prototype.localPoint = null;
-/**
- * @export 
- * @type {box2d.b2ManifoldType}
- */
-box2d.b2Manifold.prototype.type = box2d.b2ManifoldType.e_unknown;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Manifold.prototype.pointCount = 0;
 
 /** 
  * @export 
@@ -391,7 +385,7 @@ box2d.b2Manifold.prototype.Reset = function ()
 {
 	for (var i = 0, ict = box2d.b2_maxManifoldPoints; i < ict; ++i)
 	{
-		//if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.points[i] instanceof box2d.b2ManifoldPoint); }
+		//if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this.points[i] instanceof box2d.b2ManifoldPoint); }
 		this.points[i].Reset();
 	}
 	this.localNormal.SetZero();
@@ -410,7 +404,7 @@ box2d.b2Manifold.prototype.Copy = function (o)
 	this.pointCount = o.pointCount;
 	for (var i = 0, ict = box2d.b2_maxManifoldPoints; i < ict; ++i)
 	{
-		//if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.points[i] instanceof box2d.b2ManifoldPoint); }
+		//if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this.points[i] instanceof box2d.b2ManifoldPoint); }
 		this.points[i].Copy(o.points[i]);
 	}
 	this.localNormal.Copy(o.localNormal);

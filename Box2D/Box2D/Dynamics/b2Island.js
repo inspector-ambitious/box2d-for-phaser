@@ -261,7 +261,7 @@ box2d.b2Island.prototype.Initialize = function (bodyCapacity, contactCapacity, j
 	{
 		var new_length = box2d.b2Max(this.m_positions.length * 2, bodyCapacity);
 
-		if (box2d.DEBUG)
+		if (BOX2D_DEBUG)
 		{
 			window.console.log("box2d.b2Island.m_positions: " + new_length);
 		}
@@ -276,7 +276,7 @@ box2d.b2Island.prototype.Initialize = function (bodyCapacity, contactCapacity, j
 	{
 		var new_length = box2d.b2Max(this.m_velocities.length * 2, bodyCapacity);
 
-		if (box2d.DEBUG)
+		if (BOX2D_DEBUG)
 		{
 			window.console.log("box2d.b2Island.m_velocities: " + new_length);
 		}
@@ -306,7 +306,7 @@ box2d.b2Island.prototype.Clear = function ()
  */
 box2d.b2Island.prototype.AddBody = function (body)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_bodyCount < this.m_bodyCapacity); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this.m_bodyCount < this.m_bodyCapacity); }
 	body.m_islandIndex = this.m_bodyCount;
 	this.m_bodies[this.m_bodyCount++] = body;
 }
@@ -318,7 +318,7 @@ box2d.b2Island.prototype.AddBody = function (body)
  */
 box2d.b2Island.prototype.AddContact = function (contact)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_contactCount < this.m_contactCapacity); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this.m_contactCount < this.m_contactCapacity); }
 	this.m_contacts[this.m_contactCount++] = contact;
 }
 
@@ -329,7 +329,7 @@ box2d.b2Island.prototype.AddContact = function (contact)
  */
 box2d.b2Island.prototype.AddJoint = function (joint)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_jointCount < this.m_jointCapacity); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this.m_jointCount < this.m_jointCapacity); }
 	this.m_joints[this.m_jointCount++] = joint;
 }
 
@@ -553,8 +553,8 @@ box2d.b2Island.prototype.Solve = function (profile, step, gravity, allowSleep)
  */
 box2d.b2Island.prototype.SolveTOI = function (subStep, toiIndexA, toiIndexB)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(toiIndexA < this.m_bodyCount); }
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(toiIndexB < this.m_bodyCount); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(toiIndexA < this.m_bodyCount); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(toiIndexB < this.m_bodyCount); }
 
 	// Initialize the body state.
 	for (var i = 0; i < this.m_bodyCount; ++i)

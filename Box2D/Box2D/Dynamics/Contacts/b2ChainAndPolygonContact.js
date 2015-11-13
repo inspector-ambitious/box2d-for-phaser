@@ -61,8 +61,8 @@ box2d.b2ChainAndPolygonContact.prototype.Evaluate = function (manifold, xfA, xfB
 {
 	var shapeA = this.m_fixtureA.GetShape();
 	var shapeB = this.m_fixtureB.GetShape();
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(shapeA instanceof box2d.b2ChainShape); }
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(shapeB instanceof box2d.b2PolygonShape); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(shapeA instanceof box2d.b2ChainShape); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(shapeB instanceof box2d.b2PolygonShape); }
 	/*box2d.b2ChainShape*/ var chain = (shapeA instanceof box2d.b2ChainShape)? shapeA : null;
 	/*box2d.b2EdgeShape*/ var edge = box2d.b2ChainAndPolygonContact.prototype.Evaluate.s_edge;
 	chain.GetChildEdge(edge, this.m_indexA);

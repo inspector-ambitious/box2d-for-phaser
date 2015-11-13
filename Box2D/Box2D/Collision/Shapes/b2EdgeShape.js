@@ -109,7 +109,7 @@ box2d.b2EdgeShape.prototype.Copy = function (other)
 {
 	box2d.b2Shape.prototype.Copy.call(this, other);
 
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(other instanceof box2d.b2EdgeShape); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(other instanceof box2d.b2EdgeShape); }
 
 	this.m_vertex1.Copy(other.m_vertex1);
 	this.m_vertex2.Copy(other.m_vertex2);

@@ -67,7 +67,7 @@ box2d.b2GrowableStack.prototype.Push = function (element)
  */
 box2d.b2GrowableStack.prototype.Pop = function ()
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_count > 0); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this.m_count > 0); }
 	--this.m_count;
 	var element = this.m_stack[this.m_count];
 	this.m_stack[this.m_count] = null;

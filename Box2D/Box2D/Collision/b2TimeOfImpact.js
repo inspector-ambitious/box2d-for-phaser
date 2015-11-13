@@ -200,7 +200,7 @@ box2d.b2SeparationFunction.prototype.Initialize = function (cache, proxyA, sweep
 	this.m_proxyA = proxyA;
 	this.m_proxyB = proxyB;
 	/** @type {number} */ var count = cache.count;
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(0 < count && count < 3); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(0 < count && count < 3); }
 
 	this.m_sweepA.Copy(sweepA);
 	this.m_sweepB.Copy(sweepB);
@@ -341,7 +341,7 @@ box2d.b2SeparationFunction.prototype.FindMinSeparation = function (indexA, index
 		}
 
 	default:
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(false); }
 		indexA[0] = -1;
 		indexB[0] = -1;
 		return 0;
@@ -401,7 +401,7 @@ box2d.b2SeparationFunction.prototype.Evaluate = function (indexA, indexB, t)
 		}
 
 	default:
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(false); }
 		return 0;
 	}
 }
@@ -444,7 +444,7 @@ box2d.b2TimeOfImpact = function (output, input)
 	/** @type {number} */ var totalRadius = proxyA.m_radius + proxyB.m_radius;
 	/** @type {number} */ var target = box2d.b2Max(box2d.b2_linearSlop, totalRadius - 3 * box2d.b2_linearSlop);
 	/** @type {number} */ var tolerance = 0.25 * box2d.b2_linearSlop;
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(target > tolerance); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(target > tolerance); }
 
 	/** @type {number} */ var t1 = 0;
 	/** @type {number} */ var k_maxIterations = 20; // TODO_ERIN b2Settings

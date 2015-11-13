@@ -1139,7 +1139,7 @@ box2d.b2PrismaticJoint.prototype.GetMotorForce = function (inv_dt)
  */
 box2d.b2PrismaticJoint.prototype.Dump = function ()
 {
-	if (box2d.DEBUG)
+	if (BOX2D_DEBUG)
 	{
 		var indexA = this.m_bodyA.m_islandIndex;
 		var indexB = this.m_bodyB.m_islandIndex;

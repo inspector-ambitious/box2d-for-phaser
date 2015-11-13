@@ -93,9 +93,9 @@ box2d.b2ChainShape.prototype.Clear = function ()
 box2d.b2ChainShape.prototype.CreateLoop = function (vertices, count)
 {
 	count = count || vertices.length;
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_vertices === null && this.m_count === 0); }
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(count >= 3); }
-	if (box2d.ENABLE_ASSERTS)
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this.m_vertices === null && this.m_count === 0); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(count >= 3); }
+	if (BOX2D_ENABLE_ASSERTS)
 	{
 		for (var i = 1; i < count; ++i)
 		{
@@ -128,9 +128,9 @@ box2d.b2ChainShape.prototype.CreateLoop = function (vertices, count)
 box2d.b2ChainShape.prototype.CreateChain = function (vertices, count)
 {
 	count = count || vertices.length;
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_vertices === null && this.m_count === 0); }
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(count >= 2); }
-	if (box2d.ENABLE_ASSERTS)
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this.m_vertices === null && this.m_count === 0); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(count >= 2); }
+	if (BOX2D_ENABLE_ASSERTS)
 	{
 		for (var i = 1; i < count; ++i)
 		{
@@ -203,7 +203,7 @@ box2d.b2ChainShape.prototype.Copy = function (other)
 {
 	box2d.b2Shape.prototype.Copy.call(this, other);
 
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(other instanceof box2d.b2ChainShape); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(other instanceof box2d.b2ChainShape); }
 
 	this.CreateChain(other.m_vertices, other.m_count);
 	this.m_prevVertex.Copy(other.m_prevVertex);
@@ -234,7 +234,7 @@ box2d.b2ChainShape.prototype.GetChildCount = function ()
  */
 box2d.b2ChainShape.prototype.GetChildEdge = function (edge, index)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(0 <= index && index < this.m_count - 1); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(0 <= index && index < this.m_count - 1); }
 	edge.m_type = box2d.b2ShapeType.e_edgeShape;
 	edge.m_radius = this.m_radius;
 
@@ -310,7 +310,7 @@ box2d.b2ChainShape.prototype.ComputeDistance.s_edgeShape = new box2d.b2EdgeShape
  */
 box2d.b2ChainShape.prototype.RayCast = function (output, input, xf, childIndex)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(childIndex < this.m_count); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(childIndex < this.m_count); }
 
 	/** @type {box2d.b2EdgeShape} */ var edgeShape = box2d.b2ChainShape.prototype.RayCast.s_edgeShape;
 
@@ -331,7 +331,7 @@ box2d.b2ChainShape.prototype.RayCast.s_edgeShape = new box2d.b2EdgeShape();
  */
 box2d.b2ChainShape.prototype.ComputeAABB = function (aabb, xf, childIndex)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(childIndex < this.m_count); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(childIndex < this.m_count); }
 
 	/** @type {box2d.b2Vec2} */ var vertexi1 = this.m_vertices[childIndex];
 	/** @type {box2d.b2Vec2} */ var vertexi2 = this.m_vertices[(childIndex + 1) % this.m_count];
@@ -374,7 +374,7 @@ box2d.b2ChainShape.prototype.ComputeMass = function (massData, density)
  */
 box2d.b2ChainShape.prototype.SetupDistanceProxy = function (proxy, index)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(0 <= index && index < this.m_count); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(0 <= index && index < this.m_count); }
 
 	proxy.m_buffer[0].Copy(this.m_vertices[index]);
 	if (index + 1 < this.m_count)

@@ -122,7 +122,7 @@ box2d.b2WrapAngle = function (rad)
  */
 box2d.b2Swap = function (a, b)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(false); }
 	var tmp = a[0];
 	a[0] = b[0];
 	b[0] = tmp;
@@ -446,7 +446,7 @@ box2d.b2Vec2.prototype.Set = function (x, y)
  */
 box2d.b2Vec2.prototype.Copy = function (other)
 {
-	//if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this !== other); }
+	//if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this !== other); }
 	this.x = other.x;
 	this.y = other.y;
 	return this;
@@ -1075,7 +1075,7 @@ box2d.b2Vec3.prototype.Set = function (x, y, z)
  */
 box2d.b2Vec3.prototype.Copy = function (other)
 {
-	//if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this !== other); }
+	//if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this !== other); }
 	this.x = other.x;
 	this.y = other.y;
 	this.z = other.z;
@@ -1460,7 +1460,7 @@ box2d.b2Vec4.prototype.Set = function (x, y, z, w)
  */
 box2d.b2Vec4.prototype.Copy = function (other)
 {
-	//if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this !== other); }
+	//if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this !== other); }
 	this.x = other.x;
 	this.y = other.y;
 	this.z = other.z;
@@ -1529,7 +1529,7 @@ box2d.b2Mat22.prototype.SetAngle = function (radians)
  */
 box2d.b2Mat22.prototype.Copy = function (other)
 {
-	//if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this !== other); }
+	//if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this !== other); }
 	this.ex.Copy(other.ex);
 	this.ey.Copy(other.ey);
 	return this;
@@ -1823,7 +1823,7 @@ box2d.b2Mat33.prototype.Clone = function ()
  */
 box2d.b2Mat33.prototype.Copy = function (other)
 {
-	//if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this !== other); }
+	//if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this !== other); }
 	this.ex.Copy(other.ex);
 	this.ey.Copy(other.ey);
 	this.ez.Copy(other.ez);
@@ -2295,7 +2295,7 @@ box2d.b2Transform.prototype.Clone = function ()
  */
 box2d.b2Transform.prototype.Copy = function (other)
 {
-	//if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this !== other); }
+	//if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this !== other); }
 	this.p.Copy(other.p);
 	this.q.Copy(other.q);
 	return this;
@@ -2571,7 +2571,7 @@ box2d.b2Sweep.prototype.Clone = function ()
  */
 box2d.b2Sweep.prototype.Copy = function (other)
 {
-	//if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this !== other); }
+	//if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this !== other); }
 	this.localCenter.Copy(other.localCenter);
 	this.c0.Copy(other.c0);
 	this.c.Copy(other.c);
@@ -2609,7 +2609,7 @@ box2d.b2Sweep.prototype.GetTransform = function (xf, beta)
  */
 box2d.b2Sweep.prototype.Advance = function (alpha)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.alpha0 < 1.0); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this.alpha0 < 1.0); }
 	var beta = (alpha - this.alpha0) / (1.0 - this.alpha0);
 	this.c0.x += beta * (this.c.x - this.c0.x);
 	this.c0.y += beta * (this.c.y - this.c0.y);

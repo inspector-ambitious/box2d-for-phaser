@@ -51,13 +51,13 @@ if (!Object.defineProperty)
  * @export 
  * @define {boolean}
  */
-box2d.DEBUG = true;
+const BOX2D_DEBUG = false;
 
 /** 
  * @export 
  * @define {boolean}
  */
-box2d.ENABLE_ASSERTS = box2d.DEBUG;
+const BOX2D_ENABLE_ASSERTS = false;
 
 /** 
  * @export 
@@ -68,7 +68,7 @@ box2d.ENABLE_ASSERTS = box2d.DEBUG;
  */
 box2d.b2Assert = function (condition, opt_message, var_args)
 {
-	if (box2d.DEBUG)
+	if (BOX2D_DEBUG)
 	{
 		if (!condition)
 		{

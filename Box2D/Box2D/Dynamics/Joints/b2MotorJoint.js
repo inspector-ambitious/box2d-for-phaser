@@ -292,7 +292,7 @@ box2d.b2MotorJoint.prototype.GetReactionTorque = function (inv_dt)
  */
 box2d.b2MotorJoint.prototype.SetCorrectionFactor = function (factor)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2IsValid(factor) && 0.0 <= factor && factor <= 1.0) };
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2IsValid(factor) && 0.0 <= factor && factor <= 1.0) };
 	this._correctionFactor = factor;
 }
 
@@ -362,7 +362,7 @@ box2d.b2MotorJoint.prototype.GetAngularOffset = function ()
  */
 box2d.b2MotorJoint.prototype.SetMaxForce = function (force)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2IsValid(force) && force >= 0); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2IsValid(force) && force >= 0); }
 	this.m_maxForce = force;
 }
 
@@ -384,7 +384,7 @@ box2d.b2MotorJoint.prototype.GetMaxForce = function ()
  */
 box2d.b2MotorJoint.prototype.SetMaxTorque = function (torque)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2IsValid(torque) && torque >= 0); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2IsValid(torque) && torque >= 0); }
 	this.m_maxTorque = torque;
 }
 
@@ -599,7 +599,7 @@ box2d.b2MotorJoint.prototype.SolvePositionConstraints = function (data)
  */
 box2d.b2MotorJoint.prototype.Dump = function ()
 {
-	if (box2d.DEBUG)
+	if (BOX2D_DEBUG)
 	{
 		var indexA = this.m_bodyA.m_islandIndex;
 		var indexB = this.m_bodyB.m_islandIndex;

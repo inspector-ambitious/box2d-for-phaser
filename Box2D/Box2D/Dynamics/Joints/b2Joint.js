@@ -190,7 +190,7 @@ box2d.b2JointDef.prototype.collideConnected = false;
  */
 box2d.b2Joint = function (def)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(def.bodyA !== def.bodyB); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(def.bodyA !== def.bodyB); }
 
 	this.m_type = def.type;
 	this.m_edgeA = new box2d.b2JointEdge();
@@ -419,7 +419,7 @@ box2d.b2Joint.prototype.GetCollideConnected = function ()
  */
 box2d.b2Joint.prototype.Dump = function ()
 {
-	if (box2d.DEBUG)
+	if (BOX2D_DEBUG)
 	{
 		box2d.b2Log("// Dump is not supported for this joint type.\n");
 	}

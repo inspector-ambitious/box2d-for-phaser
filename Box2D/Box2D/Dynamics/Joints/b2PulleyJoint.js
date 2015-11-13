@@ -117,7 +117,7 @@ box2d.b2PulleyJointDef.prototype.Initialize = function (bA, bB, groundA, groundB
 	this.lengthA = box2d.b2Distance(anchorA, groundA);
 	this.lengthB = box2d.b2Distance(anchorB, groundB);
 	this.ratio = r;
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.ratio > box2d.b2_epsilon); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this.ratio > box2d.b2_epsilon); }
 }
 
 /** 
@@ -163,7 +163,7 @@ box2d.b2PulleyJoint = function (def)
 	this.m_lengthA = def.lengthA;
 	this.m_lengthB = def.lengthB;
 
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(def.ratio !== 0); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(def.ratio !== 0); }
 	this.m_ratio = def.ratio;
 
 	this.m_constant = def.lengthA + this.m_ratio * def.lengthB;
@@ -684,7 +684,7 @@ box2d.b2PulleyJoint.prototype.GetCurrentLengthB.s_p = new box2d.b2Vec2(0.0, 0.0)
  */
 box2d.b2PulleyJoint.prototype.Dump = function ()
 {
-	if (box2d.DEBUG)
+	if (BOX2D_DEBUG)
 	{
 		var indexA = this.m_bodyA.m_islandIndex;
 		var indexB = this.m_bodyB.m_islandIndex;

@@ -669,7 +669,7 @@ box2d.b2WeldJoint.prototype.GetDampingRatio = function () { return this.m_dampin
  */
 box2d.b2WeldJoint.prototype.Dump = function ()
 {
-	if (box2d.DEBUG)
+	if (BOX2D_DEBUG)
 	{
 		var indexA = this.m_bodyA.m_islandIndex;
 		var indexB = this.m_bodyB.m_islandIndex;

@@ -493,7 +493,7 @@ box2d.b2RopeJoint.prototype.GetLimitState = function ()
  */
 box2d.b2RopeJoint.prototype.Dump = function ()
 {
-	if (box2d.DEBUG)
+	if (BOX2D_DEBUG)
 	{
 		var indexA = this.m_bodyA.m_islandIndex;
 		var indexB = this.m_bodyB.m_islandIndex;

@@ -732,7 +732,7 @@ box2d.b2WheelJoint.prototype.SolvePositionConstraints.s_P = new box2d.b2Vec2(0.0
  */
 box2d.b2WheelJoint.prototype.GetDefinition = function (def)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false); } // TODO
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(false); } // TODO
 	return def;
 }
 
@@ -970,7 +970,7 @@ box2d.b2WheelJoint.prototype.GetMotorTorque = function (inv_dt)
  */
 box2d.b2WheelJoint.prototype.Dump = function ()
 {
-	if (box2d.DEBUG)
+	if (BOX2D_DEBUG)
 	{
 		var indexA = this.m_bodyA.m_islandIndex;
 		var indexB = this.m_bodyB.m_islandIndex;

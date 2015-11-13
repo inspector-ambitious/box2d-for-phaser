@@ -67,7 +67,7 @@ box2d.b2Filter.prototype.Clone = function ()
  */
 box2d.b2Filter.prototype.Copy = function (other)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this !== other); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this !== other); }
 	this.categoryBits = other.categoryBits;
 	this.maskBits = other.maskBits;
 	this.groupIndex = other.groupIndex;
@@ -489,7 +489,7 @@ box2d.b2Fixture.prototype.GetMassData = function (massData)
  */
 box2d.b2Fixture.prototype.GetAABB = function (childIndex)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(0 <= childIndex && childIndex < this.m_proxyCount); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(0 <= childIndex && childIndex < this.m_proxyCount); }
 	return this.m_proxies[childIndex].aabb;
 }
 
@@ -538,7 +538,7 @@ box2d.b2Fixture.prototype.Create = function (body, def)
 box2d.b2Fixture.prototype.Destroy = function ()
 {
 	// The proxies must be destroyed before calling this.
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_proxyCount === 0); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this.m_proxyCount === 0); }
 
 	// Free the proxy array.
 //	int32 childCount = m_shape->GetChildCount();
@@ -557,7 +557,7 @@ box2d.b2Fixture.prototype.Destroy = function ()
  */
 box2d.b2Fixture.prototype.CreateProxies = function (broadPhase, xf)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_proxyCount === 0); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this.m_proxyCount === 0); }
 
 	// Create proxies in the broad-phase.
 	this.m_proxyCount = this.m_shape.GetChildCount();
@@ -708,7 +708,7 @@ box2d.b2Fixture.prototype.SetSensor = function (sensor)
  */
 box2d.b2Fixture.prototype.Dump = function (bodyIndex)
 {
-	if (box2d.DEBUG)
+	if (BOX2D_DEBUG)
 	{
 		box2d.b2Log("    /*box2d.b2FixtureDef*/ var fd = new box2d.b2FixtureDef();\n");
 		box2d.b2Log("    fd.friction = %.15f;\n", this.m_friction);

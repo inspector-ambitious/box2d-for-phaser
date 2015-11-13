@@ -532,7 +532,7 @@ box2d.b2World.prototype.SetDebugDraw = function (debugDraw)
  */
 box2d.b2World.prototype.CreateBody = function (def)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(!this.IsLocked()); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(!this.IsLocked()); }
 	if (this.IsLocked())
 	{
 		return null;
@@ -566,8 +566,8 @@ box2d.b2World.prototype.CreateBody = function (def)
  */
 box2d.b2World.prototype.DestroyBody = function (b)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_bodyCount > 0); }
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(!this.IsLocked()); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this.m_bodyCount > 0); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(!this.IsLocked()); }
 	if (this.IsLocked())
 	{
 		return;
@@ -666,7 +666,7 @@ box2d.b2World.prototype.DestroyBody = function (b)
  */
 box2d.b2World.prototype.CreateJoint = function (def)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(!this.IsLocked()); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(!this.IsLocked()); }
 	if (this.IsLocked())
 	{
 		return null;
@@ -734,7 +734,7 @@ box2d.b2World.prototype.CreateJoint = function (def)
  */
 box2d.b2World.prototype.DestroyJoint = function (j)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(!this.IsLocked()); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(!this.IsLocked()); }
 	if (this.IsLocked())
 	{
 		return;
@@ -806,7 +806,7 @@ box2d.b2World.prototype.DestroyJoint = function (j)
 
 	box2d.b2JointFactory.Destroy(j, null);
 
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_jointCount > 0); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this.m_jointCount > 0); }
 	--this.m_jointCount;
 
 	// If the joint prevents collisions, then flag any contacts for filtering.
@@ -836,7 +836,7 @@ box2d.b2World.prototype.DestroyJoint = function (j)
  */
 box2d.b2World.prototype.CreateParticleSystem = function (def)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(!this.IsLocked()); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(!this.IsLocked()); }
 	if (this.IsLocked())
 	{
 		return null;
@@ -863,7 +863,7 @@ box2d.b2World.prototype.CreateParticleSystem = function (def)
  */
 box2d.b2World.prototype.DestroyParticleSystem = function (p)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(!this.IsLocked()); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(!this.IsLocked()); }
 	if (this.IsLocked())
 	{
 		return;
@@ -971,7 +971,7 @@ box2d.b2World.prototype.Solve = function (step)
 		{
 			// Grab the next body off the stack and add it to the island.
 			/* type {box2d.b2Body} */ var b = stack[--stackCount];
-			if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(b.IsActive()); }
+			if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(b.IsActive()); }
 			island.AddBody(b);
 
 			// Make sure the body is awake.
@@ -1021,7 +1021,7 @@ box2d.b2World.prototype.Solve = function (step)
 					continue;
 				}
 
-				if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(stackCount < stackSize); }
+				if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(stackCount < stackSize); }
 				stack[stackCount++] = other;
 				other.m_flag_islandFlag = true;
 			}
@@ -1050,7 +1050,7 @@ box2d.b2World.prototype.Solve = function (step)
 					continue;
 				}
 
-				if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(stackCount < stackSize); }
+				if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(stackCount < stackSize); }
 				stack[stackCount++] = other;
 				other.m_flag_islandFlag = true;
 			}
@@ -1179,7 +1179,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 
 				/** @type {box2d.b2BodyType} */ var typeA = bA.m_type;
 				/** @type {box2d.b2BodyType} */ var typeB = bB.m_type;
-				if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(typeA !== box2d.b2BodyType.b2_staticBody || typeB !== box2d.b2BodyType.b2_staticBody); }
+				if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(typeA !== box2d.b2BodyType.b2_staticBody || typeB !== box2d.b2BodyType.b2_staticBody); }
 
 				/** @type {boolean} */ var activeA = bA.IsAwake() && typeA !== box2d.b2BodyType.b2_staticBody;
 				/** @type {boolean} */ var activeB = bB.IsAwake() && typeB !== box2d.b2BodyType.b2_staticBody;
@@ -1214,7 +1214,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 					bB.m_sweep.Advance(alpha0);
 				}
 
-				if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(alpha0 < 1); }
+				if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(alpha0 < 1); }
 
 				/** @type {number} */ var indexA = c.GetChildIndexA();
 				/** @type {number} */ var indexB = c.GetChildIndexB();
@@ -1584,7 +1584,7 @@ box2d.b2World.prototype.QueryAABB = function (callback, aabb)
 	var WorldQueryAABBWrapper = function (proxy)
 	{
 		/* type {box2d.b2FixtureProxy} */ var fixture_proxy = broadPhase.GetUserData(proxy);
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(fixture_proxy instanceof box2d.b2FixtureProxy); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(fixture_proxy instanceof box2d.b2FixtureProxy); }
 		/** @type {box2d.b2Fixture} */ var fixture = fixture_proxy.fixture;
 		if (callback instanceof box2d.b2QueryCallback)
 		{
@@ -1632,7 +1632,7 @@ box2d.b2World.prototype.QueryShape = function (callback, shape, transform, child
 	var WorldQueryShapeWrapper = function (proxy)
 	{
 		/* type {box2d.b2FixtureProxy} */ var fixture_proxy = broadPhase.GetUserData(proxy);
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(fixture_proxy instanceof box2d.b2FixtureProxy); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(fixture_proxy instanceof box2d.b2FixtureProxy); }
 		/** @type {box2d.b2Fixture} */ var fixture = fixture_proxy.fixture;
 		if (box2d.b2TestOverlap_Shape(shape, 0, fixture.GetShape(), 0, transform, fixture.GetBody().GetTransform()))
 		{
@@ -1687,7 +1687,7 @@ box2d.b2World.prototype.QueryPoint = function (callback, point, slop)
 	var WorldQueryWrapper = function (proxy)
 	{
 		/* type {box2d.b2FixtureProxy} */ var fixture_proxy = broadPhase.GetUserData(proxy);
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(fixture_proxy instanceof box2d.b2FixtureProxy); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(fixture_proxy instanceof box2d.b2FixtureProxy); }
 		/** @type {box2d.b2Fixture} */ var fixture = fixture_proxy.fixture;
 		if (fixture.TestPoint(point))
 		{
@@ -1748,7 +1748,7 @@ box2d.b2World.prototype.RayCast = function (callback, point1, point2)
 	var WorldRayCastWrapper = function (input, proxy)
 	{
 		/* type {box2d.b2FixtureProxy} */ var fixture_proxy = broadPhase.GetUserData(proxy);
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(fixture_proxy instanceof box2d.b2FixtureProxy); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(fixture_proxy instanceof box2d.b2FixtureProxy); }
 		/** @type {box2d.b2Fixture} */ var fixture = fixture_proxy.fixture;
 		/** @type {number} */ var index = fixture_proxy.childIndex;
 		/** @type {box2d.b2RayCastOutput} */ var output = box2d.b2World.prototype.RayCast.s_output;
@@ -2257,7 +2257,7 @@ box2d.b2World.prototype.GetTreeQuality = function ()
  */
 box2d.b2World.prototype.ShiftOrigin = function (newOrigin)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(!this.IsLocked()); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(!this.IsLocked()); }
 	if (this.IsLocked())
 	{
 		return;
@@ -2286,7 +2286,7 @@ box2d.b2World.prototype.ShiftOrigin = function (newOrigin)
  */
 box2d.b2World.prototype.Dump = function ()
 {
-	if (box2d.DEBUG)
+	if (BOX2D_DEBUG)
 	{
 		if (this.m_flag_locked)
 		{
@@ -2351,7 +2351,7 @@ box2d.b2World.prototype.Dump = function ()
  */
 box2d.b2World.prototype.AddController = function (controller)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(controller.m_world === null, "Controller can only be a member of one world"); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(controller.m_world === null, "Controller can only be a member of one world"); }
 	controller.m_world = this;
 	controller.m_next = this.m_controllerList;
 	controller.m_prev = null;
@@ -2370,7 +2370,7 @@ box2d.b2World.prototype.AddController = function (controller)
  */
 box2d.b2World.prototype.RemoveController = function (controller)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(controller.m_world === this, "Controller is not a member of this world"); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(controller.m_world === this, "Controller is not a member of this world"); }
 	if (controller.m_prev)
 		controller.m_prev.m_next = controller.m_next;
 	if (controller.m_next)

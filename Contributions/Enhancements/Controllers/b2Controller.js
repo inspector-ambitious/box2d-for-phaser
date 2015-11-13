@@ -195,7 +195,7 @@ box2d.b2Controller.prototype.AddBody = function (body)
 box2d.b2Controller.prototype.RemoveBody = function (body)
 {
 	//Assert that the controller is not empty
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_bodyCount > 0); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this.m_bodyCount > 0); }
 
 	//Find the corresponding edge
 	/*b2ControllerEdge*/ var edge = this.m_bodyList;
@@ -203,7 +203,7 @@ box2d.b2Controller.prototype.RemoveBody = function (body)
 		edge = edge.nextBody;
 
 	//Assert that we are removing a body that is currently attached to the controller
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(edge !== null); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(edge !== null); }
 
 	//Remove edge from controller list
 	if (edge.prevBody)

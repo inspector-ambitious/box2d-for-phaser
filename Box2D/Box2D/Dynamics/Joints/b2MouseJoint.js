@@ -93,10 +93,10 @@ box2d.b2MouseJoint = function (def)
 	this.m_lalcB = new box2d.b2Vec2(0.0, 0.0);
 	this.m_K = new box2d.b2Mat22();
 
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(def.target.IsValid()); }
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2IsValid(def.maxForce) && def.maxForce >= 0); }
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2IsValid(def.frequencyHz) && def.frequencyHz >= 0); }
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2IsValid(def.dampingRatio) && def.dampingRatio >= 0); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(def.target.IsValid()); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2IsValid(def.maxForce) && def.maxForce >= 0); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2IsValid(def.frequencyHz) && def.frequencyHz >= 0); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2IsValid(def.dampingRatio) && def.dampingRatio >= 0); }
 
 	this.m_targetA.Copy(def.target);
 	box2d.b2MulT_X_V2(this.m_bodyB.GetTransform(), this.m_targetA, this.m_localAnchorB);
@@ -328,7 +328,7 @@ box2d.b2MouseJoint.prototype.InitVelocityConstraints = function (data)
 	// gamma has units of inverse mass.
 	// beta has units of inverse time.
 	/*float32*/ var h = data.step.dt;
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(d + h * k > box2d.b2_epsilon); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(d + h * k > box2d.b2_epsilon); }
 	this.m_gamma = h * (d + h * k);
 	if (this.m_gamma !== 0)
 	{
@@ -481,7 +481,7 @@ box2d.b2MouseJoint.prototype.GetReactionTorque = function (inv_dt)
  */
 box2d.b2MouseJoint.prototype.Dump = function ()
 {
-	if (box2d.DEBUG)
+	if (BOX2D_DEBUG)
 	{
 		box2d.b2Log("Mouse joint dumping is not supported.\n");
 	}

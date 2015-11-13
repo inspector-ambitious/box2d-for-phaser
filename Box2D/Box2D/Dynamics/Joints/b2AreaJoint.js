@@ -92,7 +92,7 @@ box2d.b2AreaJoint = function (def)
 {
 	box2d.b2Joint.call(this, def); // base class constructor
 
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(def.bodies.length >= 3, "You cannot create an area joint with less than three bodies."); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(def.bodies.length >= 3, "You cannot create an area joint with less than three bodies."); }
 
 	this.m_bodies = def.bodies;
 	this.m_frequencyHz = def.frequencyHz;
@@ -264,7 +264,7 @@ box2d.b2AreaJoint.prototype.GetDampingRatio = function ()
  */
 box2d.b2AreaJoint.prototype.Dump = function ()
 {
-	if (box2d.DEBUG)
+	if (BOX2D_DEBUG)
 	{
 		box2d.b2Log("Area joint dumping is not supported.\n");
 	}

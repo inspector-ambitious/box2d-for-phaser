@@ -103,7 +103,7 @@ box2d.b2JointFactory.Create = function (def, allocator)
 		break;
 
 	default:
-		if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(false); }
 		break;
 	}
 

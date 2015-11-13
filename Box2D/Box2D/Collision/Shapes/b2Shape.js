@@ -99,7 +99,7 @@ box2d.b2Shape.prototype.m_radius = 0;
  */
 box2d.b2Shape.prototype.Clone = function ()
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(false); }
 	return null;
 }
 
@@ -110,7 +110,7 @@ box2d.b2Shape.prototype.Clone = function ()
  */
 box2d.b2Shape.prototype.Copy = function (other)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_type === other.m_type); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this.m_type === other.m_type); }
 	this.m_radius = other.m_radius;
 	return this;
 }
@@ -133,7 +133,7 @@ box2d.b2Shape.prototype.GetType = function ()
  */
 box2d.b2Shape.prototype.GetChildCount = function ()
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false, "pure virtual"); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(false, "pure virtual"); }
 	return 0;
 }
 
@@ -147,7 +147,7 @@ box2d.b2Shape.prototype.GetChildCount = function ()
  */
 box2d.b2Shape.prototype.TestPoint = function (xf, p)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false, "pure virtual"); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(false, "pure virtual"); }
 	return false;
 }
 
@@ -166,7 +166,7 @@ box2d.b2Shape.prototype.TestPoint = function (xf, p)
  */
 box2d.b2Shape.prototype.ComputeDistance = function (xf, p, normal, childIndex)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false, "pure virtual"); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(false, "pure virtual"); }
 	return 0;
 }
 
@@ -183,7 +183,7 @@ box2d.b2Shape.prototype.ComputeDistance = function (xf, p, normal, childIndex)
  */
 box2d.b2Shape.prototype.RayCast = function (output, input, transform, childIndex)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false, "pure virtual"); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(false, "pure virtual"); }
 	return false;
 }
 
@@ -198,7 +198,7 @@ box2d.b2Shape.prototype.RayCast = function (output, input, transform, childIndex
  */
 box2d.b2Shape.prototype.ComputeAABB = function (aabb, xf, childIndex)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false, "pure virtual"); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(false, "pure virtual"); }
 }
 
 /** 
@@ -212,7 +212,7 @@ box2d.b2Shape.prototype.ComputeAABB = function (aabb, xf, childIndex)
  */
 box2d.b2Shape.prototype.ComputeMass = function (massData, density)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false, "pure virtual"); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(false, "pure virtual"); }
 }
 
 /**
@@ -222,7 +222,7 @@ box2d.b2Shape.prototype.ComputeMass = function (massData, density)
  */
 box2d.b2Shape.prototype.SetupDistanceProxy = function (proxy, index)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false, "pure virtual"); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(false, "pure virtual"); }
 }
 
 /**
@@ -235,7 +235,7 @@ box2d.b2Shape.prototype.SetupDistanceProxy = function (proxy, index)
  */
 box2d.b2Shape.prototype.ComputeSubmergedArea = function (normal, offset, xf, c)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false, "pure virtual"); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(false, "pure virtual"); }
 	return 0;
 }
 
@@ -246,6 +246,6 @@ box2d.b2Shape.prototype.ComputeSubmergedArea = function (normal, offset, xf, c)
  */
 box2d.b2Shape.prototype.Dump = function ()
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(false, "pure virtual"); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(false, "pure virtual"); }
 }
 

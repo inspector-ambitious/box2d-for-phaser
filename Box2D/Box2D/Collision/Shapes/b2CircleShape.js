@@ -57,7 +57,7 @@ box2d.b2CircleShape.prototype.Copy = function (other)
 {
 	box2d.b2Shape.prototype.Copy.call(this, other);
 
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(other instanceof box2d.b2CircleShape); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(other instanceof box2d.b2CircleShape); }
 
 	this.m_p.Copy(other.m_p);
 	return this;

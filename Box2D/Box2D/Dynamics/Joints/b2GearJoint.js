@@ -93,8 +93,8 @@ box2d.b2GearJoint = function (def)
 	this.m_typeA = this.m_joint1.GetType();
 	this.m_typeB = this.m_joint2.GetType();
 
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_typeA === box2d.b2JointType.e_revoluteJoint || this.m_typeA === box2d.b2JointType.e_prismaticJoint); }
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(this.m_typeB === box2d.b2JointType.e_revoluteJoint || this.m_typeB === box2d.b2JointType.e_prismaticJoint); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this.m_typeA === box2d.b2JointType.e_revoluteJoint || this.m_typeA === box2d.b2JointType.e_prismaticJoint); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(this.m_typeB === box2d.b2JointType.e_revoluteJoint || this.m_typeB === box2d.b2JointType.e_prismaticJoint); }
 
 	/*float32*/ var coordinateA, coordinateB;
 
@@ -849,7 +849,7 @@ box2d.b2GearJoint.prototype.GetRatio = function ()
  */
 box2d.b2GearJoint.prototype.SetRatio = function (ratio)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2IsValid(ratio)); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(box2d.b2IsValid(ratio)); }
 	this.m_ratio = ratio;
 }
 
@@ -860,7 +860,7 @@ box2d.b2GearJoint.prototype.SetRatio = function (ratio)
  */
 box2d.b2GearJoint.prototype.Dump = function ()
 {
-	if (box2d.DEBUG)
+	if (BOX2D_DEBUG)
 	{
 		var indexA = this.m_bodyA.m_islandIndex;
 		var indexB = this.m_bodyB.m_islandIndex;

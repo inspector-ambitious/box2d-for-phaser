@@ -59,8 +59,8 @@ box2d.b2PolygonAndCircleContact.prototype.Evaluate = function (manifold, xfA, xf
 {
 	var shapeA = this.m_fixtureA.GetShape();
 	var shapeB = this.m_fixtureB.GetShape();
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(shapeA instanceof box2d.b2PolygonShape); }
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(shapeB instanceof box2d.b2CircleShape); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(shapeA instanceof box2d.b2PolygonShape); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(shapeB instanceof box2d.b2CircleShape); }
 	box2d.b2CollidePolygonAndCircle(
 		manifold, 
 		(shapeA instanceof box2d.b2PolygonShape)? shapeA : null, xfA, 

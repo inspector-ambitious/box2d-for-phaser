@@ -226,8 +226,8 @@ box2d.b2ContactManager.prototype.FindNewContacts = function ()
  */
 box2d.b2ContactManager.prototype.AddPair = function (proxyUserDataA, proxyUserDataB)
 {
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(proxyUserDataA instanceof box2d.b2FixtureProxy); }
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(proxyUserDataB instanceof box2d.b2FixtureProxy); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(proxyUserDataA instanceof box2d.b2FixtureProxy); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(proxyUserDataB instanceof box2d.b2FixtureProxy); }
 	var proxyA = proxyUserDataA;//(proxyUserDataA instanceof box2d.b2FixtureProxy ? proxyUserDataA : null);
 	var proxyB = proxyUserDataB;//(proxyUserDataB instanceof box2d.b2FixtureProxy ? proxyUserDataB : null);
 

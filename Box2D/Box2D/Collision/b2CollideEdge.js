@@ -130,7 +130,7 @@ box2d.b2CollideEdgeAndCircle = function (manifold, edgeA, xfA, circleB, xfB)
 	
 	// Region AB
 	/** @type {number} */ var den = box2d.b2Dot_V2_V2(e, e);
-	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(den > 0); }
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(den > 0); }
 	/** type {box2d.b2Vec2} */ var P = box2d.b2CollideEdgeAndCircle.s_P;
 	P.x = (1 / den) * (u * A.x + v * B.x);
 	P.y = (1 / den) * (u * A.y + v * B.y);
