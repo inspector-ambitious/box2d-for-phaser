@@ -348,16 +348,7 @@ box2d.b2Body.prototype.m_jointList = null;
  * @type {box2d.b2ContactEdge}
  */
 box2d.b2Body.prototype.m_contactList = null;
-/**
- * @export 
- * @type {box2d.b2Body}
- */
-box2d.b2Body.prototype.m_prev = null;
-/**
- * @export 
- * @type {box2d.b2Body}
- */
-box2d.b2Body.prototype.m_next = null;
+
 /**
  * @export 
  * @type {box2d.b2Vec2}
@@ -1717,16 +1708,6 @@ box2d.b2Body.prototype.GetJointList = function ()
 box2d.b2Body.prototype.GetContactList = function ()
 {
 	return this.m_contactList;
-}
-
-/** 
- * Get the next body in the world's body list. 
- * @export 
- * @return {box2d.b2Body}
- */
-box2d.b2Body.prototype.GetNext = function ()
-{
-	return this.m_next;
 }
 
 /** 

@@ -51,7 +51,15 @@ box2d.b2World = function (gravity)
 
 	this.m_island = new box2d.b2Island();
 
-	this.s_stack = new Array();
+	this.s_stack = [];
+
+	/**
+	 * @export 
+	 * @type {box2d.b2Body}
+	 */
+
+	this.m_bodyList = [];
+
 }
 
 //b2BlockAllocator m_blockAllocator;
@@ -79,11 +87,7 @@ box2d.b2World.prototype.m_flag_clearForces = false;
  */
 box2d.b2World.prototype.m_contactManager = null;
 
-/**
- * @export 
- * @type {box2d.b2Body}
- */
-box2d.b2World.prototype.m_bodyList = null;
+
 /**
  * @export 
  * @type {box2d.b2Joint}
@@ -220,8 +224,9 @@ box2d.b2World.prototype.SetAllowSleeping = function (flag)
 	this.m_allowSleep = flag;
 	if (!this.m_allowSleep)
 	{
-		for (/** @type {box2d.b2Body} */ var b = this.m_bodyList; b; b = b.m_next)
+		for (var i = 0; i < this.m_bodyCount; i++)
 		{
+			var b = this.m_bodyList[i];
 			b.SetAwake(true);
 		}
 	}
@@ -397,8 +402,9 @@ box2d.b2World.prototype.SetGravity = function (gravity, wake)
 
 		if (wake)
 		{
-			for (/** @type {box2d.b2Body} */ var b = this.m_bodyList; b; b = b.m_next)
+			for (var i = 0; i < this.m_bodyCount; i++)
 			{
+				var b = this.m_bodyList[i];
 				b.SetAwake(true);
 			}
 		}
@@ -538,16 +544,10 @@ box2d.b2World.prototype.CreateBody = function (def)
 		return null;
 	}
 
-	/** @type {box2d.b2Body} */ var b = new box2d.b2Body(def, this);
+	var b = new box2d.b2Body(def, this);
 
-	// Add to world doubly linked list.
-	b.m_prev = null;
-	b.m_next = this.m_bodyList;
-	if (this.m_bodyList)
-	{
-		this.m_bodyList.m_prev = b;
-	}
-	this.m_bodyList = b;
+	this.m_bodyList[this.m_bodyCount] = b;
+
 	++this.m_bodyCount;
 
 	return b;
@@ -636,21 +636,8 @@ box2d.b2World.prototype.DestroyBody = function (b)
 	b.m_fixtureList = null;
 	b.m_fixtureCount = 0;
 
-	// Remove world body list.
-	if (b.m_prev)
-	{
-		b.m_prev.m_next = b.m_next;
-	}
 
-	if (b.m_next)
-	{
-		b.m_next.m_prev = b.m_prev;
-	}
-
-	if (b === this.m_bodyList)
-	{
-		this.m_bodyList = b.m_next;
-	}
+	this.m_bodyList.splice(this.m_bodyList.indexOf(b), 1);
 
 	--this.m_bodyCount;
 }
@@ -899,9 +886,12 @@ box2d.b2World.prototype.Solve = function (step)
 {
 //#if B2_ENABLE_PARTICLE
 	// update previous transforms
-	for (/** @type {box2d.b2Body} */ var b = this.m_bodyList; b; b = b.m_next)
+	var i = 0;
+
+
+	for (; i < this.m_bodyCount; i++)
 	{
-		b.m_xf0.Copy(b.m_xf);
+		this.m_bodyList[i].m_xf0.Copy(this.m_bodyList[i].m_xf);
 	}
 //#endif
 
@@ -926,9 +916,9 @@ box2d.b2World.prototype.Solve = function (step)
 					  this.m_contactManager.m_contactListener);
 
 	// Clear all the island flags.
-	for (/* type {box2d.b2Body} */ var b = this.m_bodyList; b; b = b.m_next)
+	for (i = 0; i < this.m_bodyCount; i++)
 	{
-		b.m_flag_islandFlag = false;
+		this.m_bodyList[i].m_flag_islandFlag = false;
 	}
 	for (/** @type {box2d.b2Contact} */ var c = this.m_contactManager.m_contactList; c; c = c.m_next)
 	{
@@ -942,8 +932,12 @@ box2d.b2World.prototype.Solve = function (step)
 	// Build and simulate all awake islands.
 	/** @type {number} */ var stackSize = this.m_bodyCount;
 	/** @type {Array.<?box2d.b2Body>} */ var stack = this.s_stack;
-	for (/** @type {box2d.b2Body} */ var seed = this.m_bodyList; seed; seed = seed.m_next)
+
+		
+	for (i = 0; i < this.m_bodyCount; i++)
 	{
+		var seed = this.m_bodyList[i];
+
 		if (seed.m_flag_islandFlag)
 		{
 			continue;
@@ -1063,7 +1057,7 @@ box2d.b2World.prototype.Solve = function (step)
 		this.m_profile.solvePosition += profile.solvePosition;
 
 		// Post solve cleanup.
-		for (/** @type {number} */ var i = 0; i < island.m_bodyCount; ++i)
+		for (/** @type {number} */ i = 0; i < island.m_bodyCount; ++i)
 		{
 			// Allow static bodies to participate in other islands.
 			/* type {box2d.b2Body} */ var b = island.m_bodies[i];
@@ -1074,7 +1068,7 @@ box2d.b2World.prototype.Solve = function (step)
 		}
 	}
 
-	for (/* type {number} */ var i = 0; i < stack.length; ++i)
+	for (/* type {number} */ i = 0; i < stack.length; ++i)
 	{
 		if (!stack[i]) break;
 		stack[i] = null;
@@ -1084,8 +1078,10 @@ box2d.b2World.prototype.Solve = function (step)
 		/** @type {box2d.b2Timer} */ var timer = new box2d.b2Timer();
 
 		// Synchronize fixtures, check for out of range bodies.
-		for (/* type {box2d.b2Body} */ var b = this.m_bodyList; b; b = b.m_next)
+
+		for (i = 0; i < this.m_bodyCount; i++)
 		{
+			var b = this.m_bodyList[i];
 			// If a body was not in an island then it did not move.
 			if (!b.m_flag_islandFlag)
 			{
@@ -1121,8 +1117,10 @@ box2d.b2World.prototype.SolveTOI = function (step)
 
 	if (this.m_stepComplete)
 	{
-		for (/** @type {box2d.b2Body} */ var b = this.m_bodyList; b; b = b.m_next)
+
+		for (var i = 0; i < this.m_bodyCount; i++)
 		{
+			var b = this.m_bodyList[i];
 			b.m_flag_islandFlag = false;
 			b.m_sweep.alpha0 = 0;
 		}
@@ -1556,8 +1554,9 @@ box2d.b2World.prototype.Step.s_step = new box2d.b2TimeStep();
  */
 box2d.b2World.prototype.ClearForces = function ()
 {
-	for (/** @type {box2d.b2Body} */ var body = this.m_bodyList; body; body = body.m_next)
+	for (var i = 0; i < this.m_bodyCount; i++)
 	{
+		var body = this.m_bodyList[i];
 		body.m_force.SetZero();
 		body.m_torque = 0;
 	}
@@ -2017,8 +2016,10 @@ box2d.b2World.prototype.DrawDebugData = function ()
 
 	if (flags & box2d.b2DrawFlags.e_shapeBit)
 	{
-		for (/** @type {box2d.b2Body} */ var b = this.m_bodyList; b; b = b.m_next)
+		for (var i = 0; i < this.m_bodyCount; i++)
 		{
+			var b = this.m_bodyList[i];
+
 			/** @type {box2d.b2Transform} */ var xf = b.m_xf;
 
 			this.m_debugDraw.PushTransform(xf);
@@ -2097,8 +2098,9 @@ box2d.b2World.prototype.DrawDebugData = function ()
 		/** @type {box2d.b2BroadPhase} */ var bp = this.m_contactManager.m_broadPhase;
 		/** @type {Array.<box2d.b2Vec2>} */ var vs = box2d.b2World.prototype.DrawDebugData.s_vs;
 
-		for (/* type {box2d.b2Body} */ var b = this.m_bodyList; b; b = b.m_next)
+		for (var i = 0; i < this.m_bodyCount; i++)
 		{
+			var b = this.m_bodyList[i];
 			if (!b.IsActive())
 			{
 				continue;
@@ -2124,8 +2126,9 @@ box2d.b2World.prototype.DrawDebugData = function ()
 
 	if (flags & box2d.b2DrawFlags.e_centerOfMassBit)
 	{
-		for (/* type {box2d.b2Body} */ var b = this.m_bodyList; b; b = b.m_next)
+		for (var i = 0; i < this.m_bodyCount; i++)
 		{
+			var b = this.m_bodyList[i];
 			/* type {box2d.b2Transform} */ var xf = box2d.b2World.prototype.DrawDebugData.s_xf;
 			xf.q.Copy(b.m_xf.q);
 			xf.p.Copy(b.GetWorldCenter());
@@ -2159,8 +2162,9 @@ box2d.b2World.prototype.SetBroadPhase = function (broadPhase)
 
 	this.m_contactManager.m_broadPhase = broadPhase;
 
-	for (/** @type {box2d.b2Body} */ var b = this.m_bodyList; b; b = b.m_next)
+	for (var i = 0; i < this.m_bodyCount; i++)
 	{
+		var b = this.m_bodyList[i];
 		for (/** @type {box2d.b2Fixture} */ var f = b.m_fixtureList; f; f = f.m_next)
 		{
 			f.m_proxy = broadPhase.CreateProxy(oldBroadPhase.GetFatAABB(f.m_proxy), f);
@@ -2263,8 +2267,9 @@ box2d.b2World.prototype.ShiftOrigin = function (newOrigin)
 		return;
 	}
 
-	for (/** @type {box2d.b2Body} */ var b = this.m_bodyList; b; b = b.m_next)
+	for (var i = 0; i < this.m_bodyCount; i++)
 	{
+		var b = this.m_bodyList[i];
 		b.m_xf.p.SelfSub(newOrigin);
 		b.m_sweep.c0.SelfSub(newOrigin);
 		b.m_sweep.c.SelfSub(newOrigin);
@@ -2299,8 +2304,9 @@ box2d.b2World.prototype.Dump = function ()
 		box2d.b2Log("/** @type {Array.<box2d.b2Body>} */ var bodies = new Array(%d);\n", this.m_bodyCount);
 		box2d.b2Log("/** @type {Array.<box2d.b2Joint>} */ var joints = new Array(%d);\n", this.m_jointCount);
 		var i = 0;
-		for (/** @type {box2d.b2Body} */ var b = this.m_bodyList; b; b = b.m_next)
+		for (var i = 0; i < this.m_bodyCount; i++)
 		{
+			var b = this.m_bodyList[i];
 			b.m_islandIndex = i;
 			b.Dump();
 			++i;
