@@ -314,23 +314,25 @@ box2d.b2RandomRange = function (lo, hi)
  */
 box2d.b2Vec2 = function (x, y)
 {
+	/**
+ 	* @export 
+ 	* @type {number} 
+ 	*/
 	this.x = x || 0.0;
+	/**
+	 * @export 
+	 * @type {number} 
+	 */
 	this.y = y || 0.0;
 	//this.a = new Float32Array(2);
 	//this.a[0] = x || 0;
 	//this.a[1] = y || 0;
 }
 
-/**
- * @export 
- * @type {number} 
- */
-box2d.b2Vec2.prototype.x = 0.0;
-/**
- * @export 
- * @type {number} 
- */
-box2d.b2Vec2.prototype.y = 0.0;
+
+
+
+
 
 //	/**
 //	 * @type {Float32Array} 

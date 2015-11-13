@@ -106,10 +106,10 @@ box2d.b2PolygonShape.prototype.SetAsBox = function (hx, hy, center, angle)
 	this.m_vertices[1].Set(hx, (-hy));
 	this.m_vertices[2].Set(hx, hy);
 	this.m_vertices[3].Set((-hx), hy);
-	this.m_normals[0].Set(0, (-1));
-	this.m_normals[1].Set(1, 0);
-	this.m_normals[2].Set(0, 1);
-	this.m_normals[3].Set((-1), 0);
+	this.m_normals[0].Set(0.0, (-1.0));
+	this.m_normals[1].Set(1.0, 0.0);
+	this.m_normals[2].Set(0.0, 1.0);
+	this.m_normals[3].Set((-1.0), 0.0);
 	this.m_centroid.SetZero();
 
 	if (center instanceof box2d.b2Vec2)
