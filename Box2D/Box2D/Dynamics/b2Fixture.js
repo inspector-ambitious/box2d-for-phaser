@@ -23,33 +23,34 @@
  */
 box2d.b2Filter = function ()
 {
+	/** 
+	 * The collision category bits. Normally you would just set one 
+	 * bit. 
+	 * @export 
+	 * @type {number}
+	 */
+	this.categoryBits = 0x0001;
+
+	/** 
+	 * The collision mask bits. This states the categories that this 
+	 * shape would accept for collision. 
+	 * @export 
+	 * @type {number}
+	 */
+	this.maskBits = 0xFFFF;
+
+	/** 
+	 * Collision groups allow a certain group of objects to never 
+	 * collide (negative) or always collide (positive). Zero means 
+	 * no collision group. Non-zero group filtering always wins 
+	 * against the mask bits. 
+	 * @export 
+	 * @type {number}
+	 */
+	this.groupIndex = 0;
 };
 
-/** 
- * The collision category bits. Normally you would just set one 
- * bit. 
- * @export 
- * @type {number}
- */
-box2d.b2Filter.prototype.categoryBits = 0x0001;
 
-/** 
- * The collision mask bits. This states the categories that this 
- * shape would accept for collision. 
- * @export 
- * @type {number}
- */
-box2d.b2Filter.prototype.maskBits = 0xFFFF;
-
-/** 
- * Collision groups allow a certain group of objects to never 
- * collide (negative) or always collide (positive). Zero means 
- * no collision group. Non-zero group filtering always wins 
- * against the mask bits. 
- * @export 
- * @type {number}
- */
-box2d.b2Filter.prototype.groupIndex = 0;
 
 /** 
  * @export 
@@ -83,59 +84,60 @@ box2d.b2Filter.prototype.Copy = function (other)
  */
 box2d.b2FixtureDef = function ()
 {
+	/** 
+	 * Contact filtering data. 
+	 * @export 
+	 * @type {box2d.b2Filter}
+	 */
 	this.filter = new box2d.b2Filter();
+
+	/** 
+	 * The shape, this must be set. The shape will be cloned, so you 
+	 * can create the shape on the stack. 
+	 * @export 
+	 * @type {box2d.b2Shape}
+	 */
+	this.shape = null;
+
+	/** 
+	 * Use this to store application specific fixture data. 
+	 * @export 
+	 * @type {*}
+	 */
+	this.userData = null;
+
+	/** 
+	 * The friction coefficient, usually in the range [0,1]. 
+	 * @export 
+	 * @type {number}
+	 */
+	this.friction = 0.2;
+
+	/** 
+	 * The restitution (elasticity) usually in the range [0,1]. 
+	 * @export 
+	 * @type {number}
+	 */
+	this.restitution = 0.0;
+
+	/** 
+	 * The density, usually in kg/m^2. 
+	 * @export 
+	 * @type {number}
+	 */
+	this.density = 0.0;
+
+	/** 
+	 * A sensor shape collects contact information but never 
+	 * generates a collision response. 
+	 * @export 
+	 * @type {boolean}
+	 */
+	this.isSensor = false;
+
 }
 
-/** 
- * The shape, this must be set. The shape will be cloned, so you 
- * can create the shape on the stack. 
- * @export 
- * @type {box2d.b2Shape}
- */
-box2d.b2FixtureDef.prototype.shape = null;
 
-/** 
- * Use this to store application specific fixture data. 
- * @export 
- * @type {*}
- */
-box2d.b2FixtureDef.prototype.userData = null;
-
-/** 
- * The friction coefficient, usually in the range [0,1]. 
- * @export 
- * @type {number}
- */
-box2d.b2FixtureDef.prototype.friction = 0.2;
-
-/** 
- * The restitution (elasticity) usually in the range [0,1]. 
- * @export 
- * @type {number}
- */
-box2d.b2FixtureDef.prototype.restitution = 0;
-
-/** 
- * The density, usually in kg/m^2. 
- * @export 
- * @type {number}
- */
-box2d.b2FixtureDef.prototype.density = 0;
-
-/** 
- * A sensor shape collects contact information but never 
- * generates a collision response. 
- * @export 
- * @type {boolean}
- */
-box2d.b2FixtureDef.prototype.isSensor = false;
-
-/** 
- * Contact filtering data. 
- * @export 
- * @type {box2d.b2Filter}
- */
-box2d.b2FixtureDef.prototype.filter = null;
 
 /** 
  * This proxy is used internally to connect fixtures to the 
@@ -145,29 +147,29 @@ box2d.b2FixtureDef.prototype.filter = null;
  */
 box2d.b2FixtureProxy = function ()
 {
+	/**
+	 * @export 
+	 * @type {box2d.b2AABB}
+	 */
 	this.aabb = new box2d.b2AABB();
+	/**
+	 * @export 
+	 * @type {box2d.b2Fixture}
+	 */
+	this.fixture = null;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.childIndex = 0;
+	/**
+	 * @export 
+	 * @type {box2d.b2TreeNode}
+	 */
+	this.proxy = null;
 };
 
-/**
- * @export 
- * @type {box2d.b2AABB}
- */
-box2d.b2FixtureProxy.prototype.aabb = null;
-/**
- * @export 
- * @type {box2d.b2Fixture}
- */
-box2d.b2FixtureProxy.prototype.fixture = null;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2FixtureProxy.prototype.childIndex = 0;
-/**
- * @export 
- * @type {box2d.b2TreeNode}
- */
-box2d.b2FixtureProxy.prototype.proxy = null;
+
 
 /** 
  * @export 
@@ -197,74 +199,73 @@ box2d.b2FixtureProxy.MakeArray = function (length)
  */
 box2d.b2Fixture = function ()
 {
-//	this.m_proxies = new Array();
+
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.m_density = 0.0;
+
+	/**
+	 * @export 
+	 * @type {box2d.b2Fixture}
+	 */
+	this.m_next = null;
+	/**
+	 * @export 
+	 * @type {box2d.b2Body}
+	 */
+	this.m_body = null;
+
+	/**
+	 * @export 
+	 * @type {box2d.b2Shape}
+	 */
+	this.m_shape = null;
+
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.m_friction = 0.0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.m_restitution = 0.0;
+
+	/**
+	 * @export 
+	 * @type {Array.<box2d.b2FixtureProxy>}
+	 */
+	this.m_proxies = null;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
 	this.m_proxyCount = 0;
 
+	/**
+	 * @export 
+	 * @type {box2d.b2Filter}
+	 */
+
 	this.m_filter = new box2d.b2Filter();
+	/**
+	 * @export 
+	 * @type {boolean}
+	 */
+	this.m_isSensor = false;
+
+	/**
+	 * @export 
+	 * @type {*}
+	 */
+	this.m_userData = null;
+
 }
 
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Fixture.prototype.m_density = 0;
 
-/**
- * @export 
- * @type {box2d.b2Fixture}
- */
-box2d.b2Fixture.prototype.m_next = null;
-/**
- * @export 
- * @type {box2d.b2Body}
- */
-box2d.b2Fixture.prototype.m_body = null;
-
-/**
- * @export 
- * @type {box2d.b2Shape}
- */
-box2d.b2Fixture.prototype.m_shape = null;
-
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Fixture.prototype.m_friction = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Fixture.prototype.m_restitution = 0;
-
-/**
- * @export 
- * @type {Array.<box2d.b2FixtureProxy>}
- */
-box2d.b2Fixture.prototype.m_proxies = null;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Fixture.prototype.m_proxyCount = 0;
-
-/**
- * @export 
- * @type {box2d.b2Filter}
- */
-box2d.b2Fixture.prototype.m_filter = null;
-
-/**
- * @export 
- * @type {boolean}
- */
-box2d.b2Fixture.prototype.m_isSensor = false;
-
-/**
- * @export 
- * @type {*}
- */
-box2d.b2Fixture.prototype.m_userData = null;
 
 /** 
  * Get the type of the child shape. You can use this to down 

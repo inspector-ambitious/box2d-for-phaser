@@ -1126,7 +1126,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 			var c = this.m_contactManager.m_contactList[j];
 			c.m_flag_toiFlag = c.m_flag_islandFlag = false;
 			c.m_toiCount = 0;
-			c.m_toi = 1;
+			c.m_toi = 1.0;
 		}
 	}
 
@@ -1136,6 +1136,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 		// Find the first TOI.
 		/** @type {box2d.b2Contact} */
 		var minContactIsSet = false;
+		var minContact = box2d.b2Contact.solveTOI_minContact;
 		/** @type {number} */ var minAlpha = 1.0;
 
 		for (var j = 0; j < this.m_contactManager.m_contactCount; j++)
@@ -1221,7 +1222,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 				input.proxyB.SetShape(fB.GetShape(), indexB);
 				input.sweepA.Copy(bA.m_sweep);
 				input.sweepB.Copy(bB.m_sweep);
-				input.tMax = 1;
+				input.tMax = 1.0;
 
 				/** @type {box2d.b2TOIOutput} */ var output = box2d.b2World.prototype.SolveTOI.s_toi_output;
 				box2d.b2TimeOfImpact(output, input);
@@ -1244,7 +1245,7 @@ box2d.b2World.prototype.SolveTOI = function (step)
 			if (alpha < minAlpha)
 			{
 				// This is the minimum TOI found so far.
-				var minContact = c;
+				minContact = c;
 				minAlpha = alpha;
 				minContactIsSet = true;
 			}

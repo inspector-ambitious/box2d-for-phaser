@@ -63,33 +63,10 @@ box2d.b2TOIInput = function ()
 	this.proxyB = new box2d.b2DistanceProxy();
 	this.sweepA = new box2d.b2Sweep();
 	this.sweepB = new box2d.b2Sweep();
+	this.tMax = 0.0;
 };
 
-/**
- * @export
- * @type {box2d.b2DistanceProxy}
- */
-box2d.b2TOIInput.prototype.proxyA = null;
-/**
- * @export
- * @type {box2d.b2DistanceProxy}
- */
-box2d.b2TOIInput.prototype.proxyB = null;
-/**
- * @export
- * @type {box2d.b2Sweep}
- */
-box2d.b2TOIInput.prototype.sweepA = null;
-/**
- * @export
- * @type {box2d.b2Sweep}
- */
-box2d.b2TOIInput.prototype.sweepB = null;
-/**
- * @export
- * @type {number}
- */
-box2d.b2TOIInput.prototype.tMax = 0; // defines sweep interval [0, tMax]
+
 
 /**
  * @export 
@@ -111,18 +88,10 @@ box2d.b2TOIOutputState =
  */
 box2d.b2TOIOutput = function ()
 {
+	this.state = box2d.b2TOIOutputState.e_unknown;
+	this.t = 0.0;
 };
 
-/**
- * @export
- * @type {box2d.b2TOIOutputState}
- */
-box2d.b2TOIOutput.prototype.state = box2d.b2TOIOutputState.e_unknown;
-/**
- * @export
- * @type {number}
- */
-box2d.b2TOIOutput.prototype.t = 0;
 
 /**
  * @export 
@@ -146,43 +115,14 @@ box2d.b2SeparationFunction = function ()
 	this.m_sweepB = new box2d.b2Sweep();
 	this.m_localPoint = new box2d.b2Vec2(0.0, 0.0);
 	this.m_axis = new box2d.b2Vec2(0.0, 0.0);
+	this.m_type = box2d.b2SeparationFunctionType.e_unknown;
+	this.m_proxyA = null;
+	this.m_proxyB = null;
 };
 
-/**
- * @export
- * @type {box2d.b2DistanceProxy}
- */
-box2d.b2SeparationFunction.prototype.m_proxyA = null;
-/**
- * @export
- * @type {box2d.b2DistanceProxy}
- */
-box2d.b2SeparationFunction.prototype.m_proxyB = null;
-/**
- * @export
- * @type {box2d.b2Sweep}
- */
-box2d.b2SeparationFunction.prototype.m_sweepA = null;
-/**
- * @export
- * @type {box2d.b2Sweep}
- */
-box2d.b2SeparationFunction.prototype.m_sweepB = null;
-/**
- * @export
- * @type {box2d.b2SeparationFunctionType}
- */
-box2d.b2SeparationFunction.prototype.m_type = box2d.b2SeparationFunctionType.e_unknown;
-/**
- * @export
- * @type {box2d.b2Vec2}
- */
-box2d.b2SeparationFunction.prototype.m_localPoint = null;
-/**
- * @export
- * @type {box2d.b2Vec2}
- */
-box2d.b2SeparationFunction.prototype.m_axis = null;
+
+
+
 
 /** 
  * TODO_ERIN might not need to return the separation 

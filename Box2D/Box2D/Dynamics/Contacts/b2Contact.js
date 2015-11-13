@@ -83,124 +83,104 @@ box2d.b2Contact = function ()
 	this.m_nodeB = new box2d.b2ContactEdge();
 	this.m_manifold = new box2d.b2Manifold();
 	this.m_oldManifold = new box2d.b2Manifold();
+
+	/**
+	 * @export
+	 * @type {boolean}
+	 */
+	this.m_flag_islandFlag = false;		/// Used when crawling contact graph when forming islands.
+	/**
+	 * @export
+	 * @type {boolean}
+	 */
+	this.m_flag_touchingFlag = false;	/// Set when the shapes are touching.
+	/**
+	 * @export
+	 * @type {boolean}
+	 */
+	this.m_flag_enabledFlag = false;	/// This contact can be disabled (by user)
+	/**
+	 * @export
+	 * @type {boolean}
+	 */
+	this.m_flag_filterFlag = false;		/// This contact needs filtering because a fixture filter was changed.
+	/**
+	 * @export
+	 * @type {boolean}
+	 */
+	this.m_flag_bulletHitFlag = false;	/// This bullet contact had a TOI event
+	/**
+	 * @export
+	 * @type {boolean}
+	 */
+	this.m_flag_toiFlag = false;		/// This contact has a valid TOI in m_toi
+
+	/**
+	 * World pool and list pointers.
+	 * @export
+	 * @type {box2d.b2Contact}
+	 */
+	this.m_prev = null;
+	/**
+	 * @export
+	 * @type {box2d.b2Contact}
+	 */
+	this.m_next = null;
+
+	/**
+	 * @export
+	 * @type {box2d.b2Fixture}
+	 */
+	this.m_fixtureA = null;
+	/**
+	 * @export
+	 * @type {box2d.b2Fixture}
+	 */
+	this.m_fixtureB = null;
+
+	/**
+	 * @export
+	 * @type {number}
+	 */
+	this.m_indexA = 0;
+	/**
+	 * @export
+	 * @type {number}
+	 */
+	this.m_indexB = 0;
+
+
+	/**
+	 * @export
+	 * @type {number}
+	 */
+	this.m_toiCount = 0;
+	/**
+	 * @export
+	 * @type {number}
+	 */
+	this.m_toi = 1.0;
+
+	/**
+	 * @export
+	 * @type {number}
+	 */
+	this.m_friction = 0.0;
+	/**
+	 * @export
+	 * @type {number}
+	 */
+	this.m_restitution = 0.0;
+
+	/**
+	 * @export
+	 * @type {number}
+	 */
+	this.m_tangentSpeed = 0.0;
+
 }
 
-/**
- * @export
- * @type {boolean}
- */
-box2d.b2Contact.prototype.m_flag_islandFlag = false;		/// Used when crawling contact graph when forming islands.
-/**
- * @export
- * @type {boolean}
- */
-box2d.b2Contact.prototype.m_flag_touchingFlag = false;	/// Set when the shapes are touching.
-/**
- * @export
- * @type {boolean}
- */
-box2d.b2Contact.prototype.m_flag_enabledFlag = false;	/// This contact can be disabled (by user)
-/**
- * @export
- * @type {boolean}
- */
-box2d.b2Contact.prototype.m_flag_filterFlag = false;		/// This contact needs filtering because a fixture filter was changed.
-/**
- * @export
- * @type {boolean}
- */
-box2d.b2Contact.prototype.m_flag_bulletHitFlag = false;	/// This bullet contact had a TOI event
-/**
- * @export
- * @type {boolean}
- */
-box2d.b2Contact.prototype.m_flag_toiFlag = false;		/// This contact has a valid TOI in m_toi
-
-/**
- * World pool and list pointers.
- * @export
- * @type {box2d.b2Contact}
- */
-box2d.b2Contact.prototype.m_prev = null;
-/**
- * @export
- * @type {box2d.b2Contact}
- */
-box2d.b2Contact.prototype.m_next = null;
-
-/**
- * Nodes for connecting bodies.
- * @export
- * @type {box2d.b2ContactEdge}
- */
-box2d.b2Contact.prototype.m_nodeA = null;
-/**
- * @export
- * @type {box2d.b2ContactEdge}
- */
-box2d.b2Contact.prototype.m_nodeB = null;
-
-/**
- * @export
- * @type {box2d.b2Fixture}
- */
-box2d.b2Contact.prototype.m_fixtureA = null;
-/**
- * @export
- * @type {box2d.b2Fixture}
- */
-box2d.b2Contact.prototype.m_fixtureB = null;
-
-/**
- * @export
- * @type {number}
- */
-box2d.b2Contact.prototype.m_indexA = 0;
-/**
- * @export
- * @type {number}
- */
-box2d.b2Contact.prototype.m_indexB = 0;
-
-/**
- * @export
- * @type {box2d.b2Manifold}
- */
-box2d.b2Contact.prototype.m_manifold = null;
-
-/**
- * @export
- * @type {number}
- */
-box2d.b2Contact.prototype.m_toiCount = 0;
-/**
- * @export
- * @type {number}
- */
-box2d.b2Contact.prototype.m_toi = 0;
-
-/**
- * @export
- * @type {number}
- */
-box2d.b2Contact.prototype.m_friction = 0;
-/**
- * @export
- * @type {number}
- */
-box2d.b2Contact.prototype.m_restitution = 0;
-
-/**
- * @export
- * @type {number}
- */
-box2d.b2Contact.prototype.m_tangentSpeed = 0;
-
-/**
- * @export
- * @type {box2d.b2Manifold}
- */
-box2d.b2Contact.prototype.m_oldManifold = null;
+box2d.b2Contact.solveTOI_minContact = new box2d.b2Contact(); 
 
 /**
  * Get the contact manifold. Do not modify the manifold unless
@@ -447,13 +427,9 @@ box2d.b2Contact.prototype.Reset = function (fixtureA, indexA, fixtureB, indexB)
 	this.m_next = null;
 
 	this.m_nodeA.contact = null;
-	this.m_nodeA.prev = null;
-	this.m_nodeA.next = null;
 	this.m_nodeA.other = null;
 
 	this.m_nodeB.contact = null;
-	this.m_nodeB.prev = null;
-	this.m_nodeB.next = null;
 	this.m_nodeB.other = null;
 
 	this.m_toiCount = 0;

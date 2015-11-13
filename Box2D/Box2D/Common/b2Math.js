@@ -350,12 +350,7 @@ box2d.b2Vec2 = function (x, y)
  * @type {box2d.b2Vec2} 
  */
 box2d.b2Vec2_zero = new box2d.b2Vec2(0.0, 0.0);
-/**
- * @export 
- * @const
- * @type {box2d.b2Vec2} 
- */
-box2d.b2Vec2.ZERO = new box2d.b2Vec2(0.0, 0.0);
+
 /**
  * @export 
  * @const
@@ -994,21 +989,6 @@ box2d.b2Vec3 = function (x, y, z)
 	//this.a[2] = z || 0;
 }
 
-/**
- * @export 
- * @type {number} 
- */
-box2d.b2Vec3.prototype.x = 0.0;
-/**
- * @export 
- * @type {number} 
- */
-box2d.b2Vec3.prototype.y = 0.0;
-/**
- * @export 
- * @type {number} 
- */
-box2d.b2Vec3.prototype.z = 0.0;
 
 //	/**
 //	 * @type {Float32Array} 
@@ -1362,33 +1342,8 @@ box2d.b2Vec4 = function (x, y, z, w)
 	this.y = y || 0.0;
 	this.z = z || 0.0;
 	this.w = w || 0.0;
-	//this.a = new Float32Array(4);
-	//this.a[0] = x || 0;
-	//this.a[1] = y || 0;
-	//this.a[2] = z || 0;
-	//this.a[3] = w || 0;
-}
 
-/**
- * @export 
- * @type {number} 
- */
-box2d.b2Vec4.prototype.x = 0.0;
-/**
- * @export 
- * @type {number} 
- */
-box2d.b2Vec4.prototype.y = 0.0;
-/**
- * @export 
- * @type {number} 
- */
-box2d.b2Vec4.prototype.z = 0.0;
-/**
- * @export 
- * @type {number} 
- */
-box2d.b2Vec4.prototype.w = 0.0;
+}
 
 //	/**
 //	 * @type {Float32Array} 
@@ -1481,16 +1436,6 @@ box2d.b2Mat22 = function ()
 	this.ey = new box2d.b2Vec2(0.0, 1.0);
 }
 
-/**
- * @export 
- * @type {box2d.b2Vec2} 
- */
-box2d.b2Mat22.prototype.ex = null;
-/**
- * @export 
- * @type {box2d.b2Vec2} 
- */
-box2d.b2Mat22.prototype.ey = null;
 
 /**
  * @export 
@@ -1786,21 +1731,6 @@ box2d.b2Mat33 = function ()
 	this.ez = new box2d.b2Vec3(0.0, 0.0, 1.0);
 }
 
-/**
- * @export 
- * @type {box2d.b2Vec3} 
- */
-box2d.b2Mat33.prototype.ex = null;
-/**
- * @export 
- * @type {box2d.b2Vec3} 
- */
-box2d.b2Mat33.prototype.ey = null;
-/**
- * @export 
- * @type {box2d.b2Vec3} 
- */
-box2d.b2Mat33.prototype.ez = null;
 
 /**
  * @export 
@@ -2050,24 +1980,26 @@ box2d.b2Rot = function (angle)
 		this.angle = angle;
 		this.s = Math.sin(angle);
 		this.c = Math.cos(angle);
+	} else {
+		/**
+		 * @export 
+		 * @type {number} 
+		 */
+		this.angle = 0.0;
+		/**
+		 * @export 
+		 * @type {number} 
+		 */
+		this.s = 0.0;
+		/**
+		 * @export 
+		 * @type {number} 
+		 */
+		this.c = 1.0;
 	}
+
 }
 
-/**
- * @export 
- * @type {number} 
- */
-box2d.b2Rot.prototype.angle = 0.0;
-/**
- * @export 
- * @type {number} 
- */
-box2d.b2Rot.prototype.s = 0.0;
-/**
- * @export 
- * @type {number} 
- */
-box2d.b2Rot.prototype.c = 1.0;
 
 /**
  * @export 
@@ -2259,20 +2191,19 @@ box2d.b2MulT_R_V2 = function (q, v, out)
  */
 box2d.b2Transform = function ()
 {
+	/**
+	 * @export 
+	 * @type {box2d.b2Vec2} 
+	 */
 	this.p = new box2d.b2Vec2(0.0, 0.0);
+
+	/**
+	 * @export 
+	 * @type {box2d.b2Rot} 
+	 */
 	this.q = new box2d.b2Rot();
 }
 
-/**
- * @export 
- * @type {box2d.b2Vec2} 
- */
-box2d.b2Transform.prototype.p = null;
-/**
- * @export 
- * @type {box2d.b2Rot} 
- */
-box2d.b2Transform.prototype.q = null;
 
 /**
  * @export 
@@ -2518,44 +2449,44 @@ box2d.b2MulT_X_X = function (A, B, out)
  */
 box2d.b2Sweep = function ()
 {
-	this.localCenter = new box2d.b2Vec2(0.0, 0.0);
-	this.c0 = new box2d.b2Vec2(0.0, 0.0);
+	/**
+	 * @export 
+	 * @type {box2d.b2Vec2} 
+	 */
+	this.localCenter = new box2d.b2Vec2(0.0, 0.0); // local center of mass position
+	/**
+	 * @export 
+	 * @type {box2d.b2Vec2} 
+	 */
+	this.c0 = new box2d.b2Vec2(0.0, 0.0); // center world positions
+	/**
+	 * @export 
+	 * @type {box2d.b2Vec2} 
+	 */
 	this.c = new box2d.b2Vec2(0.0, 0.0);
+
+	/**
+	 * @export 
+	 * @type {number} 
+	 */
+
+	this.a0 = 0.0; ///< world angles
+	/**
+	 * @export 
+	 * @type {number} 
+	 */
+	this.a = 0.0;
+
+	/**
+	 * Fraction of the current time step in the range [0,1]
+	 * c0 and a0 are the positions at alpha0.
+	 * @export 
+	 * @type {number} 
+	 */
+	this.alpha0 = 0.0;
 };
 
-/**
- * @export 
- * @type {box2d.b2Vec2} 
- */
-box2d.b2Sweep.prototype.localCenter = null; ///< local center of mass position
-/**
- * @export 
- * @type {box2d.b2Vec2} 
- */
-box2d.b2Sweep.prototype.c0 = null; ///< center world positions
-/**
- * @export 
- * @type {box2d.b2Vec2} 
- */
-box2d.b2Sweep.prototype.c = null;
-/**
- * @export 
- * @type {number} 
- */
-box2d.b2Sweep.prototype.a0 = 0.0; ///< world angles
-/**
- * @export 
- * @type {number} 
- */
-box2d.b2Sweep.prototype.a = 0.0;
 
-/**
- * Fraction of the current time step in the range [0,1]
- * c0 and a0 are the positions at alpha0.
- * @export 
- * @type {number} 
- */
-box2d.b2Sweep.prototype.alpha0 = 0.0;
 
 /**
  * @export 
