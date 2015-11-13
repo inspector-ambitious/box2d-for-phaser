@@ -27,7 +27,7 @@ box2d.b2CircleShape = function (radius)
 {
 	box2d.b2Shape.call(this, box2d.b2ShapeType.e_circleShape, radius || 0); // base class constructor
 
-	this.m_p = new box2d.b2Vec2();
+	this.m_p = new box2d.b2Vec2(0.0, 0.0);
 }
 
 box2d.b2CircleShape.prototype = Object.create(box2d.b2Shape.prototype);
@@ -86,8 +86,8 @@ box2d.b2CircleShape.prototype.TestPoint = function (transform, p)
 	var d = box2d.b2Sub_V2_V2(p, center, box2d.b2CircleShape.prototype.TestPoint.s_d);
 	return box2d.b2Dot_V2_V2(d, d) <= box2d.b2Sq(this.m_radius);
 }
-box2d.b2CircleShape.prototype.TestPoint.s_center = new box2d.b2Vec2();
-box2d.b2CircleShape.prototype.TestPoint.s_d = new box2d.b2Vec2();
+box2d.b2CircleShape.prototype.TestPoint.s_center = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2CircleShape.prototype.TestPoint.s_d = new box2d.b2Vec2(0.0, 0.0);
 
 //#if B2_ENABLE_PARTICLE
 
@@ -106,7 +106,7 @@ box2d.b2CircleShape.prototype.ComputeDistance = function (xf, p, normal, childIn
 	var d = box2d.b2Sub_V2_V2(p, center, normal);
 	return normal.Normalize() - this.m_radius;
 }
-box2d.b2CircleShape.prototype.ComputeDistance.s_center = new box2d.b2Vec2();
+box2d.b2CircleShape.prototype.ComputeDistance.s_center = new box2d.b2Vec2(0.0, 0.0);
 
 //#endif
 
@@ -155,9 +155,9 @@ box2d.b2CircleShape.prototype.RayCast = function (output, input, transform, chil
 
 	return false;
 }
-box2d.b2CircleShape.prototype.RayCast.s_position = new box2d.b2Vec2();
-box2d.b2CircleShape.prototype.RayCast.s_s = new box2d.b2Vec2();
-box2d.b2CircleShape.prototype.RayCast.s_r = new box2d.b2Vec2();
+box2d.b2CircleShape.prototype.RayCast.s_position = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2CircleShape.prototype.RayCast.s_s = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2CircleShape.prototype.RayCast.s_r = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * @see box2d.b2Shape::ComputeAABB 
@@ -173,7 +173,7 @@ box2d.b2CircleShape.prototype.ComputeAABB = function (aabb, transform, childInde
 	aabb.lowerBound.Set(p.x - this.m_radius, p.y - this.m_radius);
 	aabb.upperBound.Set(p.x + this.m_radius, p.y + this.m_radius);
 }
-box2d.b2CircleShape.prototype.ComputeAABB.s_p = new box2d.b2Vec2();
+box2d.b2CircleShape.prototype.ComputeAABB.s_p = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * @see box2d.b2Shape::ComputeMass 
@@ -215,7 +215,7 @@ box2d.b2CircleShape.prototype.SetupDistanceProxy = function (proxy, index)
  */
 box2d.b2CircleShape.prototype.ComputeSubmergedArea = function (normal, offset, xf, c)
 {
-	/** @type {box2d.b2Vec2} */ var p = box2d.b2Mul_X_V2(xf, this.m_p, new box2d.b2Vec2());
+	/** @type {box2d.b2Vec2} */ var p = box2d.b2Mul_X_V2(xf, this.m_p, new box2d.b2Vec2(0.0, 0.0));
 	/** @type {number} */ var l = (-(box2d.b2Dot_V2_V2(normal, p) - offset));
 
 	if (l < (-this.m_radius) + box2d.b2_epsilon)

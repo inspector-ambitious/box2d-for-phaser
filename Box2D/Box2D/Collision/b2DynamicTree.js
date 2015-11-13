@@ -128,9 +128,9 @@ box2d.b2DynamicTree.prototype.m_path = 0;
 box2d.b2DynamicTree.prototype.m_insertionCount = 0;
 
 box2d.b2DynamicTree.s_stack = new box2d.b2GrowableStack(256);
-box2d.b2DynamicTree.s_r = new box2d.b2Vec2();
-box2d.b2DynamicTree.s_v = new box2d.b2Vec2();
-box2d.b2DynamicTree.s_abs_v = new box2d.b2Vec2();
+box2d.b2DynamicTree.s_r = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2DynamicTree.s_v = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2DynamicTree.s_abs_v = new box2d.b2Vec2(0.0, 0.0);
 box2d.b2DynamicTree.s_segmentAABB = new box2d.b2AABB();
 box2d.b2DynamicTree.s_subInput = new box2d.b2RayCastInput();
 box2d.b2DynamicTree.s_combinedAABB = new box2d.b2AABB();

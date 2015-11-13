@@ -28,7 +28,7 @@ box2d.b2ConstantAccelController = function ()
 {
 	box2d.b2Controller.apply(this, arguments); // base class constructor
 
-	this.A = new box2d.b2Vec2(0, 0);
+	this.A = new box2d.b2Vec2(0.0, 0.0);
 };
 
 box2d.b2ConstantAccelController.prototype = Object.create(box2d.b2Controller.prototype);
@@ -57,7 +57,7 @@ box2d.b2ConstantAccelController.prototype.Step = function (step)
 		body.SetLinearVelocity(box2d.b2Add_V2_V2(body.GetLinearVelocity(), dtA, box2d.b2Vec2.s_t0));
 	}
 }
-box2d.b2ConstantAccelController.prototype.Step.s_dtA = new box2d.b2Vec2();
+box2d.b2ConstantAccelController.prototype.Step.s_dtA = new box2d.b2Vec2(0.0, 0.0);
 
 //#endif
 

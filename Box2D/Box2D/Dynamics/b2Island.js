@@ -721,6 +721,6 @@ box2d.b2Island.s_timer = new box2d.b2Timer();
 box2d.b2Island.s_solverData = new box2d.b2SolverData();
 box2d.b2Island.s_contactSolverDef = new box2d.b2ContactSolverDef();
 box2d.b2Island.s_contactSolver = new box2d.b2ContactSolver();
-box2d.b2Island.s_translation = new box2d.b2Vec2();
+box2d.b2Island.s_translation = new box2d.b2Vec2(0.0, 0.0);
 box2d.b2Island.s_impulse = new box2d.b2ContactImpulse();
 

@@ -32,9 +32,9 @@ box2d.b2WheelJointDef = function ()
 {
 	box2d.b2JointDef.call(this, box2d.b2JointType.e_wheelJoint); // base class constructor
 
-	this.localAnchorA = new box2d.b2Vec2(0, 0);
-	this.localAnchorB = new box2d.b2Vec2(0, 0);
-	this.localAxisA = new box2d.b2Vec2(1, 0);
+	this.localAnchorA = new box2d.b2Vec2(0.0, 0.0);
+	this.localAnchorB = new box2d.b2Vec2(0.0, 0.0);
+	this.localAxisA = new box2d.b2Vec2(1.0, 0.0);
 }
 
 box2d.b2WheelJointDef.prototype = Object.create(box2d.b2JointDef.prototype);
@@ -133,23 +133,23 @@ box2d.b2WheelJoint = function (def)
 	this.m_localAnchorA = def.localAnchorA.Clone();
 	this.m_localAnchorB = def.localAnchorB.Clone();
 	this.m_localXAxisA = def.localAxisA.Clone();
-	this.m_localYAxisA = box2d.b2Cross_S_V2(1.0, this.m_localXAxisA, new box2d.b2Vec2());
+	this.m_localYAxisA = box2d.b2Cross_S_V2(1.0, this.m_localXAxisA, new box2d.b2Vec2(0.0, 0.0));
 
 	this.m_maxMotorTorque = def.maxMotorTorque;
 	this.m_motorSpeed = def.motorSpeed;
 	this.m_enableMotor = def.enableMotor;
 
-	this.m_localCenterA = new box2d.b2Vec2();
-	this.m_localCenterB = new box2d.b2Vec2();
+	this.m_localCenterA = new box2d.b2Vec2(0.0, 0.0);
+	this.m_localCenterB = new box2d.b2Vec2(0.0, 0.0);
 
-	this.m_ax = new box2d.b2Vec2(), this.m_ay = new box2d.b2Vec2();
+	this.m_ax = new box2d.b2Vec2(0.0, 0.0), this.m_ay = new box2d.b2Vec2(0.0, 0.0);
 
 	this.m_qA = new box2d.b2Rot();
 	this.m_qB = new box2d.b2Rot();
-	this.m_lalcA = new box2d.b2Vec2();
-	this.m_lalcB = new box2d.b2Vec2();
-	this.m_rA = new box2d.b2Vec2();
-	this.m_rB = new box2d.b2Vec2();
+	this.m_lalcA = new box2d.b2Vec2(0.0, 0.0);
+	this.m_lalcB = new box2d.b2Vec2(0.0, 0.0);
+	this.m_rA = new box2d.b2Vec2(0.0, 0.0);
+	this.m_rB = new box2d.b2Vec2(0.0, 0.0);
 
 	this.m_ax.SetZero();
 	this.m_ay.SetZero();
@@ -575,8 +575,8 @@ box2d.b2WheelJoint.prototype.InitVelocityConstraints = function (data)
 //	data.velocities[this.m_indexB].v = vB;
 	data.velocities[this.m_indexB].w = wB;
 }
-box2d.b2WheelJoint.prototype.InitVelocityConstraints.s_d = new box2d.b2Vec2();
-box2d.b2WheelJoint.prototype.InitVelocityConstraints.s_P = new box2d.b2Vec2();
+box2d.b2WheelJoint.prototype.InitVelocityConstraints.s_d = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2WheelJoint.prototype.InitVelocityConstraints.s_P = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @export 
@@ -652,7 +652,7 @@ box2d.b2WheelJoint.prototype.SolveVelocityConstraints = function (data)
 //	data.velocities[this.m_indexB].v = vB;
 	data.velocities[this.m_indexB].w = wB;
 }
-box2d.b2WheelJoint.prototype.SolveVelocityConstraints.s_P = new box2d.b2Vec2();
+box2d.b2WheelJoint.prototype.SolveVelocityConstraints.s_P = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @export 
@@ -722,8 +722,8 @@ box2d.b2WheelJoint.prototype.SolvePositionConstraints = function (data)
 
 	return box2d.b2Abs(C) <= box2d.b2_linearSlop;
 }
-box2d.b2WheelJoint.prototype.SolvePositionConstraints.s_d = new box2d.b2Vec2();
-box2d.b2WheelJoint.prototype.SolvePositionConstraints.s_P = new box2d.b2Vec2();
+box2d.b2WheelJoint.prototype.SolvePositionConstraints.s_d = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2WheelJoint.prototype.SolvePositionConstraints.s_P = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @export 
@@ -831,10 +831,10 @@ box2d.b2WheelJoint.prototype.GetPrismaticJointTranslation = function ()
 	/*box2d.b2Body*/ var bA = this.m_bodyA;
 	/*box2d.b2Body*/ var bB = this.m_bodyB;
 
-	/*box2d.b2Vec2*/ var pA = bA.GetWorldPoint(this.m_localAnchorA, new box2d.b2Vec2());
-	/*box2d.b2Vec2*/ var pB = bB.GetWorldPoint(this.m_localAnchorB, new box2d.b2Vec2());
-	/*box2d.b2Vec2*/ var d = box2d.b2Sub_V2_V2(pB, pA, new box2d.b2Vec2());
-	/*box2d.b2Vec2*/ var axis = bA.GetWorldVector(this.m_localXAxisA, new box2d.b2Vec2());
+	/*box2d.b2Vec2*/ var pA = bA.GetWorldPoint(this.m_localAnchorA, new box2d.b2Vec2(0.0, 0.0));
+	/*box2d.b2Vec2*/ var pB = bB.GetWorldPoint(this.m_localAnchorB, new box2d.b2Vec2(0.0, 0.0));
+	/*box2d.b2Vec2*/ var d = box2d.b2Sub_V2_V2(pB, pA, new box2d.b2Vec2(0.0, 0.0));
+	/*box2d.b2Vec2*/ var axis = bA.GetWorldVector(this.m_localXAxisA, new box2d.b2Vec2(0.0, 0.0));
 
 	/*float32*/ var translation = box2d.b2Dot_V2_V2(d, axis);
 	return translation;
@@ -862,7 +862,7 @@ box2d.b2WheelJoint.prototype.GetPrismaticJointSpeed = function ()
 //	b2Vec2 d = pB - pA;
 	var d = box2d.b2Sub_V2_V2(pB, pA, box2d.b2Vec2.s_t2); // d uses s_t2
 //	b2Vec2 axis = b2Mul(bA.m_xf.q, m_localXAxisA);
-	var axis = bA.GetWorldVector(this.m_localXAxisA, new box2d.b2Vec2());
+	var axis = bA.GetWorldVector(this.m_localXAxisA, new box2d.b2Vec2(0.0, 0.0));
 
 	var vA = bA.m_linearVelocity;
 	var vB = bB.m_linearVelocity;

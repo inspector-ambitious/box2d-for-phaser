@@ -28,11 +28,11 @@ box2d.b2EdgeShape = function ()
 {
 	box2d.b2Shape.call(this, box2d.b2ShapeType.e_edgeShape, box2d.b2_polygonRadius); // base class constructor
 
-	this.m_vertex1 = new box2d.b2Vec2();
-	this.m_vertex2 = new box2d.b2Vec2();
+	this.m_vertex1 = new box2d.b2Vec2(0.0, 0.0);
+	this.m_vertex2 = new box2d.b2Vec2(0.0, 0.0);
 
-	this.m_vertex0 = new box2d.b2Vec2();
-	this.m_vertex3 = new box2d.b2Vec2();
+	this.m_vertex0 = new box2d.b2Vec2(0.0, 0.0);
+	this.m_vertex3 = new box2d.b2Vec2(0.0, 0.0);
 }
 
 box2d.b2EdgeShape.prototype = Object.create(box2d.b2Shape.prototype);
@@ -177,10 +177,10 @@ box2d.b2EdgeShape.prototype.ComputeDistance = function (xf, p, normal, childInde
 	normal.Copy(d);
 	return normal.Normalize();
 }
-box2d.b2EdgeShape.prototype.ComputeDistance.s_v1 = new box2d.b2Vec2();
-box2d.b2EdgeShape.prototype.ComputeDistance.s_v2 = new box2d.b2Vec2();
-box2d.b2EdgeShape.prototype.ComputeDistance.s_d = new box2d.b2Vec2();
-box2d.b2EdgeShape.prototype.ComputeDistance.s_s = new box2d.b2Vec2();
+box2d.b2EdgeShape.prototype.ComputeDistance.s_v1 = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2EdgeShape.prototype.ComputeDistance.s_v2 = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2EdgeShape.prototype.ComputeDistance.s_d = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2EdgeShape.prototype.ComputeDistance.s_s = new box2d.b2Vec2(0.0, 0.0);
 
 //#endif
 
@@ -251,12 +251,12 @@ box2d.b2EdgeShape.prototype.RayCast = function (output, input, xf, childIndex)
 	}
 	return true;
 }
-box2d.b2EdgeShape.prototype.RayCast.s_p1 = new box2d.b2Vec2();
-box2d.b2EdgeShape.prototype.RayCast.s_p2 = new box2d.b2Vec2();
-box2d.b2EdgeShape.prototype.RayCast.s_d = new box2d.b2Vec2();
-box2d.b2EdgeShape.prototype.RayCast.s_e = new box2d.b2Vec2();
-box2d.b2EdgeShape.prototype.RayCast.s_q = new box2d.b2Vec2();
-box2d.b2EdgeShape.prototype.RayCast.s_r = new box2d.b2Vec2();
+box2d.b2EdgeShape.prototype.RayCast.s_p1 = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2EdgeShape.prototype.RayCast.s_p2 = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2EdgeShape.prototype.RayCast.s_d = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2EdgeShape.prototype.RayCast.s_e = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2EdgeShape.prototype.RayCast.s_q = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2EdgeShape.prototype.RayCast.s_r = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * @see box2d.b2Shape::ComputeAABB 
@@ -278,8 +278,8 @@ box2d.b2EdgeShape.prototype.ComputeAABB = function (aabb, xf, childIndex)
 	aabb.lowerBound.SelfSubXY(r, r);
 	aabb.upperBound.SelfAddXY(r, r);
 }
-box2d.b2EdgeShape.prototype.ComputeAABB.s_v1 = new box2d.b2Vec2();
-box2d.b2EdgeShape.prototype.ComputeAABB.s_v2 = new box2d.b2Vec2();
+box2d.b2EdgeShape.prototype.ComputeAABB.s_v1 = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2EdgeShape.prototype.ComputeAABB.s_v2 = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * @see box2d.b2Shape::ComputeMass 

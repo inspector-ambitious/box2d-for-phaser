@@ -249,7 +249,7 @@ box2d.b2ContactID.prototype.Clone = function ()
  */
 box2d.b2ManifoldPoint = function ()
 {
-	this.localPoint = new box2d.b2Vec2();
+	this.localPoint = new box2d.b2Vec2(0.0, 0.0);
 	this.id = new box2d.b2ContactID();
 }
 
@@ -345,8 +345,8 @@ box2d.b2ManifoldType =
 box2d.b2Manifold = function ()
 {
 	this.points = box2d.b2ManifoldPoint.MakeArray(box2d.b2_maxManifoldPoints);
-	this.localNormal = new box2d.b2Vec2();
-	this.localPoint = new box2d.b2Vec2();
+	this.localNormal = new box2d.b2Vec2(0.0, 0.0);
+	this.localPoint = new box2d.b2Vec2(0.0, 0.0);
 	this.type = box2d.b2ManifoldType.e_unknown;
 	this.pointCount = 0;
 }
@@ -430,7 +430,7 @@ box2d.b2Manifold.prototype.Clone = function ()
  */
 box2d.b2WorldManifold = function ()
 {
-	this.normal = new box2d.b2Vec2();
+	this.normal = new box2d.b2Vec2(0.0, 0.0);
 	this.points = box2d.b2Vec2.MakeArray(box2d.b2_maxManifoldPoints);
 	this.separations = box2d.b2MakeNumberArray(box2d.b2_maxManifoldPoints);
 }
@@ -528,12 +528,12 @@ box2d.b2WorldManifold.prototype.Initialize = function (manifold, xfA, radiusA, x
 		break;
 	}
 }
-box2d.b2WorldManifold.prototype.Initialize.s_pointA = new box2d.b2Vec2();
-box2d.b2WorldManifold.prototype.Initialize.s_pointB = new box2d.b2Vec2();
-box2d.b2WorldManifold.prototype.Initialize.s_cA = new box2d.b2Vec2();
-box2d.b2WorldManifold.prototype.Initialize.s_cB = new box2d.b2Vec2();
-box2d.b2WorldManifold.prototype.Initialize.s_planePoint = new box2d.b2Vec2();
-box2d.b2WorldManifold.prototype.Initialize.s_clipPoint = new box2d.b2Vec2();
+box2d.b2WorldManifold.prototype.Initialize.s_pointA = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2WorldManifold.prototype.Initialize.s_pointB = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2WorldManifold.prototype.Initialize.s_cA = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2WorldManifold.prototype.Initialize.s_cB = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2WorldManifold.prototype.Initialize.s_planePoint = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2WorldManifold.prototype.Initialize.s_clipPoint = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * This is used for determining the state of contact points. 
@@ -614,7 +614,7 @@ box2d.b2GetPointStates = function (state1, state2, manifold1, manifold2)
  */
 box2d.b2ClipVertex = function ()
 {
-	this.v = new box2d.b2Vec2();
+	this.v = new box2d.b2Vec2(0.0, 0.0);
 	this.id = new box2d.b2ContactID();
 };
 
@@ -659,8 +659,8 @@ box2d.b2ClipVertex.prototype.Copy = function (other)
  */
 box2d.b2RayCastInput = function ()
 {
-	this.p1 = new box2d.b2Vec2();
-	this.p2 = new box2d.b2Vec2();
+	this.p1 = new box2d.b2Vec2(0.0, 0.0);
+	this.p2 = new box2d.b2Vec2(0.0, 0.0);
 	this.maxFraction = 1;
 }
 
@@ -701,7 +701,7 @@ box2d.b2RayCastInput.prototype.Copy = function (o)
  */
 box2d.b2RayCastOutput = function ()
 {
-	this.normal = new box2d.b2Vec2();
+	this.normal = new box2d.b2Vec2(0.0, 0.0);
 	this.fraction = 0;
 };
 
@@ -735,11 +735,11 @@ box2d.b2RayCastOutput.prototype.Copy = function (o)
  */
 box2d.b2AABB = function ()
 {
-	this.lowerBound = new box2d.b2Vec2();
-	this.upperBound = new box2d.b2Vec2();
+	this.lowerBound = new box2d.b2Vec2(0.0, 0.0);
+	this.upperBound = new box2d.b2Vec2(0.0, 0.0);
 
-	this.m_out_center = new box2d.b2Vec2();
-	this.m_out_extent = new box2d.b2Vec2();
+	this.m_out_center = new box2d.b2Vec2(0.0, 0.0);
+	this.m_out_extent = new box2d.b2Vec2(0.0, 0.0);
 };
 
 /**

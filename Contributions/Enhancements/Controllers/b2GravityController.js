@@ -105,7 +105,7 @@ box2d.b2GravityController.prototype.Step = function (step)
 		}
 	}
 }
-box2d.b2GravityController.prototype.Step.s_f = new box2d.b2Vec2();
+box2d.b2GravityController.prototype.Step.s_f = new box2d.b2Vec2(0.0, 0.0);
 
 //#endif
 

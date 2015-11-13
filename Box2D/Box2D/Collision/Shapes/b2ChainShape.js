@@ -31,8 +31,8 @@ box2d.b2ChainShape = function ()
 {
 	box2d.b2Shape.call(this, box2d.b2ShapeType.e_chainShape, box2d.b2_polygonRadius); // base class constructor
 
-	this.m_prevVertex = new box2d.b2Vec2();
-	this.m_nextVertex = new box2d.b2Vec2();
+	this.m_prevVertex = new box2d.b2Vec2(0.0, 0.0);
+	this.m_nextVertex = new box2d.b2Vec2(0.0, 0.0);
 }
 
 box2d.b2ChainShape.prototype = Object.create(box2d.b2Shape.prototype);
@@ -346,12 +346,12 @@ box2d.b2ChainShape.prototype.ComputeAABB = function (aabb, xf, childIndex)
  * @export 
  * @type {box2d.b2Vec2}
  */
-box2d.b2ChainShape.prototype.ComputeAABB.s_v1 = new box2d.b2Vec2();
+box2d.b2ChainShape.prototype.ComputeAABB.s_v1 = new box2d.b2Vec2(0.0, 0.0);
 /**
  * @export 
  * @type {box2d.b2Vec2}
  */
-box2d.b2ChainShape.prototype.ComputeAABB.s_v2 = new box2d.b2Vec2();
+box2d.b2ChainShape.prototype.ComputeAABB.s_v2 = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * @see box2d.b2Shape::ComputeMass 

@@ -48,8 +48,8 @@ box2d.b2CollideCircles = function (manifold, circleA, xfA, circleB, xfB)
 	manifold.points[0].localPoint.Copy(circleB.m_p);
 	manifold.points[0].id.key = 0;
 }
-box2d.b2CollideCircles.s_pA = new box2d.b2Vec2();
-box2d.b2CollideCircles.s_pB = new box2d.b2Vec2();
+box2d.b2CollideCircles.s_pA = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2CollideCircles.s_pB = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * Compute the collision manifold between a polygon and a 
@@ -161,7 +161,7 @@ box2d.b2CollidePolygonAndCircle = function (manifold, polygonA, xfA, circleB, xf
 		manifold.points[0].id.key = 0;
 	}
 }
-box2d.b2CollidePolygonAndCircle.s_c = new box2d.b2Vec2();
-box2d.b2CollidePolygonAndCircle.s_cLocal = new box2d.b2Vec2();
-box2d.b2CollidePolygonAndCircle.s_faceCenter = new box2d.b2Vec2();
+box2d.b2CollidePolygonAndCircle.s_c = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2CollidePolygonAndCircle.s_cLocal = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2CollidePolygonAndCircle.s_faceCenter = new box2d.b2Vec2(0.0, 0.0);
 

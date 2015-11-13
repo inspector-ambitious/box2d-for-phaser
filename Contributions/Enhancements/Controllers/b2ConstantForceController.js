@@ -28,7 +28,7 @@ box2d.b2ConstantForceController = function ()
 {
 	box2d.b2Controller.apply(this, arguments);  // base class constructor
 
-	this.F = new box2d.b2Vec2(0, 0);
+	this.F = new box2d.b2Vec2(0.0, 0.0);
 };
 
 box2d.b2ConstantForceController.prototype = Object.create(box2d.b2Controller.prototype);

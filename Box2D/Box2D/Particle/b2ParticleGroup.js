@@ -213,8 +213,8 @@ box2d.b2ParticleGroupDef.prototype.group = null;
  */
 box2d.b2ParticleGroup = function ()
 {
-	this.m_center = new box2d.b2Vec2();
-	this.m_linearVelocity = new box2d.b2Vec2();
+	this.m_center = new box2d.b2Vec2(0.0, 0.0);
+	this.m_linearVelocity = new box2d.b2Vec2(0.0, 0.0);
 	this.m_transform = new box2d.b2Transform();
 	this.m_transform.SetIdentity();
 }
@@ -506,7 +506,7 @@ box2d.b2ParticleGroup.prototype.GetLinearVelocityFromWorldPoint = function (worl
 	///	return m_linearVelocity + b2Cross(m_angularVelocity, worldPoint - m_center);
 	return box2d.b2AddCross_V2_S_V2(this.m_linearVelocity, this.m_angularVelocity, box2d.b2Sub_V2_V2(worldPoint, this.m_center, s_t0), out);
 }
-box2d.b2ParticleGroup.prototype.GetLinearVelocityFromWorldPoint.s_t0 = new box2d.b2Vec2();
+box2d.b2ParticleGroup.prototype.GetLinearVelocityFromWorldPoint.s_t0 = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * Get the user data pointer that was provided in the group 
@@ -589,8 +589,8 @@ box2d.b2ParticleGroup.prototype.DestroyParticles = function (callDestructionList
  */
 box2d.b2ParticleGroup.prototype.UpdateStatistics = function ()
 {
-	var p = new box2d.b2Vec2();
-	var v = new box2d.b2Vec2();
+	var p = new box2d.b2Vec2(0.0, 0.0);
+	var v = new box2d.b2Vec2(0.0, 0.0);
 	if (this.m_timestamp != this.m_system.m_timestamp)
 	{
 		var m = this.m_system.GetParticleMass();

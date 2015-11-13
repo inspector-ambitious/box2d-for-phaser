@@ -43,8 +43,8 @@ box2d.b2BodyType =
  */
 box2d.b2BodyDef = function ()
 {
-	this.position = new box2d.b2Vec2(0, 0);
-	this.linearVelocity = new box2d.b2Vec2(0, 0);
+	this.position = new box2d.b2Vec2(0.0, 0.0);
+	this.linearVelocity = new box2d.b2Vec2(0.0, 0.0);
 }
 
 /** 
@@ -179,9 +179,9 @@ box2d.b2Body = function (bd, world)
 //#endif
 	this.m_sweep = new box2d.b2Sweep();
 	this.m_out_sweep = new box2d.b2Sweep();
-	this.m_linearVelocity = new box2d.b2Vec2();
-	this.m_out_linearVelocity = new box2d.b2Vec2();
-	this.m_force = new box2d.b2Vec2();
+	this.m_linearVelocity = new box2d.b2Vec2(0.0, 0.0);
+	this.m_out_linearVelocity = new box2d.b2Vec2(0.0, 0.0);
+	this.m_force = new box2d.b2Vec2(0.0, 0.0);
 
 	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(bd.position.IsValid()); }
 	if (box2d.ENABLE_ASSERTS) { box2d.b2Assert(bd.linearVelocity.IsValid()); }
@@ -1197,7 +1197,7 @@ box2d.b2Body.prototype.SetMassData = function (massData)
 	// Update center of mass velocity.
 	box2d.b2AddCross_V2_S_V2(this.m_linearVelocity, this.m_angularVelocity, box2d.b2Sub_V2_V2(this.m_sweep.c, oldCenter, box2d.b2Vec2.s_t0), this.m_linearVelocity);
 }
-box2d.b2Body.prototype.SetMassData.s_oldCenter = new box2d.b2Vec2();
+box2d.b2Body.prototype.SetMassData.s_oldCenter = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * This resets the mass properties to the sum of the mass 
@@ -1279,8 +1279,8 @@ box2d.b2Body.prototype.ResetMassData = function ()
 	// Update center of mass velocity.
 	box2d.b2AddCross_V2_S_V2(this.m_linearVelocity, this.m_angularVelocity, box2d.b2Sub_V2_V2(this.m_sweep.c, oldCenter, box2d.b2Vec2.s_t0), this.m_linearVelocity);
 }
-box2d.b2Body.prototype.ResetMassData.s_localCenter = new box2d.b2Vec2();
-box2d.b2Body.prototype.ResetMassData.s_oldCenter = new box2d.b2Vec2();
+box2d.b2Body.prototype.ResetMassData.s_localCenter = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2Body.prototype.ResetMassData.s_oldCenter = new box2d.b2Vec2(0.0, 0.0);
 box2d.b2Body.prototype.ResetMassData.s_massData = new box2d.b2MassData();
 
 /** 

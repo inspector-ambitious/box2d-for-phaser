@@ -347,13 +347,13 @@ box2d.b2Vec2.prototype.y = 0.0;
  * @const
  * @type {box2d.b2Vec2} 
  */
-box2d.b2Vec2_zero = new box2d.b2Vec2();
+box2d.b2Vec2_zero = new box2d.b2Vec2(0.0, 0.0);
 /**
  * @export 
  * @const
  * @type {box2d.b2Vec2} 
  */
-box2d.b2Vec2.ZERO = new box2d.b2Vec2();
+box2d.b2Vec2.ZERO = new box2d.b2Vec2(0.0, 0.0);
 /**
  * @export 
  * @const
@@ -371,22 +371,22 @@ box2d.b2Vec2.UNITY = new box2d.b2Vec2(0.0, 1.0);
  * @export 
  * @type {box2d.b2Vec2} 
  */
-box2d.b2Vec2.s_t0 = new box2d.b2Vec2();
+box2d.b2Vec2.s_t0 = new box2d.b2Vec2(0.0, 0.0);
 /**
  * @export 
  * @type {box2d.b2Vec2} 
  */
-box2d.b2Vec2.s_t1 = new box2d.b2Vec2();
+box2d.b2Vec2.s_t1 = new box2d.b2Vec2(0.0, 0.0);
 /**
  * @export 
  * @type {box2d.b2Vec2} 
  */
-box2d.b2Vec2.s_t2 = new box2d.b2Vec2();
+box2d.b2Vec2.s_t2 = new box2d.b2Vec2(0.0, 0.0);
 /**
  * @export 
  * @type {box2d.b2Vec2} 
  */
-box2d.b2Vec2.s_t3 = new box2d.b2Vec2();
+box2d.b2Vec2.s_t3 = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @export 
@@ -395,7 +395,7 @@ box2d.b2Vec2.s_t3 = new box2d.b2Vec2();
  */
 box2d.b2Vec2.MakeArray = function (length)
 {
-	return box2d.b2MakeArray(length, function (i) { return new box2d.b2Vec2(); });
+	return box2d.b2MakeArray(length, function (i) { return new box2d.b2Vec2(0.0, 0.0); });
 }
 
 /**
@@ -2251,7 +2251,7 @@ box2d.b2MulT_R_V2 = function (q, v, out)
  */
 box2d.b2Transform = function ()
 {
-	this.p = new box2d.b2Vec2();
+	this.p = new box2d.b2Vec2(0.0, 0.0);
 	this.q = new box2d.b2Rot();
 }
 
@@ -2510,9 +2510,9 @@ box2d.b2MulT_X_X = function (A, B, out)
  */
 box2d.b2Sweep = function ()
 {
-	this.localCenter = new box2d.b2Vec2();
-	this.c0 = new box2d.b2Vec2();
-	this.c = new box2d.b2Vec2();
+	this.localCenter = new box2d.b2Vec2(0.0, 0.0);
+	this.c0 = new box2d.b2Vec2(0.0, 0.0);
+	this.c = new box2d.b2Vec2(0.0, 0.0);
 };
 
 /**

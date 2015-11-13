@@ -102,7 +102,7 @@ box2d.b2AreaJoint = function (def)
 	this.m_normals = box2d.b2Vec2.MakeArray(def.bodies.length);
 	this.m_joints = new Array(def.bodies.length);
 	this.m_deltas = box2d.b2Vec2.MakeArray(def.bodies.length);
-	this.m_delta = new box2d.b2Vec2();
+	this.m_delta = new box2d.b2Vec2(0.0, 0.0);
 
 	var djd = new box2d.b2DistanceJointDef();
 	djd.frequencyHz = def.frequencyHz;

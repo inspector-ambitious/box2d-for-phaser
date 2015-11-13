@@ -27,8 +27,8 @@ box2d.g_blockSolve = true;
  */
 box2d.b2VelocityConstraintPoint = function ()
 {
-	this.rA = new box2d.b2Vec2();
-	this.rB = new box2d.b2Vec2();
+	this.rA = new box2d.b2Vec2(0.0, 0.0);
+	this.rB = new box2d.b2Vec2(0.0, 0.0);
 };
 
 /**
@@ -84,8 +84,8 @@ box2d.b2VelocityConstraintPoint.MakeArray = function (length)
 box2d.b2ContactVelocityConstraint = function ()
 {
 	this.points = box2d.b2VelocityConstraintPoint.MakeArray(box2d.b2_maxManifoldPoints);
-	this.normal = new box2d.b2Vec2();
-	this.tangent = new box2d.b2Vec2();
+	this.normal = new box2d.b2Vec2(0.0, 0.0);
+	this.tangent = new box2d.b2Vec2(0.0, 0.0);
 	this.normalMass = new box2d.b2Mat22();
 	this.K = new box2d.b2Mat22();
 }
@@ -188,10 +188,10 @@ box2d.b2ContactVelocityConstraint.MakeArray = function (length)
 box2d.b2ContactPositionConstraint = function ()
 {
 	this.localPoints = box2d.b2Vec2.MakeArray(box2d.b2_maxManifoldPoints);
-	this.localNormal = new box2d.b2Vec2();
-	this.localPoint = new box2d.b2Vec2();
-	this.localCenterA = new box2d.b2Vec2();
-	this.localCenterB = new box2d.b2Vec2();
+	this.localNormal = new box2d.b2Vec2(0.0, 0.0);
+	this.localPoint = new box2d.b2Vec2(0.0, 0.0);
+	this.localCenterA = new box2d.b2Vec2(0.0, 0.0);
+	this.localCenterB = new box2d.b2Vec2(0.0, 0.0);
 };
 
 /**
@@ -794,7 +794,7 @@ box2d.b2ContactSolver.prototype.WarmStart = function ()
 		this.m_velocities[indexB].w = wB;
 	}
 }
-box2d.b2ContactSolver.prototype.WarmStart.s_P = new box2d.b2Vec2();
+box2d.b2ContactSolver.prototype.WarmStart.s_P = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @export 
@@ -1239,17 +1239,17 @@ box2d.b2ContactSolver.prototype.SolveVelocityConstraints = function ()
 		this.m_velocities[indexB].w = wB;
 	}
 }
-box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_dv = new box2d.b2Vec2();
-box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_dv1 = new box2d.b2Vec2();
-box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_dv2 = new box2d.b2Vec2();
-box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_P = new box2d.b2Vec2();
-box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_a = new box2d.b2Vec2();
-box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_b = new box2d.b2Vec2();
-box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_x = new box2d.b2Vec2();
-box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_d = new box2d.b2Vec2();
-box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_P1 = new box2d.b2Vec2();
-box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_P2 = new box2d.b2Vec2();
-box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_P1P2 = new box2d.b2Vec2();
+box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_dv = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_dv1 = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_dv2 = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_P = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_a = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_b = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_x = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_d = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_P1 = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_P2 = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_P1P2 = new box2d.b2Vec2(0.0, 0.0);
 
 /**
  * @export 
@@ -1284,8 +1284,8 @@ box2d.b2ContactSolver.prototype.StoreImpulses = function ()
  */
 box2d.b2PositionSolverManifold = function ()
 {
-	this.normal = new box2d.b2Vec2();
-	this.point = new box2d.b2Vec2();
+	this.normal = new box2d.b2Vec2(0.0, 0.0);
+	this.point = new box2d.b2Vec2(0.0, 0.0);
 }
 
 /**
@@ -1376,10 +1376,10 @@ box2d.b2PositionSolverManifold.prototype.Initialize = function (pc, xfA, xfB, in
 		break;
 	}
 }
-box2d.b2PositionSolverManifold.prototype.Initialize.s_pointA = new box2d.b2Vec2();
-box2d.b2PositionSolverManifold.prototype.Initialize.s_pointB = new box2d.b2Vec2();
-box2d.b2PositionSolverManifold.prototype.Initialize.s_planePoint = new box2d.b2Vec2();
-box2d.b2PositionSolverManifold.prototype.Initialize.s_clipPoint = new box2d.b2Vec2();
+box2d.b2PositionSolverManifold.prototype.Initialize.s_pointA = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2PositionSolverManifold.prototype.Initialize.s_pointB = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2PositionSolverManifold.prototype.Initialize.s_planePoint = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2PositionSolverManifold.prototype.Initialize.s_clipPoint = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * Sequential solver. 
@@ -1516,9 +1516,9 @@ box2d.b2ContactSolver.prototype.SolvePositionConstraints = function ()
 box2d.b2ContactSolver.prototype.SolvePositionConstraints.s_xfA = new box2d.b2Transform();
 box2d.b2ContactSolver.prototype.SolvePositionConstraints.s_xfB = new box2d.b2Transform();
 box2d.b2ContactSolver.prototype.SolvePositionConstraints.s_psm = new box2d.b2PositionSolverManifold();
-box2d.b2ContactSolver.prototype.SolvePositionConstraints.s_rA = new box2d.b2Vec2();
-box2d.b2ContactSolver.prototype.SolvePositionConstraints.s_rB = new box2d.b2Vec2();
-box2d.b2ContactSolver.prototype.SolvePositionConstraints.s_P = new box2d.b2Vec2();
+box2d.b2ContactSolver.prototype.SolvePositionConstraints.s_rA = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ContactSolver.prototype.SolvePositionConstraints.s_rB = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ContactSolver.prototype.SolvePositionConstraints.s_P = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * Sequential position solver for position constraints. 
@@ -1668,7 +1668,7 @@ box2d.b2ContactSolver.prototype.SolveTOIPositionConstraints = function (toiIndex
 box2d.b2ContactSolver.prototype.SolveTOIPositionConstraints.s_xfA = new box2d.b2Transform();
 box2d.b2ContactSolver.prototype.SolveTOIPositionConstraints.s_xfB = new box2d.b2Transform();
 box2d.b2ContactSolver.prototype.SolveTOIPositionConstraints.s_psm = new box2d.b2PositionSolverManifold();
-box2d.b2ContactSolver.prototype.SolveTOIPositionConstraints.s_rA = new box2d.b2Vec2();
-box2d.b2ContactSolver.prototype.SolveTOIPositionConstraints.s_rB = new box2d.b2Vec2();
-box2d.b2ContactSolver.prototype.SolveTOIPositionConstraints.s_P = new box2d.b2Vec2();
+box2d.b2ContactSolver.prototype.SolveTOIPositionConstraints.s_rA = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ContactSolver.prototype.SolveTOIPositionConstraints.s_rB = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2ContactSolver.prototype.SolveTOIPositionConstraints.s_P = new box2d.b2Vec2(0.0, 0.0);
 

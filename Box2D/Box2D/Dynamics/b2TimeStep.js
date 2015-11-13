@@ -156,7 +156,7 @@ box2d.b2TimeStep.prototype.Copy = function (step)
  */
 box2d.b2Position = function ()
 {
-	this.c = new box2d.b2Vec2();
+	this.c = new box2d.b2Vec2(0.0, 0.0);
 };
 
 /**
@@ -187,7 +187,7 @@ box2d.b2Position.MakeArray = function (length)
  */
 box2d.b2Velocity = function ()
 {
-	this.v = new box2d.b2Vec2();
+	this.v = new box2d.b2Vec2(0.0, 0.0);
 };
 
 /**

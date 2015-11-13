@@ -29,9 +29,9 @@ box2d.b2BuoyancyController = function ()
 {
 	box2d.b2Controller.apply(this, arguments);  // base class constructor
 
-	this.normal = new box2d.b2Vec2(0, 1);
-	this.velocity = new box2d.b2Vec2(0, 0);
-	this.gravity = new box2d.b2Vec2(0, 0);
+	this.normal = new box2d.b2Vec2(0.0, 1.0);
+	this.velocity = new box2d.b2Vec2(0.0, 0.0);
+	this.gravity = new box2d.b2Vec2(0.0, 0.0);
 };
 
 box2d.b2BuoyancyController.prototype = Object.create(box2d.b2Controller.prototype);
@@ -115,13 +115,13 @@ box2d.b2BuoyancyController.prototype.Step = function (step)
 			//so unlike most forces, it is safe to ignore sleeping bodes
 			continue;
 		}
-		var areac = new box2d.b2Vec2();
-		var massc = new box2d.b2Vec2();
+		var areac = new box2d.b2Vec2(0.0, 0.0);
+		var massc = new box2d.b2Vec2(0.0, 0.0);
 		var area = 0;
 		var mass = 0;
 		for (var fixture = body.GetFixtureList(); fixture; fixture = fixture.m_next)
 		{
-			var sc = new box2d.b2Vec2();
+			var sc = new box2d.b2Vec2(0.0, 0.0);
 			var sarea = fixture.GetShape().ComputeSubmergedArea(this.normal, this.offset, body.GetTransform(), sc);
 			area += sarea;
 			areac.x += sarea * sc.x;
@@ -152,7 +152,7 @@ box2d.b2BuoyancyController.prototype.Step = function (step)
 		buoyancyForce.SelfMul(this.density * area);
 		body.ApplyForce(buoyancyForce, massc);
 		//Linear drag
-		var dragForce = body.GetLinearVelocityFromWorldPoint(areac, new box2d.b2Vec2());
+		var dragForce = body.GetLinearVelocityFromWorldPoint(areac, new box2d.b2Vec2(0.0, 0.0));
 		dragForce.SelfSub(this.velocity);
 		dragForce.SelfMul((-this.linearDrag * area));
 		body.ApplyForce(dragForce, areac);
@@ -171,8 +171,8 @@ box2d.b2BuoyancyController.prototype.Step = function (step)
 box2d.b2BuoyancyController.prototype.Draw = function (debugDraw)
 {
 	var r = 100;
-	var p1 = new box2d.b2Vec2();
-	var p2 = new box2d.b2Vec2();
+	var p1 = new box2d.b2Vec2(0.0, 0.0);
+	var p2 = new box2d.b2Vec2(0.0, 0.0);
 	p1.x = this.normal.x * this.offset + this.normal.y * r;
 	p1.y = this.normal.y * this.offset - this.normal.x * r;
 	p2.x = this.normal.x * this.offset - this.normal.y * r;

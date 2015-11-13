@@ -24,7 +24,7 @@
  */
 box2d.b2MassData = function ()
 {
-	this.center = new box2d.b2Vec2(0, 0);
+	this.center = new box2d.b2Vec2(0.0, 0.0);
 };
 
 /** 

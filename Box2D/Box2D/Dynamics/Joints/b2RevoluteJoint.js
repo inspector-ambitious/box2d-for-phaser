@@ -36,8 +36,8 @@ box2d.b2RevoluteJointDef = function ()
 {
 	box2d.b2JointDef.call(this, box2d.b2JointType.e_revoluteJoint); // base class constructor
 
-	this.localAnchorA = new box2d.b2Vec2(0, 0);
-	this.localAnchorB = new box2d.b2Vec2(0, 0);
+	this.localAnchorA = new box2d.b2Vec2(0.0, 0.0);
+	this.localAnchorB = new box2d.b2Vec2(0.0, 0.0);
 }
 
 box2d.b2RevoluteJointDef.prototype = Object.create(box2d.b2JointDef.prototype);
@@ -142,20 +142,20 @@ box2d.b2RevoluteJoint = function (def)
 {
 	box2d.b2Joint.call(this, def); // base class constructor
 
-	this.m_localAnchorA = new box2d.b2Vec2();
-	this.m_localAnchorB = new box2d.b2Vec2();
+	this.m_localAnchorA = new box2d.b2Vec2(0.0, 0.0);
+	this.m_localAnchorB = new box2d.b2Vec2(0.0, 0.0);
 	this.m_impulse = new box2d.b2Vec3();
 
-	this.m_rA = new box2d.b2Vec2();
-	this.m_rB = new box2d.b2Vec2();
-	this.m_localCenterA = new box2d.b2Vec2();
-	this.m_localCenterB = new box2d.b2Vec2();
+	this.m_rA = new box2d.b2Vec2(0.0, 0.0);
+	this.m_rB = new box2d.b2Vec2(0.0, 0.0);
+	this.m_localCenterA = new box2d.b2Vec2(0.0, 0.0);
+	this.m_localCenterB = new box2d.b2Vec2(0.0, 0.0);
 	this.m_mass = new box2d.b2Mat33();
 
 	this.m_qA = new box2d.b2Rot();
 	this.m_qB = new box2d.b2Rot();
-	this.m_lalcA = new box2d.b2Vec2();
-	this.m_lalcB = new box2d.b2Vec2();
+	this.m_lalcA = new box2d.b2Vec2(0.0, 0.0);
+	this.m_lalcB = new box2d.b2Vec2(0.0, 0.0);
 	this.m_K = new box2d.b2Mat22();
 
 	this.m_localAnchorA.Copy(def.localAnchorA);
@@ -459,7 +459,7 @@ box2d.b2RevoluteJoint.prototype.InitVelocityConstraints = function (data)
 //	data.velocities[this.m_indexB].v = vB;
 	data.velocities[this.m_indexB].w = wB;
 }
-box2d.b2RevoluteJoint.prototype.InitVelocityConstraints.s_P = new box2d.b2Vec2();
+box2d.b2RevoluteJoint.prototype.InitVelocityConstraints.s_P = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * @export 
@@ -592,12 +592,12 @@ box2d.b2RevoluteJoint.prototype.SolveVelocityConstraints = function (data)
 //	data.velocities[this.m_indexB].v = vB;
 	data.velocities[this.m_indexB].w = wB;
 }
-box2d.b2RevoluteJoint.prototype.SolveVelocityConstraints.s_P = new box2d.b2Vec2();
-box2d.b2RevoluteJoint.prototype.SolveVelocityConstraints.s_Cdot = new box2d.b2Vec2();
-box2d.b2RevoluteJoint.prototype.SolveVelocityConstraints.s_Cdot1 = new box2d.b2Vec2();
+box2d.b2RevoluteJoint.prototype.SolveVelocityConstraints.s_P = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2RevoluteJoint.prototype.SolveVelocityConstraints.s_Cdot = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2RevoluteJoint.prototype.SolveVelocityConstraints.s_Cdot1 = new box2d.b2Vec2(0.0, 0.0);
 box2d.b2RevoluteJoint.prototype.SolveVelocityConstraints.s_impulse3 = new box2d.b2Vec3();
-box2d.b2RevoluteJoint.prototype.SolveVelocityConstraints.s_reduced = new box2d.b2Vec2();
-box2d.b2RevoluteJoint.prototype.SolveVelocityConstraints.s_impulse2 = new box2d.b2Vec2();
+box2d.b2RevoluteJoint.prototype.SolveVelocityConstraints.s_reduced = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2RevoluteJoint.prototype.SolveVelocityConstraints.s_impulse2 = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * @export 
@@ -702,8 +702,8 @@ box2d.b2RevoluteJoint.prototype.SolvePositionConstraints = function (data)
 	
 	return positionError <= box2d.b2_linearSlop && angularError <= box2d.b2_angularSlop;
 }
-box2d.b2RevoluteJoint.prototype.SolvePositionConstraints.s_C = new box2d.b2Vec2();
-box2d.b2RevoluteJoint.prototype.SolvePositionConstraints.s_impulse = new box2d.b2Vec2();
+box2d.b2RevoluteJoint.prototype.SolvePositionConstraints.s_C = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2RevoluteJoint.prototype.SolvePositionConstraints.s_impulse = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * @export 

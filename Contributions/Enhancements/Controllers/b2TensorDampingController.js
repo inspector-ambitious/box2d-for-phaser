@@ -97,7 +97,7 @@ box2d.b2TensorDampingController.prototype.Step = function (step)
 		body.SetLinearVelocity(box2d.b2Add_V2_V2(body.GetLinearVelocity(), box2d.b2Mul_S_V2(timestep, damping, box2d.b2Vec2.s_t0), box2d.b2Vec2.s_t1));
 	}
 }
-box2d.b2TensorDampingController.prototype.Step.s_damping = new box2d.b2Vec2();
+box2d.b2TensorDampingController.prototype.Step.s_damping = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * Sets damping independantly along the x and y axes 

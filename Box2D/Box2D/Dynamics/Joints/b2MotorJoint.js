@@ -26,7 +26,7 @@ box2d.b2MotorJointDef = function ()
 {
 	box2d.b2JointDef.call(this, box2d.b2JointType.e_motorJoint); // base class constructor
 
-	this.linearOffset = new box2d.b2Vec2(0, 0);
+	this.linearOffset = new box2d.b2Vec2(0.0, 0.0);
 }
 
 box2d.b2MotorJointDef.prototype = Object.create(box2d.b2JointDef.prototype);
@@ -100,16 +100,16 @@ box2d.b2MotorJoint = function (def)
 	box2d.b2Joint.call(this, def); // base class constructor
 
 	this.m_linearOffset = def.linearOffset.Clone();
-	this.m_linearImpulse = new box2d.b2Vec2(0, 0);
+	this.m_linearImpulse = new box2d.b2Vec2(0.0, 0.0);
 	this.m_maxForce = def.maxForce;
 	this.m_maxTorque = def.maxTorque;
 	this.m_correctionFactor = def.correctionFactor;
 
-	this.m_rA = new box2d.b2Vec2(0, 0);
-	this.m_rB = new box2d.b2Vec2(0, 0);
-	this.m_localCenterA = new box2d.b2Vec2(0, 0);
-	this.m_localCenterB = new box2d.b2Vec2(0, 0);
-	this.m_linearError = new box2d.b2Vec2(0, 0);
+	this.m_rA = new box2d.b2Vec2(0.0, 0.0);
+	this.m_rB = new box2d.b2Vec2(0.0, 0.0);
+	this.m_localCenterA = new box2d.b2Vec2(0.0, 0.0);
+	this.m_localCenterB = new box2d.b2Vec2(0.0, 0.0);
+	this.m_linearError = new box2d.b2Vec2(0.0, 0.0);
 	this.m_linearMass = new box2d.b2Mat22();
 
 	this.m_qA = new box2d.b2Rot();
@@ -578,9 +578,9 @@ box2d.b2MotorJoint.prototype.SolveVelocityConstraints = function (data)
 //	data.velocities[this.m_indexB].v = vB; // vB is a reference
 	data.velocities[this.m_indexB].w = wB;
 }
-box2d.b2MotorJoint.prototype.SolveVelocityConstraints.s_Cdot = new box2d.b2Vec2();
-box2d.b2MotorJoint.prototype.SolveVelocityConstraints.s_impulse = new box2d.b2Vec2();
-box2d.b2MotorJoint.prototype.SolveVelocityConstraints.s_oldImpulse = new box2d.b2Vec2();
+box2d.b2MotorJoint.prototype.SolveVelocityConstraints.s_Cdot = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2MotorJoint.prototype.SolveVelocityConstraints.s_impulse = new box2d.b2Vec2(0.0, 0.0);
+box2d.b2MotorJoint.prototype.SolveVelocityConstraints.s_oldImpulse = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * @export 

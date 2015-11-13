@@ -617,7 +617,7 @@ box2d.b2Fixture.prototype.Synchronize = function (broadPhase, transform1, transf
 }
 box2d.b2Fixture.prototype.Synchronize.s_aabb1 = new box2d.b2AABB();
 box2d.b2Fixture.prototype.Synchronize.s_aabb2 = new box2d.b2AABB();
-box2d.b2Fixture.prototype.Synchronize.s_displacement = new box2d.b2Vec2();
+box2d.b2Fixture.prototype.Synchronize.s_displacement = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
  * Set the contact filtering data. This will not update contacts 
