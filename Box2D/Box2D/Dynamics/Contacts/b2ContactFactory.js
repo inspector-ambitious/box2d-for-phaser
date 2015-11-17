@@ -44,18 +44,16 @@ box2d.b2ContactFactory.prototype.m_allocator = null;
 /**
  * @export
  * @return {void}
- * @param createFcn
- * @param destroyFcn
  * @param {box2d.b2ShapeType} type1
  * @param {box2d.b2ShapeType} type2
  */
-box2d.b2ContactFactory.prototype.AddType = function (createFcn, destroyFcn, type1, type2)
+box2d.b2ContactFactory.prototype.AddType = function (type1, type2)
 {
 
 	var pool = [];
 
 	for (var i = 0; i < 256; i++) { // TODO: b2Settings
-		pool[i] = createFcn();
+		pool[i] = new box2d.b2Contact(type1, type2);
 	}
 	
 
@@ -66,7 +64,7 @@ box2d.b2ContactFactory.prototype.AddType = function (createFcn, destroyFcn, type
 			return pool.pop();
 		}
 
-		return createFcn(allocator);
+		return new box2d.b2Contact(type1, type2);
 	}
 
 	var poolDestroyFcn = function (contact, allocator)
@@ -119,13 +117,13 @@ box2d.b2ContactFactory.prototype.InitializeRegisters = function ()
 		}
 	}
 
-	this.AddType(box2d.b2CircleContact.Create, box2d.b2CircleContact.Destroy, box2d.b2ShapeType.e_circleShape, box2d.b2ShapeType.e_circleShape);
-	this.AddType(box2d.b2PolygonAndCircleContact.Create, box2d.b2PolygonAndCircleContact.Destroy, box2d.b2ShapeType.e_polygonShape, box2d.b2ShapeType.e_circleShape);
-	this.AddType(box2d.b2PolygonContact.Create, box2d.b2PolygonContact.Destroy, box2d.b2ShapeType.e_polygonShape, box2d.b2ShapeType.e_polygonShape);
-	this.AddType(box2d.b2EdgeAndCircleContact.Create, box2d.b2EdgeAndCircleContact.Destroy, box2d.b2ShapeType.e_edgeShape, box2d.b2ShapeType.e_circleShape);
-	this.AddType(box2d.b2EdgeAndPolygonContact.Create, box2d.b2EdgeAndPolygonContact.Destroy, box2d.b2ShapeType.e_edgeShape, box2d.b2ShapeType.e_polygonShape);
-	this.AddType(box2d.b2ChainAndCircleContact.Create, box2d.b2ChainAndCircleContact.Destroy, box2d.b2ShapeType.e_chainShape, box2d.b2ShapeType.e_circleShape);
-	this.AddType(box2d.b2ChainAndPolygonContact.Create, box2d.b2ChainAndPolygonContact.Destroy, box2d.b2ShapeType.e_chainShape, box2d.b2ShapeType.e_polygonShape);
+	this.AddType(box2d.b2ShapeType.e_circleShape, box2d.b2ShapeType.e_circleShape);
+	this.AddType(box2d.b2ShapeType.e_polygonShape, box2d.b2ShapeType.e_circleShape);
+	this.AddType(box2d.b2ShapeType.e_polygonShape, box2d.b2ShapeType.e_polygonShape);
+	this.AddType(box2d.b2ShapeType.e_edgeShape, box2d.b2ShapeType.e_circleShape);
+	this.AddType(box2d.b2ShapeType.e_edgeShape, box2d.b2ShapeType.e_polygonShape);
+	this.AddType(box2d.b2ShapeType.e_chainShape, box2d.b2ShapeType.e_circleShape);
+	this.AddType(box2d.b2ShapeType.e_chainShape, box2d.b2ShapeType.e_polygonShape);
 }
 
 /**
@@ -197,4 +195,3 @@ box2d.b2ContactFactory.prototype.Destroy = function (contact)
 	var destroyFcn = reg.destroyFcn;
 	destroyFcn(contact, this.m_allocator);
 }
-

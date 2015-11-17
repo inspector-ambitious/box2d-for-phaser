@@ -23,15 +23,8 @@
 ../../../Box2D/Box2D/Dynamics/b2TimeStep.js \
 ../../../Box2D/Box2D/Dynamics/b2WorldCallbacks.js \
 ../../../Box2D/Box2D/Dynamics/Contacts/b2Contact.js \
-../../../Box2D/Box2D/Dynamics/Contacts/b2ChainAndCircleContact.js \
-../../../Box2D/Box2D/Dynamics/Contacts/b2ChainAndPolygonContact.js \
-../../../Box2D/Box2D/Dynamics/Contacts/b2CircleContact.js \
 ../../../Box2D/Box2D/Dynamics/Contacts/b2ContactFactory.js \
 ../../../Box2D/Box2D/Dynamics/b2ContactManager.js \
-../../../Box2D/Box2D/Dynamics/Contacts/b2EdgeAndCircleContact.js \
-../../../Box2D/Box2D/Dynamics/Contacts/b2EdgeAndPolygonContact.js \
-../../../Box2D/Box2D/Dynamics/Contacts/b2PolygonAndCircleContact.js \
-../../../Box2D/Box2D/Dynamics/Contacts/b2PolygonContact.js \
 ../../../Box2D/Box2D/Dynamics/Contacts/b2ContactSolver.js \
 ../../../Box2D/Box2D/Dynamics/b2Island.js \
 ../../../Box2D/Box2D/Dynamics/Joints/b2Joint.js \

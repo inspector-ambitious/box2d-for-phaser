@@ -77,13 +77,15 @@ box2d.b2ContactEdge = function ()
  * @export
  * @constructor
  */
-box2d.b2Contact = function ()
+box2d.b2Contact = function (shapeTypeA, shapeTypeB)
 {
 	this.m_nodeA = new box2d.b2ContactEdge();
 	this.m_nodeB = new box2d.b2ContactEdge();
 	this.m_manifold = new box2d.b2Manifold();
 	this.m_oldManifold = new box2d.b2Manifold();
 
+	this.shapeTypeA = shapeTypeA;
+	this.shapeTypeB = shapeTypeB;
 	/**
 	 * @export
 	 * @type {boolean}
@@ -299,6 +301,87 @@ box2d.b2Contact.prototype.GetChildIndexB = function ()
  */
 box2d.b2Contact.prototype.Evaluate = function (manifold, xfA, xfB)
 {
+	var shapeA = this.m_fixtureA.GetShape();
+	var shapeB = this.m_fixtureB.GetShape();
+	
+	// circle contact
+	if (this.shapeTypeA === box2d.b2ShapeType.e_circleShape && this.shapeTypeB === box2d.b2ShapeType.e_circleShape) {
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(shapeA instanceof box2d.b2CircleShape); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(shapeB instanceof box2d.b2CircleShape); }
+		box2d.b2CollideCircles(
+			manifold, 
+			(shapeA instanceof box2d.b2CircleShape)? shapeA : null, xfA, 
+			(shapeB instanceof box2d.b2CircleShape)? shapeB : null, xfB);
+	}
+	
+	// polygon and circle contact
+	if (this.shapeTypeA === box2d.b2ShapeType.e_polygonShape && this.shapeTypeB === box2d.b2ShapeType.e_circleShape) {
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(shapeA instanceof box2d.b2PolygonShape); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(shapeB instanceof box2d.b2CircleShape); }
+		box2d.b2CollidePolygonAndCircle(
+			manifold, 
+			(shapeA instanceof box2d.b2PolygonShape)? shapeA : null, xfA, 
+			(shapeB instanceof box2d.b2CircleShape)? shapeB : null, xfB);
+	}
+	
+	
+	// polygon contact
+	if (this.shapeTypeA === box2d.b2ShapeType.e_polygonShape && this.shapeTypeB === box2d.b2ShapeType.e_polygonShape) {
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(shapeA instanceof box2d.b2PolygonShape); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(shapeB instanceof box2d.b2PolygonShape); }
+		box2d.b2CollidePolygons(
+			manifold, 
+			(shapeA instanceof box2d.b2PolygonShape)? shapeA : null, xfA, 
+			(shapeB instanceof box2d.b2PolygonShape)? shapeB : null, xfB);
+	}
+	
+
+	// edge and circle contact
+	if (this.shapeTypeA === box2d.b2ShapeType.e_edgeShape && this.shapeTypeB === box2d.b2ShapeType.e_circleShape) {
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(shapeA instanceof box2d.b2EdgeShape); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(shapeB instanceof box2d.b2CircleShape); }
+		box2d.b2CollideEdgeAndCircle(
+			manifold, 
+			(shapeA instanceof box2d.b2EdgeShape)? shapeA : null, xfA, 
+			(shapeB instanceof box2d.b2CircleShape)? shapeB : null, xfB);
+	}
+	
+	// edge and polygon contact
+	if (this.shapeTypeA === box2d.b2ShapeType.e_edgeShape && this.shapeTypeB === box2d.b2ShapeType.e_polygonShape) {
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(shapeA instanceof box2d.b2EdgeShape); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(shapeB instanceof box2d.b2PolygonShape); }
+		box2d.b2CollideEdgeAndPolygon(
+			manifold, 
+			(shapeA instanceof box2d.b2EdgeShape)? shapeA : null, xfA, 
+			(shapeB instanceof box2d.b2PolygonShape)? shapeB : null, xfB);
+	}
+	
+
+	// chain and circle contact
+	if (this.shapeTypeA === box2d.b2ShapeType.e_chainShape && this.shapeTypeB === box2d.b2ShapeType.e_circleShape) {
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(shapeA instanceof box2d.b2ChainShape); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(shapeB instanceof box2d.b2CircleShape); }
+		/*box2d.b2ChainShape*/ var chain = (shapeA instanceof box2d.b2ChainShape)? shapeA : null;
+		/*box2d.b2EdgeShape*/ var edge = box2d.b2ChainAndCircleContact.prototype.Evaluate.s_edge;
+		chain.GetChildEdge(edge, this.m_indexA);
+		box2d.b2CollideEdgeAndCircle(
+			manifold, 
+			edge, xfA, 
+			(shapeB instanceof box2d.b2CircleShape)? shapeB : null, xfB);
+	}
+	
+	if (this.shapeTypeA === box2d.b2ShapeType.e_chainShape && this.shapeTypeB === box2d.b2ShapeType.e_polygonShape) {
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(shapeA instanceof box2d.b2ChainShape); }
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(shapeB instanceof box2d.b2PolygonShape); }
+		/*box2d.b2ChainShape*/ var chain = (shapeA instanceof box2d.b2ChainShape)? shapeA : null;
+		/*box2d.b2EdgeShape*/ var edge = box2d.b2ChainAndPolygonContact.prototype.Evaluate.s_edge;
+		chain.GetChildEdge(edge, this.m_indexA);
+		box2d.b2CollideEdgeAndPolygon(
+			manifold, 
+			edge, xfA, 
+			(shapeB instanceof box2d.b2PolygonShape)? shapeB : null, xfB);
+	}
+		
 }
 
 /**
@@ -564,4 +647,3 @@ box2d.b2Contact.prototype.ComputeTOI = function (sweepA, sweepB)
 }
 box2d.b2Contact.prototype.ComputeTOI.s_input = new box2d.b2TOIInput();
 box2d.b2Contact.prototype.ComputeTOI.s_output = new box2d.b2TOIOutput();
-
