@@ -144,8 +144,8 @@ box2d.b2WheelJoint = function (def)
 
 	this.m_ax = new box2d.b2Vec2(0.0, 0.0), this.m_ay = new box2d.b2Vec2(0.0, 0.0);
 
-	this.m_qA = new box2d.b2Rot();
-	this.m_qB = new box2d.b2Rot();
+	this.m_qA = new box2d.b2Rot(0.0);
+	this.m_qB = new box2d.b2Rot(0.0);
 	this.m_lalcA = new box2d.b2Vec2(0.0, 0.0);
 	this.m_lalcB = new box2d.b2Vec2(0.0, 0.0);
 	this.m_rA = new box2d.b2Vec2(0.0, 0.0);

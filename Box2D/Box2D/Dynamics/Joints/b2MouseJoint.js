@@ -89,7 +89,7 @@ box2d.b2MouseJoint = function (def)
 	this.m_localCenterB = new box2d.b2Vec2(0.0, 0.0);
 	this.m_mass = new box2d.b2Mat22();
 	this.m_C = new box2d.b2Vec2(0.0, 0.0);
-	this.m_qB = new box2d.b2Rot();
+	this.m_qB = new box2d.b2Rot(0.0);
 	this.m_lalcB = new box2d.b2Vec2(0.0, 0.0);
 	this.m_K = new box2d.b2Mat22();
 

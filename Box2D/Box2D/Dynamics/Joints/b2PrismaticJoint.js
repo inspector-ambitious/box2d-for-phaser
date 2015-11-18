@@ -166,8 +166,8 @@ box2d.b2PrismaticJoint = function (def)
 	this.m_K3 = new box2d.b2Mat33();
 	this.m_K2 = new box2d.b2Mat22();
 
-	this.m_qA = new box2d.b2Rot();
-	this.m_qB = new box2d.b2Rot();
+	this.m_qA = new box2d.b2Rot(0.0);
+	this.m_qB = new box2d.b2Rot(0.0);
 	this.m_lalcA = new box2d.b2Vec2(0.0, 0.0);
 	this.m_lalcB = new box2d.b2Vec2(0.0, 0.0);
 	this.m_rA = new box2d.b2Vec2(0.0, 0.0);

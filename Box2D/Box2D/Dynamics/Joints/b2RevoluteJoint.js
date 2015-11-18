@@ -152,8 +152,8 @@ box2d.b2RevoluteJoint = function (def)
 	this.m_localCenterB = new box2d.b2Vec2(0.0, 0.0);
 	this.m_mass = new box2d.b2Mat33();
 
-	this.m_qA = new box2d.b2Rot();
-	this.m_qB = new box2d.b2Rot();
+	this.m_qA = new box2d.b2Rot(0.0);
+	this.m_qB = new box2d.b2Rot(0.0);
 	this.m_lalcA = new box2d.b2Vec2(0.0, 0.0);
 	this.m_lalcB = new box2d.b2Vec2(0.0, 0.0);
 	this.m_K = new box2d.b2Mat22();

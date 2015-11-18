@@ -6183,7 +6183,7 @@ box2d.b2ParticleSystem.prototype.SolveRigid = function (step)
 	}
 }
 box2d.b2ParticleSystem.prototype.SolveRigid.s_position = new box2d.b2Vec2(0.0, 0.0);
-box2d.b2ParticleSystem.prototype.SolveRigid.s_rotation = new box2d.b2Rot();
+box2d.b2ParticleSystem.prototype.SolveRigid.s_rotation = new box2d.b2Rot(0.0);
 box2d.b2ParticleSystem.prototype.SolveRigid.s_transform = new box2d.b2Transform();
 box2d.b2ParticleSystem.prototype.SolveRigid.s_velocityTransform = new box2d.b2Transform();
 
@@ -6274,7 +6274,7 @@ box2d.b2ParticleSystem.prototype.SolveElastic = function (step)
 box2d.b2ParticleSystem.prototype.SolveElastic.s_pa = new box2d.b2Vec2(0.0, 0.0);
 box2d.b2ParticleSystem.prototype.SolveElastic.s_pb = new box2d.b2Vec2(0.0, 0.0);
 box2d.b2ParticleSystem.prototype.SolveElastic.s_pc = new box2d.b2Vec2(0.0, 0.0);
-box2d.b2ParticleSystem.prototype.SolveElastic.s_r = new box2d.b2Rot();
+box2d.b2ParticleSystem.prototype.SolveElastic.s_r = new box2d.b2Rot(0.0);
 box2d.b2ParticleSystem.prototype.SolveElastic.s_t0 = new box2d.b2Vec2(0.0, 0.0);
 
 /**

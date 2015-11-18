@@ -100,8 +100,8 @@ box2d.b2FrictionJoint = function (def)
 	this.m_localCenterB = new box2d.b2Vec2(0.0, 0.0);
 	this.m_linearMass = new box2d.b2Mat22().SetZero();
 
-	this.m_qA = new box2d.b2Rot();
-	this.m_qB = new box2d.b2Rot();
+	this.m_qA = new box2d.b2Rot(0.0);
+	this.m_qB = new box2d.b2Rot(0.0);
 	this.m_lalcA = new box2d.b2Vec2(0.0, 0.0);
 	this.m_lalcB = new box2d.b2Vec2(0.0, 0.0);
 	this.m_K = new box2d.b2Mat22();

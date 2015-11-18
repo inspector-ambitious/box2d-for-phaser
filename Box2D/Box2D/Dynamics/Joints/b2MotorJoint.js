@@ -112,8 +112,8 @@ box2d.b2MotorJoint = function (def)
 	this.m_linearError = new box2d.b2Vec2(0.0, 0.0);
 	this.m_linearMass = new box2d.b2Mat22();
 
-	this.m_qA = new box2d.b2Rot();
-	this.m_qB = new box2d.b2Rot();
+	this.m_qA = new box2d.b2Rot(0.0);
+	this.m_qB = new box2d.b2Rot(0.0);
 	this.m_K = new box2d.b2Mat22();
 }
 

@@ -87,7 +87,7 @@ box2d.b2GearJoint = function (def)
 	this.m_lcA = new box2d.b2Vec2(0.0, 0.0), this.m_lcB = new box2d.b2Vec2(0.0, 0.0), this.m_lcC = new box2d.b2Vec2(0.0, 0.0), this.m_lcD = new box2d.b2Vec2(0.0, 0.0);
 	this.m_JvAC = new box2d.b2Vec2(0.0, 0.0), this.m_JvBD = new box2d.b2Vec2(0.0, 0.0);
 
-	this.m_qA = new box2d.b2Rot(), this.m_qB = new box2d.b2Rot(), this.m_qC = new box2d.b2Rot(), this.m_qD = new box2d.b2Rot();
+	this.m_qA = new box2d.b2Rot(0.0), this.m_qB = new box2d.b2Rot(0.0), this.m_qC = new box2d.b2Rot(0.0), this.m_qD = new box2d.b2Rot(0.0);
 	this.m_lalcA = new box2d.b2Vec2(0.0, 0.0), this.m_lalcB = new box2d.b2Vec2(0.0, 0.0), this.m_lalcC = new box2d.b2Vec2(0.0, 0.0), this.m_lalcD = new box2d.b2Vec2(0.0, 0.0);
 
 	this.m_typeA = this.m_joint1.GetType();

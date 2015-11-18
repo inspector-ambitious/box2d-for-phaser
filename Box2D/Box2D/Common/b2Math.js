@@ -1973,31 +1973,9 @@ box2d.b2Mul_M33_X_Y = function (A, x, y, out)
  */
 box2d.b2Rot = function (angle)
 {
-	/// Sine and cosine
-	if (angle)
-	{
-		/// TODO_ERIN optimize
-		this.angle = angle;
-		this.s = Math.sin(angle);
-		this.c = Math.cos(angle);
-	} else {
-		/**
-		 * @export 
-		 * @type {number} 
-		 */
-		this.angle = 0.0;
-		/**
-		 * @export 
-		 * @type {number} 
-		 */
-		this.s = 0.0;
-		/**
-		 * @export 
-		 * @type {number} 
-		 */
-		this.c = 1.0;
-	}
-
+	this.angle = angle;
+	this.s = Math.sin(angle);
+	this.c = Math.cos(angle);
 }
 
 
@@ -2006,7 +1984,7 @@ box2d.b2Rot = function (angle)
  * @const 
  * @type {box2d.b2Rot} 
  */
-box2d.b2Rot.IDENTITY = new box2d.b2Rot();
+box2d.b2Rot.IDENTITY = new box2d.b2Rot(0.0);
 
 /**
  * @export 
@@ -2014,7 +1992,7 @@ box2d.b2Rot.IDENTITY = new box2d.b2Rot();
  */
 box2d.b2Rot.prototype.Clone = function ()
 {
-	return new box2d.b2Rot().Copy(this);
+	return new box2d.b2Rot(0.0).Copy(this);
 }
 
 /** 
@@ -2201,7 +2179,7 @@ box2d.b2Transform = function ()
 	 * @export 
 	 * @type {box2d.b2Rot} 
 	 */
-	this.q = new box2d.b2Rot();
+	this.q = new box2d.b2Rot(0.0);
 }
 
 
@@ -2764,4 +2742,3 @@ box2d.b2MulT = function (a, b, out)
 		throw new Error();
 	}
 }
-
