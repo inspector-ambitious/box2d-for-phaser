@@ -16,16 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-/**
- * @export
- * @type {number}
- */
-box2d.b2_toiTime = 0.0;
-/**
- * @export
- * @type {number}
- */
-box2d.b2_toiMaxTime = 0.0;
+
 /**
  * @export
  * @type {number}
@@ -361,8 +352,6 @@ box2d.b2SeparationFunction.prototype.Evaluate = function (indexA, indexB, t)
  */
 box2d.b2TimeOfImpact = function (output, input)
 {
-	var timer = box2d.b2TimeOfImpact.s_timer.Reset();
-
 	++box2d.b2_toiCalls;
 
 	output.state = box2d.b2TOIOutputState.e_unknown;
@@ -592,12 +581,8 @@ box2d.b2TimeOfImpact = function (output, input)
 	}
 
 	box2d.b2_toiMaxIters = box2d.b2Max(box2d.b2_toiMaxIters, iter);
-
-	var time = timer.GetMilliseconds();
-	box2d.b2_toiMaxTime = box2d.b2Max(box2d.b2_toiMaxTime, time);
-	box2d.b2_toiTime += time;
 }
-box2d.b2TimeOfImpact.s_timer = new box2d.b2Timer();
+
 box2d.b2TimeOfImpact.s_cache = new box2d.b2SimplexCache();
 box2d.b2TimeOfImpact.s_distanceInput = new box2d.b2DistanceInput();
 box2d.b2TimeOfImpact.s_distanceOutput = new box2d.b2DistanceOutput();
@@ -613,4 +598,3 @@ box2d.b2TimeOfImpact.s_pointB = new box2d.b2Vec2(0.0, 0.0);
 box2d.b2TimeOfImpact.s_normal = new box2d.b2Vec2(0.0, 0.0);
 box2d.b2TimeOfImpact.s_axisA = new box2d.b2Vec2(0.0, 0.0);
 box2d.b2TimeOfImpact.s_axisB = new box2d.b2Vec2(0.0, 0.0);
-

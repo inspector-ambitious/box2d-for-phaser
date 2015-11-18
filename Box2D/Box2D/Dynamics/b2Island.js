@@ -336,15 +336,12 @@ box2d.b2Island.prototype.AddJoint = function (joint)
 /** 
  * @export 
  * @return {void} 
- * @param {box2d.b2Profile} profile 
  * @param {box2d.b2TimeStep} step 
  * @param {box2d.b2Vec2} gravity 
  * @param {boolean} allowSleep 
  */
-box2d.b2Island.prototype.Solve = function (profile, step, gravity, allowSleep)
+box2d.b2Island.prototype.Solve = function (step, gravity, allowSleep)
 {
-	/*box2d.b2Timer*/ var timer = box2d.b2Island.s_timer.Reset();
-
 	/*float32*/ var h = step.dt;
 
 	// Integrate velocities and apply damping. Initialize the body state.
@@ -385,8 +382,6 @@ box2d.b2Island.prototype.Solve = function (profile, step, gravity, allowSleep)
 		this.m_velocities[i].w = w;
 	}
 
-	timer.Reset();
-
 	// Solver data
 	/*box2d.b2SolverData*/ var solverData = box2d.b2Island.s_solverData;
 	solverData.step.Copy(step);
@@ -415,10 +410,6 @@ box2d.b2Island.prototype.Solve = function (profile, step, gravity, allowSleep)
 		this.m_joints[i].InitVelocityConstraints(solverData);
 	}
 
-	profile.solveInit = timer.GetMilliseconds();
-
-	// Solve velocity constraints.
-	timer.Reset();
 	for (var i = 0; i < step.velocityIterations; ++i)
 	{
 		for (var j = 0; j < this.m_jointCount; ++j)
@@ -431,7 +422,6 @@ box2d.b2Island.prototype.Solve = function (profile, step, gravity, allowSleep)
 
 	// Store impulses for warm starting
 	contactSolver.StoreImpulses();
-	profile.solveVelocity = timer.GetMilliseconds();
 
 	// Integrate positions.
 	for (var i = 0; i < this.m_bodyCount; ++i)
@@ -468,7 +458,6 @@ box2d.b2Island.prototype.Solve = function (profile, step, gravity, allowSleep)
 	}
 
 	// Solve position constraints
-	timer.Reset();
 	/*bool*/ var positionSolved = false;
 	for (var i = 0; i < step.positionIterations; ++i)
 	{
@@ -499,8 +488,6 @@ box2d.b2Island.prototype.Solve = function (profile, step, gravity, allowSleep)
 		body.m_angularVelocity = this.m_velocities[i].w;
 		body.SynchronizeTransform();
 	}
-
-	profile.solvePosition = timer.GetMilliseconds();
 
 	this.Report(contactSolver.m_velocityConstraints);
 
@@ -717,10 +704,8 @@ box2d.b2Island.prototype.Report = function (constraints)
 	}
 }
 
-box2d.b2Island.s_timer = new box2d.b2Timer();
 box2d.b2Island.s_solverData = new box2d.b2SolverData();
 box2d.b2Island.s_contactSolverDef = new box2d.b2ContactSolverDef();
 box2d.b2Island.s_contactSolver = new box2d.b2ContactSolver();
 box2d.b2Island.s_translation = new box2d.b2Vec2(0.0, 0.0);
 box2d.b2Island.s_impulse = new box2d.b2ContactImpulse();
-

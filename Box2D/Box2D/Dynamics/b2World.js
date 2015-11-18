@@ -30,7 +30,6 @@
  */
 box2d.b2World = function (gravity)
 {
-	this.m_flag_clearForces = true;
 
 	this.m_contactManager = new box2d.b2ContactManager();
 
@@ -47,8 +46,6 @@ box2d.b2World = function (gravity)
 
 	this.m_stepComplete = true;
 
-	this.m_profile = new box2d.b2Profile();
-
 	this.m_island = new box2d.b2Island();
 
 	this.s_stack = [];
@@ -59,154 +56,81 @@ box2d.b2World = function (gravity)
 	 */
 
 	this.m_bodyList = [];
+	
+	/**
+	 * @export 
+	 * @type {boolean}
+	 */
+	this.m_flag_newFixture = false;
+	
+	/**
+	 * @export 
+	 * @type {boolean}
+	 */
+	this.m_flag_locked = false;
+	/**
+	 * @export 
+	 * @type {boolean}
+	 */
+	this.m_flag_clearForces = true;
+	
+	
+	/**
+	 * @export 
+	 * @type {box2d.b2Joint}
+	 */
+	this.m_jointList = null;
+	
+	//#if B2_ENABLE_PARTICLE
+	
+	/**
+	 * @export 
+	 * @type {box2d.b2ParticleSystem}
+	 */
+	this.m_particleSystemList = null;
 
+	//#endif
+	
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.m_bodyCount = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.m_jointCount = 0;
+	
+	/** 
+	 * This is used to compute the time step ratio to support a 
+	 * variable time step. 
+	 * @export 
+	 * @type {number}
+	 */
+	this.m_inv_dt0 = 0;
+	
+	//#if B2_ENABLE_CONTROLLER
+	
+	/** 
+	 * @see box2d.b2Controller list 
+	 * @export 
+	 * @type {box2d.b2Controller}
+	 */
+	this.m_controllerList = null;
+	
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.m_controllerCount = 0;
+	
+	//#endif
 }
 
 //b2BlockAllocator m_blockAllocator;
 //b2StackAllocator m_stackAllocator;
 
-/**
- * @export 
- * @type {boolean}
- */
-box2d.b2World.prototype.m_flag_newFixture = false;
-/**
- * @export 
- * @type {boolean}
- */
-box2d.b2World.prototype.m_flag_locked = false;
-/**
- * @export 
- * @type {boolean}
- */
-box2d.b2World.prototype.m_flag_clearForces = false;
-
-/**
- * @export 
- * @type {box2d.b2ContactManager}
- */
-box2d.b2World.prototype.m_contactManager = null;
-
-
-/**
- * @export 
- * @type {box2d.b2Joint}
- */
-box2d.b2World.prototype.m_jointList = null;
-
-//#if B2_ENABLE_PARTICLE
-
-/**
- * @export 
- * @type {box2d.b2ParticleSystem}
- */
-box2d.b2World.prototype.m_particleSystemList = null;
-
-//#endif
-
-/**
- * @export 
- * @type {number}
- */
-box2d.b2World.prototype.m_bodyCount = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2World.prototype.m_jointCount = 0;
-
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2World.prototype.m_gravity = null;
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2World.prototype.m_out_gravity = null;
-/**
- * @export 
- * @type {boolean}
- */
-box2d.b2World.prototype.m_allowSleep = true;
-
-/**
- * @export 
- * @type {box2d.b2DestructionListener}
- */
-box2d.b2World.prototype.m_destructionListener = null;
-/**
- * @export 
- * @type {box2d.b2Draw}
- */
-box2d.b2World.prototype.m_debugDraw = null;
-
-/** 
- * This is used to compute the time step ratio to support a 
- * variable time step. 
- * @export 
- * @type {number}
- */
-box2d.b2World.prototype.m_inv_dt0 = 0;
-
-/** 
- * These are for debugging the solver. 
- * @export 
- * @type {boolean}
- */
-box2d.b2World.prototype.m_warmStarting = true;
-/**
- * @export 
- * @type {boolean}
- */
-box2d.b2World.prototype.m_continuousPhysics = true;
-/**
- * @export 
- * @type {boolean}
- */
-box2d.b2World.prototype.m_subStepping = false;
-
-/**
- * @export 
- * @type {boolean}
- */
-box2d.b2World.prototype.m_stepComplete = true;
-
-/**
- * @export 
- * @type {box2d.b2Profile}
- */
-box2d.b2World.prototype.m_profile = null;
-
-/**
- * @export 
- * @type {box2d.b2Island}
- */
-box2d.b2World.prototype.m_island = null;
-
-/**
- * @export 
- * @type {Array.<?box2d.b2Body>}
- */
-box2d.b2World.prototype.s_stack = null;
-
-//#if B2_ENABLE_CONTROLLER
-
-/** 
- * @see box2d.b2Controller list 
- * @export 
- * @type {box2d.b2Controller}
- */
-box2d.b2World.prototype.m_controllerList = null;
-
-/**
- * @export 
- * @type {number}
- */
-box2d.b2World.prototype.m_controllerCount = 0;
-
-//#endif
 
 /** 
  * Enable/disable sleep. 
@@ -466,15 +390,6 @@ box2d.b2World.prototype.GetContactManager = function ()
 	return this.m_contactManager;
 }
 
-/** 
- * Get the current profile. 
- * @export 
- * @return {box2d.b2Profile} 
- */
-box2d.b2World.prototype.GetProfile = function ()
-{
-	return this.m_profile;
-}
 
 /** 
  * Register a destruction listener. The listener is owned by you 
@@ -897,10 +812,6 @@ box2d.b2World.prototype.Solve = function (step)
 	}
 //#endif
 
-	this.m_profile.solveInit = 0;
-	this.m_profile.solveVelocity = 0;
-	this.m_profile.solvePosition = 0;
-
 	// Size the island for the worst case.
 	/** @type {box2d.b2Island} */ var island = this.m_island;
 	island.Initialize(this.m_bodyCount,
@@ -1045,11 +956,8 @@ box2d.b2World.prototype.Solve = function (step)
 			}
 		}
 
-		/** @type {box2d.b2Profile} */ var profile = new box2d.b2Profile();
-		island.Solve(profile, step, this.m_gravity, this.m_allowSleep);
-		this.m_profile.solveInit += profile.solveInit;
-		this.m_profile.solveVelocity += profile.solveVelocity;
-		this.m_profile.solvePosition += profile.solvePosition;
+
+		island.Solve(step, this.m_gravity, this.m_allowSleep);
 
 		// Post solve cleanup.
 		for (/** @type {number} */ i = 0; i < island.m_bodyCount; ++i)
@@ -1070,7 +978,6 @@ box2d.b2World.prototype.Solve = function (step)
 	}
 
 	{
-		/** @type {box2d.b2Timer} */ var timer = new box2d.b2Timer();
 
 		// Synchronize fixtures, check for out of range bodies.
 
@@ -1094,7 +1001,6 @@ box2d.b2World.prototype.Solve = function (step)
 	
 		// Look for new contacts.
 		this.m_contactManager.FindNewContacts();
-		this.m_profile.broadphase = timer.GetMilliseconds();
 	}
 }
 
@@ -1470,8 +1376,6 @@ box2d.b2World.prototype.Step = function (dt, velocityIterations, positionIterati
 	particleIterations = particleIterations || this.CalculateReasonableParticleIterations(dt);
 //#endif
 
-	/** @type {box2d.b2Timer} */ var stepTimer = new box2d.b2Timer();
-
 	// If new fixtures were added, we need to find the new contacts.
 	if (this.m_flag_newFixture)
 	{
@@ -1502,16 +1406,13 @@ box2d.b2World.prototype.Step = function (dt, velocityIterations, positionIterati
 	step.warmStarting = this.m_warmStarting;
 
 	// Update contacts. This is where some contacts are destroyed.
-	{
-		/** @type {box2d.b2Timer} */ var timer = new box2d.b2Timer();
-		this.m_contactManager.Collide();
-		this.m_profile.collide = timer.GetMilliseconds();
-	}
+
+	this.m_contactManager.Collide();
 
 	// Integrate velocities, solve velocity constraints, and integrate positions.
 	if (this.m_stepComplete && step.dt > 0)
 	{
-		/* type {box2d.b2Timer} */ var timer = new box2d.b2Timer();
+
 //#if B2_ENABLE_PARTICLE
 		for (/** @type {box2d.b2ParticleSystem} */ var p = this.m_particleSystemList; p; p = p.m_next)
 		{
@@ -1519,15 +1420,12 @@ box2d.b2World.prototype.Step = function (dt, velocityIterations, positionIterati
 		}
 //#endif
 		this.Solve(step);
-		this.m_profile.solve = timer.GetMilliseconds();
 	}
 
 	// Handle TOI events.
 	if (this.m_continuousPhysics && step.dt > 0)
 	{
-		/* type {box2d.b2Timer} */ var timer = new box2d.b2Timer();
 		this.SolveTOI(step);
-		this.m_profile.solveTOI = timer.GetMilliseconds();
 	}
 
 	if (step.dt > 0)
@@ -1542,7 +1440,6 @@ box2d.b2World.prototype.Step = function (dt, velocityIterations, positionIterati
 
 	this.m_flag_locked = false;
 
-	this.m_profile.step = stepTimer.GetMilliseconds();
 }
 box2d.b2World.prototype.Step.s_step = new box2d.b2TimeStep();
 
@@ -2398,4 +2295,3 @@ box2d.b2World.prototype.RemoveController = function (controller)
 }
 
 //#endif
-

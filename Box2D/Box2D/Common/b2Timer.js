@@ -16,37 +16,6 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-/** 
- * Timer for profiling. This has platform specific code and may 
- * not work on every platform. 
- * @export 
- * @constructor
- */
-box2d.b2Timer = function ()
-{
-	this.m_start = Date.now();
-}
-
-box2d.b2Timer.prototype = {
-	/**
-	 * @export 
-	 * @return {box2d.b2Timer}
-	 */
-	Reset: function ()
-	{
-		this.m_start = Date.now();
-		return this;
-	},
-	/**
-	 * @export 
-	 * @return {number}
-	 */
-	GetMilliseconds: function ()
-	{
-		return Date.now() - this.m_start;
-	}
-};
-
 
 /**
  * @export 
