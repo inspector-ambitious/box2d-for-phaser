@@ -29,43 +29,32 @@ box2d.b2VelocityConstraintPoint = function ()
 {
 	this.rA = new box2d.b2Vec2(0.0, 0.0);
 	this.rB = new box2d.b2Vec2(0.0, 0.0);
+	/**
+	 * @export 
+	 * @type {number}
+	 */	
+	this.normalImpulse = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.tangentImpulse = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.normalMass = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.tangentMass = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.velocityBias = 0;
 };
-
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2VelocityConstraintPoint.prototype.rA = null;
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2VelocityConstraintPoint.prototype.rB = null;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2VelocityConstraintPoint.prototype.normalImpulse = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2VelocityConstraintPoint.prototype.tangentImpulse = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2VelocityConstraintPoint.prototype.normalMass = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2VelocityConstraintPoint.prototype.tangentMass = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2VelocityConstraintPoint.prototype.velocityBias = 0;
 
 /**
  * @export 
@@ -89,93 +78,89 @@ box2d.b2VelocityConstraintPoint.MakeArray = function (length)
  */
 box2d.b2ContactVelocityConstraint = function ()
 {
+	/**
+	 * @export 
+	 * @type {Array.<box2d.b2VelocityConstraintPoint>}
+	 */
 	this.points = box2d.b2VelocityConstraintPoint.MakeArray(box2d.b2_maxManifoldPoints);
+	/**
+	 * @export 
+	 * @type {box2d.b2Vec2}
+	 */
 	this.normal = new box2d.b2Vec2(0.0, 0.0);
+	/**
+	 * @export 
+	 * @type {box2d.b2Vec2}
+	 */
 	this.tangent = new box2d.b2Vec2(0.0, 0.0);
+	/**
+	 * @export 
+	 * @type {box2d.b2Mat22}
+	 */
 	this.normalMass = new box2d.b2Mat22();
+	/**
+	 * @export 
+	 * @type {box2d.b2Mat22}
+	 */
 	this.K = new box2d.b2Mat22();
+	
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.indexA = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.indexB = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.invMassA = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.invMassB = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.invIA = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.invIB = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.friction = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.restitution = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.tangentSpeed = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.pointCount = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.contactIndex = 0;
+	
 }
-
-/**
- * @export 
- * @type {Array.<box2d.b2VelocityConstraintPoint>}
- */
-box2d.b2ContactVelocityConstraint.prototype.points = null;
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2ContactVelocityConstraint.prototype.normal = null;
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2ContactVelocityConstraint.prototype.tangent = null; // compute from normal
-/**
- * @export 
- * @type {box2d.b2Mat22}
- */
-box2d.b2ContactVelocityConstraint.prototype.normalMass = null;
-/**
- * @export 
- * @type {box2d.b2Mat22}
- */
-box2d.b2ContactVelocityConstraint.prototype.K = null;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ContactVelocityConstraint.prototype.indexA = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ContactVelocityConstraint.prototype.indexB = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ContactVelocityConstraint.prototype.invMassA = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ContactVelocityConstraint.prototype.invMassB = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ContactVelocityConstraint.prototype.invIA = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ContactVelocityConstraint.prototype.invIB = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ContactVelocityConstraint.prototype.friction = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ContactVelocityConstraint.prototype.restitution = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ContactVelocityConstraint.prototype.tangentSpeed = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ContactVelocityConstraint.prototype.pointCount = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ContactVelocityConstraint.prototype.contactIndex = 0;
 
 /**
  * @export 
@@ -199,88 +184,85 @@ box2d.b2ContactVelocityConstraint.MakeArray = function (length)
  */
 box2d.b2ContactPositionConstraint = function ()
 {
+	/**
+	 * @export 
+	 * @type {box2d.b2Vec2}
+	 */
 	this.localPoints = box2d.b2Vec2.MakeArray(box2d.b2_maxManifoldPoints);
+	/**
+	 * @export 
+	 * @type {box2d.b2Vec2}
+	 */
 	this.localNormal = new box2d.b2Vec2(0.0, 0.0);
+	/**
+	 * @export 
+	 * @type {box2d.b2Vec2}
+	 */
 	this.localPoint = new box2d.b2Vec2(0.0, 0.0);
+	/**
+	 * @export 
+	 * @type {box2d.b2Vec2}
+	 */
 	this.localCenterA = new box2d.b2Vec2(0.0, 0.0);
+	/**
+	 * @export 
+	 * @type {box2d.b2Vec2}
+	 */
 	this.localCenterB = new box2d.b2Vec2(0.0, 0.0);
-};
+	
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.indexA = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.indexB = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.invMassA = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.invMassB = 0;
 
-/**
- * @export 
- * @type {Array.<box2d.b2Vec2>}
- */
-box2d.b2ContactPositionConstraint.prototype.localPoints = null;
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2ContactPositionConstraint.prototype.localNormal = null;
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2ContactPositionConstraint.prototype.localPoint = null;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ContactPositionConstraint.prototype.indexA = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ContactPositionConstraint.prototype.indexB = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ContactPositionConstraint.prototype.invMassA = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ContactPositionConstraint.prototype.invMassB = 0;
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2ContactPositionConstraint.prototype.localCenterA = null;
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2ContactPositionConstraint.prototype.localCenterB = null;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ContactPositionConstraint.prototype.invIA = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ContactPositionConstraint.prototype.invIB = 0;
-/**
- * @export 
- * @type {box2d.b2ManifoldType}
- */
-box2d.b2ContactPositionConstraint.prototype.type = box2d.b2ManifoldType.e_unknown;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ContactPositionConstraint.prototype.radiusA = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ContactPositionConstraint.prototype.radiusB = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ContactPositionConstraint.prototype.pointCount = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.invIA = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.invIB = 0;
+	/**
+	 * @export 
+	 * @type {box2d.b2ManifoldType}
+	 */
+	this.type = box2d.b2ManifoldType.e_unknown;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.radiusA = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.radiusB = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.pointCount = 0;
+	
+};
 
 /**
  * @export 
@@ -305,39 +287,37 @@ box2d.b2ContactPositionConstraint.MakeArray = function (length)
  */
 box2d.b2ContactSolverDef = function ()
 {
+	/**
+	 * @export 
+	 * @type {box2d.b2TimeStep}
+	 */
 	this.step = new box2d.b2TimeStep();
+	/**
+	 * @export 
+	 * @type {Array.<box2d.b2Contact>}
+	 */
+	this.contacts = [];
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.count = 0;
+	/**
+	 * @export 
+	 * @type {Array.<box2d.b2Position>}
+	 */
+	this.positions = [];
+	/**
+	 * @export 
+	 * @type {Array.<box2d.b2Velocity>}
+	 */
+	this.velocities = [];
+	/**
+	 * @export 
+	 * @type {*}
+	 */
+	this.allocator = null;
 };
-
-/**
- * @export 
- * @type {box2d.b2TimeStep}
- */
-box2d.b2ContactSolverDef.prototype.step = null;
-/**
- * @export 
- * @type {Array.<box2d.b2Contact>}
- */
-box2d.b2ContactSolverDef.prototype.contacts = null;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ContactSolverDef.prototype.count = 0;
-/**
- * @export 
- * @type {Array.<box2d.b2Position>}
- */
-box2d.b2ContactSolverDef.prototype.positions = null;
-/**
- * @export 
- * @type {Array.<box2d.b2Velocity>}
- */
-box2d.b2ContactSolverDef.prototype.velocities = null;
-/**
- * @export 
- * @type {*}
- */
-box2d.b2ContactSolverDef.prototype.allocator = null;
 
 /**
  * @export 
@@ -345,51 +325,48 @@ box2d.b2ContactSolverDef.prototype.allocator = null;
  */
 box2d.b2ContactSolver = function ()
 {
+	/**
+	 * @export 
+	 * @type {box2d.b2TimeStep}
+	 */
 	this.m_step = new box2d.b2TimeStep();
+	/**
+	 * @export 
+	 * @type {Array.<box2d.b2Position>}
+	 */
+	this.m_positions = [];
+	/**
+	 * @export 
+	 * @type {Array.<box2d.b2Velocity>}
+	 */
+	this.m_velocities = [];
+	/**
+	 * @export 
+	 * @type {*}
+	 */
+	this.m_allocator = null;
+	/**
+	 * @export 
+	 * @type {Array.<box2d.b2ContactPositionConstraint>}
+	 */
 	this.m_positionConstraints = box2d.b2ContactPositionConstraint.MakeArray(1024); // TODO: b2Settings
+	/**
+	 * @export 
+	 * @type {Array.<box2d.b2ContactVelocityConstraint>}
+	 */
 	this.m_velocityConstraints = box2d.b2ContactVelocityConstraint.MakeArray(1024); // TODO: b2Settings
+	
+	/**
+	 * @export 
+	 * @type {Array.<box2d.b2Contact>}
+	 */
+	this.m_contacts = null;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.m_count = 0;
 }
-
-/**
- * @export 
- * @type {box2d.b2TimeStep}
- */
-box2d.b2ContactSolver.prototype.m_step = null;
-/**
- * @export 
- * @type {Array.<box2d.b2Position>}
- */
-box2d.b2ContactSolver.prototype.m_positions = null;
-/**
- * @export 
- * @type {Array.<box2d.b2Velocity>}
- */
-box2d.b2ContactSolver.prototype.m_velocities = null;
-/**
- * @export 
- * @type {*}
- */
-box2d.b2ContactSolver.prototype.m_allocator = null;
-/**
- * @export 
- * @type {Array.<box2d.b2ContactPositionConstraint>}
- */
-box2d.b2ContactSolver.prototype.m_positionConstraints = null;
-/**
- * @export 
- * @type {Array.<box2d.b2ContactVelocityConstraint>}
- */
-box2d.b2ContactSolver.prototype.m_velocityConstraints = null;
-/**
- * @export 
- * @type {Array.<box2d.b2Contact>}
- */
-box2d.b2ContactSolver.prototype.m_contacts = null;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ContactSolver.prototype.m_count = 0;
 
 /** 
  * @export 
@@ -1303,25 +1280,23 @@ box2d.b2ContactSolver.prototype.StoreImpulses = function ()
  */
 box2d.b2PositionSolverManifold = function ()
 {
+	/**
+	 * @export 
+	 * @type {box2d.b2Vec2}
+	 */
 	this.normal = new box2d.b2Vec2(0.0, 0.0);
+	/**
+	 * @export 
+	 * @type {box2d.b2Vec2}
+	 */
 	this.point = new box2d.b2Vec2(0.0, 0.0);
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.separtion = 0;
 }
 
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2PositionSolverManifold.prototype.normal = null;
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2PositionSolverManifold.prototype.point = null;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2PositionSolverManifold.prototype.separation = 0;
 
 /**
  * @export 
@@ -1690,4 +1665,3 @@ box2d.b2ContactSolver.prototype.SolveTOIPositionConstraints.s_psm = new box2d.b2
 box2d.b2ContactSolver.prototype.SolveTOIPositionConstraints.s_rA = new box2d.b2Vec2(0.0, 0.0);
 box2d.b2ContactSolver.prototype.SolveTOIPositionConstraints.s_rB = new box2d.b2Vec2(0.0, 0.0);
 box2d.b2ContactSolver.prototype.SolveTOIPositionConstraints.s_P = new box2d.b2Vec2(0.0, 0.0);
-

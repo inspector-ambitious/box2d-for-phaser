@@ -23,48 +23,49 @@
  */
 box2d.b2Profile = function ()
 {
+	
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.step = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.collide = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.solve = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.solveInit = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.solveVelocity = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.solvePosition = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.broadphase = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.solveTOI = 0;
 };
 
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Profile.prototype.step = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Profile.prototype.collide = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Profile.prototype.solve = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Profile.prototype.solveInit = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Profile.prototype.solveVelocity = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Profile.prototype.solvePosition = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Profile.prototype.broadphase = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Profile.prototype.solveTOI = 0;
 
 /** 
  * @export 
@@ -248,4 +249,3 @@ box2d.b2SolverData.prototype.positions = null;
  * @type {Array.<box2d.b2Velocity>}
  */
 box2d.b2SolverData.prototype.velocities = null;
-

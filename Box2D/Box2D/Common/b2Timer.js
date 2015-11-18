@@ -24,33 +24,29 @@
  */
 box2d.b2Timer = function ()
 {
-	this.m_start = new Date().getTime();
+	this.m_start = Date.now();
 }
 
-/**
- * @export 
- * @type {number} 
- */
-box2d.b2Timer.prototype.m_start = 0;
+box2d.b2Timer.prototype = {
+	/**
+	 * @export 
+	 * @return {box2d.b2Timer}
+	 */
+	Reset: function ()
+	{
+		this.m_start = Date.now();
+		return this;
+	},
+	/**
+	 * @export 
+	 * @return {number}
+	 */
+	GetMilliseconds: function ()
+	{
+		return Date.now() - this.m_start;
+	}
+};
 
-/**
- * @export 
- * @return {box2d.b2Timer}
- */
-box2d.b2Timer.prototype.Reset = function ()
-{
-	this.m_start = new Date().getTime();
-	return this;
-}
-
-/**
- * @export 
- * @return {number}
- */
-box2d.b2Timer.prototype.GetMilliseconds = function ()
-{
-	return new Date().getTime() - this.m_start;
-}
 
 /**
  * @export 
@@ -159,4 +155,3 @@ box2d.b2Counter.prototype.Decrement = function ()
 		this.m_min_count = this.m_count;
 	}
 }
-
