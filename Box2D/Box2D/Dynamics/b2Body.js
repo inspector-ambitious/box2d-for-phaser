@@ -268,10 +268,6 @@ box2d.b2Body = function (bd, world)
 	this.m_contactList = [];
 	this.m_contactCount = 0;
 	this.m_jointList = null;
-//#if B2_ENABLE_CONTROLLER
-	this.m_controllerList = null;
-	this.m_controllerCount = 0;
-//#endif
 }
 
 
@@ -1702,28 +1698,3 @@ box2d.b2Body.prototype.Dump = function ()
 		box2d.b2Log("}\n");
 	}
 }
-
-//#if B2_ENABLE_CONTROLLER
-
-/** 
- * @see box2d.b2Controller list 
- * @export 
- * @return {box2d.b2ControllerEdge}
- */
-box2d.b2Body.prototype.GetControllerList = function ()
-{
-	return this.m_controllerList;
-}
-
-/** 
- * @see box2d.b2Controller list 
- * @export 
- * @return {number}
- */
-box2d.b2Body.prototype.GetControllerCount = function ()
-{
-	return this.m_controllerCount;
-}
-
-//#endif
-
