@@ -1007,12 +1007,12 @@ box2d.b2Vec3 = function (x, y, z)
  * @const 
  * @type {box2d.b2Vec3}
  */
-box2d.b2Vec3.ZERO = new box2d.b2Vec3();
+box2d.b2Vec3.ZERO = new box2d.b2Vec3(0.0, 0.0, 0.0);
 /**
  * @export 
  * @type {box2d.b2Vec3}
  */
-box2d.b2Vec3.s_t0 = new box2d.b2Vec3();
+box2d.b2Vec3.s_t0 = new box2d.b2Vec3(0.0, 0.0, 0.0);
 
 /**
  * @export 

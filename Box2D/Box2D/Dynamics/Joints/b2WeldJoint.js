@@ -107,7 +107,7 @@ box2d.b2WeldJoint = function (def)
 	this.m_localAnchorA = def.localAnchorA.Clone();
 	this.m_localAnchorB = def.localAnchorB.Clone();
 	this.m_referenceAngle = def.referenceAngle;
-	this.m_impulse = new box2d.b2Vec3(0, 0, 0);
+	this.m_impulse = new box2d.b2Vec3(0.0, 0.0, 0.0);
 
 	this.m_rA = new box2d.b2Vec2(0.0, 0.0);
 	this.m_rB = new box2d.b2Vec2(0.0, 0.0);
@@ -454,7 +454,7 @@ box2d.b2WeldJoint.prototype.SolveVelocityConstraints = function (data)
 }
 box2d.b2WeldJoint.prototype.SolveVelocityConstraints.s_Cdot1 = new box2d.b2Vec2(0.0, 0.0);
 box2d.b2WeldJoint.prototype.SolveVelocityConstraints.s_impulse1 = new box2d.b2Vec2(0.0, 0.0);
-box2d.b2WeldJoint.prototype.SolveVelocityConstraints.s_impulse = new box2d.b2Vec3();
+box2d.b2WeldJoint.prototype.SolveVelocityConstraints.s_impulse = new box2d.b2Vec3(0.0, 0.0, 0.0);
 box2d.b2WeldJoint.prototype.SolveVelocityConstraints.s_P = new box2d.b2Vec2(0.0, 0.0);
 
 /**
@@ -569,7 +569,7 @@ box2d.b2WeldJoint.prototype.SolvePositionConstraints = function (data)
 }
 box2d.b2WeldJoint.prototype.SolvePositionConstraints.s_C1 = new box2d.b2Vec2(0.0, 0.0);
 box2d.b2WeldJoint.prototype.SolvePositionConstraints.s_P = new box2d.b2Vec2(0.0, 0.0);
-box2d.b2WeldJoint.prototype.SolvePositionConstraints.s_impulse = new box2d.b2Vec3();
+box2d.b2WeldJoint.prototype.SolvePositionConstraints.s_impulse = new box2d.b2Vec3(0.0, 0.0, 0.0);
 box2d.b2WeldJoint.prototype.SolvePositionConstraints.s_impulse2 = new box2d.b2Vec2(0.0, 0.0);
 
 /** 
@@ -686,4 +686,3 @@ box2d.b2WeldJoint.prototype.Dump = function ()
 		box2d.b2Log("  joints[%d] = this.m_world.CreateJoint(jd);\n", this.m_index);
 	}
 }
-
