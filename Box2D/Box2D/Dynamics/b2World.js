@@ -80,17 +80,7 @@ box2d.b2World = function (gravity)
 	 * @type {box2d.b2Joint}
 	 */
 	this.m_jointList = null;
-	
-	//#if B2_ENABLE_PARTICLE
-	
-	/**
-	 * @export 
-	 * @type {box2d.b2ParticleSystem}
-	 */
-	this.m_particleSystemList = null;
-
-	//#endif
-	
+		
 	/**
 	 * @export 
 	 * @type {number}
@@ -233,19 +223,6 @@ box2d.b2World.prototype.GetJointList = function ()
 {
 	return this.m_jointList;
 }
-
-//#if B2_ENABLE_PARTICLE
-
-/**
- * @export 
- * @return {box2d.b2ParticleSystem} 
- */
-box2d.b2World.prototype.GetParticleSystemList = function ()
-{
-	return this.m_particleSystemList;
-}
-
-//#endif
 
 /** 
  * Get the world contact list. With the returned contact, use 
@@ -694,67 +671,6 @@ box2d.b2World.prototype.DestroyJoint = function (j)
 	}
 }
 
-//#if B2_ENABLE_PARTICLE
-
-/**
- * @export 
- * @return {box2d.b2ParticleSystem} 
- * @param {box2d.b2ParticleSystemDef} def 
- */
-box2d.b2World.prototype.CreateParticleSystem = function (def)
-{
-	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(!this.IsLocked()); }
-	if (this.IsLocked())
-	{
-		return null;
-	}
-
-	var p = new box2d.b2ParticleSystem(def, this);
-
-	// Add to world doubly linked list.
-	p.m_prev = null;
-	p.m_next = this.m_particleSystemList;
-	if (this.m_particleSystemList)
-	{
-		this.m_particleSystemList.m_prev = p;
-	}
-	this.m_particleSystemList = p;
-
-	return p;
-}
-
-/**
- * @export 
- * @return {void} 
- * @param {box2d.b2ParticleSystem} p 
- */
-box2d.b2World.prototype.DestroyParticleSystem = function (p)
-{
-	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(!this.IsLocked()); }
-	if (this.IsLocked())
-	{
-		return;
-	}
-
-	// Remove world particleSystem list.
-	if (p.m_prev)
-	{
-		p.m_prev.m_next = p.m_next;
-	}
-
-	if (p.m_next)
-	{
-		p.m_next.m_prev = p.m_prev;
-	}
-
-	if (p === this.m_particleSystemList)
-	{
-		this.m_particleSystemList = p.m_next;
-	}
-}
-
-//#endif
-
 /** 
  * Find islands, integrate and solve constraints, solve position 
  * constraints 
@@ -764,18 +680,6 @@ box2d.b2World.prototype.DestroyParticleSystem = function (p)
  */
 box2d.b2World.prototype.Solve = function (step)
 {
-//#if B2_ENABLE_PARTICLE
-	// update previous transforms
-	var i = 0;
-
-
-	for (; i < this.m_bodyCount; i++)
-	{
-		this.m_bodyList[i].m_xf0.Copy(this.m_bodyList[i].m_xf);
-	}
-//#endif
-
-
 	// Size the island for the worst case.
 	/** @type {box2d.b2Island} */ var island = this.m_island;
 	island.Initialize(this.m_bodyCount,
@@ -1279,9 +1183,6 @@ box2d.b2World.prototype.advanceBodiesToTOI = function(island, step, minContact, 
 		subStep.dtRatio = 1;
 		subStep.positionIterations = 20;
 		subStep.velocityIterations = step.velocityIterations;
-//#if B2_ENABLE_PARTICLE
-		subStep.particleIterations = step.particleIterations;
-//#endif
 		subStep.warmStarting = false;
 		island.SolveTOI(subStep, bA.m_islandIndex, bB.m_islandIndex);
 
@@ -1328,17 +1229,10 @@ box2d.b2World.prototype.SolveTOI.s_toi_output = new box2d.b2TOIOutput();
  * @param {number} dt the amount of time to simulate, this should not vary.
  * @param {number} velocityIterations for the velocity constraint solver.
  * @param {number} positionIterations for the position constraint solver.
- * @param {number=} particleIterations for the particle constraint solver.
  */
-//#if B2_ENABLE_PARTICLE
-box2d.b2World.prototype.Step = function (dt, velocityIterations, positionIterations, particleIterations)
-//#else
-//box2d.b2World.prototype.Step = function (dt, velocityIterations, positionIterations)
-//#endif
+
+box2d.b2World.prototype.Step = function (dt, velocityIterations, positionIterations)
 {
-//#if B2_ENABLE_PARTICLE
-	particleIterations = particleIterations || this.CalculateReasonableParticleIterations(dt);
-//#endif
 
 	// If new fixtures were added, we need to find the new contacts.
 	if (this.m_flag_newFixture)
@@ -1353,9 +1247,6 @@ box2d.b2World.prototype.Step = function (dt, velocityIterations, positionIterati
 	step.dt = dt;
 	step.velocityIterations = velocityIterations;
 	step.positionIterations = positionIterations;
-//#if B2_ENABLE_PARTICLE
-	step.particleIterations = particleIterations;
-//#endif
 	if (dt > 0)
 	{
 		step.inv_dt = 1 / dt;
@@ -1376,13 +1267,6 @@ box2d.b2World.prototype.Step = function (dt, velocityIterations, positionIterati
 	// Integrate velocities, solve velocity constraints, and integrate positions.
 	if (this.m_stepComplete && step.dt > 0)
 	{
-
-//#if B2_ENABLE_PARTICLE
-		for (/** @type {box2d.b2ParticleSystem} */ var p = this.m_particleSystemList; p; p = p.m_next)
-		{
-			p.Solve(step); // Particle Simulation
-		}
-//#endif
 		this.Solve(step);
 	}
 
@@ -1465,18 +1349,6 @@ box2d.b2World.prototype.QueryAABB = function (callback, aabb)
 	};
 
 	broadPhase.Query(WorldQueryAABBWrapper, aabb);
-//#if B2_ENABLE_PARTICLE
-	if (callback instanceof box2d.b2QueryCallback)
-	{
-		for (/** @type {box2d.b2ParticleSystem} */ var p = this.m_particleSystemList; p; p = p.m_next)
-		{
-			if (callback.ShouldQueryParticleSystem(p))
-			{
-				p.QueryAABB(callback, aabb);
-			}
-		}
-	}
-//#endif
 }
 
 /** 
@@ -1520,18 +1392,7 @@ box2d.b2World.prototype.QueryShape = function (callback, shape, transform, child
 	/** @type {box2d.b2AABB} */ var aabb = box2d.b2World.prototype.QueryShape.s_aabb;
 	shape.ComputeAABB(aabb, transform, childIndex);
 	broadPhase.Query(WorldQueryShapeWrapper, aabb);
-//#if B2_ENABLE_PARTICLE
-	if (callback instanceof box2d.b2QueryCallback)
-	{
-		for (/** @type {box2d.b2ParticleSystem} */ var p = this.m_particleSystemList; p; p = p.m_next)
-		{
-			if (callback.ShouldQueryParticleSystem(p))
-			{
-				p.QueryAABB(callback, aabb);
-			}
-		}
-	}
-//#endif
+
 }
 box2d.b2World.prototype.QueryShape.s_aabb = new box2d.b2AABB();
 
@@ -1576,18 +1437,6 @@ box2d.b2World.prototype.QueryPoint = function (callback, point, slop)
 	aabb.lowerBound.Set(point.x - slop, point.y - slop);
 	aabb.upperBound.Set(point.x + slop, point.y + slop);
 	broadPhase.Query(WorldQueryWrapper, aabb);
-//#if B2_ENABLE_PARTICLE
-	if (callback instanceof box2d.b2QueryCallback)
-	{
-		for (/** @type {box2d.b2ParticleSystem} */ var p = this.m_particleSystemList; p; p = p.m_next)
-		{
-			if (callback.ShouldQueryParticleSystem(p))
-			{
-				p.QueryAABB(callback, aabb);
-			}
-		}
-	}
-//#endif
 }
 box2d.b2World.prototype.QueryPoint.s_aabb = new box2d.b2AABB();
 
@@ -1645,18 +1494,6 @@ box2d.b2World.prototype.RayCast = function (callback, point1, point2)
 	input.p1.Copy(point1);
 	input.p2.Copy(point2);
 	broadPhase.RayCast(WorldRayCastWrapper, input);
-//#if B2_ENABLE_PARTICLE
-	if (callback instanceof box2d.b2RayCastCallback)
-	{
-		for (/** @type {box2d.b2ParticleSystem} */ var p = this.m_particleSystemList; p; p = p.m_next)
-		{
-			if (callback.ShouldQueryParticleSystem(p))
-			{
-				p.RayCast(callback, point1, point2);
-			}
-		}
-	}
-//#endif
 }
 box2d.b2World.prototype.RayCast.s_input = new box2d.b2RayCastInput();
 box2d.b2World.prototype.RayCast.s_output = new box2d.b2RayCastOutput();
@@ -1840,34 +1677,6 @@ box2d.b2World.prototype.DrawJoint.s_color = new box2d.b2Color(0.5, 0.8, 0.8);
 box2d.b2World.prototype.DrawJoint.s_s1 = new box2d.b2Vec2(0.0, 0.0);
 box2d.b2World.prototype.DrawJoint.s_s2 = new box2d.b2Vec2(0.0, 0.0);
 
-//#if B2_ENABLE_PARTICLE
-
-/** 
- * @export 
- * @return {void} 
- * @param {box2d.b2ParticleSystem} system
- */
-box2d.b2World.prototype.DrawParticleSystem = function (system)
-{
-	var particleCount = system.GetParticleCount();
-	if (particleCount)
-	{
-		var radius = system.GetRadius();
-		var positionBuffer = system.GetPositionBuffer();
-		if (system.m_colorBuffer.data)
-		{
-			var colorBuffer = system.GetColorBuffer();
-			this.m_debugDraw.DrawParticles(positionBuffer, radius, colorBuffer, particleCount);
-		}
-		else
-		{
-			this.m_debugDraw.DrawParticles(positionBuffer, radius, null, particleCount);
-		}
-	}
-}
-
-//#endif
-
 /**
  * Call this to draw shapes and other debug draw data.
  * @export 
@@ -1925,16 +1734,6 @@ box2d.b2World.prototype.DrawDebugData = function ()
 			this.m_debugDraw.PopTransform(xf);
 		}
 	}
-
-//#if B2_ENABLE_PARTICLE
-	if (flags & box2d.b2DrawFlags.e_particleBit)
-	{
-		for (/** @type {box2d.b2ParticleSystem} */ var p = this.m_particleSystemList; p; p = p.m_next)
-		{
-			this.DrawParticleSystem(p);
-		}
-	}
-//#endif
 
 	if (flags & box2d.b2DrawFlags.e_jointBit)
 	{
@@ -2030,45 +1829,6 @@ box2d.b2World.prototype.SetBroadPhase = function (broadPhase)
 		}
 	}
 }
-
-//#if B2_ENABLE_PARTICLE
-
-/** 
- * Recommend a value to be used in `Step` for 
- * `particleIterations`. This calculation is necessarily a 
- * simplification and should only be used as a starting point. 
- * Please see "Particle Iterations" in the Programmer's Guide 
- * for details. 
- *  
- * @export 
- * @return {number} 
- * @param {number} timeStep is the value to be passed into 
- *  	  `Step`.
- */
-box2d.b2World.prototype.CalculateReasonableParticleIterations = function (timeStep)
-{
-	if (this.m_particleSystemList === null)
-	{
-		return 1;
-	}
-
-	function GetSmallestRadius(world)
-	{
-		var smallestRadius = box2d.b2_maxFloat;
-		for (/** @type {box2d.b2ParticleSystem} */ var system = world.GetParticleSystemList();
-			  system !== null;
-			  system = system.m_next)
-		{
-			smallestRadius = box2d.b2Min(smallestRadius, system.GetRadius());
-		}
-		return smallestRadius;
-	}
-
-	// Use the smallest radius, since that represents the worst-case.
-	return box2d.b2CalculateParticleIterations(this.m_gravity.Length(), GetSmallestRadius(this), timeStep);
-}
-
-//#endif
 
 /** 
  * Get the number of broad-phase proxies. 

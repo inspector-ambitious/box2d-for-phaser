@@ -42,11 +42,6 @@
 ../../../Box2D/Box2D/Dynamics/Joints/b2RopeJoint.js \
 ../../../Box2D/Box2D/Dynamics/Joints/b2WeldJoint.js \
 ../../../Box2D/Box2D/Dynamics/Joints/b2WheelJoint.js \
-../../../Box2D/Box2D/Particle/b2Particle.js \
-../../../Box2D/Box2D/Particle/b2ParticleGroup.js \
-../../../Box2D/Box2D/Particle/b2ParticleSystem.js \
-../../../Box2D/Box2D/Particle/b2StackQueue.js \
-../../../Box2D/Box2D/Particle/b2VoronoiDiagram.js \
 ../../../Box2D/Box2D/Rope/b2Rope.js \
 -b -ns -c unused=false,sequences=false,hoist_funs=false,keep_fargs=true,keep_fnames=true,booleans=false,drop_debugger=false > box2d-html5.js 
 cp box2d-html5.js ~/Repos/X/www/js/

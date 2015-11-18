@@ -130,9 +130,6 @@ box2d.b2DrawFlags =
 	e_aabbBit			: 0x0004, ///< draw axis aligned bounding boxes
 	e_pairBit			: 0x0008, ///< draw broad-phase pairs
 	e_centerOfMassBit	: 0x0010, ///< draw center of mass frame
-//#if B2_ENABLE_PARTICLE
-	e_particleBit		: 0x0040, ///< draw particles
-//#endif
 	e_all				: 0xffff
 };
 
@@ -261,23 +258,6 @@ box2d.b2Draw.prototype.DrawCircle = function (center, radius, color)
 box2d.b2Draw.prototype.DrawSolidCircle = function (center, radius, axis, color)
 {
 }
-
-//#if B2_ENABLE_PARTICLE
-
-/** 
- * Draw a particle array
- * @export 
- * @return {void} 
- * @param {Array.<box2d.b2Vec2>} centers
- * @param {number} radius
- * @param {Array.<box2d.b2ParticleColor>} colors 
- * @param {number} count
- */
-box2d.b2Draw.prototype.DrawParticles = function (centers, radius, colors, count)
-{
-}
-
-//#endif
 
 /** 
  * Draw a line segment. 
