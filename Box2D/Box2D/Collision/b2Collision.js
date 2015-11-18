@@ -750,28 +750,6 @@ box2d.b2AABB = function ()
 
 /**
  * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2AABB.prototype.lowerBound = null; ///< the lower vertex
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2AABB.prototype.upperBound = null; ///< the upper vertex
-
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2AABB.prototype.m_out_center = null; // access using GetCenter()
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2AABB.prototype.m_out_extent = null; // access using GetExtents()
-
-/**
- * @export 
  * @return {box2d.b2AABB} 
  */
 box2d.b2AABB.prototype.Clone = function ()
@@ -1184,4 +1162,3 @@ box2d.b2TestOverlap = function (AABBA_or_shapeA, AABBB_or_indexA, shapeB, indexB
 		throw new Error();
 	}
 }
-
