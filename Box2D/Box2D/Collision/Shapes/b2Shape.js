@@ -25,29 +25,25 @@
 box2d.b2MassData = function ()
 {
 	this.center = new box2d.b2Vec2(0.0, 0.0);
+
+	/** 
+	 * The mass of the shape, usually in kilograms. 
+	 * @export 
+	 * @type {number}
+	 */
+	this.mass = 0.0;
+
+
+	/** 
+	 * The rotational inertia of the shape about the local origin. 
+	 * @export 
+	 * @type {number}
+	 */
+	this.I = 0.0;
+
 };
 
-/** 
- * The mass of the shape, usually in kilograms. 
- * @export 
- * @type {number}
- */
-box2d.b2MassData.prototype.mass = 0;
 
-/** 
- * The position of the shape's centroid relative to the shape's 
- * origin. 
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2MassData.prototype.center = null;
-
-/** 
- * The rotational inertia of the shape about the local origin. 
- * @export 
- * @type {number}
- */
-box2d.b2MassData.prototype.I = 0;
 
 /** 
  * @export 
@@ -80,17 +76,6 @@ box2d.b2Shape = function (type, radius)
 	this.m_type = type;
 	this.m_radius = radius;
 }
-
-/**
- * @export 
- * @type {box2d.b2ShapeType}
- */
-box2d.b2Shape.prototype.m_type = box2d.b2ShapeType.e_unknown;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Shape.prototype.m_radius = 0;
 
 /** 
  * Clone the concrete shape using the provided allocator. 

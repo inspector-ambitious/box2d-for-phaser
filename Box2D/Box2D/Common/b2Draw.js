@@ -33,26 +33,6 @@ box2d.b2Color = function (rr, gg, bb, aa)
 	this.a = (typeof(aa) === 'number')?(aa):(1.0);
 }
 
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Color.prototype.r = 0.5;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Color.prototype.g = 0.5;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Color.prototype.b = 0.5;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Color.prototype.a = 1.0;
 
 /**
  * @export
@@ -141,13 +121,8 @@ box2d.b2DrawFlags =
  */
 box2d.b2Draw = function ()
 {
+	this.m_drawFlags = box2d.b2DrawFlags.e_none;
 }
-
-/**
- * @export 
- * @type {box2d.b2DrawFlags} 
- */
-box2d.b2Draw.prototype.m_drawFlags = box2d.b2DrawFlags.e_none;
 
 /** 
  * Set the drawing flags. 

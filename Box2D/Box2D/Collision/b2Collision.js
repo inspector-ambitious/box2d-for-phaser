@@ -135,28 +135,10 @@ box2d.b2ManifoldPoint = function ()
 {
 	this.localPoint = new box2d.b2Vec2(0.0, 0.0);
 	this.id = new box2d.b2ContactID();
+	this.normalImpulse = 0; ///< the non-penetration impulse
+	this.tangentImpulse = 0; ///< the friction impulse
 }
 
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2ManifoldPoint.prototype.localPoint = null; ///< usage depends on manifold type
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ManifoldPoint.prototype.normalImpulse = 0; ///< the non-penetration impulse
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ManifoldPoint.prototype.tangentImpulse = 0; ///< the friction impulse
-/**
- * @export 
- * @type {box2d.b2ContactID}
- */
-box2d.b2ManifoldPoint.prototype.id = null; ///< uniquely identifies a contact point between two shapes
 
 /**
  * @export 
@@ -319,21 +301,6 @@ box2d.b2WorldManifold = function ()
 	this.separations = box2d.b2MakeNumberArray(box2d.b2_maxManifoldPoints);
 }
 
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2WorldManifold.prototype.normal = null; ///< world vector pointing from A to B
-/**
- * @export 
- * @type {Array.<box2d.b2Vec2>}
- */
-box2d.b2WorldManifold.prototype.points = null; ///< world contact point (point of intersection)
-/**
- * @export 
- * @type {Array.<number>}
- */
-box2d.b2WorldManifold.prototype.separations = null; ///< a negative value indicates overlap, in meters
 
 /** 
  * Evaluate the manifold with supplied transforms. This assumes 
@@ -546,22 +513,6 @@ box2d.b2RayCastInput = function ()
 
 /**
  * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2RayCastInput.prototype.p1 = null;
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2RayCastInput.prototype.p2 = null;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2RayCastInput.prototype.maxFraction = 1;
-
-/**
- * @export 
  * @return {box2d.b2RayCastInput} 
  * @param {box2d.b2RayCastInput} o
  */
@@ -584,17 +535,6 @@ box2d.b2RayCastOutput = function ()
 	this.normal = new box2d.b2Vec2(0.0, 0.0);
 	this.fraction = 0;
 };
-
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2RayCastOutput.prototype.normal = null;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2RayCastOutput.prototype.fraction = 0;
 
 /**
  * @export 

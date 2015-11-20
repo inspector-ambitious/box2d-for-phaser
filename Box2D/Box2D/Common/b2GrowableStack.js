@@ -27,18 +27,9 @@
 box2d.b2GrowableStack = function (N)
 {
 	this.m_stack = new Array(N);
+	this.m_count = 0;
 }
 
-/**
- * @export 
- * @type {Array.<*>}
- */
-box2d.b2GrowableStack.prototype.m_stack = null;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2GrowableStack.prototype.m_count = 0;
 
 /**
  * @export 

@@ -33,44 +33,19 @@ box2d.b2EdgeShape = function ()
 
 	this.m_vertex0 = new box2d.b2Vec2(0.0, 0.0);
 	this.m_vertex3 = new box2d.b2Vec2(0.0, 0.0);
+	/**
+	 * @export 
+	 * @type {boolean}
+	 */
+	this.m_hasVertex0 = false;
+	/**
+	 * @export 
+	 * @type {boolean}
+	 */
+	this.m_hasVertex3 = false;
 }
 
 box2d.b2EdgeShape.prototype = Object.create(box2d.b2Shape.prototype);
-
-/** 
- * These are the edge vertices 
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2EdgeShape.prototype.m_vertex1 = null;
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2EdgeShape.prototype.m_vertex2 = null;
-
-/** 
- * Optional adjacent vertices. These are used for smooth 
- * collision. 
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2EdgeShape.prototype.m_vertex0 = null;
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2EdgeShape.prototype.m_vertex3 = null;
-/**
- * @export 
- * @type {boolean}
- */
-box2d.b2EdgeShape.prototype.m_hasVertex0 = false;
-/**
- * @export 
- * @type {boolean}
- */
-box2d.b2EdgeShape.prototype.m_hasVertex3 = false;
 
 /** 
  * Set this as an isolated edge. 

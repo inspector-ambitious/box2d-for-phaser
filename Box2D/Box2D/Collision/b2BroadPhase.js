@@ -22,18 +22,10 @@
  */
 box2d.b2Pair = function ()
 {
+	this.proxyA = null;
+	this.proxyB = null;
 };
 
-/**
- * @export 
- * @type {box2d.b2TreeNode}
- */
-box2d.b2Pair.prototype.proxyA = null;
-/**
- * @export 
- * @type {box2d.b2TreeNode}
- */
-box2d.b2Pair.prototype.proxyB = null;
 
 /** 
  * The broad-phase is used for computing pairs and performing 
@@ -71,9 +63,6 @@ box2d.b2BroadPhase = function ()
 	this.m_pairCount = 0;
 	
 };
-
-
-
 
 
 

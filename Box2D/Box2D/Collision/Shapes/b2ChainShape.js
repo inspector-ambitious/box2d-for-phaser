@@ -33,44 +33,36 @@ box2d.b2ChainShape = function ()
 
 	this.m_prevVertex = new box2d.b2Vec2(0.0, 0.0);
 	this.m_nextVertex = new box2d.b2Vec2(0.0, 0.0);
+
+	/** 
+	 * The vertices. Owned by this class. 
+	 * @export 
+	 * @type {Array.<box2d.b2Vec2>}
+	 */
+	this.m_vertices = null;
+
+	/** 
+	 * The vertex count. 
+	 * @export 
+	 * @type {number}
+	 */
+	this.m_count = 0;
+
+	/**
+	 * @export 
+	 * @type {boolean}
+	 */
+	this.m_hasPrevVertex = false;
+	/**
+	 * @export 
+	 * @type {boolean}
+	 */
+	this.m_hasNextVertex = false;
 }
 
 box2d.b2ChainShape.prototype = Object.create(box2d.b2Shape.prototype);
 
-/** 
- * The vertices. Owned by this class. 
- * @export 
- * @type {Array.<box2d.b2Vec2>}
- */
-box2d.b2ChainShape.prototype.m_vertices = null;
 
-/** 
- * The vertex count. 
- * @export 
- * @type {number}
- */
-box2d.b2ChainShape.prototype.m_count = 0;
-
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2ChainShape.prototype.m_prevVertex = null;
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2ChainShape.prototype.m_nextVertex = null;
-/**
- * @export 
- * @type {boolean}
- */
-box2d.b2ChainShape.prototype.m_hasPrevVertex = false;
-/**
- * @export 
- * @type {boolean}
- */
-box2d.b2ChainShape.prototype.m_hasNextVertex = false;
 
 /** 
  * Clear all data. 

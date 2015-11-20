@@ -25,28 +25,22 @@
 box2d.b2DistanceProxy = function ()
 {
 	this.m_buffer = box2d.b2Vec2.MakeArray(2);
+	/**
+	 * @export 
+	 * @type {Array.<box2d.b2Vec2>}
+	 */
+	this.m_vertices = null;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.m_count = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.m_radius = 0;
 };
-
-/**
- * @export 
- * @type {Array.<box2d.b2Vec2>}
- */
-box2d.b2DistanceProxy.prototype.m_buffer = null;
-/**
- * @export 
- * @type {Array.<box2d.b2Vec2>}
- */
-box2d.b2DistanceProxy.prototype.m_vertices = null;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2DistanceProxy.prototype.m_count = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2DistanceProxy.prototype.m_radius = 0;
 
 /**
  * @export 
@@ -152,28 +146,21 @@ box2d.b2SimplexCache = function ()
 {
 	this.indexA = box2d.b2MakeNumberArray(3);
 	this.indexB = box2d.b2MakeNumberArray(3);
+
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.metric = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.count = 0;
+
 };
 
-/**
- * @export 
- * @type {number}
- */
-box2d.b2SimplexCache.prototype.metric = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2SimplexCache.prototype.count = 0;
-/**
- * @export 
- * @type {Array.<number>}
- */
-box2d.b2SimplexCache.prototype.indexA = null;
-/**
- * @export 
- * @type {Array.<number>}
- */
-box2d.b2SimplexCache.prototype.indexB = null;
+
 
 /**
  * @export 
@@ -198,33 +185,9 @@ box2d.b2DistanceInput = function ()
 	this.proxyB = new box2d.b2DistanceProxy();
 	this.transformA = new box2d.b2Transform();
 	this.transformB = new box2d.b2Transform();
+	this.useRadii = false;
 };
 
-/**
- * @export 
- * @type {box2d.b2DistanceProxy}
- */
-box2d.b2DistanceInput.prototype.proxyA = null;
-/**
- * @export 
- * @type {box2d.b2DistanceProxy}
- */
-box2d.b2DistanceInput.prototype.proxyB = null;
-/**
- * @export 
- * @type {box2d.b2Transform}
- */
-box2d.b2DistanceInput.prototype.transformA = null;
-/**
- * @export 
- * @type {box2d.b2Transform}
- */
-box2d.b2DistanceInput.prototype.transformB = null;
-/**
- * @export 
- * @type {boolean}
- */
-box2d.b2DistanceInput.prototype.useRadii = false;
 
 /**
  * @export 
@@ -249,28 +212,10 @@ box2d.b2DistanceOutput = function ()
 {
 	this.pointA = new box2d.b2Vec2(0.0, 0.0);
 	this.pointB = new box2d.b2Vec2(0.0, 0.0);
+	this.distance = 0;
+	this.iterations = 0; ///< number of GJK iterations used
 };
 
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2DistanceOutput.prototype.pointA = null;	///< closest point on shapeA
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2DistanceOutput.prototype.pointB = null;	///< closest point on shapeB
-/**
- * @export 
- * @type {number}
- */
-box2d.b2DistanceOutput.prototype.distance = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2DistanceOutput.prototype.iterations = 0; ///< number of GJK iterations used
 
 /**
  * @export 
@@ -315,38 +260,25 @@ box2d.b2SimplexVertex = function ()
 	this.wA = new box2d.b2Vec2(0.0, 0.0);
 	this.wB = new box2d.b2Vec2(0.0, 0.0);
 	this.w = new box2d.b2Vec2(0.0, 0.0);
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.a = 0; // barycentric coordinate for closest point
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.indexA = 0; // wA index
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.indexB = 0; // wB index
 };
 
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2SimplexVertex.prototype.wA = null; // support point in proxyA
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2SimplexVertex.prototype.wB = null; // support point in proxyB
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2SimplexVertex.prototype.w = null; // wB - wA
-/**
- * @export 
- * @type {number}
- */
-box2d.b2SimplexVertex.prototype.a = 0; // barycentric coordinate for closest point
-/**
- * @export 
- * @type {number}
- */
-box2d.b2SimplexVertex.prototype.indexA = 0; // wA index
-/**
- * @export 
- * @type {number}
- */
-box2d.b2SimplexVertex.prototype.indexB = 0; // wB index
+
+
 
 /**
  * @export 
@@ -373,37 +305,10 @@ box2d.b2Simplex = function ()
 	this.m_v1 = new box2d.b2SimplexVertex();
 	this.m_v2 = new box2d.b2SimplexVertex();
 	this.m_v3 = new box2d.b2SimplexVertex();
-	this.m_vertices = new Array(3);
-	this.m_vertices[0] = this.m_v1;
-	this.m_vertices[1] = this.m_v2;
-	this.m_vertices[2] = this.m_v3;
+	this.m_vertices = [this.m_v1, this.m_v2, this.m_v3];
+	this.m_count = 0;
 }
 
-/**
- * @export 
- * @type {box2d.b2SimplexVertex}
- */
-box2d.b2Simplex.prototype.m_v1 = null;
-/**
- * @export 
- * @type {box2d.b2SimplexVertex}
- */
-box2d.b2Simplex.prototype.m_v2 = null;
-/**
- * @export 
- * @type {box2d.b2SimplexVertex}
- */
-box2d.b2Simplex.prototype.m_v3 = null;
-/**
- * @export 
- * @type {Array.<box2d.b2SimplexVertex>}
- */
-box2d.b2Simplex.prototype.m_vertices = null;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Simplex.prototype.m_count = 0;
 
 /**
  * @export 

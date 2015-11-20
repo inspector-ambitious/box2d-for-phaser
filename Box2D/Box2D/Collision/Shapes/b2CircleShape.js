@@ -32,11 +32,6 @@ box2d.b2CircleShape = function (radius)
 
 box2d.b2CircleShape.prototype = Object.create(box2d.b2Shape.prototype);
 
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2CircleShape.prototype.m_p = null;
 
 /** 
  * Implement box2d.b2Shape. 

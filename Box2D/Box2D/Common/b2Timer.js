@@ -23,23 +23,11 @@
  */
 box2d.b2Counter = function ()
 {
-}
+	this.m_count = 0;
 
-/**
- * @export 
- * @type {number} 
- */
-box2d.b2Counter.prototype.m_count = 0;
-/**
- * @export 
- * @type {number} 
- */
-box2d.b2Counter.prototype.m_min_count = 0;
-/**
- * @export 
- * @type {number} 
- */
-box2d.b2Counter.prototype.m_max_count = 0;
+	this.m_min_count = 0;
+	this.m_max_count = 0;
+}
 
 /**
  * @export 

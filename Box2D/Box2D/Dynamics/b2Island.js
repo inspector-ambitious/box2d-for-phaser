@@ -147,77 +147,53 @@ box2d.b2Island = function ()
 
 	this.m_positions = box2d.b2Position.MakeArray(1024); // TODO: b2Settings
 	this.m_velocities = box2d.b2Velocity.MakeArray(1024); // TODO: b2Settings
+
+	/**
+	 * @export 
+	 * @type {*}
+	 */
+	this.m_allocator = null;
+	/**
+	 * @export 
+	 * @type {box2d.b2ContactListener}
+	 */
+	this.m_listener = null;
+
+
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.m_bodyCount = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.m_jointCount = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.m_contactCount = 0;
+
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.m_bodyCapacity = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.m_contactCapacity = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.m_jointCapacity = 0;
 }
 
-/**
- * @export 
- * @type {*}
- */
-box2d.b2Island.prototype.m_allocator = null;
-/**
- * @export 
- * @type {box2d.b2ContactListener}
- */
-box2d.b2Island.prototype.m_listener = null;
 
-/**
- * @export 
- * @type {Array.<box2d.b2Body>}
- */
-box2d.b2Island.prototype.m_bodies = null;
-/**
- * @export 
- * @type {Array.<box2d.b2Contact>}
- */
-box2d.b2Island.prototype.m_contacts = null;
-/**
- * @export 
- * @type {Array.<box2d.b2Joint>}
- */
-box2d.b2Island.prototype.m_joints = null;
-
-/**
- * @export 
- * @type {Array.<box2d.b2Position>}
- */
-box2d.b2Island.prototype.m_positions = null;
-/**
- * @export 
- * @type {Array.<box2d.b2Velocity>}
- */
-box2d.b2Island.prototype.m_velocities = null;
-
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Island.prototype.m_bodyCount = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Island.prototype.m_jointCount = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Island.prototype.m_contactCount = 0;
-
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Island.prototype.m_bodyCapacity = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Island.prototype.m_contactCapacity = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Island.prototype.m_jointCapacity = 0;
 
 /** 
  * @export 

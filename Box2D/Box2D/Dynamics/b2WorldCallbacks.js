@@ -118,25 +118,9 @@ box2d.b2ContactImpulse = function ()
 {
 	this.normalImpulses = box2d.b2MakeNumberArray(box2d.b2_maxManifoldPoints);
 	this.tangentImpulses = box2d.b2MakeNumberArray(box2d.b2_maxManifoldPoints);
+	this.count = 0;
 }
 
-/**
- * @export
- * @type {Array.<number>}
- */
-box2d.b2ContactImpulse.prototype.normalImpulses = null;
-
-/**
- * @export
- * @type {Array.<number>}
- */
-box2d.b2ContactImpulse.prototype.tangentImpulses = null;
-
-/**
- * @export
- * @type {number}
- */
-box2d.b2ContactImpulse.prototype.count = 0;
 
 /** 
  * Implement this class to get contact information. You can use 

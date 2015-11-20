@@ -33,30 +33,11 @@ box2d.b2PolygonShape = function ()
 	this.m_centroid = new box2d.b2Vec2(0.0, 0.0);
 	this.m_vertices = box2d.b2Vec2.MakeArray(box2d.b2_maxPolygonVertices);
 	this.m_normals = box2d.b2Vec2.MakeArray(box2d.b2_maxPolygonVertices);
+	this.m_count = 0;
 }
 
 box2d.b2PolygonShape.prototype = Object.create(box2d.b2Shape.prototype);
 
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2PolygonShape.prototype.m_centroid = null;
-/**
- * @export 
- * @type {Array.<box2d.b2Vec2>}
- */
-box2d.b2PolygonShape.prototype.m_vertices = null;
-/**
- * @export 
- * @type {Array.<box2d.b2Vec2>}
- */
-box2d.b2PolygonShape.prototype.m_normals = null;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2PolygonShape.prototype.m_count = 0;
 
 /** 
  * Implement box2d.b2Shape. 

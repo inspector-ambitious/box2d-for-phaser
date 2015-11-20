@@ -191,23 +191,24 @@ box2d.b2EPAxisType =
  */
 box2d.b2EPAxis = function ()
 {
+	/**
+	 * @export 
+	 * @type {box2d.b2EPAxisType}
+	 */
+	this.type = box2d.b2EPAxisType.e_unknown;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.index = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.separation = 0;
+
 };
 
-/**
- * @export 
- * @type {box2d.b2EPAxisType}
- */
-box2d.b2EPAxis.prototype.type = box2d.b2EPAxisType.e_unknown;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2EPAxis.prototype.index = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2EPAxis.prototype.separation = 0;
 
 /** 
  * This holds polygon B expressed in frame A. 
@@ -221,21 +222,6 @@ box2d.b2TempPolygon = function ()
 	this.count = 0;
 };
 
-/**
- * @export 
- * @type {Array.<box2d.b2Vec2>}
- */
-box2d.b2TempPolygon.prototype.vertices = null;
-/**
- * @export 
- * @type {Array.<box2d.b2Vec2>}
- */
-box2d.b2TempPolygon.prototype.normals = null;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2TempPolygon.prototype.count = 0;
 
 /** 
  * Reference face used for clipping 
@@ -259,55 +245,6 @@ box2d.b2ReferenceFace = function ()
 	this.sideOffset2 = 0;
 };
 
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ReferenceFace.prototype.i1 = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ReferenceFace.prototype.i2 = 0;
-
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2ReferenceFace.prototype.v1 = null;
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2ReferenceFace.prototype.v2 = null;
-
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2ReferenceFace.prototype.normal = null;
-
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2ReferenceFace.prototype.sideNormal1 = null;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ReferenceFace.prototype.sideOffset1 = 0;
-
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2ReferenceFace.prototype.sideNormal2 = null;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ReferenceFace.prototype.sideOffset2 = 0;
 
 /**
  * @export
@@ -341,92 +278,6 @@ box2d.b2EPCollider = function ()
 	this.m_front = false;
 };
 
-/**
- * @export 
- * @type {box2d.b2TempPolygon}
- */
-box2d.b2EPCollider.prototype.m_polygonB = null;
-
-/**
- * @export 
- * @type {box2d.b2Transform}
- */
-box2d.b2EPCollider.prototype.m_xf = null;
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2EPCollider.prototype.m_centroidB = null;
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2EPCollider.prototype.m_v0 = null;
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2EPCollider.prototype.m_v1 = null;
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2EPCollider.prototype.m_v2 = null;
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2EPCollider.prototype.m_v3 = null;
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2EPCollider.prototype.m_normal0 = null;
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2EPCollider.prototype.m_normal1 = null;
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2EPCollider.prototype.m_normal2 = null;
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2EPCollider.prototype.m_normal = null;
-/**
- * @export 
- * @type {box2d.b2EPColliderVertexType}
- */
-box2d.b2EPCollider.prototype.m_type1 = box2d.b2EPColliderVertexType.e_isolated;
-/**
- * @export 
- * @type {box2d.b2EPColliderVertexType}
- */
-box2d.b2EPCollider.prototype.m_type2 = box2d.b2EPColliderVertexType.e_isolated;
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2EPCollider.prototype.m_lowerLimit = null;
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2EPCollider.prototype.m_upperLimit = null;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2EPCollider.prototype.m_radius = 0;
-/**
- * @export 
- * @type {boolean}
- */
-box2d.b2EPCollider.prototype.m_front = false;
 
 /** 
  * Algorithm:

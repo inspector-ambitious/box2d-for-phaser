@@ -22,11 +22,12 @@
  */
 box2d.b2ContactRegister = function ()
 {
+	this.createFcn = function() {};
+	this.destroyFcn = function() {};
+	this.primary = false;
 };
 
-box2d.b2ContactRegister.prototype.createFcn = null;
-box2d.b2ContactRegister.prototype.destroyFcn = null;
-box2d.b2ContactRegister.prototype.primary = false;
+
 
 /**
  * @export
@@ -39,7 +40,6 @@ box2d.b2ContactFactory = function (allocator)
 	this.InitializeRegisters();
 }
 
-box2d.b2ContactFactory.prototype.m_allocator = null;
 
 /**
  * @export
