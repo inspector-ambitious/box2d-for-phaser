@@ -117,6 +117,7 @@ box2d.b2FindIncidentEdge = function (c, poly1, xf1, edge1, poly2, xf2)
 	cf0.indexB = i1;
 	cf0.typeA = box2d.b2ContactFeatureType.e_face;
 	cf0.typeB = box2d.b2ContactFeatureType.e_vertex;
+	cf0.invalidateKey();
 
 	var c1 = c[1];
 	box2d.b2Mul_X_V2(xf2, vertices2[i2], c1.v);
@@ -125,6 +126,7 @@ box2d.b2FindIncidentEdge = function (c, poly1, xf1, edge1, poly2, xf2)
 	cf1.indexB = i2;
 	cf1.typeA = box2d.b2ContactFeatureType.e_face;
 	cf1.typeB = box2d.b2ContactFeatureType.e_vertex;
+	cf1.invalidateKey();
 }
 box2d.b2FindIncidentEdge.s_normal1 = new box2d.b2Vec2(0.0, 0.0);
 
@@ -261,6 +263,7 @@ box2d.b2CollidePolygons = function (manifold, polyA, xfA, polyB, xfB)
 				cp.id.cf.indexB = cf.indexA;
 				cp.id.cf.typeA = cf.typeB;
 				cp.id.cf.typeB = cf.typeA;
+				cp.id.cf.invalidateKey();
 			}
 			++pointCount;
 		}

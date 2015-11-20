@@ -585,7 +585,7 @@ box2d.b2Contact.prototype.Update = function (listener)
 				{
 					var mp1 = this.m_oldManifold.points[j];
 
-					if (mp1.id.key === id2.key)
+					if (mp1.id.cf.GetKey() === id2.cf.GetKey())
 					{
 						mp2.normalImpulse = mp1.normalImpulse;
 						mp2.tangentImpulse = mp1.tangentImpulse;

@@ -46,7 +46,7 @@ box2d.b2CollideCircles = function (manifold, circleA, xfA, circleB, xfB)
 	manifold.pointCount = 1;
 
 	manifold.points[0].localPoint.Copy(circleB.m_p);
-	manifold.points[0].id.key = 0;
+	manifold.points[0].id.cf.SetKey(0);
 }
 box2d.b2CollideCircles.s_pA = new box2d.b2Vec2(0.0, 0.0);
 box2d.b2CollideCircles.s_pB = new box2d.b2Vec2(0.0, 0.0);
@@ -109,7 +109,7 @@ box2d.b2CollidePolygonAndCircle = function (manifold, polygonA, xfA, circleB, xf
 		manifold.localNormal.Copy(normals[normalIndex]);
 		box2d.b2Mid_V2_V2(v1, v2, manifold.localPoint);
 		manifold.points[0].localPoint.Copy(circleB.m_p);
-		manifold.points[0].id.key = 0;
+		manifold.points[0].id.cf.SetKey(0);
 		return;
 	}
 
@@ -128,7 +128,7 @@ box2d.b2CollidePolygonAndCircle = function (manifold, polygonA, xfA, circleB, xf
 		box2d.b2Sub_V2_V2(cLocal, v1, manifold.localNormal).SelfNormalize();
 		manifold.localPoint.Copy(v1);
 		manifold.points[0].localPoint.Copy(circleB.m_p);
-		manifold.points[0].id.key = 0;
+		manifold.points[0].id.cf.SetKey(0);
 	}
 	else if (u2 <= 0)
 	{
@@ -142,7 +142,7 @@ box2d.b2CollidePolygonAndCircle = function (manifold, polygonA, xfA, circleB, xf
 		box2d.b2Sub_V2_V2(cLocal, v2, manifold.localNormal).SelfNormalize();
 		manifold.localPoint.Copy(v2);
 		manifold.points[0].localPoint.Copy(circleB.m_p);
-		manifold.points[0].id.key = 0;
+		manifold.points[0].id.cf.SetKey(0);
 	}
 	else
 	{
@@ -158,7 +158,7 @@ box2d.b2CollidePolygonAndCircle = function (manifold, polygonA, xfA, circleB, xf
 		manifold.localNormal.Copy(normals[vertIndex1]).SelfNormalize();
 		manifold.localPoint.Copy(faceCenter);
 		manifold.points[0].localPoint.Copy(circleB.m_p);
-		manifold.points[0].id.key = 0;
+		manifold.points[0].id.cf.SetKey(0);
 	}
 }
 box2d.b2CollidePolygonAndCircle.s_c = new box2d.b2Vec2(0.0, 0.0);

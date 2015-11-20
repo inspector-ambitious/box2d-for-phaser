@@ -49,6 +49,7 @@ box2d.b2CollideEdgeAndCircle = function (manifold, edgeA, xfA, circleB, xfB)
 	/** @type {box2d.b2ContactID} */ var id = box2d.b2CollideEdgeAndCircle.s_id;
 	id.cf.indexB = 0;
 	id.cf.typeB = box2d.b2ContactFeatureType.e_vertex;
+	id.cf.invalidateKey();
 	
 	// Region A
 	if (v <= 0)
@@ -78,6 +79,7 @@ box2d.b2CollideEdgeAndCircle = function (manifold, edgeA, xfA, circleB, xfB)
 		
 		id.cf.indexA = 0;
 		id.cf.typeA = box2d.b2ContactFeatureType.e_vertex;
+		id.cf.invalidateKey();
 		manifold.pointCount = 1;
 		manifold.type = box2d.b2ManifoldType.e_circles;
 		manifold.localNormal.SetZero();
@@ -117,6 +119,7 @@ box2d.b2CollideEdgeAndCircle = function (manifold, edgeA, xfA, circleB, xfB)
 		
 		id.cf.indexA = 1;
 		id.cf.typeA = box2d.b2ContactFeatureType.e_vertex;
+		id.cf.invalidateKey();
 		manifold.pointCount = 1;
 		manifold.type = box2d.b2ManifoldType.e_circles;
 		manifold.localNormal.SetZero();
@@ -150,6 +153,7 @@ box2d.b2CollideEdgeAndCircle = function (manifold, edgeA, xfA, circleB, xfB)
 	
 	id.cf.indexA = 0;
 	id.cf.typeA = box2d.b2ContactFeatureType.e_face;
+	id.cf.invalidateKey();
 	manifold.pointCount = 1;
 	manifold.type = box2d.b2ManifoldType.e_faceA;
 	manifold.localNormal.Copy(n);
@@ -717,6 +721,7 @@ box2d.b2EPCollider.prototype.Collide = function (manifold, edgeA, xfA, polygonB,
 		ie0.id.cf.indexB = i1;
 		ie0.id.cf.typeA = box2d.b2ContactFeatureType.e_face;
 		ie0.id.cf.typeB = box2d.b2ContactFeatureType.e_vertex;
+		ie0.id.cf.invalidateKey();
 		
 		var ie1 = ie[1];
 		ie1.v.Copy(this.m_polygonB.vertices[i2]);
@@ -724,7 +729,8 @@ box2d.b2EPCollider.prototype.Collide = function (manifold, edgeA, xfA, polygonB,
 		ie1.id.cf.indexB = i2;
 		ie1.id.cf.typeA = box2d.b2ContactFeatureType.e_face;
 		ie1.id.cf.typeB = box2d.b2ContactFeatureType.e_vertex;
-		
+		ie1.id.cf.invalidateKey();
+
 		if (this.m_front)
 		{
 			rf.i1 = 0;
@@ -752,6 +758,7 @@ box2d.b2EPCollider.prototype.Collide = function (manifold, edgeA, xfA, polygonB,
 		ie0.id.cf.indexB = primaryAxis.index;
 		ie0.id.cf.typeA = box2d.b2ContactFeatureType.e_vertex;
 		ie0.id.cf.typeB = box2d.b2ContactFeatureType.e_face;
+		ie0.id.cf.invalidateKey();
 		
 		var ie1 = ie[1];
 		ie1.v.Copy(this.m_v2);
@@ -759,7 +766,8 @@ box2d.b2EPCollider.prototype.Collide = function (manifold, edgeA, xfA, polygonB,
 		ie1.id.cf.indexB = primaryAxis.index;		
 		ie1.id.cf.typeA = box2d.b2ContactFeatureType.e_vertex;
 		ie1.id.cf.typeB = box2d.b2ContactFeatureType.e_face;
-		
+		ie1.id.cf.invalidateKey();
+
 		rf.i1 = primaryAxis.index;
 		rf.i2 = (rf.i1 + 1) % this.m_polygonB.count;
 		rf.v1.Copy(this.m_polygonB.vertices[rf.i1]);
@@ -828,6 +836,7 @@ box2d.b2EPCollider.prototype.Collide = function (manifold, edgeA, xfA, polygonB,
 				cp.id.cf.typeB = clipPoints2[i].id.cf.typeA;
 				cp.id.cf.indexA = clipPoints2[i].id.cf.indexB;
 				cp.id.cf.indexB = clipPoints2[i].id.cf.indexA;
+				cp.id.cf.invalidateKey();
 			}
 			
 			++pointCount;

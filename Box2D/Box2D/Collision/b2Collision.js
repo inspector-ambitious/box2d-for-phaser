@@ -39,141 +39,53 @@ box2d.b2ContactFeatureType =
  */
 box2d.b2ContactFeature = function ()
 {
+	this._key = 0;
+	this._key_invalid = false;
+
+	this.indexA = 0; ///< Feature index on shapeA   
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.indexB = 0; ///< Feature index on shapeB   
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.typeA = 0; ///< The feature type on shapeA
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.typeB = 0; ///< The feature type on shapeB
 };
 
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ContactFeature.prototype._key = 0;
-/**
- * @export 
- * @type {boolean}
- */
-box2d.b2ContactFeature.prototype._key_invalid = false;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ContactFeature.prototype._indexA = 0; ///< Feature index on shapeA   
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ContactFeature.prototype._indexB = 0; ///< Feature index on shapeB   
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ContactFeature.prototype._typeA = 0; ///< The feature type on shapeA
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ContactFeature.prototype._typeB = 0; ///< The feature type on shapeB
 
-Object.defineProperty(
-	box2d.b2ContactFeature.prototype, 'key',
+box2d.b2ContactFeature.prototype.GetKey = function ()
+{
+	if (this._key_invalid)
 	{
-		enumerable: false,
-		configurable: true,
-		/** @this {box2d.b2ContactFeature} */
-		get: function ()
-		{
-			if (this._key_invalid)
-			{
-				this._key_invalid = false;
-				this._key = this._indexA | (this._indexB << 8) | (this._typeA << 16) | (this._typeB << 24);
-			}
-			return this._key;
-		},
-		/** @this {box2d.b2ContactFeature} */
-		set: function (value)
-		{
-			this._key = value;
-			this._indexA = this._key & 0xff;
-			this._indexB = (this._key >> 8) & 0xff;
-			this._typeA = (this._key >> 16) & 0xff;
-			this._typeB = (this._key >> 24) & 0xff;
-		}
+		this._key_invalid = false;
+		this._key = this.indexA | (this.indexB << 8) | (this.typeA << 16) | (this.typeB << 24);
 	}
-);
+	return this._key;
+};
 
-Object.defineProperty(
-	box2d.b2ContactFeature.prototype, 'indexA',
-	{
-		enumerable: false,
-		configurable: true,
-		/** @this {box2d.b2ContactFeature} */
-		get: function ()
-		{
-			return this._indexA;
-		},
-		/** @this {box2d.b2ContactFeature} */
-		set: function (value)
-		{
-			this._indexA = value;
-			this._key_invalid = true;
-		}
-	}
-);
+box2d.b2ContactFeature.prototype.SetKey = function (value)
+{
+	this._key = value;
+	this.indexA = this._key & 0xff;
+	this.indexB = (this._key >> 8) & 0xff;
+	this.typeA = (this._key >> 16) & 0xff;
+	this.typeB = (this._key >> 24) & 0xff;
+};
 
-Object.defineProperty(
-	box2d.b2ContactFeature.prototype, 'indexB',
-	{
-		enumerable: false,
-		configurable: true,
-		/** @this {box2d.b2ContactFeature} */
-		get: function ()
-		{
-			return this._indexB;
-		},
-		/** @this {box2d.b2ContactFeature} */
-		set: function (value)
-		{
-			this._indexB = value;
-			this._key_invalid = true;
-		}
-	}
-);
 
-Object.defineProperty(
-	box2d.b2ContactFeature.prototype, 'typeA',
-	{
-		enumerable: false,
-		configurable: true,
-		/** @this {box2d.b2ContactFeature} */
-		get: function ()
-		{
-			return this._typeA;
-		},
-		/** @this {box2d.b2ContactFeature} */
-		set: function (value)
-		{
-			this._typeA = value;
-			this._key_invalid = true;
-		}
-	}
-);
+box2d.b2ContactFeature.prototype.invalidateKey = function (value)
+{
+	this._key_invalid = true;
+};
 
-Object.defineProperty(
-	box2d.b2ContactFeature.prototype, 'typeB',
-	{
-		enumerable: false,
-		configurable: true,
-		/** @this {box2d.b2ContactFeature} */
-		get: function ()
-		{
-			return this._typeB;
-		},
-		/** @this {box2d.b2ContactFeature} */
-		set: function (value)
-		{
-			this._typeB = value;
-			this._key_invalid = true;
-		}
-	}
-);
 
 /** 
  * Contact ids to facilitate warm starting. 
@@ -187,40 +99,12 @@ box2d.b2ContactID = function ()
 
 /**
  * @export 
- * @type {box2d.b2ContactFeature}
- */
-box2d.b2ContactID.prototype.cf = null;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2ContactID.prototype.key = 0; ///< Used to quickly compare contact ids.
-Object.defineProperty(
-	box2d.b2ContactID.prototype, 'key',
-	{
-		enumerable: false,
-		configurable: true,
-		/** @this {box2d.b2ContactID} */
-		get: function ()
-		{
-			return this.cf.key;
-		},
-		/** @this {box2d.b2ContactID} */
-		set: function (value)
-		{
-			this.cf.key = value;
-		}
-	}
-);
-
-/**
- * @export 
  * @return {box2d.b2ContactID}
  * @param {box2d.b2ContactID} o
  */
 box2d.b2ContactID.prototype.Copy = function (o)
 {
-	this.key = o.key;
+	this.cf.SetKey(o.cf.GetKey());
 	return this;
 }
 
@@ -299,7 +183,7 @@ box2d.b2ManifoldPoint.prototype.Reset = function ()
 	this.localPoint.SetZero();
 	this.normalImpulse = 0;
 	this.tangentImpulse = 0;
-	this.id.key = 0;
+	this.id.cf.SetKey(0);
 }
 
 /**
@@ -566,13 +450,13 @@ box2d.b2GetPointStates = function (state1, state2, manifold1, manifold2)
 	for (var i = 0, ict = manifold1.pointCount; i < ict; ++i)
 	{
 		var id = manifold1.points[i].id;
-		var key = id.key;
+		var key = id.cf.GetKey();
 
 		state1[i] = box2d.b2PointState.b2_removeState;
 
 		for (var j = 0, jct = manifold2.pointCount; j < jct; ++j)
 		{
-			if (manifold2.points[j].id.key === key)
+			if (manifold2.points[j].id.cf.GetKey() === key)
 			{
 				state1[i] = box2d.b2PointState.b2_persistState;
 				break;
@@ -588,13 +472,13 @@ box2d.b2GetPointStates = function (state1, state2, manifold1, manifold2)
 	for (var i = 0, ict = manifold2.pointCount; i < ict; ++i)
 	{
 		var id = manifold2.points[i].id;
-		var key = id.key;
+		var key = id.cf.GetKey();
 
 		state2[i] = box2d.b2PointState.b2_addState;
 
 		for (var j = 0, jct = manifold1.pointCount; j < jct; ++j)
 		{
-			if (manifold1.points[j].id.key === key)
+			if (manifold1.points[j].id.cf.GetKey() === key)
 			{
 				state2[i] = box2d.b2PointState.b2_persistState;
 				break;
@@ -618,16 +502,6 @@ box2d.b2ClipVertex = function ()
 	this.id = new box2d.b2ContactID();
 };
 
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2ClipVertex.prototype.v = null;
-/**
- * @export 
- * @type {box2d.b2ContactID}
- */
-box2d.b2ClipVertex.prototype.id = null;
 
 /**
  * @export 
@@ -1093,6 +967,7 @@ box2d.b2ClipSegmentToLine = function (vOut, vIn, normal, offset, vertexIndexA)
 		id.cf.indexB = vIn0.id.cf.indexB;
 		id.cf.typeA = box2d.b2ContactFeatureType.e_vertex;
 		id.cf.typeB = box2d.b2ContactFeatureType.e_face;
+		id.cf.invalidateKey();
 		++numOut;
 	}
 

@@ -16,37 +16,6 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-
-if (!Object.defineProperty)
-{
-	Object.defineProperty = function (obj, name, options)
-	{
-		if (Object.__defineGetter__)
-		{
-			if ('get' in options)
-			{
-				obj.__defineGetter__(name, options.get);
-			}
-			else if ('value' in options)
-			{
-				obj.__defineGetter__(name, options.value);
-			}
-		}
-
-		if (Object.__defineSetter__)
-		{
-			if ('set' in options)
-			{
-				obj.__defineSetter__(name, options.set);
-			}
-			else if ('value' in options)
-			{
-				obj.__defineSetter__(name, options.value);
-			}
-		}
-	}
-}
-
 /** 
  * @export 
  * @define {boolean}
