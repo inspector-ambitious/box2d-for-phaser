@@ -23,39 +23,40 @@
  */
 box2d.b2TimeStep = function ()
 {
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.dt = 0; // time step
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.inv_dt = 0.0; // inverse time step (0 if dt === 0).
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.dtRatio = 0.0; // dt * inv_dt0
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.velocityIterations = 0;
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.positionIterations = 0;
+	
+	/**
+	 * @export 
+	 * @type {boolean}
+	 */
+	this.warmStarting = false;
 };
 
-/**
- * @export 
- * @type {number}
- */
-box2d.b2TimeStep.prototype.dt = 0; // time step
-/**
- * @export 
- * @type {number}
- */
-box2d.b2TimeStep.prototype.inv_dt = 0; // inverse time step (0 if dt === 0).
-/**
- * @export 
- * @type {number}
- */
-box2d.b2TimeStep.prototype.dtRatio = 0; // dt * inv_dt0
-/**
- * @export 
- * @type {number}
- */
-box2d.b2TimeStep.prototype.velocityIterations = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2TimeStep.prototype.positionIterations = 0;
 
-/**
- * @export 
- * @type {boolean}
- */
-box2d.b2TimeStep.prototype.warmStarting = false;
 
 /** 
  * @export 
@@ -81,18 +82,8 @@ box2d.b2TimeStep.prototype.Copy = function (step)
 box2d.b2Position = function ()
 {
 	this.c = new box2d.b2Vec2(0.0, 0.0);
+	this.a = 0;
 };
-
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2Position.prototype.c = null;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Position.prototype.a = 0;
 
 /** 
  * @export 
@@ -118,18 +109,8 @@ box2d.b2Position.MakeArray = function (length)
 box2d.b2Velocity = function ()
 {
 	this.v = new box2d.b2Vec2(0.0, 0.0);
+	this.w = 0;
 };
-
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2Velocity.prototype.v = null;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Velocity.prototype.w = 0;
 
 /** 
  * @export 
@@ -152,23 +133,9 @@ box2d.b2Velocity.MakeArray = function (length)
  * @export 
  * @constructor
  */
-box2d.b2SolverData = function ()
+box2d.b2SolverData = function (step, positions, velocities)
 {
 	this.step = new box2d.b2TimeStep();
+	this.positions = [];
+	this.velocities = [];
 };
-
-/**
- * @export 
- * @type {box2d.b2TimeStep}
- */
-box2d.b2SolverData.prototype.step = null;
-/**
- * @export 
- * @type {Array.<box2d.b2Position>}
- */
-box2d.b2SolverData.prototype.positions = null;
-/**
- * @export 
- * @type {Array.<box2d.b2Velocity>}
- */
-box2d.b2SolverData.prototype.velocities = null;

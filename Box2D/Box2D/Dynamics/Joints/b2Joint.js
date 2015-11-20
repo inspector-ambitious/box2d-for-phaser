@@ -56,23 +56,11 @@ box2d.b2LimitState =
 box2d.b2Jacobian = function ()
 {
 	this.linear = new box2d.b2Vec2(0.0, 0.0);
+	this.angularA = 0;
+	this.angularB = 0;
 };
 
-/**
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2Jacobian.prototype.linear = null;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Jacobian.prototype.angularA = 0;
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Jacobian.prototype.angularB = 0;
+
 
 /** 
  * @export 
@@ -112,28 +100,29 @@ box2d.b2Jacobian.prototype.Set = function (x, a1, a2)
  */
 box2d.b2JointEdge = function ()
 {
+	
+	/**
+	 * @export 
+	 * @type {box2d.b2Body}
+	 */
+	this.other = null; ///< provides quick access to the other body attached.
+	/**
+	 * @export 
+	 * @type {box2d.b2Joint}
+	 */
+	this.joint = null; ///< the joint
+	/**
+	 * @export 
+	 * @type {box2d.b2JointEdge}
+	 */
+	this.prev = null; ///< the previous joint edge in the body's joint list
+	/**
+	 * @export 
+	 * @type {box2d.b2JointEdge}
+	 */
+	this.next = null; ///< the next joint edge in the body's joint list
 };
 
-/**
- * @export 
- * @type {box2d.b2Body}
- */
-box2d.b2JointEdge.prototype.other = null; ///< provides quick access to the other body attached.
-/**
- * @export 
- * @type {box2d.b2Joint}
- */
-box2d.b2JointEdge.prototype.joint = null; ///< the joint
-/**
- * @export 
- * @type {box2d.b2JointEdge}
- */
-box2d.b2JointEdge.prototype.prev = null; ///< the previous joint edge in the body's joint list
-/**
- * @export 
- * @type {box2d.b2JointEdge}
- */
-box2d.b2JointEdge.prototype.next = null; ///< the next joint edge in the body's joint list
 
 /** 
  * Joint definitions are used to construct joints. 
@@ -144,42 +133,15 @@ box2d.b2JointEdge.prototype.next = null; ///< the next joint edge in the body's 
 box2d.b2JointDef = function (type)
 {
 	this.type = type;
+	
+	this.userData = null;
+	
+	this.bodyA = null;
+	
+	this.bodyB = null;
+	
+	this.collideConnected = false;
 }
-
-/** 
- * The joint type is set automatically for concrete joint types.
- * @export 
- * @type {box2d.b2JointType}
- */
-box2d.b2JointDef.prototype.type = box2d.b2JointType.e_unknownJoint;
-
-/** 
- * Use this to attach application specific data to your joints. 
- * @export 
- * @type {*}
- */
-box2d.b2JointDef.prototype.userData = null;
-
-/** 
- * The first attached body. 
- * @export 
- * @type {box2d.b2Body}
- */
-box2d.b2JointDef.prototype.bodyA = null;
-
-/** 
- * The second attached body. 
- * @export 
- * @type {box2d.b2Body}
- */
-box2d.b2JointDef.prototype.bodyB = null;
-
-/** 
- * Set this flag to true if the attached bodies should collide. 
- * @export 
- * @type {boolean}
- */
-box2d.b2JointDef.prototype.collideConnected = false;
 
 /** 
  * The base joint class. Joints are used to constraint two 
@@ -201,66 +163,18 @@ box2d.b2Joint = function (def)
 	this.m_collideConnected = def.collideConnected;
 
 	this.m_userData = def.userData;
+	
+	this.m_prev = null;
+	this.m_next = null;
+
+	this.m_index = 0;
+	
+
+	this.m_islandFlag = false;
+	
 }
 
-/**
- * @export 
- * @type {box2d.b2JointType}
- */
-box2d.b2Joint.prototype.m_type = box2d.b2JointType.e_unknownJoint;
-/**
- * @export 
- * @type {box2d.b2Joint}
- */
-box2d.b2Joint.prototype.m_prev = null;
-/**
- * @export 
- * @type {box2d.b2Joint}
- */
-box2d.b2Joint.prototype.m_next = null;
-/**
- * @export 
- * @type {box2d.b2JointEdge}
- */
-box2d.b2Joint.prototype.m_edgeA = null;
-/**
- * @export 
- * @type {box2d.b2JointEdge}
- */
-box2d.b2Joint.prototype.m_edgeB = null;
-/**
- * @export 
- * @type {box2d.b2Body}
- */
-box2d.b2Joint.prototype.m_bodyA = null;
-/**
- * @export 
- * @type {box2d.b2Body}
- */
-box2d.b2Joint.prototype.m_bodyB = null;
 
-/**
- * @export 
- * @type {number}
- */
-box2d.b2Joint.prototype.m_index = 0;
-
-/**
- * @export 
- * @type {boolean}
- */
-box2d.b2Joint.prototype.m_islandFlag = false;
-/**
- * @export 
- * @type {boolean}
- */
-box2d.b2Joint.prototype.m_collideConnected = false;
-
-/**
- * @export 
- * @type {*}
- */
-box2d.b2Joint.prototype.m_userData = null;
 
 /** 
  * Get the anchor point on bodyA in world coordinates. 
@@ -444,4 +358,3 @@ box2d.b2Joint.prototype.IsActive = function ()
 box2d.b2Joint.prototype.ShiftOrigin = function (newOrigin)
 {
 }
-

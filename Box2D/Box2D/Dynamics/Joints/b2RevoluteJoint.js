@@ -38,75 +38,66 @@ box2d.b2RevoluteJointDef = function ()
 
 	this.localAnchorA = new box2d.b2Vec2(0.0, 0.0);
 	this.localAnchorB = new box2d.b2Vec2(0.0, 0.0);
+	
+	/** 
+	 * The bodyB angle minus bodyA angle in the reference state 
+	 * (radians). 
+	 * @export 
+	 * @type {number}
+	 */
+	this.referenceAngle = 0.0;
+	
+	/** 
+	 * A flag to enable joint limits. 
+	 * @export 
+	 * @type {boolean}
+	 */
+	this.enableLimit = false;
+	
+	/** 
+	 * The lower angle for the joint limit (radians). 
+	 * @export 
+	 * @type {number}
+	 */
+	this.lowerAngle = 0.0;
+	
+	/** 
+	 * The upper angle for the joint limit (radians). 
+	 * @export 
+	 * @type {number}
+	 */
+	this.upperAngle = 0.0;
+	
+	/** 
+	 * A flag to enable the joint motor. 
+	 * @export 
+	 * @type {boolean}
+	 */
+	this.enableMotor = false;
+	
+	/** 
+	 * The desired motor speed. Usually in radians per second. 
+	 * @export 
+	 * @type {number}
+	 */
+	this.motorSpeed = 0.0;
+	
+	/** 
+	 * The maximum motor torque used to achieve the desired motor 
+	 * speed. 
+	 * Usually in N-m. 
+	 * @export 
+	 * @type {number}
+	 */
+	this.maxMotorTorque = 0.0;
+	
 }
 
 box2d.b2RevoluteJointDef.prototype = Object.create(box2d.b2JointDef.prototype);
 
-/** 
- * The local anchor point relative to bodyA's origin. 
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2RevoluteJointDef.prototype.localAnchorA = null;
 
-/** 
- * The local anchor point relative to bodyB's origin. 
- * @export 
- * @type {box2d.b2Vec2}
- */
-box2d.b2RevoluteJointDef.prototype.localAnchorB = null;
 
-/** 
- * The bodyB angle minus bodyA angle in the reference state 
- * (radians). 
- * @export 
- * @type {number}
- */
-box2d.b2RevoluteJointDef.prototype.referenceAngle = 0;
 
-/** 
- * A flag to enable joint limits. 
- * @export 
- * @type {boolean}
- */
-box2d.b2RevoluteJointDef.prototype.enableLimit = false;
-
-/** 
- * The lower angle for the joint limit (radians). 
- * @export 
- * @type {number}
- */
-box2d.b2RevoluteJointDef.prototype.lowerAngle = 0;
-
-/** 
- * The upper angle for the joint limit (radians). 
- * @export 
- * @type {number}
- */
-box2d.b2RevoluteJointDef.prototype.upperAngle = 0;
-
-/** 
- * A flag to enable the joint motor. 
- * @export 
- * @type {boolean}
- */
-box2d.b2RevoluteJointDef.prototype.enableMotor = false;
-
-/** 
- * The desired motor speed. Usually in radians per second. 
- * @export 
- * @type {number}
- */
-box2d.b2RevoluteJointDef.prototype.motorSpeed = 0;
-
-/** 
- * The maximum motor torque used to achieve the desired motor 
- * speed. 
- * Usually in N-m. 
- * @export 
- * @type {number}
- */
-box2d.b2RevoluteJointDef.prototype.maxMotorTorque = 0;
 
 /** 
  * @export 
@@ -387,87 +378,87 @@ box2d.b2RevoluteJoint.prototype.SolveVelocityConstraints = function (data)
 //		b2Vec3 Cdot(Cdot1.x, Cdot1.y, Cdot2);
 
 //		b2Vec3 impulse = -this.m_mass.Solve33(Cdot);
-		var impulse = this.m_mass.Solve33(Cdot1.x, Cdot1.y, Cdot2, box2d.b2RevoluteJoint.prototype.SolveVelocityConstraints.s_impulse3).SelfNeg();
+		var impulseV3 = this.m_mass.Solve33(Cdot1.x, Cdot1.y, Cdot2, box2d.b2RevoluteJoint.prototype.SolveVelocityConstraints.s_impulse3).SelfNeg();
 
 		if (this.m_limitState === box2d.b2LimitState.e_equalLimits)
 		{
-			this.m_impulse.SelfAdd(impulse);
+			this.m_impulse.SelfAdd(impulseV3);
 		}
 		else if (this.m_limitState === box2d.b2LimitState.e_atLowerLimit)
 		{
-			/*float32*/ var newImpulse = this.m_impulse.z + impulse.z;
+			/*float32*/ var newImpulse = this.m_impulse.z + impulseV3.z;
 			if (newImpulse < 0)
 			{
 //				b2Vec2 rhs = -Cdot1 + m_impulse.z * b2Vec2(m_mass.ez.x, m_mass.ez.y);
 				var rhs_x = -Cdot1.x + this.m_impulse.z * this.m_mass.ez.x;
 				var rhs_y = -Cdot1.y + this.m_impulse.z * this.m_mass.ez.y;
 				/*box2d.b2Vec2*/ var reduced = this.m_mass.Solve22(rhs_x, rhs_y, box2d.b2RevoluteJoint.prototype.SolveVelocityConstraints.s_reduced);
-				impulse.x = reduced.x;
-				impulse.y = reduced.y;
-				impulse.z = -this.m_impulse.z;
+				impulseV3.x = reduced.x;
+				impulseV3.y = reduced.y;
+				impulseV3.z = -this.m_impulse.z;
 				this.m_impulse.x += reduced.x;
 				this.m_impulse.y += reduced.y;
 				this.m_impulse.z = 0.0;
 			}
 			else
 			{
-				this.m_impulse.SelfAdd(impulse);
+				this.m_impulse.SelfAdd(impulseV3);
 			}
 		}
 		else if (this.m_limitState === box2d.b2LimitState.e_atUpperLimit)
 		{
-			/*float32*/ var newImpulse = this.m_impulse.z + impulse.z;
+			/*float32*/ var newImpulse = this.m_impulse.z + impulseV3.z;
 			if (newImpulse > 0)
 			{
 //				b2Vec2 rhs = -Cdot1 + m_impulse.z * b2Vec2(m_mass.ez.x, m_mass.ez.y);
 				var rhs_x = -Cdot1.x + this.m_impulse.z * this.m_mass.ez.x;
 				var rhs_y = -Cdot1.y + this.m_impulse.z * this.m_mass.ez.y;
 				/*box2d.b2Vec2*/ var reduced = this.m_mass.Solve22(rhs_x, rhs_y, box2d.b2RevoluteJoint.prototype.SolveVelocityConstraints.s_reduced);
-				impulse.x = reduced.x;
-				impulse.y = reduced.y;
-				impulse.z = -this.m_impulse.z;
+				impulseV3.x = reduced.x;
+				impulseV3.y = reduced.y;
+				impulseV3.z = -this.m_impulse.z;
 				this.m_impulse.x += reduced.x;
 				this.m_impulse.y += reduced.y;
 				this.m_impulse.z = 0.0;
 			}
 			else
 			{
-				this.m_impulse.SelfAdd(impulse);
+				this.m_impulse.SelfAdd(impulseV3);
 			}
 		}
 
 //		b2Vec2 P(impulse.x, impulse.y);
-		var P = box2d.b2RevoluteJoint.prototype.SolveVelocityConstraints.s_P.Set(impulse.x, impulse.y);
+		var P = box2d.b2RevoluteJoint.prototype.SolveVelocityConstraints.s_P.Set(impulseV3.x, impulseV3.y);
 
 //		vA -= mA * P;
 		vA.SelfMulSub(mA, P);
-		wA -= iA * (box2d.b2Cross_V2_V2(this.m_rA, P) + impulse.z);
+		wA -= iA * (box2d.b2Cross_V2_V2(this.m_rA, P) + impulseV3.z);
 
 //		vB += mB * P;
 		vB.SelfMulAdd(mB, P);
-		wB += iB * (box2d.b2Cross_V2_V2(this.m_rB, P) + impulse.z);
+		wB += iB * (box2d.b2Cross_V2_V2(this.m_rB, P) + impulseV3.z);
 	}
 	else
 	{
 		// Solve point-to-point constraint
 //		b2Vec2 Cdot = vB + b2Cross(wB, m_rB) - vA - b2Cross(wA, m_rA);
-		var Cdot = box2d.b2Sub_V2_V2(
+		var CdotV2 = box2d.b2Sub_V2_V2(
 			box2d.b2AddCross_V2_S_V2(vB, wB, this.m_rB, box2d.b2Vec2.s_t0),
 			box2d.b2AddCross_V2_S_V2(vA, wA, this.m_rA, box2d.b2Vec2.s_t1),
 			box2d.b2RevoluteJoint.prototype.SolveVelocityConstraints.s_Cdot)
 //		b2Vec2 impulse = m_mass.Solve22(-Cdot);
-		/*box2d.b2Vec2*/ var impulse = this.m_mass.Solve22(-Cdot.x, -Cdot.y, box2d.b2RevoluteJoint.prototype.SolveVelocityConstraints.s_impulse2);
+		/*box2d.b2Vec2*/ var impulseV2 = this.m_mass.Solve22(-CdotV2.x, -CdotV2.y, box2d.b2RevoluteJoint.prototype.SolveVelocityConstraints.s_impulse2);
 
-		this.m_impulse.x += impulse.x;
-		this.m_impulse.y += impulse.y;
+		this.m_impulse.x += impulseV2.x;
+		this.m_impulse.y += impulseV2.y;
 
 //		vA -= mA * impulse;
-		vA.SelfMulSub(mA, impulse);
-		wA -= iA * box2d.b2Cross_V2_V2(this.m_rA, impulse);
+		vA.SelfMulSub(mA, impulseV2);
+		wA -= iA * box2d.b2Cross_V2_V2(this.m_rA, impulseV2);
 
 //		vB += mB * impulse;
-		vB.SelfMulAdd(mB, impulse);
-		wB += iB * box2d.b2Cross_V2_V2(this.m_rB, impulse);
+		vB.SelfMulAdd(mB, impulseV2);
+		wB += iB * box2d.b2Cross_V2_V2(this.m_rB, impulseV2);
 	}
 
 //	data.velocities[this.m_indexA].v = vA;

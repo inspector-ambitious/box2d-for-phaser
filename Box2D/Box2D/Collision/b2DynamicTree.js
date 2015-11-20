@@ -28,50 +28,40 @@ box2d.b2TreeNode = function (id)
 	this.m_id = id || 0;
 
 	this.aabb = new box2d.b2AABB();
+	
+	/**
+	 * @export 
+	 * @type {*}
+	 */
+	this.userData = null;
+	
+	/**
+	 * @export 
+	 * @type {box2d.b2TreeNode}
+	 */
+	this.parent = null; // or box2d.b2TreeNode.prototype.next
+	
+	/**
+	 * @export 
+	 * @type {box2d.b2TreeNode}
+	 */
+	this.child1 = null;
+	/**
+	 * @export 
+	 * @type {box2d.b2TreeNode}
+	 */
+	this.child2 = null;
+	
+	/** 
+	 * leaf = 0, free node = -1 
+	 * @export 
+	 * @type {number}
+	 */
+	this.height = 0;
 };
 
-/**
- * @export 
- * @type {number}
- */
-box2d.b2TreeNode.prototype.m_id = 0;
 
-/** 
- * Enlarged AABB 
- * @export 
- * @type {box2d.b2AABB}
- */
-box2d.b2TreeNode.prototype.aabb = null;
 
-/**
- * @export 
- * @type {*}
- */
-box2d.b2TreeNode.prototype.userData = null;
-
-/**
- * @export 
- * @type {box2d.b2TreeNode}
- */
-box2d.b2TreeNode.prototype.parent = null; // or box2d.b2TreeNode.prototype.next
-
-/**
- * @export 
- * @type {box2d.b2TreeNode}
- */
-box2d.b2TreeNode.prototype.child1 = null;
-/**
- * @export 
- * @type {box2d.b2TreeNode}
- */
-box2d.b2TreeNode.prototype.child2 = null;
-
-/** 
- * leaf = 0, free node = -1 
- * @export 
- * @type {number}
- */
-box2d.b2TreeNode.prototype.height = 0;
 
 /**
  * @export 
@@ -95,37 +85,38 @@ box2d.b2TreeNode.prototype.IsLeaf = function ()
  */
 box2d.b2DynamicTree = function ()
 {
+	/**
+	 * @export 
+	 * @type {box2d.b2TreeNode}
+	 */
+	this.m_root = null;
+	
+	//b2TreeNode* box2d.b2DynamicTree.prototype.m_nodes;
+	//int32 box2d.b2DynamicTree.prototype.m_nodeCount;
+	//int32 box2d.b2DynamicTree.prototype.m_nodeCapacity;
+	
+	/**
+	 * @export 
+	 * @type {box2d.b2TreeNode}
+	 */
+	this.m_freeList = null;
+	
+	/** 
+	 * This is used to incrementally traverse the tree for 
+	 * re-balancing. 
+	 * @export 
+	 * @type {number}
+	 */
+	this.m_path = 0;
+	
+	/**
+	 * @export 
+	 * @type {number}
+	 */
+	this.m_insertionCount = 0;
 }
 
-/**
- * @export 
- * @type {box2d.b2TreeNode}
- */
-box2d.b2DynamicTree.prototype.m_root = null;
 
-//b2TreeNode* box2d.b2DynamicTree.prototype.m_nodes;
-//int32 box2d.b2DynamicTree.prototype.m_nodeCount;
-//int32 box2d.b2DynamicTree.prototype.m_nodeCapacity;
-
-/**
- * @export 
- * @type {box2d.b2TreeNode}
- */
-box2d.b2DynamicTree.prototype.m_freeList = null;
-
-/** 
- * This is used to incrementally traverse the tree for 
- * re-balancing. 
- * @export 
- * @type {number}
- */
-box2d.b2DynamicTree.prototype.m_path = 0;
-
-/**
- * @export 
- * @type {number}
- */
-box2d.b2DynamicTree.prototype.m_insertionCount = 0;
 
 box2d.b2DynamicTree.s_stack = new box2d.b2GrowableStack(256);
 box2d.b2DynamicTree.s_r = new box2d.b2Vec2(0.0, 0.0);
@@ -1138,4 +1129,3 @@ box2d.b2DynamicTree.prototype.ShiftOrigin = function (newOrigin)
 	}
 	*/
 }
-
