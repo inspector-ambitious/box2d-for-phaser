@@ -79,7 +79,7 @@ box2d.b2World = function (gravity)
 	 * @export 
 	 * @type {box2d.b2Joint}
 	 */
-	this.m_jointList = null;
+	this.m_jointList = [];
 		
 	/**
 	 * @export 
@@ -464,11 +464,12 @@ box2d.b2World.prototype.DestroyBody = function (b)
 	}
 
 	// Delete the attached joints.
-	/** @type {box2d.b2JointEdge} */ var je = b.m_jointList;
-	while (je)
+	/** @type {box2d.b2JointEdge} */ 
+	for (var i = 0; i < b.m_jointList.length; i++)
 	{
-		/** @type {box2d.b2JointEdge} */ var je0 = je;
-		je = je.next;
+		/** @type {box2d.b2JointEdge} */ 
+
+		var je0 = b.m_jointList[i];
 
 		if (this.m_destructionListener)
 		{
@@ -476,16 +477,12 @@ box2d.b2World.prototype.DestroyBody = function (b)
 		}
 
 		this.DestroyJoint(je0.joint);
-
-		b.m_jointList = je;
 	}
-	b.m_jointList = null;
+	b.m_jointList = [];
 
 	/// @see box2d.b2Controller list		
 	/** @type {box2d.b2ControllerEdge} */ 
-	var coe = b.m_controllerList;
-
-	for (var i = 0; i < b.m_controllerList.length; i++) {
+	for (i = 0; i < b.m_controllerList.length; i++) {
 		var coe = b.m_controllerList[i];
 		coe.controller.RemoveBody(b);
 	}		
@@ -546,29 +543,21 @@ box2d.b2World.prototype.CreateJoint = function (def)
 	/** @type {box2d.b2Joint} */ var j = box2d.b2JointFactory.Create(def, null);
 
 	// Connect to the world list.
-	j.m_prev = null;
-	j.m_next = this.m_jointList;
-	if (this.m_jointList)
-	{
-		this.m_jointList.m_prev = j;
-	}
-	this.m_jointList = j;
+
+	this.m_jointList.push(j);
+
 	++this.m_jointCount;
 
 	// Connect to the bodies' doubly linked lists.
 	j.m_edgeA.joint = j;
 	j.m_edgeA.other = j.m_bodyB;
-	j.m_edgeA.prev = null;
-	j.m_edgeA.next = j.m_bodyA.m_jointList;
-	if (j.m_bodyA.m_jointList) j.m_bodyA.m_jointList.prev = j.m_edgeA;
-	j.m_bodyA.m_jointList = j.m_edgeA;
+
+	j.m_bodyA.m_jointList.push(j.m_edgeA);
 
 	j.m_edgeB.joint = j;
 	j.m_edgeB.other = j.m_bodyA;
-	j.m_edgeB.prev = null;
-	j.m_edgeB.next = j.m_bodyB.m_jointList;
-	if (j.m_bodyB.m_jointList) j.m_bodyB.m_jointList.prev = j.m_edgeB;
-	j.m_bodyB.m_jointList = j.m_edgeB;
+
+	j.m_bodyB.m_jointList.push(j.m_edgeB);
 
 	/** @type {box2d.b2Body} */ var bodyA = def.bodyA;
 	/** @type {box2d.b2Body} */ var bodyB = def.bodyB;
@@ -612,20 +601,7 @@ box2d.b2World.prototype.DestroyJoint = function (j)
 	/** @type {boolean} */ var collideConnected = j.m_collideConnected;
 
 	// Remove from the doubly linked list.
-	if (j.m_prev)
-	{
-		j.m_prev.m_next = j.m_next;
-	}
-
-	if (j.m_next)
-	{
-		j.m_next.m_prev = j.m_prev;
-	}
-
-	if (j === this.m_jointList)
-	{
-		this.m_jointList = j.m_next;
-	}
+	this.m_jointList.splice(this.m_jointList.indexOf(j), 1); 
 
 	// Disconnect from island graph.
 	/** @type {box2d.b2Body} */ var bodyA = j.m_bodyA;
@@ -635,43 +611,12 @@ box2d.b2World.prototype.DestroyJoint = function (j)
 	bodyA.SetAwake(true);
 	bodyB.SetAwake(true);
 
-	// Remove from body 1.
-	if (j.m_edgeA.prev)
-	{
-		j.m_edgeA.prev.next = j.m_edgeA.next;
-	}
 
-	if (j.m_edgeA.next)
-	{
-		j.m_edgeA.next.prev = j.m_edgeA.prev;
-	}
+	bodyA.m_jointList.splice(bodyA.m_jointList.indexOf(j.m_edgeA), 1); 
 
-	if (j.m_edgeA === bodyA.m_jointList)
-	{
-		bodyA.m_jointList = j.m_edgeA.next;
-	}
 
-	j.m_edgeA.prev = null;
-	j.m_edgeA.next = null;
+	bodyB.m_jointList.splice(bodyB.m_jointList.indexOf(j.m_edgeB), 1); 
 
-	// Remove from body 2
-	if (j.m_edgeB.prev)
-	{
-		j.m_edgeB.prev.next = j.m_edgeB.next;
-	}
-
-	if (j.m_edgeB.next)
-	{
-		j.m_edgeB.next.prev = j.m_edgeB.prev;
-	}
-
-	if (j.m_edgeB === bodyB.m_jointList)
-	{
-		bodyB.m_jointList = j.m_edgeB.next;
-	}
-
-	j.m_edgeB.prev = null;
-	j.m_edgeB.next = null;
 
 	box2d.b2JointFactory.Destroy(j, null);
 
@@ -724,13 +669,13 @@ box2d.b2World.prototype.Solve = function (step)
 	{
 		this.m_bodyList[i].m_flag_islandFlag = false;
 	}
-	for (/** @type {box2d.b2Contact} */ var k = 0; k < this.m_contactManager.m_contactCount; k++)
+	for (/** @type {box2d.b2Contact} */ i = 0; i < this.m_contactManager.m_contactCount; i++)
 	{
-		this.m_contactManager.m_contactList[k].m_flag_islandFlag = false;
+		this.m_contactManager.m_contactList[i].m_flag_islandFlag = false;
 	}
-	for (/** @type {box2d.b2Joint} */ var j = this.m_jointList; j; j = j.m_next)
+	for (/** @type {box2d.b2Joint} */ i = 0; i < this.m_jointList.length; i++)
 	{
-		j.m_islandFlag = false;
+		this.m_jointList[i].m_islandFlag = false;
 	}
 
 	// Build and simulate all awake islands.
@@ -782,77 +727,14 @@ box2d.b2World.prototype.Solve = function (step)
 				continue;
 			}
 
-			// Search all contacts connected to this body.
-			for (/** @type {box2d.b2ContactEdge} */ var k = 0; k < b.m_contactCount; k++)
-			{
-				/** @type {box2d.b2Contact} */ var contact =  b.m_contactList[k].contact;
+			stackCount = b.SearchContacts(island, stack, stackCount);
 
-	
-				// Has this contact already been added to an island?
-				if (contact.m_flag_islandFlag)
-				{
-					continue;
-				}
+			
+			// stack.length;
 
-				// Is this contact solid and touching?
-				if (!contact.IsEnabled() ||
-					!contact.IsTouching())
-				{
-					continue;
-				}
-
-				// Skip sensors.
-				/** @type {boolean} */ var sensorA = contact.m_fixtureA.m_isSensor;
-				/** @type {boolean} */ var sensorB = contact.m_fixtureB.m_isSensor;
-				if (sensorA || sensorB)
-				{
-					continue;
-				}
-
-				island.AddContact(contact);
-				contact.m_flag_islandFlag = true;
-
-				/** @type {box2d.b2Body} */ var other = b.m_contactList[k].other;
-
-				// Was the other body already added to this island?
-				if (other.m_flag_islandFlag)
-				{
-					continue;
-				}
-
-				if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(stackCount < stackSize); }
-				stack[stackCount++] = other;
-				other.m_flag_islandFlag = true;
-			}
-
+			// b.searchJoints(island, stack)
 			// Search all joints connect to this body.
-			for (/** @type {box2d.b2JointEdge} */ var je = b.m_jointList; je; je = je.next)
-			{
-				if (je.joint.m_islandFlag)
-				{
-					continue;
-				}
-
-				/* type {box2d.b2Body} */ var other = je.other;
-
-				// Don't simulate joints connected to inactive bodies.
-				if (!other.IsActive())
-				{
-					continue;
-				}
-
-				island.AddJoint(je.joint);
-				je.joint.m_islandFlag = true;
-
-				if (other.m_flag_islandFlag)
-				{
-					continue;
-				}
-
-				if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(stackCount < stackSize); }
-				stack[stackCount++] = other;
-				other.m_flag_islandFlag = true;
-			}
+			stackCount = b.SearchJoints(island, stack, stackCount);
 		}
 
 
@@ -870,37 +752,32 @@ box2d.b2World.prototype.Solve = function (step)
 		}
 	}
 
-	for (/* type {number} */ i = 0; i < stack.length; ++i)
+	this.s_stack.length = 0;
+
+
+	// Synchronize fixtures, check for out of range bodies.
+
+	for (i = 0; i < this.m_bodyCount; i++)
 	{
-		if (!stack[i]) break;
-		stack[i] = null;
-	}
-
-	{
-
-		// Synchronize fixtures, check for out of range bodies.
-
-		for (i = 0; i < this.m_bodyCount; i++)
+		var b = this.m_bodyList[i];
+		// If a body was not in an island then it did not move.
+		if (!b.m_flag_islandFlag)
 		{
-			var b = this.m_bodyList[i];
-			// If a body was not in an island then it did not move.
-			if (!b.m_flag_islandFlag)
-			{
-				continue;
-			}
-	
-			if (b.GetType() === box2d.b2BodyType.b2_staticBody)
-			{
-				continue;
-			}
-	
-			// Update fixtures (for broad-phase).
-			b.SynchronizeFixtures();
+			continue;
 		}
-	
-		// Look for new contacts.
-		this.m_contactManager.FindNewContacts();
+
+		if (b.GetType() === box2d.b2BodyType.b2_staticBody)
+		{
+			continue;
+		}
+
+		// Update fixtures (for broad-phase).
+		b.SynchronizeFixtures();
 	}
+
+	// Look for new contacts.
+	this.m_contactManager.FindNewContacts();
+	
 }
 
 /** 
@@ -1769,9 +1646,9 @@ box2d.b2World.prototype.DrawDebugData = function ()
 
 	if (flags & box2d.b2DrawFlags.e_jointBit)
 	{
-		for (/** @type {box2d.b2Joint} */ var j = this.m_jointList; j; j = j.m_next)
+		for (i = 0; i < this.m_jointList.length; i++)
 		{
-			this.DrawJoint(j);
+			this.DrawJoint(this.m_jointList[i]);
 		}
 	}
 
@@ -1935,9 +1812,9 @@ box2d.b2World.prototype.ShiftOrigin = function (newOrigin)
 		b.m_sweep.c.SelfSub(newOrigin);
 	}
 
-	for (/** @type {box2d.b2Joint} */ var j = this.m_jointList; j; j = j.m_next)
+	for (i = 0; i < this.m_jointList.length; i++)
 	{
-		j.ShiftOrigin(newOrigin);
+		this.m_jointList[i].ShiftOrigin(newOrigin);
 	}
 
 	this.m_contactManager.m_broadPhase.ShiftOrigin(newOrigin);
@@ -1972,16 +1849,17 @@ box2d.b2World.prototype.Dump = function ()
 			++i;
 		}
 	
-		i = 0;
-		for (/** @type {box2d.b2Joint} */ var j = this.m_jointList; j; j = j.m_next)
+
+		for (/** @type {box2d.b2Joint} */ i = 0; i < this.m_jointList.length; i++)
 		{
-			j.m_index = i;
+			this.m_jointList[i].m_index = i;
 			++i;
 		}
 	
 		// First pass on joints, skip gear joints.
-		for (/* type {box2d.b2Joint} */ var j = this.m_jointList; j; j = j.m_next)
+		for (/* type {box2d.b2Joint} */ i = 0; i < this.m_jointList.length; i++)
 		{
+			var j = this.m_jointList[i];
 			if (j.m_type === box2d.b2JointType.e_gearJoint)
 			{
 				continue;
@@ -1993,8 +1871,9 @@ box2d.b2World.prototype.Dump = function ()
 		}
 	
 		// Second pass on joints, only gear joints.
-		for (/* type {box2d.b2Joint} */ var j = this.m_jointList; j; j = j.m_next)
+		for (/* type {box2d.b2Joint} */ i = 0; i < this.m_jointList.length; i++)
 		{
+			var j = this.m_jointList[i];
 			if (j.m_type !== box2d.b2JointType.e_gearJoint)
 			{
 				continue;

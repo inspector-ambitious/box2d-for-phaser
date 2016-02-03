@@ -261,7 +261,7 @@ box2d.b2Body = function (bd, world)
 
 	this.m_contactList = [];
 	this.m_contactCount = 0;
-	this.m_jointList = null;
+	this.m_jointList = [];
 
 	this.m_controllerList = [];		
  	this.m_controllerCount = 0;
@@ -1608,8 +1608,9 @@ box2d.b2Body.prototype.ShouldCollide = function (other)
 box2d.b2Body.prototype.ShouldCollideConnected = function (other)
 {
 	// Does a joint prevent collision?
-	for (var jn = this.m_jointList; jn; jn = jn.next)
+	for (var i = 0;  i < this.m_jointList.length; i++)
 	{
+		var jn = this.m_jointList[i];
 		if (jn.other === other)
 		{
 			if (!jn.joint.m_collideConnected)
@@ -1705,3 +1706,85 @@ box2d.b2Body.prototype.GetControllerList = function () {
  box2d.b2Body.prototype.GetControllerCount = function () {		
  	return this.m_controllerCount;		
  }
+
+ box2d.b2Body.prototype.SearchContacts = function(island, stack, stackCount) {
+	// Search all contacts connected to this body.
+	for (/** @type {box2d.b2ContactEdge} */ 
+		var k = 0; k <  this.m_contactList.length; k++) {
+		/** @type {box2d.b2Contact} */ var contact =  this.m_contactList[k].contact;
+
+
+		// Has this contact already been added to an island?
+		if (contact.m_flag_islandFlag)
+		{
+			continue;
+		}
+
+		// Is this contact solid and touching?
+		if (!contact.IsEnabled() ||
+			!contact.IsTouching())
+		{
+			continue;
+		}
+
+		// Skip sensors.
+		/** @type {boolean} */ var sensorA = contact.m_fixtureA.m_isSensor;
+		/** @type {boolean} */ var sensorB = contact.m_fixtureB.m_isSensor;
+		if (sensorA || sensorB)
+		{
+			continue;
+		}
+
+		island.AddContact(contact);
+		contact.m_flag_islandFlag = true;
+
+		/** @type {box2d.b2Body} */ var other = this.m_contactList[k].other;
+
+		// Was the other body already added to this island?
+		if (other.m_flag_islandFlag)
+		{
+			continue;
+		}
+
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(stackCount < stackSize); }
+		stack[stackCount++] = other;
+		other.m_flag_islandFlag = true;
+	}
+
+	return stackCount;
+ };
+
+
+ box2d.b2Body.prototype.SearchJoints = function(island, stack, stackCount) {
+	for (/** @type {box2d.b2JointEdge} */
+		var k = 0; k < this.m_jointList.length; k++)
+	{
+		var je = this.m_jointList[k];
+		if (je.joint.m_islandFlag)
+		{
+			continue;
+		}
+
+		/* type {box2d.b2Body} */ var other = je.other;
+
+		// Don't simulate joints connected to inactive bodies.
+		if (!other.IsActive())
+		{
+			continue;
+		}
+
+		island.AddJoint(je.joint);
+		je.joint.m_islandFlag = true;
+
+		if (other.m_flag_islandFlag)
+		{
+			continue;
+		}
+
+		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(stackCount < stackSize); }
+		stack[stackCount++] = other;
+		other.m_flag_islandFlag = true;
+	}
+
+	return stackCount;
+ };
