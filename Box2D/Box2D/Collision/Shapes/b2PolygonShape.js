@@ -663,6 +663,7 @@ box2d.b2PolygonShape.prototype.ComputeSubmergedArea = function (normal, offset, 
 
 	}
 
+	return 0;
 }
 box2d.b2PolygonShape.prototype.ComputeSubmergedArea.s_normalL = new box2d.b2Vec2(0.0, 0.0);
 box2d.b2PolygonShape.prototype.ComputeSubmergedArea.s_depths = box2d.b2MakeNumberArray(box2d.b2_maxPolygonVertices);
