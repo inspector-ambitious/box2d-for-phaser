@@ -100,6 +100,20 @@ box2d.b2World = function (gravity)
 	 */
 	this.m_inv_dt0 = 0;
 
+
+	/** 		
+	 * @see box2d.b2Controller list 		
+	 * @export 		
+	 * @type {box2d.b2Controller}		
+	 */		
+	this.m_controllerList = [];		
+			
+	/**		
+	 * @export 		
+	 * @type {number}		
+	 */		
+	this.m_controllerCount = 0;
+
 }
 
 //b2BlockAllocator m_blockAllocator;
@@ -467,9 +481,18 @@ box2d.b2World.prototype.DestroyBody = function (b)
 	}
 	b.m_jointList = null;
 
+	/// @see box2d.b2Controller list		
+	/** @type {box2d.b2ControllerEdge} */ 
+	var coe = b.m_controllerList;
+
+	for (var i = 0; i < b.m_controllerList.length; i++) {
+		var coe = b.m_controllerList[i];
+		coe.controller.RemoveBody(b);
+	}		
+
 	// Delete the attached contacts.
 	/** @type {box2d.b2ContactEdge} */ var ce = b.m_contactList;
-	for (var i = 0; i < b.m_contactCount; i++)
+	for (i = 0; i < b.m_contactCount; i++)
 	{
 		this.m_contactManager.Destroy(b.m_contactList[i].contact);
 		i--;
@@ -680,6 +703,14 @@ box2d.b2World.prototype.DestroyJoint = function (j)
  */
 box2d.b2World.prototype.Solve = function (step)
 {
+
+//#if B2_ENABLE_CONTROLLER		
+ 	/// @see box2d.b2Controller list		
+ 	for (var i = 0; i < this.m_controllerList.length; i++) {		
+ 		this.m_controllerList[i].Step(step)
+ 	}		
+ //#endif
+
 	// Size the island for the worst case.
 	/** @type {box2d.b2Island} */ var island = this.m_island;
 	island.Initialize(this.m_bodyCount,
@@ -1689,12 +1720,13 @@ box2d.b2World.prototype.DrawDebugData = function ()
 		return;
 	}
 
+	var i = 0;
 	/** @type {number} */ var flags = this.m_debugDraw.GetFlags();
 	/** @type {box2d.b2Color} */ var color = box2d.b2World.prototype.DrawDebugData.s_color.SetRGB(0, 0, 0);
 
 	if (flags & box2d.b2DrawFlags.e_shapeBit)
 	{
-		for (var i = 0; i < this.m_bodyCount; i++)
+		for (i = 0; i < this.m_bodyCount; i++)
 		{
 			var b = this.m_bodyList[i];
 
@@ -1766,7 +1798,7 @@ box2d.b2World.prototype.DrawDebugData = function ()
 		/** @type {box2d.b2BroadPhase} */ var bp = this.m_contactManager.m_broadPhase;
 		/** @type {Array.<box2d.b2Vec2>} */ var vs = box2d.b2World.prototype.DrawDebugData.s_vs;
 
-		for (var i = 0; i < this.m_bodyCount; i++)
+		for (i = 0; i < this.m_bodyCount; i++)
 		{
 			var b = this.m_bodyList[i];
 			if (!b.IsActive())
@@ -1776,9 +1808,9 @@ box2d.b2World.prototype.DrawDebugData = function ()
 
 			for (/* type {box2d.b2Fixture} */ var f = b.GetFixtureList(); f; f = f.m_next)
 			{
-				for (/** @type {number} */ var i = 0; i < f.m_proxyCount; ++i)
+				for (/** @type {number} */ var k = 0; k < f.m_proxyCount; ++k)
 				{
-					/** @type {box2d.b2FixtureProxy} */ var proxy = f.m_proxies[i];
+					/** @type {box2d.b2FixtureProxy} */ var proxy = f.m_proxies[k];
 
 					/** @type {box2d.b2AABB} */ var aabb = bp.GetFatAABB(proxy.proxy);
 					vs[0].Set(aabb.lowerBound.x, aabb.lowerBound.y);
@@ -1794,7 +1826,7 @@ box2d.b2World.prototype.DrawDebugData = function ()
 
 	if (flags & box2d.b2DrawFlags.e_centerOfMassBit)
 	{
-		for (var i = 0; i < this.m_bodyCount; i++)
+		for (i = 0; i < this.m_bodyCount; i++)
 		{
 			var b = this.m_bodyList[i];
 			/* type {box2d.b2Transform} */ var xf = box2d.b2World.prototype.DrawDebugData.s_xf;
@@ -1802,6 +1834,15 @@ box2d.b2World.prototype.DrawDebugData = function ()
 			xf.p.Copy(b.GetWorldCenter());
 			this.m_debugDraw.DrawTransform(xf);
 		}
+	}
+
+	/// @see box2d.b2Controller list		
+	if (flags & box2d.b2DrawFlags.e_controllerBit)		
+	{		
+		for (i = 0; i < this.m_controllerList.length; i++)		
+		{		
+			this.m_controllerList[i].Draw(this.m_debugDraw);		
+		}		
 	}
 
 }
@@ -1964,4 +2005,35 @@ box2d.b2World.prototype.Dump = function ()
 			box2d.b2Log("}\n");
 		}
 	}
+}
+
+//#if B2_ENABLE_CONTROLLER		
+		
+/**		
+ * @see box2d.b2Controller list 		
+ * @export 		
+ * @return {box2d.b2Controller} 		
+ * @param {box2d.b2Controller} controller		
+ */		
+box2d.b2World.prototype.AddController = function (controller)		
+{		
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(controller.m_world === null, "Controller can only be a member of one world"); }		
+	controller.m_world = this;		
+	this.m_controllerList.push(controller);		
+	++this.m_controllerCount;		
+	return controller;		
+}		
+		
+/**		
+ * @see box2d.b2Controller list		
+ * @export 		
+ * @return {void} 		
+ * @param {box2d.b2Controller} controller		
+ */		
+box2d.b2World.prototype.RemoveController = function (controller)		
+{		
+	if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(controller.m_world === this, "Controller is not a member of this world"); }				
+	this.m_controllerList.splice(this.m_controllerList.indexOf(controller), 1);
+	--this.m_controllerCount;	
+	controller.m_world = null;		
 }

@@ -110,6 +110,7 @@ box2d.b2DrawFlags =
 	e_aabbBit			: 0x0004, ///< draw axis aligned bounding boxes
 	e_pairBit			: 0x0008, ///< draw broad-phase pairs
 	e_centerOfMassBit	: 0x0010, ///< draw center of mass frame
+	e_controllerBit		: 0x0020,
 	e_all				: 0xffff
 };
 

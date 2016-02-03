@@ -29,68 +29,80 @@ box2d.b2BuoyancyController = function ()
 {
 	box2d.b2Controller.apply(this, arguments);  // base class constructor
 
+	/** 
+	 * The outer surface normal 
+	 * @export 
+	 * @type {box2d.b2Vec2} 
+	 */
 	this.normal = new box2d.b2Vec2(0.0, 1.0);
+
+	/** 
+	 * Fluid velocity, for drag calculations 
+	 * @export 
+	 * @type {box2d.b2Vec2} 
+	 */
 	this.velocity = new box2d.b2Vec2(0.0, 0.0);
+	/** 
+	 * Gravity vector, if the world's gravity is not used 
+	 * @export 
+	 * @type {box2d.b2Vec2} 
+	 */
 	this.gravity = new box2d.b2Vec2(0.0, 0.0);
+
+
+
+	/** 
+	 * The height of the fluid surface along the normal 
+	 * @export 
+	 * @type {number} 
+	 */
+	this.offset = 0;
+	/** 
+	 * The fluid density 
+	 * @export 
+	 * @type {number} 
+	 */
+	this.density = 0;
+
+	/** 
+	 * Linear drag co-efficient 
+	 * @export 
+	 * @type {number} 
+	 */
+	this.linearDrag = 0;
+
+	/** 
+	 * Linear drag co-efficient 
+	 * @export 
+	 * @type {number} 
+	 */
+	this.angularDrag = 0;
+	/** 
+	 * If false, bodies are assumed to be uniformly dense, otherwise 
+	 * use the shapes densities 
+	 * @export 
+	 * @type {boolean} 
+	 */
+	this.useDensity = false; //False by default to prevent a gotcha
+	/** 
+	 * If true, gravity is taken from the world instead of the
+	 * @export 
+	 * @type {boolean} 
+	 */
+	this.useWorldGravity = true;
+
+
+	this.areac = new box2d.b2Vec2(0.0, 0.0);
+	this.massc = new box2d.b2Vec2(0.0, 0.0);
+	this.sc = new box2d.b2Vec2(0.0, 0.0);
+	this.dragV = new box2d.b2Vec2(0.0, 0.0);
 };
 
 box2d.b2BuoyancyController.prototype = Object.create(box2d.b2Controller.prototype);
 
-/** 
- * The outer surface normal 
- * @export 
- * @type {box2d.b2Vec2} 
- */
-box2d.b2BuoyancyController.prototype.normal = null;
-/** 
- * The height of the fluid surface along the normal 
- * @export 
- * @type {number} 
- */
-box2d.b2BuoyancyController.prototype.offset = 0;
-/** 
- * The fluid density 
- * @export 
- * @type {number} 
- */
-box2d.b2BuoyancyController.prototype.density = 0;
-/** 
- * Fluid velocity, for drag calculations 
- * @export 
- * @type {box2d.b2Vec2} 
- */
-box2d.b2BuoyancyController.prototype.velocity = null;
-/** 
- * Linear drag co-efficient 
- * @export 
- * @type {number} 
- */
-box2d.b2BuoyancyController.prototype.linearDrag = 0;
-/** 
- * Linear drag co-efficient 
- * @export 
- * @type {number} 
- */
-box2d.b2BuoyancyController.prototype.angularDrag = 0;
-/** 
- * If false, bodies are assumed to be uniformly dense, otherwise 
- * use the shapes densities 
- * @export 
- * @type {boolean} 
- */
-box2d.b2BuoyancyController.prototype.useDensity = false; //False by default to prevent a gotcha
-/** 
- * If true, gravity is taken from the world instead of the
- * @export 
- * @type {boolean} 
- */
-box2d.b2BuoyancyController.prototype.useWorldGravity = true;
-/** 
- * Gravity vector, if the world's gravity is not used 
- * @export 
- * @type {box2d.b2Vec2} 
- */
-box2d.b2BuoyancyController.prototype.gravity = null;
+
+
+
 
 /** 
  * @see box2d.b2Controller::Step 
@@ -109,20 +121,17 @@ box2d.b2BuoyancyController.prototype.Step = function (step)
 	for (var i = this.m_bodyList; i; i = i.nextBody)
 	{
 		var body = i.body;
-		if (!body.IsAwake())
-		{
-			//Buoyancy force is just a function of position,
-			//so unlike most forces, it is safe to ignore sleeping bodes
-			continue;
-		}
-		var areac = new box2d.b2Vec2(0.0, 0.0);
-		var massc = new box2d.b2Vec2(0.0, 0.0);
+		var areac = this.areac;
+		this.areac.Set(0.0, 0.0);
+
+		var massc = this.massc;
+		this.massc.Set(0.0, 0.0);
 		var area = 0;
 		var mass = 0;
 		for (var fixture = body.GetFixtureList(); fixture; fixture = fixture.m_next)
 		{
-			var sc = new box2d.b2Vec2(0.0, 0.0);
-			var sarea = fixture.GetShape().ComputeSubmergedArea(this.normal, this.offset, body.GetTransform(), sc);
+			var sc = this.sc;
+			var sarea = fixture.GetShape().ComputeSubmergedArea(this.normal, this.offset, body.GetTransform(), sc) || 0;
 			area += sarea;
 			areac.x += sarea * sc.x;
 			areac.y += sarea * sc.y;
@@ -152,7 +161,7 @@ box2d.b2BuoyancyController.prototype.Step = function (step)
 		buoyancyForce.SelfMul(this.density * area);
 		body.ApplyForce(buoyancyForce, massc);
 		//Linear drag
-		var dragForce = body.GetLinearVelocityFromWorldPoint(areac, new box2d.b2Vec2(0.0, 0.0));
+		var dragForce = body.GetLinearVelocityFromWorldPoint(areac, this.dragV);
 		dragForce.SelfSub(this.velocity);
 		dragForce.SelfMul((-this.linearDrag * area));
 		body.ApplyForce(dragForce, areac);

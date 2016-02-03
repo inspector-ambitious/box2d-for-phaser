@@ -262,6 +262,9 @@ box2d.b2Body = function (bd, world)
 	this.m_contactList = [];
 	this.m_contactCount = 0;
 	this.m_jointList = null;
+
+	this.m_controllerList = [];		
+ 	this.m_controllerCount = 0;
 }
 
 
@@ -1689,3 +1692,16 @@ box2d.b2Body.prototype.Dump = function ()
 		box2d.b2Log("}\n");
 	}
 }
+
+box2d.b2Body.prototype.GetControllerList = function () {		
+	return this.m_controllerList;		
+}		
+		
+/** 		
+ * @see box2d.b2Controller list 		
+ * @export 		
+ * @return {number}		
+ */		
+ box2d.b2Body.prototype.GetControllerCount = function () {		
+ 	return this.m_controllerCount;		
+ }

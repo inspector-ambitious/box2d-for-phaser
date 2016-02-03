@@ -43,5 +43,7 @@
 ../../../Box2D/Box2D/Dynamics/Joints/b2WeldJoint.js \
 ../../../Box2D/Box2D/Dynamics/Joints/b2WheelJoint.js \
 ../../../Box2D/Box2D/Rope/b2Rope.js \
+../../../Contributions/Enhancements/Controllers/b2Controller.js \
+../../../Contributions/Enhancements/Controllers/b2BuoyancyController.js \
 -b -ns -c unused=false,sequences=false,hoist_funs=false,keep_fargs=true,keep_fnames=true,booleans=false,drop_debugger=false > box2d-html5.js 
 cp box2d-html5.js ~/Repos/X/www/js/

@@ -24,8 +24,8 @@
  * @export 
  * @constructor 
  */
-box2d.b2ControllerEdge = function ()
-{
+box2d.b2ControllerEdge = function () {
+	
 };
 
 /**
