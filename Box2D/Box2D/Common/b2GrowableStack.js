@@ -24,9 +24,9 @@
  * @constructor 
  * @param {number} N 
  */
-box2d.b2GrowableStack = function (N)
+box2d.b2GrowableStack = function ()
 {
-	this.m_stack = new Array(N);
+	this.m_stack = [];
 	this.m_count = 0;
 }
 

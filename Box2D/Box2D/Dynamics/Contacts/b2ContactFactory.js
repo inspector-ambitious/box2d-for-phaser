@@ -52,9 +52,9 @@ box2d.b2ContactFactory.prototype.AddType = function (type1, type2)
 
 	var pool = [];
 
-	for (var i = 0; i < 256; i++) { // TODO: b2Settings
-		pool[i] = new box2d.b2Contact(type1, type2);
-	}
+	// for (var i = 0; i < 256; i++) { // TODO: b2Settings
+	// 	pool[i] = new box2d.b2Contact(type1, type2);
+	// }
 	
 
 	var poolCreateFcn = function (allocator)

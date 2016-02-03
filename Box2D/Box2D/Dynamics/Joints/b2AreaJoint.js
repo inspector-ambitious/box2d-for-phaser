@@ -28,7 +28,7 @@ box2d.b2AreaJointDef = function ()
 {
 	box2d.b2JointDef.call(this, box2d.b2JointType.e_areaJoint); // base class constructor
 
-	this.bodies = new Array();
+	this.bodies = [];
 }
 
 box2d.b2AreaJointDef.prototype = Object.create(box2d.b2JointDef.prototype);

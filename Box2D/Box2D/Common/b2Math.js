@@ -2031,7 +2031,17 @@ box2d.b2Rot.prototype.Set = function (angle)
  * @return {box2d.b2Rot} 
  * @param {number} angle 
  */
-box2d.b2Rot.prototype.SetAngle = box2d.b2Rot.prototype.Set;
+box2d.b2Rot.prototype.SetAngle = function (angle)
+{
+	/// TODO_ERIN optimize
+	if (Math.abs(this.angle - angle) >= box2d.b2_epsilon)
+	{
+		this.angle = angle;
+		this.s = Math.sin(angle);
+		this.c = Math.cos(angle);
+	}
+	return this;
+}
 
 /** 
  * Set to the identity rotation 

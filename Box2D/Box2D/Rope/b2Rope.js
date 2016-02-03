@@ -24,8 +24,8 @@
  */
 box2d.b2RopeDef = function ()
 {
-	this.vertices = new Array();
-	this.masses = new Array();
+	this.vertices = [];
+	this.masses = [];
 	this.gravity = new box2d.b2Vec2(0.0, 0.0);
 };
 

@@ -349,12 +349,12 @@ box2d.b2ContactSolver = function ()
 	 * @export 
 	 * @type {Array.<box2d.b2ContactPositionConstraint>}
 	 */
-	this.m_positionConstraints = box2d.b2ContactPositionConstraint.MakeArray(1024); // TODO: b2Settings
+	this.m_positionConstraints = []; //box2d.b2ContactPositionConstraint.MakeArray(1024); // TODO: b2Settings
 	/**
 	 * @export 
 	 * @type {Array.<box2d.b2ContactVelocityConstraint>}
 	 */
-	this.m_velocityConstraints = box2d.b2ContactVelocityConstraint.MakeArray(1024); // TODO: b2Settings
+	this.m_velocityConstraints = []; //box2d.b2ContactVelocityConstraint.MakeArray(1024); // TODO: b2Settings
 	
 	/**
 	 * @export 
@@ -798,49 +798,16 @@ box2d.b2ContactSolver.prototype.WarmStart.s_P = new box2d.b2Vec2(0.0, 0.0);
  */
 box2d.b2ContactSolver.prototype.SolveVelocityConstraints = function ()
 {
-	/** @type {number} */ var i;
-	/** @type {number} */ var ict;
-	/** @type {number} */ var j;
-	/** @type {number} */ var jct;
-
-	/** @type {box2d.b2ContactVelocityConstraint} */ var vc;
-	/** @type {number} */ var indexA;
-	/** @type {number} */ var indexB;
-	/** @type {number} */ var mA;
-	/** @type {number} */ var iA;
-	/** @type {number} */ var mB;
-	/** @type {number} */ var iB;
-	/** @type {number} */ var pointCount;
-	/** @type {box2d.b2Vec2} */ var vA;
-	/** @type {number} */ var wA;
-	/** @type {box2d.b2Vec2} */ var vB;
-	/** @type {number} */ var wB;
-	/** @type {box2d.b2Vec2} */ var normal;
-	/** @type {box2d.b2Vec2} */ var tangent;
-	/** @type {number} */ var friction;
-
-	/** @type {box2d.b2VelocityConstraintPoint} */ var vcp;
-
 	/** @type {box2d.b2Vec2} */ var dv = box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_dv;
 	/** @type {box2d.b2Vec2} */ var dv1 = box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_dv1;
 	/** @type {box2d.b2Vec2} */ var dv2 = box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_dv2;
 
-	/** @type {number} */ var vt;
-	/** @type {number} */ var vn;
-	/** @type {number} */ var lambda;
-
-	/** @type {number} */ var maxFriction;
-	/** @type {number} */ var newImpulse;
-
 	/** @type {box2d.b2Vec2} */ var P = box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_P;
 
-	/** @type {box2d.b2VelocityConstraintPoint} */ var cp1;
-	/** @type {box2d.b2VelocityConstraintPoint} */ var cp2;
 
 	/** @type {box2d.b2Vec2} */ var a = box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_a;
 	/** @type {box2d.b2Vec2} */ var b = box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_b;
-	/** @type {number} */ var vn1;
-	/** @type {number} */ var vn2;
+
 
 	/** @type {box2d.b2Vec2} */ var x = box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_x;
 	/** @type {box2d.b2Vec2} */ var d = box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_d;
@@ -848,36 +815,36 @@ box2d.b2ContactSolver.prototype.SolveVelocityConstraints = function ()
 	/** @type {box2d.b2Vec2} */ var P2 = box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_P2;
 	/** @type {box2d.b2Vec2} */ var P1P2 = box2d.b2ContactSolver.prototype.SolveVelocityConstraints.s_P1P2;
 
-	for (i = 0, ict = this.m_count; i < ict; ++i)
+	for (var i = 0, ict = this.m_count; i < ict; ++i)
 	{
-		vc = this.m_velocityConstraints[i];
+		var vc = this.m_velocityConstraints[i];
 
-		indexA = vc.indexA;
-		indexB = vc.indexB;
-		mA = vc.invMassA;
-		iA = vc.invIA;
-		mB = vc.invMassB;
-		iB = vc.invIB;
-		pointCount = vc.pointCount;
+		var indexA = vc.indexA;
+		var indexB = vc.indexB;
+		var mA = vc.invMassA;
+		var iA = vc.invIA;
+		var mB = vc.invMassB;
+		var iB = vc.invIB;
+		var pointCount = vc.pointCount;
 
-		vA = this.m_velocities[indexA].v;
-		wA = this.m_velocities[indexA].w;
-		vB = this.m_velocities[indexB].v;
-		wB = this.m_velocities[indexB].w;
+		var vA = this.m_velocities[indexA].v;
+		var wA = this.m_velocities[indexA].w;
+		var vB = this.m_velocities[indexB].v;
+		var wB = this.m_velocities[indexB].w;
 
 //		b2Vec2 normal = vc->normal;
-		normal = vc.normal;
+		var normal = vc.normal;
 //		b2Vec2 tangent = b2Cross(normal, 1.0f);
-		tangent = vc.tangent; // precomputed from normal
-		friction = vc.friction;
+		var tangent = vc.tangent; // precomputed from normal
+		var friction = vc.friction;
 
 		if (BOX2D_ENABLE_ASSERTS) { box2d.b2Assert(pointCount === 1 || pointCount === 2); }
 
 		// Solve tangent constraints first because non-penetration is more important
 		// than friction.
-		for (j = 0, jct = pointCount; j < jct; ++j)
+		for (var j = 0, jct = pointCount; j < jct; ++j)
 		{
-			vcp = vc.points[j];
+			var vcp = vc.points[j];
 
 			// Relative velocity at contact
 //			b2Vec2 dv = vB + b2Cross(wB, vcp->rB) - vA - b2Cross(wA, vcp->rA);
@@ -888,12 +855,12 @@ box2d.b2ContactSolver.prototype.SolveVelocityConstraints = function ()
 
 			// Compute tangent force
 //			float32 vt = b2Dot(dv, tangent) - vc->tangentSpeed;
-			vt = box2d.b2Dot_V2_V2(dv, tangent) - vc.tangentSpeed;
-			lambda = vcp.tangentMass * (-vt);
+			var vt = box2d.b2Dot_V2_V2(dv, tangent) - vc.tangentSpeed;
+			var lambda = vcp.tangentMass * (-vt);
 
 			// box2d.b2Clamp the accumulated force
-			maxFriction = friction * vcp.normalImpulse;
-			newImpulse = box2d.b2Clamp(vcp.tangentImpulse + lambda, (-maxFriction), maxFriction);
+			var maxFriction = friction * vcp.normalImpulse;
+			var newImpulse = box2d.b2Clamp(vcp.tangentImpulse + lambda, (-maxFriction), maxFriction);
 			lambda = newImpulse - vcp.tangentImpulse;
 			vcp.tangentImpulse = newImpulse;
 
@@ -917,25 +884,25 @@ box2d.b2ContactSolver.prototype.SolveVelocityConstraints = function ()
 		{
 			for (var ii = 0; ii < pointCount; ++ii)
 			{
-				vcp = vc.points[ii];
+				var vcp2 = vc.points[ii];
 
 				// Relative velocity at contact
 //				b2Vec2 dv = vB + b2Cross(wB, vcp->rB) - vA - b2Cross(wA, vcp->rA);
 				box2d.b2Sub_V2_V2(
-					box2d.b2AddCross_V2_S_V2(vB, wB, vcp.rB, box2d.b2Vec2.s_t0), 
-					box2d.b2AddCross_V2_S_V2(vA, wA, vcp.rA, box2d.b2Vec2.s_t1), 
+					box2d.b2AddCross_V2_S_V2(vB, wB, vcp2.rB, box2d.b2Vec2.s_t0), 
+					box2d.b2AddCross_V2_S_V2(vA, wA, vcp2.rA, box2d.b2Vec2.s_t1), 
 					dv);
 
 				// Compute normal impulse
 //				float32 vn = b2Dot(dv, normal);
-				vn = box2d.b2Dot_V2_V2(dv, normal);
-				lambda = (-vcp.normalMass * (vn - vcp.velocityBias));
+				var vn = box2d.b2Dot_V2_V2(dv, normal);
+				var lambda = (-vcp.normalMass * (vn - vcp2.velocityBias));
 
 				// box2d.b2Clamp the accumulated impulse
 //				float32 newImpulse = box2d.b2Max(vcp->normalImpulse + lambda, 0.0f);
-				newImpulse = box2d.b2Max(vcp.normalImpulse + lambda, 0);
-				lambda = newImpulse - vcp.normalImpulse;
-				vcp.normalImpulse = newImpulse;
+				newImpulse = box2d.b2Max(vcp2.normalImpulse + lambda, 0);
+				lambda = newImpulse - vcp2.normalImpulse;
+				vcp2.normalImpulse = newImpulse;
 
 				// Apply contact impulse
 //				b2Vec2 P = lambda * normal;
@@ -943,12 +910,12 @@ box2d.b2ContactSolver.prototype.SolveVelocityConstraints = function ()
 //				vA -= mA * P;
 				vA.SelfMulSub(mA, P);
 //				wA -= iA * b2Cross(vcp->rA, P);
-				wA -= iA * box2d.b2Cross_V2_V2(vcp.rA, P);
+				wA -= iA * box2d.b2Cross_V2_V2(vcp2.rA, P);
 
 //				vB += mB * P;
 				vB.SelfMulAdd(mB, P);
 //				wB += iB * b2Cross(vcp->rB, P);
-				wB += iB * box2d.b2Cross_V2_V2(vcp.rB, P);
+				wB += iB * box2d.b2Cross_V2_V2(vcp2.rB, P);
 			}
 		}
 		else
@@ -986,8 +953,8 @@ box2d.b2ContactSolver.prototype.SolveVelocityConstraints = function ()
 			//    = A * x + b'
 			// b' = b - A * a;
 
-			cp1 = vc.points[0];
-			cp2 = vc.points[1];
+			var cp1 = vc.points[0];
+			var cp2 = vc.points[1];
 
 //			b2Vec2 a(cp1->normalImpulse, cp2->normalImpulse);
 			a.Set(cp1.normalImpulse, cp2.normalImpulse);
@@ -1007,9 +974,9 @@ box2d.b2ContactSolver.prototype.SolveVelocityConstraints = function ()
 
 			// Compute normal velocity
 //			float32 vn1 = b2Dot(dv1, normal);
-			vn1 = box2d.b2Dot_V2_V2(dv1, normal);
+			var vn1 = box2d.b2Dot_V2_V2(dv1, normal);
 //			float32 vn2 = b2Dot(dv2, normal);
-			vn2 = box2d.b2Dot_V2_V2(dv2, normal);
+			var vn2 = box2d.b2Dot_V2_V2(dv2, normal);
 
 //			b2Vec2 b;
 			b.x = vn1 - cp1.velocityBias;

@@ -118,7 +118,7 @@ box2d.b2DynamicTree = function ()
 
 
 
-box2d.b2DynamicTree.s_stack = new box2d.b2GrowableStack(256);
+box2d.b2DynamicTree.s_stack = new box2d.b2GrowableStack();
 box2d.b2DynamicTree.s_r = new box2d.b2Vec2(0.0, 0.0);
 box2d.b2DynamicTree.s_v = new box2d.b2Vec2(0.0, 0.0);
 box2d.b2DynamicTree.s_abs_v = new box2d.b2Vec2(0.0, 0.0);
